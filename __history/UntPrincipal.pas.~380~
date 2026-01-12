@@ -270,14 +270,15 @@ type
     function ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequestInfo): Boolean;
     procedure IdHTTPServer1CommandGet(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
     function AtualizarDataEmpresa(const IdEmpresa: Integer): TJSONObject;
+    function FormatJSON(const JSONValue: TJSONValue; const Indent: Integer = 0): string;
     procedure ChamarAPIAtualizarEmpresa;
     procedure LimparLogsAntigos;
     function GetAPIServerURL(ComboBox: TComboBox): string;
     procedure BitBtn12Click(Sender: TObject);
     procedure TimerMonitorServerTimer(Sender: TObject);
     procedure TimerintegracoesRotinaTimerTimer(Sender: TObject);
-    procedure btnlogoClick(Sender: TObject);
-    procedure BitBtn7Click(Sender: TObject);
+    procedure SpBLogoClick(Sender: TObject);
+    procedure BitBtn15Click(Sender: TObject);
   private
     { Private declarations }
     // Credenciais de autenticação para a API
@@ -347,6 +348,7 @@ type
     procedure BuscarModulosRotina;
     procedure CarregarIPClienteDeConfig;
     procedure novoiniciarMonitorando;
+    procedure integracaoentregapegoraro;
 
     procedure CriarEstruturaIntegracaoBanco;
     { Public declarations }
@@ -369,6 +371,10 @@ uses
   HORARIO_EXECUCAO_RELATORIOS_TURNO_3 = '12:50';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_1 = '23:59';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_2 = '12:00';
+
+
+
+
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1 = '23:50';
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2 = '12:50';
   HORARIO_EXECUCAO_INTEGRACAO_TURNO_1 = '15:30';
@@ -1125,24 +1131,388 @@ end;
 
 
 
+  procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
+begin
+  integracaoentregapegoraro;
+end;
 
 
 
 
 
 
-
-procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
+procedure TFrmPrincipal.integracaoentregapegoraro;
 var
- ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
+  QConsulta, QUpdate: TUniQuery;
+  CaminhoArquivo: string;
+  JSONRoot, JSONVenda, JSONProduto: TJSONObject;
+  JSONVendas: TJSONArray;
+  JSONString: string;
+  CodLancFinanceiroAtual: Integer;
+  CodLancFinanceiroAnterior: Integer;
+  PrimeiraVenda: Boolean;
+  JSONContent: string;
+  DataInicio, DataFim: TDateTime;
 begin
- if EhModoserver(ComboBox1) then
+  try
+    WriteLogFormatted('INFO', '1501', 'Iniciando geração do arquivo JSON');
+    
+    // Definir período de 1 mês atrás saté hoje
+    DataFim := Now;
+    DataInicio := IncMonth(DataFim, -1); // 1 mês atrás
+    
+    WriteLogFormatted('INFO', '1501', Format('Período: %s até %s', 
+      [FormatDateTime('yyyy-mm-dd', DataInicio), FormatDateTime('yyyy-mm-dd', DataFim)]));
+    
+    // Caminho do arquivo na pasta raiz do sistema
+    CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
+    WriteLogFormatted('INFO', '1501', Format('Arquivo será salvo em: %s', [CaminhoArquivo]));
+    
+    // Verificar se arquivo existe e carregar conteúdo existente
+    JSONContent := '';
+    if FileExists(CaminhoArquivo) then
+    begin
+      try
+        JSONContent := TFile.ReadAllText(CaminhoArquivo, TEncoding.UTF8);
+        WriteLogFormatted('INFO', '1501', 'Arquivo JSON existente carregado');
+      except
+        on E: Exception do
+        begin
+          WriteLogFormatted('AVISO', '1501', Format('Erro ao ler arquivo existente: %s. Criando novo arquivo.', [E.Message]));
+          JSONContent := '';
+        end;
+      end;
+    end;
+    
+    // Criar query para consulta
+    QConsulta := TUniQuery.Create(nil);
+    QUpdate := TUniQuery.Create(nil);
+    try
+      QConsulta.Connection := CXClient;
+      QUpdate.Connection := CXClient;
+      
+      // Garantir conexão ativa
+      if not CXClient.Connected then
+      begin
+        WriteLogFormatted('INFO', '1501', 'Conectando ao banco...');
+        CXClient.Connect;
+      end;
+      
+      // Query SQL conforme especificado com filtro de data
+      QConsulta.SQL.Text :=
+        'SELECT lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
+        '       lf.valor AS valor_lancamento, lf.numero_documento, lf.data_inclusao, ' +
+        '       lp.valor AS valor_produto, lp.quantidade, lp.cod_produto, ' +
+        '       p.nome AS nome_produto, p.cod_barra, ' +
+        '       pe.nome AS nome_pessoa, pe.identificacao, pe.endereco, ' +
+        '       pe.numero, pe.uf, pe.cep, pe.telefone_comercial, pe.telefone_residencial, ' +
+        '       m.nome AS nome_cidade ' +
+        'FROM lancamentos_financeiros lf ' +
+        'INNER JOIN lancamentos_produtos lp ON lp.cod_lanc_financeiro = lf.cod_lanc_financeiro ' +
+        'INNER JOIN produtos p ON p.cod_produto = lp.cod_produto ' +
+        'INNER JOIN pessoas pe ON pe.cod_pessoa = lf.cod_pessoa ' +
+        'INNER JOIN municipios m ON pe.cidade = m.cod_municipio ' +
+        'WHERE lf.cash_back_lanc IS NOT TRUE ' +
+        '  AND lf.data_inclusao between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
+
+        'ORDER BY lf.cod_lanc_financeiro, lp.cod_produto';
+      
+      // Definir parâmetros de data
+      QConsulta.ParamByName('data_inicio').AsDateTime := DataInicio;
+      QConsulta.ParamByName('data_fim').AsDateTime := DataFim;
+      
+      QConsulta.Open;
+      
+      if QConsulta.IsEmpty then
+      begin
+        WriteLogFormatted('INFO', '1501', 'Nenhum registro encontrado para processar');
+        Exit;
+      end;
+      
+      WriteLogFormatted('INFO', '1501', Format('Registros encontrados: %d', [QConsulta.RecordCount]));
+      
+      // Inicializar JSON root
+      if (JSONContent <> '') and (Trim(JSONContent) <> '') then
+      begin
+        try
+          JSONRoot := TJSONObject.ParseJSONValue(JSONContent) as TJSONObject;
+          if not Assigned(JSONRoot) then
+          begin
+            JSONRoot := TJSONObject.Create;
+            JSONVendas := TJSONArray.Create;
+            JSONRoot.AddPair('vendas', JSONVendas);
+          end
+          else
+          begin
+            if not JSONRoot.TryGetValue<TJSONArray>('vendas', JSONVendas) then
+            begin
+              JSONVendas := TJSONArray.Create;
+              JSONRoot.AddPair('vendas', JSONVendas);
+            end;
+          end;
+        except
+          on E: Exception do
+          begin
+            WriteLogFormatted('AVISO', '1501', Format('Erro ao parsear JSON existente: %s. Criando novo.', [E.Message]));
+            JSONRoot := TJSONObject.Create;
+            JSONVendas := TJSONArray.Create;
+            JSONRoot.AddPair('vendas', JSONVendas);
+          end;
+        end;
+      end
+      else
+      begin
+        JSONRoot := TJSONObject.Create;
+        JSONVendas := TJSONArray.Create;
+        JSONRoot.AddPair('vendas', JSONVendas);
+      end;
+      
+      try
+        CodLancFinanceiroAnterior := -1;
+        PrimeiraVenda := True;
+        JSONVenda := nil;
+        
+        // Processar cada registro
+        while not QConsulta.Eof do
+        begin
+          CodLancFinanceiroAtual := QConsulta.FieldByName('cod_lanc_financeiro').AsInteger;
+          
+          // Novo bloco de venda (novo cod_lanc_financeiro)
+          if CodLancFinanceiroAtual <> CodLancFinanceiroAnterior then
+          begin
+            // Se não é a primeira venda, finalizar a anterior
+            if not PrimeiraVenda then
+            begin
+              // Marcar cash_back_lanc como true para o cod_lanc_financeiro anterior
+              try
+                QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET cash_back_lanc = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
+                QUpdate.ParamByName('cod_lanc_financeiro').AsInteger := CodLancFinanceiroAnterior;
+                QUpdate.ExecSQL;
+                WriteLogFormatted('DEBUG', '1501', Format('cash_back_lanc marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
+              except
+                on E: Exception do
+                begin
+                  WriteLogFormatted('ERRO', '1501', Format('Erro ao atualizar cash_back_lanc: %s', [E.Message]));
+                end;
+              end;
+            end;
+            
+            // Criar novo objeto de venda
+            JSONVenda := TJSONObject.Create;
+            JSONVenda.AddPair('cod_lanc_financeiro', TJSONNumber.Create(CodLancFinanceiroAtual));
+            JSONVenda.AddPair('chave_acesso', TJSONString.Create(QConsulta.FieldByName('chave_acesso').AsString));
+            JSONVenda.AddPair('valor', TJSONNumber.Create(QConsulta.FieldByName('valor_lancamento').AsFloat));
+            JSONVenda.AddPair('numero_documento', TJSONString.Create(QConsulta.FieldByName('numero_documento').AsString));
+            JSONVenda.AddPair('data_inclusao', TJSONString.Create(FormatDateTime('yyyy-mm-dd hh:nn:ss', QConsulta.FieldByName('data_inclusao').AsDateTime)));
+            
+            // Cabeçalho com dados da pessoa (cod_pessoa - sempre 1 por venda)
+            var JSONPessoa := TJSONObject.Create;
+            JSONPessoa.AddPair('cod_pessoa', TJSONNumber.Create(QConsulta.FieldByName('cod_pessoa').AsInteger));
+            JSONPessoa.AddPair('nome', TJSONString.Create(QConsulta.FieldByName('nome_pessoa').AsString));
+            JSONPessoa.AddPair('identificacao', TJSONString.Create(QConsulta.FieldByName('identificacao').AsString));
+            JSONPessoa.AddPair('endereco', TJSONString.Create(QConsulta.FieldByName('endereco').AsString));
+            JSONPessoa.AddPair('numero', TJSONString.Create(QConsulta.FieldByName('numero').AsString));
+            JSONPessoa.AddPair('uf', TJSONString.Create(QConsulta.FieldByName('uf').AsString));
+            JSONPessoa.AddPair('cep', TJSONString.Create(QConsulta.FieldByName('cep').AsString));
+            JSONPessoa.AddPair('telefone_comercial', TJSONString.Create(QConsulta.FieldByName('telefone_comercial').AsString));
+            JSONPessoa.AddPair('telefone_residencial', TJSONString.Create(QConsulta.FieldByName('telefone_residencial').AsString));
+            JSONPessoa.AddPair('nome_cidade', TJSONString.Create(QConsulta.FieldByName('nome_cidade').AsString));
+            JSONVenda.AddPair('pessoa', JSONPessoa);
+            
+            // Array de produtos
+            var JSONProdutos := TJSONArray.Create;
+            JSONVenda.AddPair('produtos', JSONProdutos);
+            
+            // Adicionar produto atual
+            JSONProduto := TJSONObject.Create;
+            JSONProduto.AddPair('cod_produto', TJSONNumber.Create(QConsulta.FieldByName('cod_produto').AsInteger));
+            JSONProduto.AddPair('nome', TJSONString.Create(QConsulta.FieldByName('nome_produto').AsString));
+            JSONProduto.AddPair('valor', TJSONNumber.Create(QConsulta.FieldByName('valor_produto').AsFloat));
+            JSONProduto.AddPair('quantidade', TJSONNumber.Create(QConsulta.FieldByName('quantidade').AsFloat));
+            JSONProduto.AddPair('cod_barra', TJSONString.Create(QConsulta.FieldByName('cod_barra').AsString));
+            JSONProdutos.AddElement(JSONProduto);
+            
+            // Adicionar venda ao array
+            JSONVendas.AddElement(JSONVenda);
+            
+            CodLancFinanceiroAnterior := CodLancFinanceiroAtual;
+            PrimeiraVenda := False;
+          end
+          else
+          begin
+            // Mesmo cod_lanc_financeiro - adicionar produto ao array existente
+            // JSONVenda ainda aponta para o último objeto criado
+            if Assigned(JSONVenda) then
+            begin
+              var JSONProdutos := JSONVenda.GetValue<TJSONArray>('produtos');
+              if Assigned(JSONProdutos) then
+              begin
+                JSONProduto := TJSONObject.Create;
+                JSONProduto.AddPair('cod_produto', TJSONNumber.Create(QConsulta.FieldByName('cod_produto').AsInteger));
+                JSONProduto.AddPair('nome', TJSONString.Create(QConsulta.FieldByName('nome_produto').AsString));
+                JSONProduto.AddPair('valor', TJSONNumber.Create(QConsulta.FieldByName('valor_produto').AsFloat));
+                JSONProduto.AddPair('quantidade', TJSONNumber.Create(QConsulta.FieldByName('quantidade').AsFloat));
+                JSONProduto.AddPair('cod_barra', TJSONString.Create(QConsulta.FieldByName('cod_barra').AsString));
+                JSONProdutos.AddElement(JSONProduto);
+              end;
+            end;
+          end;
+          
+          QConsulta.Next;
+        end;
+        
+        // Marcar cash_back_lanc como true para o último cod_lanc_financeiro
+        if not PrimeiraVenda then
+        begin
+          try
+            QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET cash_back_lanc = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
+            QUpdate.ParamByName('cod_lanc_financeiro').AsInteger := CodLancFinanceiroAnterior;
+            QUpdate.ExecSQL;
+            WriteLogFormatted('DEBUG', '1501', Format('cash_back_lanc marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
+          except
+            on E: Exception do
+            begin
+              WriteLogFormatted('ERRO', '1501', Format('Erro ao atualizar cash_back_lanc: %s', [E.Message]));
+            end;
+          end;
+        end;
+        
+        // Converter JSON para string formatada com indentação
+        JSONString := FormatJSON(JSONRoot);
+        
+        // Salvar arquivo JSON (reescrever completo com novas vendas)
+        try
+          TFile.WriteAllText(CaminhoArquivo, JSONString, TEncoding.UTF8);
+          WriteLogFormatted('INFO', '1501', Format('Arquivo JSON salvo com sucesso: %s', [CaminhoArquivo]));
+          WriteLogFormatted('INFO', '1501', Format('Total de vendas no JSON: %d', [JSONVendas.Count]));
+        except
+          on E: Exception do
+          begin
+            WriteLogFormatted('ERRO', '1501', Format('Erro ao salvar arquivo JSON: %s', [E.Message]));
+            raise;
+          end;
+        end;
+        
+      finally
+        JSONRoot.Free;
+      end;
+      
+    finally
+      QConsulta.Free;
+      QUpdate.Free;
+    end;
+    
+    WriteLogFormatted('INFO', '1501', 'Processamento concluído com sucesso');
+    
+  except
+    on E: Exception do
+    begin
+      WriteLogFormatted('ERRO', '1501', Format('Erro: %s', [E.Message]));
+    end;
+  end;
+end;
+
+function TFrmPrincipal.FormatJSON(const JSONValue: TJSONValue; const Indent: Integer = 0): string;
+var
+  IndentStr: string;
+  i: Integer;
+  JSONObj: TJSONObject;
+  JSONArr: TJSONArray;
+  JSONPair: TJSONPair;
+  FirstItem: Boolean;
 begin
-//    InserirOcorrencias;
-     ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
-     ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
-     ThreadMonitorSERVER.Start; // Inicia a execução da thread
-     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
+  Result := '';
+  IndentStr := StringOfChar(' ', Indent * 2);
+  
+  if JSONValue is TJSONObject then
+  begin
+    JSONObj := JSONValue as TJSONObject;
+    Result := Result + IndentStr + '{' + sLineBreak;
+    FirstItem := True;
+    
+    for i := 0 to JSONObj.Count - 1 do
+    begin
+      JSONPair := JSONObj.Pairs[i];
+      
+      if not FirstItem then
+        Result := Result + ',' + sLineBreak;
+      
+      Result := Result + IndentStr + '  "' + JSONPair.JsonString.Value + '": ';
+      
+      if JSONPair.JsonValue is TJSONObject then
+        Result := Result + sLineBreak + FormatJSON(JSONPair.JsonValue, Indent + 1)
+      else if JSONPair.JsonValue is TJSONArray then
+        Result := Result + sLineBreak + FormatJSON(JSONPair.JsonValue, Indent + 1)
+      else if JSONPair.JsonValue is TJSONString then
+      begin
+        // Escapar caracteres especiais na string JSON
+        var EscapedValue := TJSONString(JSONPair.JsonValue).Value;
+        EscapedValue := StringReplace(EscapedValue, '\', '\\', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, '"', '\"', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #13#10, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #13, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #10, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #9, '\t', [rfReplaceAll]);
+        Result := Result + '"' + EscapedValue + '"';
+      end
+      else if JSONPair.JsonValue is TJSONNumber then
+        Result := Result + TJSONNumber(JSONPair.JsonValue).ToString
+      else if JSONPair.JsonValue is TJSONBool then
+        Result := Result + LowerCase(BoolToStr(TJSONBool(JSONPair.JsonValue).AsBoolean, True))
+      else if JSONPair.JsonValue is TJSONNull then
+        Result := Result + 'null'
+      else
+        Result := Result + JSONPair.JsonValue.ToString;
+      
+      FirstItem := False;
+    end;
+    
+    Result := Result + sLineBreak + IndentStr + '}';
+  end
+  else if JSONValue is TJSONArray then
+  begin
+    JSONArr := JSONValue as TJSONArray;
+    Result := Result + IndentStr + '[' + sLineBreak;
+    FirstItem := True;
+    
+    for i := 0 to JSONArr.Count - 1 do
+    begin
+      if not FirstItem then
+        Result := Result + ',' + sLineBreak;
+      
+      if JSONArr.Items[i] is TJSONObject then
+        Result := Result + FormatJSON(JSONArr.Items[i], Indent + 1)
+      else if JSONArr.Items[i] is TJSONArray then
+        Result := Result + FormatJSON(JSONArr.Items[i], Indent + 1)
+      else if JSONArr.Items[i] is TJSONString then
+      begin
+        // Escapar caracteres especiais na string JSON
+        var EscapedValue := TJSONString(JSONArr.Items[i]).Value;
+        EscapedValue := StringReplace(EscapedValue, '\', '\\', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, '"', '\"', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #13#10, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #13, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #10, '\n', [rfReplaceAll]);
+        EscapedValue := StringReplace(EscapedValue, #9, '\t', [rfReplaceAll]);
+        Result := Result + IndentStr + '  "' + EscapedValue + '"';
+      end
+      else if JSONArr.Items[i] is TJSONNumber then
+        Result := Result + IndentStr + '  ' + TJSONNumber(JSONArr.Items[i]).ToString
+      else if JSONArr.Items[i] is TJSONBool then
+        Result := Result + IndentStr + '  ' + LowerCase(BoolToStr(TJSONBool(JSONArr.Items[i]).AsBoolean, True))
+      else if JSONArr.Items[i] is TJSONNull then
+        Result := Result + IndentStr + '  null'
+      else
+        Result := Result + IndentStr + '  ' + JSONArr.Items[i].ToString;
+      
+      FirstItem := False;
+    end;
+    
+    Result := Result + sLineBreak + IndentStr + ']';
+  end
+  else
+  begin
+    Result := JSONValue.ToString;
   end;
 end;
 
@@ -1614,9 +1984,9 @@ begin
   finally
     QueryOrigem.Free;
   end;
-  executarVariosBancosMedicoesSite;
+  executarVariosBancosMedicoesSite; ////ja pasei aqui 2
 end;
-procedure TFrmPrincipal.executarVariosBancosMedicoesSite;
+procedure TFrmPrincipal.executarVariosBancosMedicoesSite;////ja pasei aqui 1
 var
   QueryOrigem,QueryApagar: TUniQuery;
 begin
@@ -2484,6 +2854,7 @@ end;
     Hide;
     TrayIcon1.Visible := True;
   end;
+  novoiniciarMonitorando;
 end;
 procedure TFrmPrincipal.FormDestroy(Sender: TObject);
 begin
@@ -2505,6 +2876,11 @@ begin
   if Assigned(FLogCriticalSection) then
     FLogCriticalSection.Free;
 end;
+procedure TFrmPrincipal.SpBLogoClick(Sender: TObject);
+begin
+apagarocorrenciascomdatalimite;
+end;
+
 procedure TFrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
   PageControl.Visible := True; // Torna visível ao clicar
@@ -2859,7 +3235,7 @@ begin
    end;
 end;
 procedure TFrmPrincipal.TimerMonitorTimer(Sender: TObject);
-var   ThreadMonitor: ThreadMonitordeOcorrencia;
+
 begin
  if EhModocliente(ComboBox1) then
    begin
@@ -3249,6 +3625,8 @@ begin
     InserirOcorrencias;
    end;
 end;
+
+
 procedure TFrmPrincipal.BtnAutorizacaoClick(Sender: TObject);
 var
   SenhaGerada, SenhaDigitada, IDCliente, CNPJ: string;
@@ -3273,11 +3651,6 @@ begin
     ShowMessage('Senha inválida!');
   end;
 end;
-procedure TFrmPrincipal.btnlogoClick(Sender: TObject);
-begin
-novoiniciarMonitorando;
-end;
-
 procedure TFrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
 TTransferenciaThread.Create(CXserver, ConexaoModulo, MemoLog);
@@ -7805,7 +8178,7 @@ begin
     
     // Buscar empresas com data_atualizada e suas ocorrências antigas
     QSelect.SQL.Text :=
-      'SELECT DISTINCT ce.id_empresa_help, ce.data_atualizada ' +
+      'SELECT DISTINCT ce.id_empresa_help, ce.data_atualizada, mo.ocorrencia ' +
       'FROM cadastro_empresas ce ' +
       'INNER JOIN monitor_ocorrencias mo ON mo.id_empresa_help = ce.id_empresa_help ' +
       'WHERE (mo.data_ocorrencia::timestamp + mo.hora::time) <= (CURRENT_TIMESTAMP - INTERVAL ''7 minutes'')and id_chamado = 0 and id_modulo_ocorrencia <> 6  ' +
@@ -8103,7 +8476,7 @@ begin
   WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Iniciando configuração do monitor no startup');
   
   try
-    // 1) Verificar se os arquivos descompactados já existem
+    // 1) Verificar se os arquivos descompactados jáa existem
     PastaRaiz := ExtractFilePath(Application.ExeName);
     NomeArquivoFTP1 := 'Monitor_Dtc_Atualizador_Server_Silencioso.zip';
     NomeArquivoFTP2 := 'Monitor_Dtc_Atualizador_Server.zip';
@@ -8117,12 +8490,18 @@ begin
     PrecisaDownload2 := not FileExists(NomeArquivoBat);
     
     if PrecisaDownload1 then
+    begin
+
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS não encontrado, será necessário download');
+   end
     else
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: ' + NomeArquivoVbs);
-    
+
     if PrecisaDownload2 then
+    begin
+
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo BAT não encontrado, será necessário download');
+   end
     else
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo BAT já existe localmente: ' + NomeArquivoBat);
     
@@ -8260,6 +8639,25 @@ begin
         end;
       finally
         FTP.Free;
+      end;
+      
+      // Executar VBS silencioso após download (apenas se houve necessidade de download)
+      if FileExists(NomeArquivoVbs) then
+      begin
+        WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Executando arquivo VBS silencioso após download: ' + NomeArquivoVbs);
+        try
+          ShellExecute(0, 'open', PChar(NomeArquivoVbs), nil, nil, SW_HIDE);
+          WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS silencioso executado com sucesso');
+        except
+          on E: Exception do
+          begin
+            WriteLogFormatted('ERRO', '128', '[NOVO INICIAR MONITORANDO] Erro ao executar VBS silencioso: ' + E.Message);
+          end;
+        end;
+      end
+      else
+      begin
+        WriteLogFormatted('AVISO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS não encontrado para execução: ' + NomeArquivoVbs);
       end;
     end
     else

@@ -509,7 +509,7 @@ begin
   end
   else
   begin
-    // Caso "monitor" não seja encontrado, exiba uma mensagem padrão ou o que achar adequado
+    // Caso "monitor" não seja encontrado, exiba uma mensagem padrão ou o que achar adequadoo
     LabelVers.Caption := 'Versão não encontrada';
   end;
 end;

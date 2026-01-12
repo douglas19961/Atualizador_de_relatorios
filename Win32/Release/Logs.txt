@@ -34715,3 +34715,54 @@ Socket Error Code: 10061($274D)
 [09/01/2026 10:13:02.169 INFO(3)] [SINCRONIZAÇÃO MÓDULOS] Módulos sincronizados com sucesso no CLIENT.
 [09/01/2026 10:13:02.171 INFO(126)] Iniciando geração do arquivo APPCLUBE.TXT
 [09/01/2026 10:13:02.186 DEBUG(126)] Caminho encontrado na tabela: C:\NC_APP\APPCLUBE.TXT
+[12/01/2026 17:48:18.146 INFO(100)] Iniciando aplicação Dtc_Atualizador_Server
+[12/01/2026 17:48:18.483 INFO(4)] Dtc_Atualizador_Server já não existia.
+[12/01/2026 17:48:19.307 INFO(128)] [NOVO INICIAR MONITORANDO] Iniciando configuração do monitor no startup
+[12/01/2026 17:48:19.307 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server_Silencioso.vbs
+[12/01/2026 17:48:19.318 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo BAT já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server.bat
+[12/01/2026 17:48:19.330 INFO(128)] [NOVO INICIAR MONITORANDO] Todos os arquivos já existem localmente, pulando download do FTP
+[12/01/2026 17:48:19.341 INFO(128)] [NOVO INICIAR MONITORANDO] Pasta Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+[12/01/2026 17:48:19.351 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho Dtc_Atualizador_Server.lnk removido
+[12/01/2026 17:48:19.471 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho do VBS criado no Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Monitor_Dtc_Atualizador_Server_Silencioso.lnk
+[12/01/2026 17:48:19.471 INFO(128)] [NOVO INICIAR MONITORANDO] Configuração concluída com sucesso
+[12/01/2026 17:48:32.824 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[12/01/2026 17:48:32.826 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[12/01/2026 17:48:32.835 INFO(126)] Iniciando verificação e criação da estrutura de integração
+[12/01/2026 17:48:32.856 INFO(126)] Schema integracao já existe, pulando criação
+[12/01/2026 17:48:32.872 INFO(126)] Tabela verificacao_limpar_var_relatorios já existe, pulando criação
+[12/01/2026 17:48:32.878 INFO(127)] Registro padrão garantido na tabela verificacao_limpar_var_relatorios
+[12/01/2026 17:48:32.886 INFO(126)] View public_lancamentos_financeiros_excluidos já existe, pulando criação
+[12/01/2026 17:48:32.896 INFO(126)] View view_legado_lanc_financeiros já existe, pulando criação
+[12/01/2026 17:48:32.906 INFO(126)] View public_lancamentos_produtos_excluidos já existe, pulando criação
+[12/01/2026 17:48:32.918 INFO(126)] View lancamentos_excluidos já existe, pulando criação
+[12/01/2026 17:48:32.927 INFO(126)] Verificação e criação da estrutura concluída
+[12/01/2026 17:48:32.937 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[12/01/2026 17:48:32.952 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[12/01/2026 17:48:32.959 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[12/01/2026 17:48:32.975 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[12/01/2026 17:48:33.08 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:33.09 INFO(106)] [API CLIENTE] Enviando requisição para: http://192.168.0.205:4450/api/atualizar-empresa
+[12/01/2026 17:48:33.20 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[12/01/2026 17:48:33.97 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:35.260 ERRO(106)] [API CLIENTE] Erro ao chamar API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:35.260 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[12/01/2026 17:48:35.271 DEBUG(113)] EdtEmpresaTodos valor: "10015"
+[12/01/2026 17:48:35.372 DEBUG(113)] Consulta executada. Registros encontrados: 15
+[12/01/2026 17:48:35.372 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:37.430 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:37.430 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:39.471 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:39.471 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:41.520 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:41.520 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:43.565 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:43.566 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:45.613 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:45.613 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:47.743 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:47.743 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:49.803 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:49.804 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:51.851 ERRO(113)] Erro ao enviar ocorrência para API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[12/01/2026 17:48:51.852 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[12/01/2026 17:48:53.869 INFO(300)] [HTTP SERVER] Servidor HTTP parado

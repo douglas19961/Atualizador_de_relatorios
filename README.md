@@ -22,7 +22,7 @@ O **DTC Atualizador Server** é um sistema completo desenvolvido em Delphi/Pasca
 │         │                        │                          │
 │         ▼                        ▼                          │
 │  ┌──────────────────────────────────────────┐              │
-│  │      SERVIDOR HTTP (Porta 4450)          │              │
+│  │      SERVIDOR HTTP (Porta 44**)          │              │
 │  │      API REST com Autenticação Basic     │              │
 │  └──────────────────────────────────────────┘              │
 │         │                        │                          │
@@ -90,7 +90,7 @@ O sistema em modo **Cliente** atua como um **nó remoto** que se conecta ao serv
 O cliente lê sua identificação do arquivo `ConfigServer.ini`:
 ```ini
 [Config]
-ID_Client=111
+ID_Client=111111
 ```
 
 ---
@@ -99,12 +99,12 @@ ID_Client=111
 
 ### **Servidor HTTP REST**
 
-O servidor expõe uma **API REST** na porta **4450** com autenticação Basic HTTP.
+O servidor expõe uma **API REST** na porta **44****** com autenticação Basic HTTP.
 
 #### **Credenciais de Autenticação:**
 ```pascal
 API_USERNAME = 'admin'
-API_PASSWORD = '98a1c316501a55a7372f6f854a345b64' (MD5)
+API_PASSWORD = '**************' (MD5)
 ```
 
 #### **URLs Dinâmicas:**
@@ -134,8 +134,8 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
   "data": [
     {
       "id": 1,
-      "numeroempresamodulo": 111,
-      "ip": "192.168.1.100",
+      "numeroempresamodulo": 111111,
+      "ip": "192.168.0.000",
       "port": 3306,
       "nomeempresa": "Empresa Exemplo",
       "apilogin": "http://api.exemplo.com/login",
@@ -144,7 +144,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
     }
   ],
   "total": 1,
-  "numeroempresamodulo": 111
+  "numeroempresamodulo": 111111
 }
 ```
 
@@ -161,7 +161,7 @@ Content-Type: application/json
 Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 
 {
-  "id_empresa": 111
+  "id_empresa": 111111
 }
 ```
 
@@ -170,7 +170,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 {
   "success": true,
   "message": "Data atualizada com sucesso",
-  "id_empresa": 111,
+  "id_empresa": 111111,
   "data_atualizada": "2025-01-13 11:39:58"
 }
 ```
@@ -180,7 +180,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 {
   "success": false,
   "message": "Atualizador inativo para esta empresa",
-  "id_empresa": 111,
+  "id_empresa": 111111,
   "data_atualizada": ""
 }
 ```
@@ -198,8 +198,8 @@ O sistema cliente **automaticamente** chama a API `/api/atualizar-empresa` nas s
 
 **Exemplo de Log:**
 ```
-[API CLIENTE] Enviando requisição para: http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
-[API CLIENTE] Corpo da requisição: {"id_empresa": 111}
+[API CLIENTE] Enviando requisição para: http://`***********`.ddns.com.br:44`**`/api/atualizar-empresa
+[API CLIENTE] Corpo da requisição: {"id_empresa": 111111}
 [API CLIENTE] Resposta recebida: {"success": true, "message": "Data atualizada com sucesso", ...}
 ```
 
@@ -415,8 +415,8 @@ ID_Client=111
 #### **2. ConfigServer.ini (Servidor)**
 ```ini
 [Config]
-IP_Servidor=192.168.0.205
-Porta_Servidor=4450
+IP_Servidor=192.168`*******`
+Porta_Servidor=44`**`
 ```
 
 ### **Tabelas do Banco de Dados**
@@ -483,14 +483,8 @@ Armazena os relatórios sincronizados:
 ### **Autenticação API**
 - **Tipo**: Basic HTTP Authentication
 - **Usuário**: `admin`
-- **Senha**: `98a1c316501a55a7372f6f854a345b64` (MD5)
+- **Senha**: `***********` (MD5)
 
-### **Recomendações:**
-- ⚠️ Implementar **HTTPS** para produção
-- ⚠️ Adicionar **rate limiting**
-- ⚠️ Implementar **validação de entrada** mais robusta
-- ⚠️ Configurar **firewall** para restringir acesso
-- ⚠️ Usar **tokens JWT** em vez de Basic Auth para produção
 
 ---
 
@@ -640,7 +634,7 @@ Este sistema é proprietário da Datacom Automações.
 
 ## 👥 Desenvolvido por
 
-**Datacom Automações**
+**Douglas Francisco Bonfim**
 
 ---
 

@@ -1,0 +1,123 @@
+unit UntConexaoCliente;
+
+interface
+
+uses
+  System.Classes, Uni, SysUtils, Forms, Dialogs, StdCtrls;
+
+type
+  TConexaoThread = class(TThread)
+  private
+    FServer, FDatabase, FUsername, FPassword: string;
+    FPort: Integer;
+    FErroMsg: string;
+    FConectado: Boolean;
+    FComboBoxCnpj: TComboBox;
+    FComboBoxID: TComboBox;
+    FComboBoxNome: TComboBox;
+    procedure ShowMensagem;  // Exibe erro ou sucesso
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(const Server, Database, Username, Password: string; Port: Integer;
+                       ComboBoxCnpj, ComboBoxID, ComboBoxNome: TComboBox);
+  end;
+
+implementation
+
+uses
+  UntPrincipal;
+
+{ TConexaoThread }
+
+constructor TConexaoThread.Create(const Server, Database, Username, Password: string; Port: Integer;
+                                  ComboBoxCnpj, ComboBoxID, ComboBoxNome: TComboBox);
+begin
+  inherited Create(False);  // Inicia a thread automaticamente
+  FreeOnTerminate := True;  // Libera memória automaticamente quando terminar
+  FServer := Server;
+  FDatabase := Database;
+  FUsername := Username;
+  FPassword := Password;
+  FPort := Port;
+  FErroMsg := '';
+  FConectado := False;
+
+  // Recebe os controles ComboBox como parâmetros
+  FComboBoxCnpj := ComboBoxCnpj;
+  FComboBoxID := ComboBoxID;
+  FComboBoxNome := ComboBoxNome;
+end;
+
+procedure TConexaoThread.Execute;
+var
+  ConexaoModulo: TUniConnection;
+  Query: TUniQuery;
+begin
+  ConexaoModulo := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  try
+    try
+      // Configuração do banco de dados
+      ConexaoModulo.ProviderName := 'MySQL';
+      ConexaoModulo.Server := FServer;
+      ConexaoModulo.Database := FDatabase;
+      ConexaoModulo.Username := FUsername;
+      ConexaoModulo.Password := FPassword;
+      ConexaoModulo.Port := FPort;
+      ConexaoModulo.SpecificOptions.Values['UseUnicode'] := 'True';
+      ConexaoModulo.LoginPrompt := False;
+
+      ConexaoModulo.Connected := True;  // Tenta conectar
+
+      // Se chegou aqui, conexão foi bem-sucedida
+      FConectado := True;
+      FErroMsg := 'Conexão estabelecida com sucesso!';
+
+      // Agora faz o SELECT na tabela cadastro_empresas
+      Query.Connection := ConexaoModulo;
+      Query.SQL.Text := 'SELECT id_empresa_help, nome_empresa, cnpj FROM cadastro_empresas WHERE ativo = 1';
+      Query.Open;
+
+      // Se houver registros, chama o método para preencher os ComboBoxes
+      if not Query.IsEmpty then
+      begin
+        Query.First;
+        Synchronize(
+          procedure
+          begin
+            FComboBoxCnpj.Clear;
+            FComboBoxID.Clear;
+            FComboBoxNome.Clear;
+            while not Query.Eof do
+            begin
+              FComboBoxID.Items.Add(Query.FieldByName('id_empresa_help').AsString);
+              FComboBoxNome.Items.Add(Query.FieldByName('nome_empresa').AsString);
+              FComboBoxCnpj.Items.Add(Query.FieldByName('cnpj').AsString);
+              Query.Next;
+            end;
+          end
+        );
+      end;
+
+    except
+      on E: Exception do
+      begin
+        FConectado := False;
+        FErroMsg := 'Erro ao conectar: ' + E.Message;
+      end;
+    end;
+  finally
+    Query.Free;
+    ConexaoModulo.Free;
+    Synchronize(ShowMensagem);  // Exibe mensagem na thread principal
+  end;
+end;
+
+procedure TConexaoThread.ShowMensagem;
+begin
+  ShowMessage(FErroMsg);  // Exibe erro ou sucesso
+end;
+
+end.
+

@@ -1,0 +1,48 @@
+unit UntTelaInicial;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, JvExControls,
+  JvAnimatedImage, JvGIFCtrl, Vcl.Imaging.pngimage;
+
+type
+  TFrmLogin = class(TForm)
+    Timer1: TTimer;
+    Image1: TImage;
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmLogin: TFrmLogin;
+
+implementation
+
+uses
+  UntPrincipal;
+
+{$R *.dfm}
+
+procedure TFrmLogin.FormCreate(Sender: TObject);
+begin
+  Timer1.Interval := 1000; // Define o intervalo do Timer para 5 segundos
+  Timer1.Enabled := True; // Ativa o Timer ao abrir o Form
+
+end;
+
+procedure TFrmLogin.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False; // Desativa o Timer
+
+  Self.Hide; // Oculta o formulário de login
+
+  // Exibe o FrmPrincipal
+  FrmPrincipal.Show; // Use Show para exibir o FrmPrincipal
+end;
+end.

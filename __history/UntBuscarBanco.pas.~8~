@@ -1,0 +1,103 @@
+unit UntBuscarBanco;
+
+interface
+
+uses
+  System.Classes, Uni, SysUtils, Forms, JvEdit,MidasLib, Dialogs,MySQLUniProvider,PostgreSQLUniProvider;
+
+type
+  TBuscarBancoThread = class(TThread)
+  private
+    FID_Empresa: string;
+    FHost, FNomeBanco, FUsuario, FSenha, FPorta: string;
+    FJvEdit1, FJvEdit2, FJvEdit3, FJvEdit4, FJvEdit5: TJvEdit;
+    FServer, FDatabase, FUser, FPass: string;
+    FPort: Integer;
+    procedure AtualizarUI;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(const ID_Empresa, Server, Database, User, Pass: string; Port: Integer;
+      JvEdit1, JvEdit2, JvEdit3, JvEdit4, JvEdit5: TJvEdit);
+  end;
+
+implementation
+
+uses
+  UntPrincipal;
+
+constructor TBuscarBancoThread.Create(const ID_Empresa, Server, Database, User, Pass: string; Port: Integer;
+  JvEdit1, JvEdit2, JvEdit3, JvEdit4, JvEdit5: TJvEdit);
+begin
+  inherited Create(False);
+  FreeOnTerminate := True;
+  FID_Empresa := ID_Empresa;
+  FServer := Server;
+  FDatabase := Database;
+  FUser := User;
+  FPass := Pass;
+  FPort := Port;
+  FJvEdit1 := JvEdit1;
+  FJvEdit2 := JvEdit2;
+  FJvEdit3 := JvEdit3;
+  FJvEdit4 := JvEdit4;
+  FJvEdit5 := JvEdit5;
+end;
+
+procedure TBuscarBancoThread.Execute;
+var
+  Conexao: TUniConnection;
+  Query: TUniQuery;
+begin
+  Conexao := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  try
+    try
+      Conexao.ProviderName := 'PostgreSQL';
+      Conexao.Server := FServer;
+      Conexao.Database := FDatabase;
+      Conexao.Username := FUser;
+      Conexao.Password := FPass;
+      Conexao.Port := FPort;
+      Conexao.SpecificOptions.Values['UseUnicode'] := 'True';
+      Conexao.LoginPrompt := False;
+      Conexao.Connected := True;
+
+      Query.Connection := Conexao;
+      Query.SQL.Text := 'SELECT host, nome_banco, usuario, senha, porta FROM cadastro_bancos WHERE id_empresa_help = :id';
+      Query.ParamByName('id').AsString := FID_Empresa;
+      Query.Open;
+
+      if not Query.IsEmpty then
+      begin
+        FHost := Query.FieldByName('host').AsString;
+        FNomeBanco := Query.FieldByName('nome_banco').AsString;
+        FUsuario := Query.FieldByName('usuario').AsString;
+        FSenha := Query.FieldByName('senha').AsString;
+        FPorta := Query.FieldByName('porta').AsString;
+        Synchronize(AtualizarUI);
+      end;
+    except
+      on E: Exception do
+        Synchronize(procedure begin
+//        ShowMessage('Erro ao buscar dados: ' + E.Message);
+         FrmPrincipal.WriteLog('[ERRO DE CONEXÃO] Conexão Puxar os bancos disponiveis: ' + E.Message);
+        end);
+    end;
+  finally
+    Query.Free;
+    Conexao.Free;
+  end;
+end;
+
+procedure TBuscarBancoThread.AtualizarUI;
+begin
+  FJvEdit1.Text := FHost;
+  FJvEdit2.Text := FNomeBanco;
+  FJvEdit3.Text := FUsuario;
+  FJvEdit4.Text := Fsenha;  // Ocultar a senha
+  FJvEdit5.Text := FPorta;
+end;
+
+end.
+

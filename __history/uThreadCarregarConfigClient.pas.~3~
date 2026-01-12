@@ -1,0 +1,131 @@
+unit uThreadCarregarConfigClient;
+
+interface
+
+uses
+  System.Classes, Uni, DB, SysUtils, Dialogs, Forms, StdCtrls, JvEdit;
+
+type
+  TThreadCarregarConfigClient = class(TThread)
+  private
+    FConexao: TUniConnection;
+    FFormDestino: TForm;
+    FEditNomeDBServerCliente, FEditIPDBServerCliente, FEditUsuarioDBServerCliente,
+    FEditPortaDBServerCliente, FEditSenhaDBServerCliente: TJvEdit;
+
+    FEditNomeDBServer, FEditIPDBServer, FEditUsuarioDBServer,
+    FEditPortaDBServer, FEditSenhaDBServer: TJvEdit;
+
+    FComboBoxIDServer: TComboBox;
+
+    FQuery: TUniQuery;
+  protected
+    procedure Execute; override;
+    procedure AtualizarComponentes;
+  public
+    constructor Create(AConexao: TUniConnection; AFormDestino: TForm;
+      AEditNomeDBServerCliente, AEditIPDBServerCliente, AEditUsuarioDBServerCliente,
+      AEditPortaDBServerCliente, AEditSenhaDBServerCliente: TJvEdit;
+      AEditNomeDBServer, AEditIPDBServer, AEditUsuarioDBServer,
+      AEditPortaDBServer, AEditSenhaDBServer: TJvEdit;
+      AComboBoxIDServer: TComboBox);
+    destructor Destroy; override;
+  end;
+
+implementation
+
+uses
+  UntPrincipal;
+
+constructor TThreadCarregarConfigClient.Create(AConexao: TUniConnection; AFormDestino: TForm;
+  AEditNomeDBServerCliente, AEditIPDBServerCliente, AEditUsuarioDBServerCliente,
+  AEditPortaDBServerCliente, AEditSenhaDBServerCliente: TJvEdit;
+  AEditNomeDBServer, AEditIPDBServer, AEditUsuarioDBServer,
+  AEditPortaDBServer, AEditSenhaDBServer: TJvEdit;
+  AComboBoxIDServer: TComboBox);
+begin
+  inherited Create(False); // Inicia a thread automaticamente
+  FreeOnTerminate := True; // Libera a memória ao finalizar
+  FConexao := AConexao;
+  FFormDestino := AFormDestino;
+
+  // Atribui os edits e combobox ao contexto da thread
+  FEditNomeDBServerCliente := AEditNomeDBServerCliente;
+  FEditIPDBServerCliente := AEditIPDBServerCliente;
+  FEditUsuarioDBServerCliente := AEditUsuarioDBServerCliente;
+  FEditPortaDBServerCliente := AEditPortaDBServerCliente;
+  FEditSenhaDBServerCliente := AEditSenhaDBServerCliente;
+
+  FEditNomeDBServer := AEditNomeDBServer;
+  FEditIPDBServer := AEditIPDBServer;
+  FEditUsuarioDBServer := AEditUsuarioDBServer;
+  FEditPortaDBServer := AEditPortaDBServer;
+  FEditSenhaDBServer := AEditSenhaDBServer;
+
+  FComboBoxIDServer := AComboBoxIDServer;
+
+  FQuery := TUniQuery.Create(nil);
+  FQuery.Connection := FConexao;
+end;
+
+destructor TThreadCarregarConfigClient.Destroy;
+begin
+  FQuery.Free;
+  inherited;
+end;
+
+procedure TThreadCarregarConfigClient.Execute;
+begin
+  try
+    if not FConexao.Connected then
+      FConexao.Connect; // Certifique-se de que a conexão está ativa
+
+    FQuery.SQL.Text := 'SELECT * FROM config_dtc LIMIT 1'; // Pega apenas um registro
+    FQuery.Open;
+
+    if not FQuery.IsEmpty then
+    begin
+      Synchronize(AtualizarComponentes); // Atualiza os edits e combobox na main thread
+    end;
+  except
+    on E: Exception do
+      Synchronize(
+        procedure
+        begin
+        if Mensagem then
+        begin
+          ShowMessage('Erro ao carregar dados: ' + E.Message);
+        end;
+        end);
+  end;
+end;
+
+procedure TThreadCarregarConfigClient.AtualizarComponentes;
+begin
+  if Assigned(FFormDestino) and not FFormDestino.Visible then Exit;
+
+  // Atualiza os TJvEdits
+  FEditNomeDBServerCliente.Text := FQuery.FieldByName('nome_db_client').AsString;
+  FEditIPDBServerCliente.Text := FQuery.FieldByName('ip_db_client').AsString;
+  FEditUsuarioDBServerCliente.Text := FQuery.FieldByName('usuario_db_client').AsString;
+  FEditPortaDBServerCliente.Text := FQuery.FieldByName('porta_db_client').AsString;
+  FEditSenhaDBServerCliente.Text := FQuery.FieldByName('senha_db_client').AsString;
+
+
+
+
+
+  FEditNomeDBServer.Text := FQuery.FieldByName('nome_db_cliente').AsString;
+  FEditIPDBServer.Text := FQuery.FieldByName('IP_DB_Cliente').AsString;
+  FEditUsuarioDBServer.Text := FQuery.FieldByName('Usuario_DB_Cliente').AsString;
+  FEditPortaDBServer.Text := FQuery.FieldByName('Porta_DB_Cliente').AsString;
+  FEditSenhaDBServer.Text := FQuery.FieldByName('Senha_DB_Cliente').AsString;
+
+  // Atualiza o ComboBox
+  FComboBoxIDServer.Items.Clear;
+  FComboBoxIDServer.Items.Add(FQuery.FieldByName('ID_Client').AsString);
+  FComboBoxIDServer.ItemIndex := 0; // Seleciona o primeiro item
+end;
+
+end.
+

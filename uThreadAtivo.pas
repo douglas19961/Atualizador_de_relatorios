@@ -1,0 +1,78 @@
+unit uThreadAtivo;
+
+interface
+
+uses
+  System.Classes, Uni, SysUtils, Vcl.StdCtrls;
+
+type
+  TAtualizarDataAtivoThread = class(TThread)
+  private
+    FConnection: TUniConnection;
+    FMemo: TMemo;
+    FLogMessage: string;
+    FID: Integer;  // Variável para armazenar id_empresa
+    procedure AtualizarMemo;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(AConnection: TUniConnection; AMemo: TMemo; AID: Integer);
+  end;
+
+implementation
+
+{ TAtualizarDataAtivoThread }
+
+constructor TAtualizarDataAtivoThread.Create(AConnection: TUniConnection; AMemo: TMemo; AID: Integer);
+begin
+  inherited Create(False); // Inicia automaticamente
+  FreeOnTerminate := True; // Libera a memória ao terminar
+  FMemo := AMemo;
+  FConnection := AConnection;
+  FID := AID;  // Armazena o id_empresa recebido no parâmetro
+end;
+
+procedure TAtualizarDataAtivoThread.Execute;
+var
+  Query: TUniQuery;
+begin
+  try
+    Query := TUniQuery.Create(nil);
+    try
+      Query.Connection := FConnection;
+
+      // Garante que a conexão esteja ativa
+      if not FConnection.Connected then
+        FConnection.Connected := True;
+
+      Query.SQL.Text := 'UPDATE cadastro_empresas ' +
+                        'SET data_atualizada = :data_atualizada ' +
+                        'WHERE id_empresa_help = :id_empresa AND ativo  is true ';
+      Query.ParamByName('id_empresa').AsInteger := FID;
+      Query.ParamByName('data_atualizada').AsDateTime := Now;
+
+      Query.Execute;
+
+      // Mensagem de sucesso
+      FLogMessage := 'data_atualizada atualizado com sucesso!';
+    finally
+      Query.Free;
+      FConnection.Connected := False; // Fecha a conexão
+    end;
+  except
+    on E: Exception do
+      FLogMessage := 'Erro ao atualizar data_atualizada: ' + E.Message;
+  end;
+
+  // Atualiza o Memo
+  Synchronize(AtualizarMemo);
+end;
+
+procedure TAtualizarDataAtivoThread.AtualizarMemo;
+begin
+  if Assigned(FMemo) then
+    FMemo.Lines.Add(FLogMessage);
+end;
+
+end.
+

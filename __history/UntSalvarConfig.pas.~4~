@@ -1,0 +1,185 @@
+unit UntSalvarConfig;
+
+interface
+
+uses
+  System.Classes, SysUtils, Uni, UniProvider, MySQLUniProvider,PostgreSQLUniProvider, Dialogs, Forms;
+
+type
+  TSalvarConfigThread = class(TThread)
+  private
+    FNomeDBCliente, FIPCliente, FUsuarioCliente, FPortaCliente, FSenhaCliente: string;
+    FNomeDBClient, FIPClient, FUsuarioClient, FPortaClient, FSenhaClient: string;
+    FIDClient, FCnpjClient: string;
+    procedure SalvarConfiguracao;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(
+      NomeDBCliente, IPCliente, UsuarioCliente, PortaCliente, SenhaCliente: string;
+      NomeDBClient, IPClient, UsuarioClient, PortaClient, SenhaClient: string;
+      IDClient, CnpjClient: string);
+  end;
+
+implementation
+
+{ TSalvarConfigThread }
+
+constructor TSalvarConfigThread.Create(
+  NomeDBCliente, IPCliente, UsuarioCliente, PortaCliente, SenhaCliente: string;
+  NomeDBClient, IPClient, UsuarioClient, PortaClient, SenhaClient: string;
+  IDClient, CnpjClient: string);
+begin
+  inherited Create(False);
+  FreeOnTerminate := True;
+
+  // Atribuir parâmetros às variáveis da thread
+  FNomeDBCliente := NomeDBCliente;
+  FIPCliente := IPCliente;
+  FUsuarioCliente := UsuarioCliente;
+  FPortaCliente := PortaCliente;
+  FSenhaCliente := SenhaCliente;
+
+  FNomeDBClient := NomeDBClient;
+  FIPClient := IPClient;
+  FUsuarioClient := UsuarioClient;
+  FPortaClient := PortaClient;
+  FSenhaClient := SenhaClient;
+
+  FIDClient := IDClient;
+  FCnpjClient := CnpjClient;
+end;
+
+procedure TSalvarConfigThread.Execute;
+begin
+  SalvarConfiguracao;
+end;
+
+procedure TSalvarConfigThread.SalvarConfiguracao;
+var
+  Conexao: TUniConnection;
+  Query: TUniQuery;
+  ExisteRegistro: Boolean;
+begin
+  Conexao := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  try
+    try
+      // Configuração da conexão com o banco do CLIENT
+      Conexao.ProviderName := 'PostgreSQL';
+      Conexao.SpecificOptions.Values['CharSet'] := 'UTF8';
+      Conexao.Server := FIPClient;
+      Conexao.Database := FNomeDBClient;
+      Conexao.Username := FUsuarioClient;
+      Conexao.Password := FSenhaClient;
+
+      if FPortaClient <> '' then
+        Conexao.Port := StrToIntDef(FPortaClient, 5432)
+      else
+        Conexao.Port := 5432; // Porta padrão do PostgreSQL
+
+      Conexao.LoginPrompt := False;
+      Conexao.Connected := True;
+
+      if not Conexao.Connected then
+        raise Exception.Create('Erro ao conectar ao banco de dados do Client!');
+
+      // Criar a tabela se não existir
+      Query.Connection := Conexao;
+      Query.SQL.Text :=
+        'CREATE TABLE IF NOT EXISTS Config_DTC (' +
+        '  ID SERIAL PRIMARY KEY, ' +
+        '  Nome_DB_Cliente VARCHAR(255), ' +
+        '  IP_DB_Cliente VARCHAR(255), ' +
+        '  Usuario_DB_Cliente VARCHAR(255), ' +
+        '  Porta_DB_Cliente VARCHAR(10), ' +
+        '  Senha_DB_Cliente VARCHAR(255), ' +
+        '  Nome_DB_Client VARCHAR(255), ' +
+        '  IP_DB_Client VARCHAR(255), ' +
+        '  Usuario_DB_Client VARCHAR(255), ' +
+        '  Porta_DB_Client VARCHAR(10), ' +
+        '  Senha_DB_Client VARCHAR(255), ' +
+        '  ID_Client VARCHAR(50) UNIQUE, ' +  // Adicionado UNIQUE para evitar duplicações
+        '  CNPJ_Client VARCHAR(50) ' +
+        ');';
+      Query.Execute;
+
+      // Verificar se o ID_Client já existe na tabela
+      Query.SQL.Text := 'SELECT COUNT(*) FROM Config_DTC WHERE ID_Client = :IDClient';
+      Query.ParamByName('IDClient').AsString := FIDClient;
+      Query.Open;
+
+      ExisteRegistro := Query.Fields[0].AsInteger > 0;
+
+      if ExisteRegistro then
+      begin
+        // Atualizar os dados se o ID já existir
+        Query.SQL.Text :=
+          'UPDATE Config_DTC SET ' +
+          '  Nome_DB_Cliente = :NomeDBCliente, IP_DB_Cliente = :IPCliente, ' +
+          '  Usuario_DB_Cliente = :UsuarioCliente, Porta_DB_Cliente = :PortaCliente, Senha_DB_Cliente = :SenhaCliente, ' +
+          '  Nome_DB_Client = :NomeDBClient, IP_DB_Client = :IPClient, ' +
+          '  Usuario_DB_Client = :UsuarioClient, Porta_DB_Client = :PortaClient, Senha_DB_Client = :SenhaClient, ' +
+          '  CNPJ_Client = :CNPJClient ' +
+          'WHERE ID_Client = :IDClient';
+      end
+      else
+      begin
+        // Inserir um novo registro se não existir
+        Query.SQL.Text :=
+          'INSERT INTO Config_DTC (' +
+          '  Nome_DB_Cliente, IP_DB_Cliente, Usuario_DB_Cliente, Porta_DB_Cliente, Senha_DB_Cliente, ' +
+          '  Nome_DB_Client, IP_DB_Client, Usuario_DB_Client, Porta_DB_Client, Senha_DB_Client, ' +
+          '  ID_Client, CNPJ_Client ' +
+          ') VALUES (' +
+          '  :NomeDBCliente, :IPCliente, :UsuarioCliente, :PortaCliente, :SenhaCliente, ' +
+          '  :NomeDBClient, :IPClient, :UsuarioClient, :PortaClient, :SenhaClient, ' +
+          '  :IDClient, :CNPJClient)';
+      end;
+
+      // Atribuir os parâmetros para a query
+      Query.ParamByName('NomeDBCliente').AsString := FNomeDBCliente;
+      Query.ParamByName('IPCliente').AsString := FIPCliente;
+      Query.ParamByName('UsuarioCliente').AsString := FUsuarioCliente;
+      Query.ParamByName('PortaCliente').AsString := FPortaCliente;
+      Query.ParamByName('SenhaCliente').AsString := FSenhaCliente;
+
+      Query.ParamByName('NomeDBClient').AsString := FNomeDBClient;
+      Query.ParamByName('IPClient').AsString := FIPClient;
+      Query.ParamByName('UsuarioClient').AsString := FUsuarioClient;
+      Query.ParamByName('PortaClient').AsString := FPortaClient;
+      Query.ParamByName('SenhaClient').AsString := FSenhaClient;
+
+      Query.ParamByName('IDClient').AsString := FIDClient;
+      Query.ParamByName('CNPJClient').AsString := FCnpjClient;
+
+      Query.Execute;
+
+      // Mensagem de sucesso sincronizada com a thread principal
+      Synchronize(
+        procedure
+        begin
+          if ExisteRegistro then
+            ShowMessage('Configuração atualizada com sucesso!')
+          else
+            ShowMessage('Configuração salva com sucesso!');
+        end
+      );
+
+    except
+      on E: Exception do
+        Synchronize(
+          procedure
+          begin
+            ShowMessage('Erro ao salvar configuração: ' + E.Message);
+          end
+        );
+    end;
+  finally
+    Query.Free;
+    Conexao.Free;
+  end;
+end;
+
+end.
+

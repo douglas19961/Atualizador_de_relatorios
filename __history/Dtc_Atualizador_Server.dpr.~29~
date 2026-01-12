@@ -1,0 +1,27 @@
+program Dtc_Atualizador_Server;
+
+uses
+  Vcl.Forms,
+  UntPrincipal in 'UntPrincipal.pas' {FrmPrincipal},
+  uTransferenciaThread in 'uTransferenciaThread.pas',
+  uTransferenciaServerThread in 'uTransferenciaServerThread.pas',
+  UntConexaoCliente in 'UntConexaoCliente.pas',
+  UntBuscarBanco in 'UntBuscarBanco.pas',
+  UntBuscarModulos in 'UntBuscarModulos.pas',
+  UntSalvarConfig in 'UntSalvarConfig.pas',
+  UntSalvarServerConfig in 'UntSalvarServerConfig.pas',
+  UntInserirModulos in 'UntInserirModulos.pas',
+  uThreadCarregarConfig in 'uThreadCarregarConfig.pas',
+  UntInserirModulosClient in 'UntInserirModulosClient.pas',
+  uThreadCarregarConfigClient in 'uThreadCarregarConfigClient.pas',
+  uThreadmonitorDeOcorrencia in 'uThreadmonitorDeOcorrencia.pas',
+  UntLogs in 'UntLogs.pas' {FrmLogs};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(TFrmLogs, FrmLogs);
+  Application.Run;
+end.

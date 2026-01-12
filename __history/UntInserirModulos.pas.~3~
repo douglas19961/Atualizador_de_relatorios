@@ -1,0 +1,192 @@
+﻿unit UntInserirModulos;
+
+interface
+
+uses
+  System.Classes, SysUtils, Uni, DB, UniProvider, PostgreSQLUniProvider,
+  MySQLUniProvider, Dialogs;
+
+type
+  TInserirModulosThread = class(TThread)
+  private
+    // Variáveis para PostgreSQL
+    FNomeDBPostgres: string;
+    FIPDBPostgres: string;
+    FUsuarioDBPostgres: string;
+    FPortaDBPostgres: Integer;
+    FSenhaDBPostgres: string;
+
+    // Variáveis para MySQL
+    FNomeDBMySQL: string;
+    FIPDBMySQL: string;
+    FUsuarioDBMySQL: string;
+    FPortaDBMySQL: Integer;
+    FSenhaDBMySQL: string;
+
+    // Variável para o ID da empresa
+    FID_Empresa: string;
+
+    procedure AtualizarUI(Sucesso: Boolean; const Msg: string);
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(
+      // PostgreSQL
+      const NomeDBPostgres, IPDBPostgres, UsuarioDBPostgres, SenhaDBPostgres: string; PortaDBPostgres: Integer;
+      // MySQL
+      const NomeDBMySQL, IPDBMySQL, UsuarioDBMySQL, SenhaDBMySQL: string; PortaDBMySQL: Integer;
+      const FID_Empresa: string // Recebendo o ID da empresa para consulta
+    );
+  end;
+
+implementation
+
+uses
+  UntPrincipal;
+
+constructor TInserirModulosThread.Create(
+  const NomeDBPostgres, IPDBPostgres, UsuarioDBPostgres, SenhaDBPostgres: string; PortaDBPostgres: Integer;
+  const NomeDBMySQL, IPDBMySQL, UsuarioDBMySQL, SenhaDBMySQL: string; PortaDBMySQL: Integer;
+  const FID_Empresa: string); // Recebendo o valor do ComboBoxIDServer
+begin
+  inherited Create(False);
+  FreeOnTerminate := True;
+
+  // Atribuindo o valor de FID_Empresa
+  self.FID_Empresa := FID_Empresa;
+
+  // Atribuindo valores para PostgreSQL
+  FNomeDBPostgres := NomeDBPostgres;
+  FIPDBPostgres := IPDBPostgres;
+  FUsuarioDBPostgres := UsuarioDBPostgres;
+  FSenhaDBPostgres := SenhaDBPostgres;
+  FPortaDBPostgres := PortaDBPostgres;
+
+  // Atribuindo valores para MySQL
+  FNomeDBMySQL := NomeDBMySQL;
+  FIPDBMySQL := IPDBMySQL;
+  FUsuarioDBMySQL := UsuarioDBMySQL;
+  FSenhaDBMySQL := SenhaDBMySQL;
+  FPortaDBMySQL := PortaDBMySQL;
+end;
+
+procedure TInserirModulosThread.Execute;
+var
+  ConexaoMySQL: TUniConnection;
+  ConexaoPostgreSQL: TUniConnection;
+  QueryMySQL: TUniQuery;
+  QueryPostgreSQL: TUniQuery;
+  IdModulo: Integer;
+  NomeModulo: string;
+begin
+  ConexaoMySQL := TUniConnection.Create(nil);
+  ConexaoPostgreSQL := TUniConnection.Create(nil);
+  QueryMySQL := TUniQuery.Create(nil);
+  QueryPostgreSQL := TUniQuery.Create(nil);
+
+  try
+    // Conectar ao MySQL
+    ConexaoMySQL.ProviderName := 'MySQL';
+    ConexaoMySQL.Server := FIPDBMySQL;
+    ConexaoMySQL.Database := FNomeDBMySQL;
+    ConexaoMySQL.Username := FUsuarioDBMySQL;
+    ConexaoMySQL.Password := FSenhaDBMySQL;
+    ConexaoMySQL.Port := FPortaDBMySQL;
+    ConexaoMySQL.LoginPrompt := False;
+    ConexaoMySQL.Connected := True;
+
+    // Configurando a consulta no MySQL
+    QueryMySQL.Connection := ConexaoMySQL;
+    QueryMySQL.SQL.Text :=
+      'SELECT ' +
+      '  IF(c.id_empresa_Help = :id, ''Sim'', ''Não'') AS Ativos, ' +
+      '  m.id_modulo, ' +
+      '  m.nome_modulo ' +
+      'FROM cadastro_modulos m ' +
+      'LEFT JOIN controle_sistema c ON c.id_modulo = m.id_modulo AND c.id_empresa_Help = :id ' +
+      'WHERE c.id_empresa_help = :id ' +
+      'ORDER BY m.nome_modulo';
+
+    // Passando o valor de FID_Empresa para a consulta
+    QueryMySQL.ParamByName('id').AsString := FID_Empresa;
+    QueryMySQL.Open;
+
+    // Conectar ao PostgreSQL
+    ConexaoPostgreSQL.ProviderName := 'PostgreSQL';
+    ConexaoPostgreSQL.Server := FIPDBPostgres;
+    ConexaoPostgreSQL.Database := FNomeDBPostgres;
+    ConexaoPostgreSQL.Username := FUsuarioDBPostgres;
+    ConexaoPostgreSQL.Password := FSenhaDBPostgres;
+    ConexaoPostgreSQL.Port := FPortaDBPostgres;
+    ConexaoPostgreSQL.LoginPrompt := False;
+    ConexaoPostgreSQL.Connected := True;
+
+    // Verificar se as colunas existem e, se não, criá-las
+    QueryPostgreSQL.Connection := ConexaoPostgreSQL;
+    QueryPostgreSQL.SQL.Text :=
+      'DO $$ ' +
+      'BEGIN ' +
+      '   IF NOT EXISTS (SELECT 1 FROM information_schema.columns ' +
+      '                  WHERE table_name = ''config_server_dtc'' AND column_name = ''id_modulo'') THEN ' +
+      '      ALTER TABLE config_server_dtc ADD COLUMN id_modulo INTEGER; ' +
+      '   END IF; ' +
+      '   IF NOT EXISTS (SELECT 1 FROM information_schema.columns ' +
+      '                  WHERE table_name = ''config_server_dtc'' AND column_name = ''Nome_modulo'') THEN ' +
+      '      ALTER TABLE config_server_dtc ADD COLUMN "Nome_modulo" VARCHAR(50); ' +
+      '   END IF; ' +
+      '   IF NOT EXISTS (SELECT 1 FROM information_schema.columns ' +
+      '                  WHERE table_name = ''config_server_dtc'' AND column_name = ''id_Empresa'') THEN ' +
+      '      ALTER TABLE config_server_dtc ADD COLUMN id_Empresa VARCHAR(255); ' +
+      '   END IF; ' +
+      'END $$;';
+    QueryPostgreSQL.ExecSQL;
+
+    // Inserir dados no PostgreSQL para cada módulo
+    while not QueryMySQL.Eof do
+    begin
+      // Recupera os dados do MySQL
+      IdModulo := QueryMySQL.FieldByName('id_modulo').AsInteger;
+      NomeModulo := QueryMySQL.FieldByName('nome_modulo').AsString;
+
+      // Preparando e executando a inserção no PostgreSQL
+      QueryPostgreSQL.SQL.Text := 'INSERT INTO config_server_dtc ' +
+        '(id_modulo, "Nome_modulo", id_Empresa) ' +
+        'VALUES (:id_modulo, :nome_modulo, :id_Empresa)';
+
+      QueryPostgreSQL.ParamByName('id_modulo').AsInteger := IdModulo;
+      QueryPostgreSQL.ParamByName('nome_modulo').AsString := NomeModulo;
+      QueryPostgreSQL.ParamByName('id_Empresa').AsString := FID_Empresa; // Passando o id_server
+
+      QueryPostgreSQL.ExecSQL;
+
+      // Avançar para o próximo módulo
+      QueryMySQL.Next;
+    end;
+
+    // Sucesso ao inserir dados
+    Synchronize(procedure begin
+      ShowMessage('Módulos inseridos com sucesso no PostgreSQL!');
+    end);
+  except
+    on E: Exception do
+    begin
+      Synchronize(procedure begin
+        ShowMessage('Erro: ' + E.Message);
+      end);
+    end;
+  end;
+
+  // Finalizando objetos
+  QueryMySQL.Free;
+  QueryPostgreSQL.Free;
+  ConexaoMySQL.Free;
+  ConexaoPostgreSQL.Free;
+end;
+
+procedure TInserirModulosThread.AtualizarUI(Sucesso: Boolean; const Msg: string);
+begin
+  ShowMessage(Msg);
+end;
+
+end.
+

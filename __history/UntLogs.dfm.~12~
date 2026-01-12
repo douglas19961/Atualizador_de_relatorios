@@ -1,0 +1,404 @@
+object FrmLogs: TFrmLogs
+  Left = 0
+  Top = 0
+  Caption = 'Visualizador de Logs'
+  ClientHeight = 362
+  ClientWidth = 1196
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  TextHeight = 15
+  object pnlTop: TPanel
+    Left = 0
+    Top = 0
+    Width = 1196
+    Height = 41
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitWidth = 1192
+    object lblDiretorio: TLabel
+      Left = 8
+      Top = 12
+      Width = 51
+      Height = 15
+      Caption = 'Diret'#243'rio'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object edtDiretorio: TEdit
+      Left = 74
+      Top = 9
+      Width = 600
+      Height = 23
+      ReadOnly = True
+      TabOrder = 0
+    end
+  end
+  object pnlLeft: TPanel
+    Left = 0
+    Top = 41
+    Width = 257
+    Height = 321
+    Align = alLeft
+    BevelOuter = bvNone
+    TabOrder = 1
+    ExplicitHeight = 657
+    object lblArquivosLog: TLabel
+      Left = 8
+      Top = 8
+      Width = 222
+      Height = 15
+      Caption = 'Selecione os arquivos de log a visualizar:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lblLogManual: TLabel
+      Left = 8
+      Top = 380
+      Width = 343
+      Height = 15
+      Caption = 'Adicionar registro de Log Manual no arquivo de Log mais novo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Visible = False
+    end
+    object lstArquivosLog: TListBox
+      Left = 8
+      Top = 29
+      Width = 384
+      Height = 300
+      ItemHeight = 15
+      TabOrder = 0
+      OnClick = lstArquivosLogClick
+      OnDblClick = lstArquivosLogDblClick
+    end
+    object btnAtualizar: TButton
+      Left = 8
+      Top = 335
+      Width = 120
+      Height = 25
+      Caption = 'Atualizar (F5)'
+      TabOrder = 1
+      OnClick = btnAtualizarClick
+    end
+    object btnMostrarLogs: TButton
+      Left = 134
+      Top = 335
+      Width = 120
+      Height = 25
+      Caption = 'Mostrar Logs'
+      TabOrder = 2
+      OnClick = btnMostrarLogsClick
+    end
+    object btnRelatarLog: TButton
+      Left = 260
+      Top = 335
+      Width = 120
+      Height = 25
+      Caption = 'Relatar Log'
+      TabOrder = 3
+      Visible = False
+      OnClick = btnRelatarLogClick
+    end
+    object memLogManual: TMemo
+      Left = 8
+      Top = 401
+      Width = 243
+      Height = 200
+      ScrollBars = ssVertical
+      TabOrder = 4
+      Visible = False
+    end
+    object btnAdicionar: TButton
+      Left = 8
+      Top = 607
+      Width = 120
+      Height = 25
+      Caption = 'Adicionar'
+      TabOrder = 5
+      Visible = False
+      OnClick = btnAdicionarClick
+    end
+  end
+  object pnlRight: TPanel
+    Left = 257
+    Top = 41
+    Width = 939
+    Height = 321
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitWidth = 935
+    ExplicitHeight = 657
+    object pgcLogs: TPageControl
+      Left = 0
+      Top = 0
+      Width = 939
+      Height = 321
+      ActivePage = tsAnalisarLogs
+      Align = alClient
+      TabOrder = 0
+      ExplicitWidth = 935
+      ExplicitHeight = 657
+      object tsAtualizarMonitor: TTabSheet
+        Caption = 'Atualizar Monitor'
+        TabVisible = False
+      end
+      object tsAnalisarLogs: TTabSheet
+        Caption = 'Analisar Logs'
+        object lblMensagemSelecionada: TLabel
+          Left = 0
+          Top = 216
+          Width = 931
+          Height = 15
+          Align = alBottom
+          Caption = 'Mensagem do registro selecionado:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitTop = 553
+          ExplicitWidth = 196
+        end
+        object pnlControles: TPanel
+          Left = 0
+          Top = 0
+          Width = 931
+          Height = 41
+          Align = alTop
+          BevelOuter = bvNone
+          TabOrder = 0
+          ExplicitWidth = 927
+          object lblIntervalo: TLabel
+            Left = 114
+            Top = 12
+            Width = 3
+            Height = 15
+          end
+          object lblSegundos: TLabel
+            Left = 182
+            Top = 12
+            Width = 51
+            Height = 15
+            Caption = 'segundos'
+          end
+          object lblMaxRegistros: TLabel
+            Left = 250
+            Top = 12
+            Width = 108
+            Height = 15
+            Caption = 'Mostrar no maximo:'
+          end
+          object chkAtualizarAutomatico: TCheckBox
+            Left = 8
+            Top = 12
+            Width = 100
+            Height = 17
+            Caption = 'Atualizar a cada'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+            OnClick = chkAtualizarAutomaticoClick
+          end
+          object spnIntervalo: TSpinEdit
+            Left = 126
+            Top = 9
+            Width = 50
+            Height = 24
+            MaxValue = 3600
+            MinValue = 1
+            TabOrder = 1
+            Value = 10
+            OnChange = spnIntervaloChange
+          end
+          object spnMaxRegistros: TSpinEdit
+            Left = 364
+            Top = 7
+            Width = 72
+            Height = 24
+            MaxValue = 10000
+            MinValue = 1
+            TabOrder = 2
+            Value = 100
+            OnChange = spnMaxRegistrosChange
+          end
+        end
+        object pnlGrid: TPanel
+          Left = 0
+          Top = 41
+          Width = 931
+          Height = 135
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 1
+          ExplicitWidth = 927
+          ExplicitHeight = 471
+          object grdLogs: TStringGrid
+            Left = 0
+            Top = 0
+            Width = 931
+            Height = 135
+            Align = alClient
+            DefaultRowHeight = 20
+            FixedCols = 0
+            RowCount = 2
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
+            TabOrder = 0
+            OnDrawCell = grdLogsDrawCell
+            OnSelectCell = grdLogsSelectCell
+            ExplicitWidth = 927
+            ExplicitHeight = 471
+          end
+        end
+        object pnlFiltro: TPanel
+          Left = 0
+          Top = 176
+          Width = 931
+          Height = 40
+          Align = alBottom
+          BevelOuter = bvNone
+          Color = clSkyBlue
+          ParentBackground = False
+          TabOrder = 2
+          ExplicitTop = 512
+          ExplicitWidth = 927
+          object lblFiltroStatus: TLabel
+            Left = 8
+            Top = 12
+            Width = 77
+            Height = 15
+            Caption = '<Filtro Vazio>'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = [fsBold]
+            ParentFont = False
+            Visible = False
+          end
+          object btnPrimeiro: TButton
+            Left = 200
+            Top = 8
+            Width = 25
+            Height = 25
+            Caption = '<<'
+            TabOrder = 0
+            OnClick = btnPrimeiroClick
+          end
+          object btnAnterior: TButton
+            Left = 231
+            Top = 8
+            Width = 25
+            Height = 25
+            Caption = '<'
+            TabOrder = 1
+            OnClick = btnAnteriorClick
+          end
+          object btnPlayPause: TButton
+            Left = 331
+            Top = 9
+            Width = 50
+            Height = 25
+            Caption = 'Pause'
+            TabOrder = 2
+          end
+          object btnProximo: TButton
+            Left = 262
+            Top = 9
+            Width = 25
+            Height = 25
+            Caption = '>'
+            TabOrder = 3
+            OnClick = btnProximoClick
+          end
+          object btnUltimo: TButton
+            Left = 293
+            Top = 9
+            Width = 25
+            Height = 25
+            Caption = '>>'
+            TabOrder = 4
+            OnClick = btnUltimoClick
+          end
+          object btnAtualizarGrid: TButton
+            Left = 387
+            Top = 9
+            Width = 49
+            Height = 25
+            Caption = 'Atualiza'
+            TabOrder = 5
+            OnClick = btnAtualizarGridClick
+          end
+          object btnFiltro: TButton
+            Left = 442
+            Top = 9
+            Width = 63
+            Height = 25
+            Caption = 'Filtros'
+            TabOrder = 6
+            Visible = False
+            OnClick = btnFiltroClick
+          end
+          object btnCustomizar: TButton
+            Left = 700
+            Top = 8
+            Width = 80
+            Height = 25
+            Caption = 'Customizar...'
+            TabOrder = 7
+            Visible = False
+            OnClick = btnCustomizarClick
+          end
+        end
+        object memMensagemSelecionada: TMemo
+          Left = 0
+          Top = 231
+          Width = 931
+          Height = 60
+          Align = alBottom
+          ReadOnly = True
+          ScrollBars = ssVertical
+          TabOrder = 3
+          ExplicitTop = 567
+          ExplicitWidth = 927
+        end
+      end
+      object tsLogManual: TTabSheet
+        Caption = 'Log Manual'
+        TabVisible = False
+      end
+      object tsRelatarLog: TTabSheet
+        Caption = 'Relatar Log'
+        TabVisible = False
+      end
+    end
+  end
+  object tmrAtualizacao: TTimer
+    Enabled = False
+    OnTimer = tmrAtualizacaoTimer
+    Left = 720
+    Top = 200
+  end
+end

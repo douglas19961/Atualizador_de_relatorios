@@ -1,0 +1,1011 @@
+unit uThreadmonitorDeOcorrenciaSERVER;
+
+interface
+
+uses
+      Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
+  Vcl.Controls, Vcl.Forms, Data.DB, MemDS, DBAccess, Uni,IniFiles, DateUtils, Registry,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, UniProvider, MySQLUniProvider,  IdHashSHA, System.Hash,
+  PostgreSQLUniProvider, Vcl.WinXCtrls, Vcl.Menus, JvMenus, Vcl.ComCtrls,
+  Vcl.DBCtrls, JvExStdCtrls, JvEdit, JvListBox, Vcl.Grids, Vcl.DBGrids,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Datasnap.DBClient,System.Zip,IdFTPCommon,
+  JvFullColorSpaces, JvFullColorCtrls, Vcl.Mask, ShellAPI, IdBaseComponent,
+  IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase,
+  IdFTP, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  ComObj, ShlObj, ActiveX,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, JvExControls, JvSwitch,
+  System.Net.HttpClient, System.Net.URLClient, System.Net.HttpClientComponent,
+  System.JSON, System.NetEncoding, IdSMTP, IdMessage, IdText,
+  IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdIOHandler,
+  IdHTTPServer, IdContext, IdCustomHTTPServer, IdGlobal, IdCustomTCPServer,
+  Winapi.Windows, IdSSLOpenSSLHeaders;
+
+type
+  ThreadMonitordeOcorrenciaServer = class(TThread)
+  private
+    { Private declarations }
+    procedure InserirOcorrencias;
+    procedure InserirOcorrenciasDoss;
+    procedure executarVariosBancos;
+    procedure AtualizarDataAtivoDTCFrota(Empresa: integer);
+    procedure InserirOcorrenciaExterna(Empresa: integer; idModulo: Integer; ocorrencia: string; prioridade: integer);
+    procedure executarVariosBancosAtivoDtcSite;
+    procedure executarVariosBancosMedicoesSite;
+    procedure executarVariosBancosmedicaodivergente;
+    procedure Versaosigiloatual;
+    procedure replicaslocal;
+  protected
+    procedure Execute; override;
+  end;
+
+implementation
+
+uses
+  UntPrincipal;
+
+{
+  Important: Methods and properties of objects in visual components can only be
+  used in a method called using Synchronize, for example,
+
+      Synchronize(UpdateCaption);
+
+  and UpdateCaption could look like,
+
+    procedure ThreadMonitordeOcorrenciaServer.UpdateCaption;
+    begin
+      Form1.Caption := 'Updated in a thread';
+    end;
+
+    or
+
+    Synchronize(
+      procedure
+      begin
+        Form1.Caption := 'Updated in thread via an anonymous method'
+      end
+      )
+    );
+
+  where an anonymous method is passed.
+
+  Similarly, the developer can call the Queue method with similar parameters as
+  above, instead passing another TThread class as the first parameter, putting
+  the calling thread in a queue with the other thread.
+
+}
+
+{ ThreadMonitordeOcorrenciaServer }
+
+procedure ThreadMonitordeOcorrenciaServer.Execute;
+begin
+  { Place thread code here }
+end;
+procedure ThreadMonitordeOcorrenciaServer.InserirOcorrencias;
+var
+  QSelect, qexclusao, QInsert: TUniQuery;
+  CurrentDate: TDateTime;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '115', 'Iniciando inserção de ocorrências');
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  qexclusao := TUniQuery.Create(nil);
+  FrmPrincipal.conexaomodulos;
+  try
+      try
+        QSelect.Connection := FrmPrincipal.ConexaoModulo;
+        QInsert.Connection := FrmPrincipal.ConexaoModulo;
+        qexclusao.Connection := FrmPrincipal.ConexaoModulo;
+        CurrentDate := Now; // Pega a data/hora atuais
+        // Primeiro exclui registros antigos
+        qexclusao.SQL.Text :=
+          'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = 5';
+        qexclusao.ExecSQL;
+        // Depois busca as empresas
+        QSelect.SQL.Text :=
+          'SELECT id_empresa_help, ' +
+          '  TO_CHAR(data_atualizada, ''YYYY-MM-DD'') || ' + QuotedStr(';') + ' || ' +
+          '  TO_CHAR(data_atualizada, ''HH24:MI:SS'') || ' + QuotedStr(';') + ' || ' +
+//          'data_atualizada, ' +
+          'id_empresa_help || '';;;;;;;;Não sincronizando;;;;;;;;;;'' AS info_concatenada,'+
+          'CASE ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 >= 2 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 <= 5 THEN 1 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 >= 5 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 <= 9 THEN 2 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 > 9 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 <= 12 THEN 3 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 > 12  ' +
+          '  THEN 4 else 1 ' +
+          'END AS prioridade ' +
+          'FROM public.cadastro_empresas ' +
+          'WHERE ativo IS TRUE ' +
+          'AND EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 >= 2 ' +
+          'ORDER BY data_atualizada DESC';
+        QSelect.Open;
+        // Agora insere um novo registro para cada empresa
+        while not QSelect.Eof do
+        begin
+          QInsert.SQL.Clear;
+          QInsert.SQL.Add('INSERT INTO monitor_ocorrencias ');
+          QInsert.SQL.Add('(id_empresa_help, ocorrencia, id_prioridade, id_modulo_ocorrencia, data_ocorrencia, hora)');
+          QInsert.SQL.Add('VALUES (:id_empresa_help, :ocorrencia, :id_prioridade, :id_modulo_ocorrencia, :data_ocorrencia, :hora)');
+          QInsert.ParamByName('id_empresa_help').AsInteger := QSelect.FieldByName('id_empresa_help').AsInteger;
+          QInsert.ParamByName('ocorrencia').AsString := QSelect.FieldByName('info_concatenada').AsString;
+          QInsert.ParamByName('id_prioridade').AsInteger := QSelect.FieldByName('prioridade').AsInteger;
+          QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 5;
+          QInsert.ParamByName('data_ocorrencia').AsDateTime := DateOf(CurrentDate);
+          QInsert.ParamByName('hora').AsTime := TimeOf(CurrentDate);         // Só a hora         // Só a hora
+          QInsert.ExecSQL;
+          QSelect.Next;
+        end;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '115', '[DTCSYNC NÃO SINCRONIZADOS] inserido dados com sucesso');
+    except
+      on E: Exception do
+      begin
+        // Só grava o erro no log, não mostra na tela
+        FrmPrincipal.WriteLogFormatted('ERRO', '115', '[DTCSYNC NÃO SINCRONIZADOS] erro: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    QInsert.Free;
+    qexclusao.Free;
+  end;
+  InserirOcorrenciasDoss;
+end;
+procedure ThreadMonitordeOcorrenciaServer.InserirOcorrenciasDoss;
+var
+  QSelect, qexclusao, QInsert: TUniQuery;
+  CurrentDate: TDateTime;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '116', 'Iniciando inserção de ocorrências');
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  qexclusao := TUniQuery.Create(nil);
+  try
+      try
+        QSelect.Connection := FrmPrincipal.ConexaoModulo;
+        QInsert.Connection := FrmPrincipal.ConexaoModulo;
+        qexclusao.Connection := FrmPrincipal.ConexaoModulo;
+        CurrentDate := Now; // Pega a data/hora atuais
+        // Primeiro exclui registros antigos
+        qexclusao.SQL.Text :=
+          'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = 7';
+        qexclusao.ExecSQL;
+        // Depois busca as empresas
+        QSelect.SQL.Text :=
+          'SELECT id_empresa_help, ' +
+          '  TO_CHAR(data_atual_dos, ''YYYY-MM-DD'') || ' + QuotedStr(';') + ' || ' +
+          '  TO_CHAR(data_atual_dos, ''HH24:MI:SS'') || ' + QuotedStr(';') + ' || ' +
+//          'data_atual_dos, ' +
+          'id_empresa_help || '';;;;;;;;não sincronizando backup dos;;;;;;;;;;'' AS info_concatenada,'+
+          'CASE ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 >= 1 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 <= 5 THEN 1 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 >= 5 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 <= 9 THEN 2 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 > 9 ' +
+          '   AND EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 <= 12 THEN 3 ' +
+          '  WHEN EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 > 12  ' +
+          '  THEN 4 else 1 ' +
+          'END AS prioridade ' +
+          'FROM public.cadastro_empresas ' +
+          'WHERE ativo IS TRUE ' +
+          'AND EXTRACT(EPOCH FROM (now() - data_atual_dos)) / 3600 >= 1 ' +
+          'ORDER BY data_atual_dos DESC';
+        QSelect.Open;
+        // Agora insere um novo registro para cada empresa
+        while not QSelect.Eof do
+        begin
+          QInsert.SQL.Clear;
+          QInsert.SQL.Add('INSERT INTO monitor_ocorrencias ');
+          QInsert.SQL.Add('(id_empresa_help, ocorrencia, id_prioridade, id_modulo_ocorrencia, data_ocorrencia, hora)');
+          QInsert.SQL.Add('VALUES (:id_empresa_help, :ocorrencia, :id_prioridade, :id_modulo_ocorrencia, :data_ocorrencia, :hora)');
+          QInsert.ParamByName('id_empresa_help').AsInteger := QSelect.FieldByName('id_empresa_help').AsInteger;
+          QInsert.ParamByName('ocorrencia').AsString := QSelect.FieldByName('info_concatenada').AsString;
+          QInsert.ParamByName('id_prioridade').AsInteger := QSelect.FieldByName('prioridade').AsInteger;
+          QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 7;
+          QInsert.ParamByName('data_ocorrencia').AsDateTime := DateOf(CurrentDate);
+          QInsert.ParamByName('hora').AsTime := TimeOf(CurrentDate);         // Só a hora         // Só a hora
+          QInsert.ExecSQL;
+          QSelect.Next;
+        end;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '116', '[BACKUP-DOS NÃO SINCRONIZADOS] inserido dados com sucesso');
+    except
+      on E: Exception do
+      begin
+        // Só grava o erro no log, não mostra na tela
+        FrmPrincipal.WriteLogFormatted('ERRO', '116', '[BACKUP-DOS NÃO SINCRONIZADOS] erro: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    QInsert.Free;
+    qexclusao.Free;
+  end;
+//  executarVariosBancos;
+end;
+procedure ThreadMonitordeOcorrenciaServer.AtualizarDataAtivoDTCFrota(Empresa: integer);
+var
+  Query: TUniQuery;
+begin
+  try
+    Query := TUniQuery.Create(nil);
+        try
+          Query.Connection := FrmPrincipal.ConexaoModulo;
+          // Garante que a conexão esteja ativa
+          Query.SQL.Text := 'UPDATE cadastro_empresas ' +
+                            'SET data_atualizada = :data_atualizada ' +
+                            'WHERE id_empresa_help = :id_empresa AND ativo is true';
+
+            Query.ParamByName('id_empresa').AsInteger := (Empresa);
+
+          Query.ParamByName('data_atualizada').AsDateTime := Now;
+          Query.Execute;
+//           ShowMessage('[ATUALIZA DATA EMPRESA] data_atualizada atualizado com sucesso! ');
+          except
+            on E: Exception do
+            begin
+//             ShowMessage('[ATUALIZA DATA EMPRESA] Erro ao atualizar data_atualizada: ' + E.Message);
+             FrmPrincipal.WriteLogFormatted('ERRO', '117', '[ATUALIZA DATA EMPRESA] Erro ao atualizar data_atualizada: ' + E.Message);
+          end;
+        end;
+  finally
+    Query.Free;
+  end;
+end;
+procedure ThreadMonitordeOcorrenciaServer.InserirOcorrenciaExterna(Empresa: integer; idModulo: Integer; ocorrencia: string; prioridade: integer);
+var
+  SQLInsert, SQLCheck: string;
+  CurrentDate: TDateTime;
+  FormattedDate, FormattedTime: string;
+  StatusQuery: TUniQuery;
+begin
+  try
+    // Verifica se o módulo está ativo antes de inserir a ocorrência
+    SQLCheck := 'SELECT ativo FROM cadastro_modulos_ocorrencias WHERE id_modulo_ocorrencia = :id_modulo_ocorrencia';
+    StatusQuery := TUniQuery.Create(nil);
+    try
+      StatusQuery.Connection := FrmPrincipal.ConexaoModulo;
+      StatusQuery.SQL.Text := SQLCheck;
+      StatusQuery.ParamByName('id_modulo_ocorrencia').AsInteger := idModulo;
+      StatusQuery.Open;
+      if StatusQuery.IsEmpty  then
+      begin
+        // Se o módulo estiver inativo ou não existir, não insere a ocorrência
+        Exit;
+      end;
+    finally
+      StatusQuery.Free;
+    end;
+    // Pega a data e hora atual
+    CurrentDate := Now;
+    FormattedDate := FormatDateTime('yyyy-mm-dd', CurrentDate);
+    FormattedTime := FormatDateTime('hh:nn:ss', CurrentDate);
+    // Monta o SQL de inserção
+    SQLInsert := 'INSERT INTO monitor_ocorrencias (id_empresa_help, id_modulo_ocorrencia, ocorrencia, id_prioridade, Data_ocorrencia, Hora) ' +
+                 'VALUES (:id_empresa_help, :modulo, :ocorrencia, :id_prioridade, :Data, :Hora)';
+    FrmPrincipal.ConexaoModulo.StartTransaction;
+    FrmPrincipal.ConexaoModulo.ExecSQL(SQLInsert, [
+      Empresa,
+      idModulo,
+      ocorrencia,
+      prioridade,
+      FormattedDate,
+      FormattedTime
+    ]);
+    FrmPrincipal.ConexaoModulo.Commit;
+  except
+    on E: Exception do
+    begin
+      FrmPrincipal.ConexaoModulo.Rollback;
+      FrmPrincipal.WriteLogFormatted('ERRO', '1', 'Ocorrências da empresa ' + inttostr(Empresa) +
+        ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
+      FrmPrincipal.MemoLogClient.Lines.Add('Ocorrências da empresa ' + inttostr(Empresa) +
+        ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
+    end;
+  end;
+end;
+procedure ThreadMonitordeOcorrenciaServer.executarVariosBancos;
+var
+  QueryOrigem,QueryApagar: TUniQuery;
+begin
+  QueryOrigem := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  try
+    QueryOrigem.Connection := FrmPrincipal.ConexaoModulo;
+    QueryOrigem.SQL.Text :=
+      'SELECT id_empresa_help, host, nome_banco, usuario, senha, porta ' +
+      'FROM cadastro_bancos_dtc_frota ' +
+      'WHERE ativo IS TRUE';
+    QueryOrigem.Open;
+       QueryApagar.Connection := FrmPrincipal.ConexaoModulo;  // Aqui cxclient é a conexão com o banco de dados
+    // Prepara a query para excluir os dados da empresa fornecida
+    QueryApagar.SQL.Text := 'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = :id_modulo_ocorrencia';
+    QueryApagar.ParamByName('id_modulo_ocorrencia').AsInteger := 6;  // Converte o valor do Edit para inteiro
+    // Executa a exclusão
+    QueryApagar.ExecSQL;
+    while not QueryOrigem.Eof do
+    begin
+      try
+        // Configurar conexão dinâmica
+        FrmPrincipal.CxDTCFrota.Connected := False;
+        FrmPrincipal.CxDTCFrota.ProviderName := 'Mysql';
+        FrmPrincipal.CxDTCFrota.Server := QueryOrigem.FieldByName('host').AsString;
+        FrmPrincipal.CxDTCFrota.Database := QueryOrigem.FieldByName('nome_banco').AsString;
+        FrmPrincipal.CxDTCFrota.Username := QueryOrigem.FieldByName('usuario').AsString;
+        FrmPrincipal.CxDTCFrota.Password := QueryOrigem.FieldByName('senha').AsString;
+        FrmPrincipal.CxDTCFrota.Port := QueryOrigem.FieldByName('porta').AsInteger;
+        FrmPrincipal.CxDTCFrota.SpecificOptions.Values['UseUnicode'] := 'True';
+        FrmPrincipal.CxDTCFrota.LoginPrompt := False;
+        try
+          FrmPrincipal.CxDTCFrota.Connected := True;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '117', Format('[CONECTADO] Banco %s (%s) conectado com sucesso!',
+          [FrmPrincipal.CxDTCFrota.Database, FrmPrincipal.CxDTCFrota.Server]));
+        // Agora faz tudo neste banco
+               // Atribui a conexão correta para o UniQuery
+          var QueryConsulta := TUniQuery.Create(nil);
+          try
+            QueryConsulta.Connection := FrmPrincipal.CxDTCFrota;
+            QueryConsulta.SQL.Text :=
+              'SELECT CONCAT(' +
+              'data, ' + QuotedStr(';') + ', ' +
+              'hora, ' + QuotedStr(';') + ', ' +
+              'id_empresa, ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('Divergencia nos encerrantes') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') +
+              ') AS Ocorrencia ' +
+              'FROM auditoria_encerrantes ' +
+              'WHERE status = 0';
+            QueryConsulta.Open;
+             FrmPrincipal.WriteLogFormatted('DEBUG', '117', 'achou aqui: ' + inttostr(QueryOrigem.FieldByName('id_empresa_help').AsInteger));
+            while not QueryConsulta.Eof do
+            begin
+              try
+                FrmPrincipal.InserirOcorrenciaExterna(
+                  QueryOrigem.FieldByName('id_empresa_help').AsInteger,
+                  6,
+                  QueryConsulta.FieldByName('Ocorrencia').AsString,
+                  4
+                );
+              except
+                on E: Exception do
+                  FrmPrincipal.WriteLogFormatted('ERRO', '117', 'Inserção de ocorrência falhou: ' + E.Message);
+              end;
+              QueryConsulta.Next;
+            end;
+          finally
+            QueryConsulta.Free;
+          end;
+        except
+          on E: Exception do
+            FrmPrincipal.WriteLogFormatted('ERRO', '117', Format('Banco %s: %s',
+              [FrmPrincipal.CxDTCFrota.Database, E.Message]));
+        end;
+      except
+        on E: Exception do
+          FrmPrincipal.WriteLogFormatted('ERRO', '117', 'Falha ao processar banco: ' + E.Message);
+      end;
+     FrmPrincipal.AtualizarDataAtivoDTCFrota(QueryOrigem.FieldByName('id_empresa_help').AsInteger);
+      // Garante que feche antes de passar para o próximo
+      FrmPrincipal.CxDTCFrota.Connected := False;
+      QueryOrigem.Next;
+    end;
+  finally
+    QueryOrigem.Free;
+  end;
+  FrmPrincipal.WriteLogFormatted('INFO', '117', 'Execução de vários bancos DTC Frota concluída');
+  executarVariosBancosAtivoDtcSite;
+end;
+procedure ThreadMonitordeOcorrenciaServer.executarVariosBancosAtivoDtcSite;
+var
+  QueryOrigem,QueryApagar: TUniQuery;
+begin
+  QueryOrigem := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  try
+    QueryOrigem.Connection := FrmPrincipal.ConexaoModulo;
+    QueryOrigem.SQL.Text :=
+      'SELECT id_empresa_help, host, nome_banco, usuario, senha, porta ' +
+      'FROM cadastro_bancos_dtc_frota ' +
+      'WHERE ativo IS TRUE';
+    QueryOrigem.Open;
+       QueryApagar.Connection := FrmPrincipal.ConexaoModulo;  // Aqui cxclient é a conexão com o banco de dados
+    // Prepara a query para excluir os dados da empresa fornecida
+//    QueryApagar.SQL.Text := 'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = :id_modulo_ocorrencia';
+//    QueryApagar.ParamByName('id_modulo_ocorrencia').AsInteger := 6;  // Converte o valor do Edit para inteiro
+//
+//    // Executa a exclusão
+//    QueryApagar.ExecSQL;
+    while not QueryOrigem.Eof do
+    begin
+      try
+        // Configurar conexão dinâmica
+        FrmPrincipal.CxDTCFrota.Connected := False;
+        FrmPrincipal.CxDTCFrota.ProviderName := 'Mysql';
+        FrmPrincipal.CxDTCFrota.Server := QueryOrigem.FieldByName('host').AsString;
+        FrmPrincipal.CxDTCFrota.Database := QueryOrigem.FieldByName('nome_banco').AsString;
+        FrmPrincipal.CxDTCFrota.Username := QueryOrigem.FieldByName('usuario').AsString;
+        FrmPrincipal.CxDTCFrota.Password := QueryOrigem.FieldByName('senha').AsString;
+        FrmPrincipal.CxDTCFrota.Port := QueryOrigem.FieldByName('porta').AsInteger;
+        FrmPrincipal.CxDTCFrota.SpecificOptions.Values['UseUnicode'] := 'True';
+        FrmPrincipal.CxDTCFrota.LoginPrompt := False;
+        try
+          FrmPrincipal.CxDTCFrota.Connected := True;
+          FrmPrincipal.WriteLogFormatted('INFO', '1', Format('[CONECTADO] Banco %s (%s) conectado com sucesso!',
+            [FrmPrincipal.CxDTCFrota.Database, FrmPrincipal.CxDTCFrota.Server]));
+          var QueryConsulta := TUniQuery.Create(nil);
+          try
+            QueryConsulta.Connection := FrmPrincipal.CxDTCFrota;
+            QueryConsulta.SQL.Text :=
+              'SELECT CONCAT(' +
+              'data, ' + QuotedStr(';') + ', ' +
+              'hora, ' + QuotedStr(';') + ', ' +
+              'id_empresa, ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('Abastecimento parado na temporaria') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') +
+              ') AS Ocorrencia ' +
+              'FROM abastec_tmp ' +
+              'where ativo = 0 and TIMESTAMPDIFF(MINUTE, STR_TO_DATE(CONCAT(data, '' '', hora), ''%Y-%m-%d %H:%i:%s''), NOW()) > 60';
+            QueryConsulta.Open;
+             FrmPrincipal.WriteLogFormatted('INFO', '1', 'achou aqui: ' + inttostr(QueryOrigem.FieldByName('id_empresa_help').AsInteger));
+                while not QueryConsulta.Eof do
+                begin
+              try
+                InserirOcorrenciaExterna(
+                  QueryOrigem.FieldByName('id_empresa_help').AsInteger,
+                  6,
+                  QueryConsulta.FieldByName('Ocorrencia').AsString,
+                  4
+                );
+              except
+                on E: Exception do
+                  FrmPrincipal.WriteLogFormatted('ERRO', '1', 'Inserção de ocorrência falhou: ' + E.Message);
+              end;
+              QueryConsulta.Next;
+            end;
+          finally
+            QueryConsulta.Free;
+          end;
+        except
+          on E: Exception do
+            FrmPrincipal.WriteLogFormatted('ERRO', '1', Format('[ERRO DE CONEXÃO] Banco %s: %s',
+              [FrmPrincipal.CxDTCFrota.Database, E.Message]));
+        end;
+      except
+        on E: Exception do
+          FrmPrincipal.WriteLogFormatted('ERRO', '1', '[ERRO GERAL] Falha ao processar banco: ' + E.Message);
+      end;
+//     AtualizarDataAtivoDTCFrota(QueryOrigem.FieldByName('id_empresa_help').AsInteger);
+      // Garante que feche antes de passar para o próximo
+      FrmPrincipal.CxDTCFrota.Connected := False;
+      QueryOrigem.Next;
+    end;
+  finally
+    QueryOrigem.Free;
+  end;
+  executarVariosBancosMedicoesSite;
+end;
+procedure ThreadMonitordeOcorrenciaServer.executarVariosBancosMedicoesSite;
+var
+  QueryOrigem,QueryApagar: TUniQuery;
+begin
+  QueryOrigem := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  try
+    QueryOrigem.Connection := FrmPrincipal.ConexaoModulo;
+    QueryOrigem.SQL.Text :=
+      'SELECT id_empresa_help, host, nome_banco, usuario, senha, porta ' +
+      'FROM cadastro_bancos_dtc_frota ' +
+      'WHERE ativo IS TRUE';
+    QueryOrigem.Open;
+       QueryApagar.Connection := FrmPrincipal.ConexaoModulo;  // Aqui cxclient é a conexão com o banco de dados
+    // Prepara a query para excluir os dados da empresa fornecida
+//    QueryApagar.SQL.Text := 'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = :id_modulo_ocorrencia';
+//    QueryApagar.ParamByName('id_modulo_ocorrencia').AsInteger := 6;  // Converte o valor do Edit para inteiro
+//
+//    // Executa a exclusão
+//    QueryApagar.ExecSQL;
+    while not QueryOrigem.Eof do
+    begin
+      try
+        // Configurar conexão dinâmica
+        FrmPrincipal.CxDTCFrota.Connected := False;
+        FrmPrincipal.CxDTCFrota.ProviderName := 'Mysql';
+        FrmPrincipal.CxDTCFrota.Server := QueryOrigem.FieldByName('host').AsString;
+        FrmPrincipal.CxDTCFrota.Database := QueryOrigem.FieldByName('nome_banco').AsString;
+        FrmPrincipal.CxDTCFrota.Username := QueryOrigem.FieldByName('usuario').AsString;
+        FrmPrincipal.CxDTCFrota.Password := QueryOrigem.FieldByName('senha').AsString;
+        FrmPrincipal.CxDTCFrota.Port := QueryOrigem.FieldByName('porta').AsInteger;
+        FrmPrincipal.CxDTCFrota.SpecificOptions.Values['UseUnicode'] := 'True';
+        FrmPrincipal.CxDTCFrota.LoginPrompt := False;
+        try
+          FrmPrincipal.CxDTCFrota.Connected := True;
+                  FrmPrincipal.WriteLogFormatted('INFO', '1', Format('[CONECTADO] Banco %s (%s) conectado com sucesso!',
+          [FrmPrincipal.CxDTCFrota.Database, FrmPrincipal.CxDTCFrota.Server]));
+        // Agora faz tudo neste banco
+               // Atribui a conexão correta para o UniQuery
+          var QueryConsulta := TUniQuery.Create(nil);
+          try
+            QueryConsulta.Connection := FrmPrincipal.CxDTCFrota;
+           QueryConsulta.SQL.Text :=
+            'SELECT ' +
+            '  CONCAT( ' +
+            '    pt.data, '';'', ' +
+            '    pt.hora, '';'', ' +
+            '    d.id_deposito, '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    ''Medição parada'', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''', '';'', ' +
+            '    '''' ' +
+            '  ) AS Ocorrencia ' +
+            'FROM posicao_tanque pt ' +
+            'JOIN deposito d ' +
+            '  ON d.id_deposito = pt.num_tanque ' +
+            'JOIN ( ' +
+            '  SELECT ' +
+            '    CAST(num_tanque AS UNSIGNED) AS num_tanque_sem_zero, ' +
+            '    MAX(STR_TO_DATE(CONCAT(data, '' '', hora), ''%Y-%m-%d %H:%i:%s'')) AS ultima_datahora ' +
+            '  FROM posicao_tanque ' +
+            '  WHERE STR_TO_DATE(CONCAT(data, '' '', hora), ''%Y-%m-%d %H:%i:%s'') '  +
+            '     BETWEEN NOW() - INTERVAL 3 MONTH AND NOW() - INTERVAL 3 HOUR  '   +
+            '  GROUP BY CAST(num_tanque AS UNSIGNED) ' +
+            ') ult ' +
+            '  ON CAST(pt.num_tanque AS UNSIGNED) = ult.num_tanque_sem_zero ' +
+            '  AND STR_TO_DATE(CONCAT(pt.data, '' '', pt.hora), ''%Y-%m-%d %H:%i:%s'') = ult.ultima_datahora ' +
+            'WHERE d.id_deposito IS NOT NULL and d.ativo = 1' +
+            '  AND TIMESTAMPDIFF( ' +
+            '        MINUTE, ' +
+            '        STR_TO_DATE(CONCAT(pt.data, '' '', pt.hora), ''%Y-%m-%d %H:%i:%s''), ' +
+            '        NOW() - INTERVAL 3 HOUR ' +
+            '      ) > 60;';
+            QueryConsulta.Open;
+             FrmPrincipal.WriteLogFormatted('INFO', '1', '[sucesso] achou aqui: ' + inttostr(QueryOrigem.FieldByName('id_empresa_help').AsInteger));
+            while not QueryConsulta.Eof do
+            begin
+              try
+                InserirOcorrenciaExterna(
+                  QueryOrigem.FieldByName('id_empresa_help').AsInteger,
+                  6,
+                  QueryConsulta.FieldByName('Ocorrencia').AsString,
+                  4
+                );
+              except
+                on E: Exception do
+                  FrmPrincipal.WriteLogFormatted('INFO', '1', '[ERRO] Inserção de ocorrência falhou: ' + E.Message);
+              end;
+              QueryConsulta.Next;
+            end;
+          finally
+            QueryConsulta.Free;
+          end;
+        except
+          on E: Exception do
+            FrmPrincipal.WriteLogFormatted('ERRO', '1', Format('[ERRO DE CONEXÃO] Banco %s: %s',
+              [FrmPrincipal.CxDTCFrota.Database, E.Message]));
+        end;
+      except
+        on E: Exception do
+          FrmPrincipal.WriteLogFormatted('ERRO', '1', '[ERRO GERAL] Falha ao processar banco: ' + E.Message);
+      end;
+//     AtualizarDataAtivoDTCFrota(QueryOrigem.FieldByName('id_empresa_help').AsInteger);
+      // Garante que feche antes de passar para o próximo
+//      CxDTCFrota.Connected := False;
+      QueryOrigem.Next;
+    end;
+  finally
+    QueryOrigem.Free;
+  end;
+  Versaosigiloatual;
+end;
+procedure ThreadMonitordeOcorrenciaServer.Versaosigiloatual;
+var
+  extractedValue: string;
+  QryPostgres, QryPostgreSQL: TUniQuery;
+  EmpresaExiste: Boolean;
+  EmpresaID: Integer;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '1', 'Iniciando atualização de versão do sigilo');
+
+      FrmPrincipal.Cxserver.Connect;
+
+  // Buscar versão no PostgreSQL
+  QryPostgres := TUniQuery.Create(nil);
+  try
+
+      QryPostgres.Connection := FrmPrincipal.Cxserver;
+    QryPostgres.SQL.Text :=
+      'SELECT versao ' +
+      'FROM informativos_versoes ' +
+      'ORDER BY data_liberacao DESC ' +
+      'LIMIT 1';
+    QryPostgres.Open;
+    if not QryPostgres.IsEmpty then
+      extractedValue := QryPostgres.FieldByName('versao').AsString;
+  finally
+    QryPostgres.Free;
+  end;
+  if extractedValue = '' then
+  begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '1', '[ATUALIZA VERSÃO] Nenhuma versão do sigilo encontrada no PostgreSQL.');
+    Exit;
+  end;
+  // Atualizar ou inserir nova versão
+  QryPostgreSQL := TUniQuery.Create(nil);
+  try
+    QryPostgreSQL.Connection := FrmPrincipal.ConexaoModulo;
+   // Verifica se existe
+      QryPostgreSQL.SQL.Text := 'UPDATE versao_atual_sigilo SET versao = :Value';
+      QryPostgreSQL.ParamByName('Value').AsString := extractedValue;
+      QryPostgreSQL.ExecSQL;
+      if QryPostgreSQL.RowsAffected = 0 then
+      begin
+        QryPostgreSQL.SQL.Text := 'INSERT INTO versao_atual_sigilo (versao) VALUES (:Value)';
+        QryPostgreSQL.ParamByName('Value').AsString := extractedValue;
+        QryPostgreSQL.ExecSQL;
+        FrmPrincipal.WriteLogFormatted('INFO', '1', 'Versão inserida "' + extractedValue + '"');
+      end
+      else
+        FrmPrincipal.WriteLogFormatted('INFO', '1', 'Versão atualizada para "' + extractedValue + '"');
+  finally
+    QryPostgreSQL.Free;
+    executarVariosBancosmedicaodivergente; // Se quiser habilitar depois
+  end;
+end;
+procedure ThreadMonitordeOcorrenciaServer.executarVariosBancosmedicaodivergente;
+var
+  QueryOrigem,QueryApagar: TUniQuery;
+begin
+  QueryOrigem := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  try
+    QueryOrigem.Connection := FrmPrincipal.ConexaoModulo;
+    QueryOrigem.SQL.Text :=
+      'SELECT id_empresa_help, host, nome_banco, usuario, senha, porta ' +
+      'FROM cadastro_bancos_dtc_frota ' +
+      'WHERE ativo IS TRUE';
+    QueryOrigem.Open;
+       QueryApagar.Connection := FrmPrincipal.ConexaoModulo;  // Aqui cxclient é a conexão com o banco de dados
+    // Prepara a query para excluir os dados da empresa fornecida
+//    QueryApagar.SQL.Text := 'DELETE FROM monitor_ocorrencias WHERE id_modulo_ocorrencia = :id_modulo_ocorrencia';
+//    QueryApagar.ParamByName('id_modulo_ocorrencia').AsInteger := 6;  // Converte o valor do Edit para inteiro
+//
+//    // Executa a exclusão
+//    QueryApagar.ExecSQL;
+    while not QueryOrigem.Eof do
+    begin
+      try
+        // Configurar conexão dinâmica
+        FrmPrincipal.CxDTCFrota.Connected := False;
+        FrmPrincipal.CxDTCFrota.ProviderName := 'Mysql';
+        FrmPrincipal.CxDTCFrota.Server := QueryOrigem.FieldByName('host').AsString;
+        FrmPrincipal.CxDTCFrota.Database := QueryOrigem.FieldByName('nome_banco').AsString;
+        FrmPrincipal.CxDTCFrota.Username := QueryOrigem.FieldByName('usuario').AsString;
+        FrmPrincipal.CxDTCFrota.Password := QueryOrigem.FieldByName('senha').AsString;
+        FrmPrincipal.CxDTCFrota.Port := QueryOrigem.FieldByName('porta').AsInteger;
+        FrmPrincipal.CxDTCFrota.SpecificOptions.Values['UseUnicode'] := 'True';
+        FrmPrincipal.CxDTCFrota.LoginPrompt := False;
+        try
+          FrmPrincipal.CxDTCFrota.Connected := True;
+          FrmPrincipal.WriteLogFormatted('INFO', '1', Format('[CONECTADO] Banco %s (%s) conectado com sucesso!',
+            [FrmPrincipal.CxDTCFrota.Database, FrmPrincipal.CxDTCFrota.Server]));
+          var QueryConsulta := TUniQuery.Create(nil);
+          try
+            QueryConsulta.Connection := FrmPrincipal.CxDTCFrota;
+            QueryConsulta.SQL.Text :=
+              'SELECT CONCAT(' +
+              'data, ' + QuotedStr(';') + ', ' +
+              'hora, ' + QuotedStr(';') + ', ' +
+              'id_empresa, ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('Falha na medição') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') + ', ' + QuotedStr(';') + ', ' +
+              QuotedStr('') +
+              ') AS Ocorrencia ' +
+               ' FROM ( ' +
+                 ' SELECT *' +
+                  'FROM posicao_tanque ' +
+                  'ORDER BY data DESC, hora DESC ' +
+                  'LIMIT 1' +
+                ') AS ultima ' +
+                'WHERE (volume LIKE ''655%'' AND temperatura LIKE ''65%'')' +
+              '  OR (volume_disponivel = 0 AND temperatura = 0)';
+            QueryConsulta.Open;
+             FrmPrincipal.WriteLogFormatted('INFO', '1', '[sucesso] achou aqui: ' + inttostr(QueryOrigem.FieldByName('id_empresa_help').AsInteger));
+            while not QueryConsulta.Eof do
+            begin
+              try
+                InserirOcorrenciaExterna(
+                  QueryOrigem.FieldByName('id_empresa_help').AsInteger,
+                  6,
+                  QueryConsulta.FieldByName('Ocorrencia').AsString,
+                  4
+                );
+              except
+                on E: Exception do
+                  FrmPrincipal.WriteLogFormatted('ERRO', '1', '[ERRO] Inserção de ocorrência medicao falhada falhou: ' + E.Message);
+              end;
+              QueryConsulta.Next;
+            end;
+          finally
+            QueryConsulta.Free;
+          end;
+        except
+          on E: Exception do
+            FrmPrincipal.WriteLogFormatted('ERRO', '1', Format('[ERRO DE CONEXÃO] Banco %s: %s',
+              [FrmPrincipal.CxDTCFrota.Database, E.Message]));
+        end;
+      except
+        on E: Exception do
+          FrmPrincipal.WriteLogFormatted('ERRO', '1', '[ERRO GERAL] Falha ao processar banco: ' + E.Message);
+      end;
+//     AtualizarDataAtivoDTCFrota(QueryOrigem.FieldByName('id_empresa_help').AsInteger);
+      // Garante que feche antes de passar para o próximo
+      FrmPrincipal.CxDTCFrota.Connected := False;
+      QueryOrigem.Next;
+    end;
+  finally
+    QueryOrigem.Free;
+  end;
+  replicaslocal;
+end;
+procedure ThreadMonitordeOcorrenciaServer.replicaslocal;
+var
+  ConexaoMonitor: TUniConnection;
+  QSelect: TUniQuery;
+  QInsert: TUniQuery;
+  QVerificar: TUniQuery;
+  data_hora: TDateTime;
+  StatusAtual: string;
+  OcorrenciaFormatada: string;
+  RegistrosProcessados: Integer;
+  RegistrosPulados: Integer;
+  CodCliente: Integer;
+begin
+  RegistrosProcessados := 0;
+  RegistrosPulados := 0;
+  FrmPrincipal.WriteLogFormatted('INFO', '500', '[REPLICAS LOCAL] Iniciando verificação de ocorrências no banco monitor');
+
+  ConexaoMonitor := TUniConnection.Create(nil);
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+
+  try
+    // Configurar conexão com banco monitor
+    ConexaoMonitor.ProviderName := 'MySQL';
+    ConexaoMonitor.Server := '192.168.0.240';
+    ConexaoMonitor.Port := 3306;
+    ConexaoMonitor.Database := 'monitor';
+    ConexaoMonitor.Username := 'admin';
+    ConexaoMonitor.Password := '9887653321';
+
+    // Conectar ao banco monitor
+    try
+      ConexaoMonitor.Connect;
+      FrmPrincipal.WriteLogFormatted('INFO', '200', '[REPLICAS LOCAL] Conectado ao banco monitor com sucesso');
+    except
+      on E: Exception do
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '200', '[REPLICAS LOCAL] Erro ao conectar ao banco monitor: ' + E.Message);
+        Exit;
+      end;
+    end;
+
+    // Verificar se ConexaoModulo está ativa
+    if not Assigned(FrmPrincipal.ConexaoModulo) or not FrmPrincipal.ConexaoModulo.Connected then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '200', '[REPLICAS LOCAL] ConexaoModulo não está conectada');
+      Exit;
+    end;
+
+    // Configurar query de seleção
+    QSelect.Connection := ConexaoMonitor;
+
+    FrmPrincipal.WriteLogFormatted('INFO', '500', '[REPLICAS LOCAL] Verificando estrutura da tabela backup...');
+
+    // Primeiro testar se a tabela backup existe
+    try
+      QSelect.SQL.Text := 'SHOW TABLES LIKE ''backup''';
+      QSelect.Open;
+      if QSelect.IsEmpty then
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '500', '[REPLICAS LOCAL] Tabela backup não encontrada no banco monitor');
+        Exit;
+      end;
+      QSelect.Close;
+    except
+      on E: Exception do
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '500', '[REPLICAS LOCAL] Erro ao verificar tabela backup: ' + E.Message);
+        Exit;
+      end;
+    end;
+
+
+    // Agora executar a query principal
+    QSelect.SQL.Text := 'SELECT cod_cliente, nome, ilha, end_pasta, ativo, status, mensagem, data_hora ' +
+                       'FROM backup ' +
+                       'WHERE (status <> :status_ok OR status IS NULL) AND status <> :status_vazio';
+    QSelect.ParamByName('status_ok').AsString := 'OK';
+    QSelect.ParamByName('status_vazio').AsString := '';
+
+    // Configurar query de inserção
+    QInsert.Connection := FrmPrincipal.ConexaoModulo;
+    QInsert.SQL.Clear;
+    QInsert.SQL.Add('INSERT INTO monitor_ocorrencias ');
+    QInsert.SQL.Add('(id_empresa_help, ocorrencia, id_prioridade, id_modulo_ocorrencia, data_ocorrencia, hora)');
+    QInsert.SQL.Add('VALUES (:id_empresa_help, :ocorrencia, :id_prioridade, :id_modulo_ocorrencia, :data_ocorrencia, :hora)');
+
+    try
+      QSelect.Open;
+      FrmPrincipal.WriteLogFormatted('INFO', '500', '[REPLICAS LOCAL] Consulta executada. Registros encontrados: ' + IntToStr(QSelect.RecordCount));
+
+      if not QSelect.IsEmpty then
+      begin
+        QSelect.First;
+        while not QSelect.Eof do
+        begin
+          try
+            StatusAtual := QSelect.FieldByName('status').AsString;
+            CodCliente := QSelect.FieldByName('cod_cliente').AsInteger;
+
+            // Verificar se o cod_cliente existe na tabela monitor_ocorrencias
+            QVerificar := TUniQuery.Create(nil);
+            try
+              QVerificar.Connection := FrmPrincipal.ConexaoModulo;
+              QVerificar.SQL.Text := 'SELECT COUNT(*) as total FROM monitor_ocorrencias WHERE id_empresa_help = :cod_cliente';
+              QVerificar.ParamByName('cod_cliente').AsInteger := CodCliente;
+              QVerificar.Open;
+
+                             if QVerificar.FieldByName('total').AsInteger = 0 then
+               begin
+                 Inc(RegistrosPulados);
+                 FrmPrincipal.WriteLogFormatted('INFO', '500', Format('[REPLICAS LOCAL] Cliente %d (%s) não encontrado na tabela monitor_ocorrencias - pulando registro',
+                   [CodCliente, QSelect.FieldByName('nome').AsString]));
+                 QSelect.Next;
+                 Continue;
+               end;
+              QVerificar.Close;
+            finally
+              QVerificar.Free;
+            end;
+
+            // Converter data_hora string para TDateTime
+            try
+              data_hora := StrToDateTime(QSelect.FieldByName('data_hora').AsString);
+            except
+              data_hora := Now; // Se não conseguir converter, usa data atual
+            end;
+
+
+            // Formatar ocorrência com campos separados por ponto e vírgula
+            OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', data_hora) + ';' +
+                                  FormatDateTime('HH:NN:SS', data_hora) + ';' +
+                                  QSelect.FieldByName('cod_cliente').AsString+ ';' +
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                   ';' + // campo vazio
+                                    QSelect.FieldByName('mensagem').AsString + ';' +
+                                     QSelect.FieldByName('mensagem').AsString + ';' +
+                                      QSelect.FieldByName('mensagem').AsString + ';' +
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  QSelect.FieldByName('mensagem').AsString + ';' +
+                                  QSelect.FieldByName('mensagem').AsString + ';' +
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';'; // campo vazio
+
+            // Inserir ocorrência no banco de módulos
+            QInsert.ParamByName('id_empresa_help').AsInteger := CodCliente;
+            QInsert.ParamByName('ocorrencia').AsString := OcorrenciaFormatada;
+            QInsert.ParamByName('id_prioridade').AsInteger := 2;
+            QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 7;
+            QInsert.ParamByName('data_ocorrencia').AsDateTime := DateOf(data_hora);
+            QInsert.ParamByName('hora').AsTime := TimeOf(data_hora);
+            QInsert.ExecSQL;
+
+            Inc(RegistrosProcessados);
+            FrmPrincipal.WriteLogFormatted('INFO', '500', Format('[REPLICAS LOCAL] Ocorrência inserida para cliente %d: %s (Status: %s)',
+              [CodCliente,
+               QSelect.FieldByName('nome').AsString,
+               StatusAtual]));
+
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '500', Format('[REPLICAS LOCAL] Erro ao processar registro do cliente %d: %s',
+                [QSelect.FieldByName('cod_cliente').AsInteger, E.Message]));
+            end;
+          end;
+
+          QSelect.Next;
+        end;
+
+        FrmPrincipal.WriteLogFormatted('INFO', '500', Format('[REPLICAS LOCAL] Processamento concluído. %d ocorrências inseridas, %d registros pulados', [RegistrosProcessados, RegistrosPulados]));
+      end
+      else
+      begin
+        FrmPrincipal.WriteLogFormatted('INFO', '500', '[REPLICAS LOCAL] Nenhum registro com status diferente de OK encontrado');
+      end;
+    except
+      on E: Exception do
+      begin
+       FrmPrincipal. WriteLogFormatted('ERRO', '500', '[REPLICAS LOCAL] Erro ao executar consulta: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    QInsert.Free;
+    ConexaoMonitor.Free;
+    executarVariosBancosCorrigindoEncerrantes;
+  end;
+end;
+
+end.

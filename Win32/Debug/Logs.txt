@@ -1,0 +1,1003 @@
+[13/08/2025 18:12:34.409 INFO(1)] Iniciando aplicação Dtc_Atualizador_Server
+[13/08/2025 18:12:34.429 INFO(1)] Dtc_Atualizador_Server já não existia.
+[13/08/2025 18:15:04.348 INFO(1)] [BOTÃO API] Iniciando chamada da API para atualizar empresa
+[13/08/2025 18:15:04.349 INFO(1)] [CARREGAR ID] ID_Client carregado com sucesso: 111
+[13/08/2025 18:15:04.356 INFO(1)] [API CLIENTE] ID_Client carregado: 111
+[13/08/2025 18:15:04.362 INFO(1)] [API CLIENTE] Enviando requisição para: http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
+[13/08/2025 18:15:04.368 INFO(1)] [API CLIENTE] Corpo da requisição: {"id_empresa":111}
+[13/08/2025 18:15:06.610 ERRO(1)] [API CLIENTE] Erro ao chamar API: Error sending data: (12029) Uma conexão com o servidor não pôde ser estabelecida
+[13/08/2025 18:15:06.624 INFO(1)] Versão atualizada para "8.33.1" na empresa: 111
+[13/08/2025 18:15:06.629 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** INICIANDO PROCESSO DE INTEGRAÇÃO - BitBtn7Click ***
+[13/08/2025 18:15:06.635 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conectando à API...!
+[13/08/2025 18:15:06.658 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig
+[13/08/2025 18:15:06.658 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:06.670 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:06.675 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:06.685 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:06.694 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:06.705 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:06.713 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] JSON enviado: {"username":"user_pdv_novo_foxx_2","password":"tukhug-xadnar-6vaZxi"}
+[13/08/2025 18:15:06.721 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Enviando requisição de login...
+[13/08/2025 18:15:06.732 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Headers enviados: Content-Type=application/json, Accept=application/json
+[13/08/2025 18:15:07.75 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta recebida. Status: 201
+[13/08/2025 18:15:07.76 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando resposta...
+[13/08/2025 18:15:07.88 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta completa da API: {"id":28,"login":"user_pdv_novo_foxx_2","push_token":null,"guest":false,"vehicle_type":null,"avatar_selected":null,"invite_code":"WSUUUV","referral_processed":false,"referrer_id":null,"status":"ACTIVE","stores_manager":[],"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImlwIjowLCJsb2dpbl90b2tlbiI6IjA3NDJlNDdmLTUyYTQtNGRiMy04ZjUwLTVlZmM1OWIzMWI2NyIsInVzZXIiOiJ1c2VyX3Bkdl9ub3ZvX2ZveHhfMiIsInR5cGUiOiJpbnRlZ3JhdGlvbiIsImlhdCI6MTc1NTExOTc3NSwiZXhwIjoxNzU1MjA2MTc1fQ.8PCwrinu6vPciV-mc-JgvtP2rzXwdwMT14nHa3zy3PI","expires_in":1755206176}
+[13/08/2025 18:15:07.109 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Token extraído com sucesso!
+[13/08/2025 18:15:07.124 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO Server] Login realizado com sucesso!
+[13/08/2025 18:15:07.133 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:07.148 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:07.154 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:07.166 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:07.177 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:07.187 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:07.200 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Iniciando busca do início (since_id=0)
+[13/08/2025 18:15:07.207 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Limpando tabela antes de iniciar...
+[13/08/2025 18:15:07.219 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Tabela limpa com sucesso!
+[13/08/2025 18:15:07.227 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Iniciando busca paginada de clientes...
+[13/08/2025 18:15:07.239 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig
+[13/08/2025 18:15:07.249 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Buscando clientes com since_id=0
+[13/08/2025 18:15:07.258 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Headers enviados: Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImlwIjowLCJsb2dpbl90b2tlbiI6IjA3NDJlNDdmLTUyYTQtNGRiMy04ZjUwLTVlZmM1OWIzMWI2NyIsInVzZXIiOiJ1c2VyX3Bkdl9ub3ZvX2ZveHhfMiIsInR5cGUiOiJpbnRlZ3JhdGlvbiIsImlhdCI6MTc1NTExOTc3NSwiZXhwIjoxNzU1MjA2MTc1fQ.8PCwrinu6vPciV-mc-JgvtP2rzXwdwMT14nHa3zy3PI, Content-Type=application/json
+[13/08/2025 18:15:07.322 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta recebida. Status: 200
+[13/08/2025 18:15:07.322 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando dados dos clientes...
+[13/08/2025 18:15:07.334 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta completa da API: {"data":[{"customer_id":"1","register_date":"2024-02-02T13:43:26.335Z","name":"Robby","last_name":"Michael Cavalheiro","birth_date":"1991-02-03T03:00:00.000Z","cpf":"07130709944","email":"robbymichaelcavalheiro@gmail.com","phone":"45998203300"},{"customer_id":"2","register_date":"2024-02-01T14:13:43.252Z","name":"Mauricio","last_name":"","birth_date":"1992-12-28T03:00:00.000Z","cpf":"07581820904","email":"mauricio@mxsolucoes.com.br","phone":"45999504802"},{"customer_id":"3","register_date":"2024-02-01T14:53:51.425Z","name":"Cássio","last_name":"Henrique Stringari Junior","birth_date":"1997-03-25T03:00:00.000Z","cpf":"11125745908","email":"stringaricassio@gmail.com","phone":"45988272832"},{"customer_id":"4","register_date":"2024-02-01T15:11:01.568Z","name":"Joao","last_name":"Teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"98880881060","email":"rm.pessoal10@gmail.com","phone":"45988109097"},{"customer_id":"5","register_date":"2024-02-01T16:54:47.411Z","name":"Marcos","last_name":"Leonardo","birth_date":"2000-09-15T03:00:00.000Z","cpf":"08073015072","email":"rm.pessoal19@gmail.com","phone":"45988101111"},{"customer_id":"6","register_date":"2024-02-01T17:04:16.611Z","name":"Joao","last_name":"Mario","birth_date":"2000-09-15T03:00:00.000Z","cpf":"67575532013","email":"rm.pessoal177@gmail.com","phone":"45816516165"},{"customer_id":"7","register_date":"2024-02-01T17:33:48.735Z","name":"Mariano","last_name":"Souze","birth_date":"2000-09-15T03:00:00.000Z","cpf":"50518182002","email":"rm.pessoal189@gmail.com","phone":"45941816166"},{"customer_id":"8","register_date":"2024-02-01T18:01:21.298Z","name":"Joao","last_name":"mendes","birth_date":"2000-09-15T03:00:00.000Z","cpf":"37312414044","email":"rm.sfsadf@gmail.com","phone":"45981161156"},{"customer_id":"9","register_date":"2024-02-02T18:37:13.684Z","name":"Lucas","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"11392300932","email":"marcia56@gmail.com","phone":"45343453434"},{"customer_id":"10","register_date":"2024-02-02T20:11:48.628Z","name":"John","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"95314295024","email":"rm.perssoal1@gmail.com","phone":"42423424245"},{"customer_id":"11","register_date":"2024-02-01T20:18:01.790Z","name":"User","last_name":"Teste","birth_date":"1970-10-02T03:00:00.000Z","cpf":"92317529953","email":"rm.pessoal11@gmail.com","phone":"45988565656"},{"customer_id":"12","register_date":"2024-02-01T20:52:38.297Z","name":"Carmelinda","last_name":"Aparecida de Souza","birth_date":"1987-10-19T03:00:00.000Z","cpf":"06043907933","email":"carmelinda.cavalheiro@gmail.com","phone":"45991372369"},{"customer_id":"13","register_date":"2024-01-31T23:14:30.230Z","name":"Matheus","last_name":"Cucoloto","birth_date":"1984-04-21T03:00:00.000Z","cpf":"04008521950","email":"matheus@mxsolucoes.com.br","phone":"46999083083"},{"customer_id":"14","register_date":"2024-02-01T02:45:28.642Z","name":"Rodrigo","last_name":"de Oliveira Silva","birth_date":"1995-09-26T03:00:00.000Z","cpf":"01186874929","email":"rodrigo.oliveiira@hotmail.com","phone":"45999346173"},{"customer_id":"15","register_date":"2024-02-03T05:22:13.361Z","name":"Pedro","last_name":"Santos","birth_date":"1995-09-08T03:00:00.000Z","cpf":"06550133181","email":"pedrohenry.viana@gmail.com","phone":"64996634177"},{"customer_id":"16","register_date":"2024-02-03T07:22:00.186Z","name":"User","last_name":"Teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"50197311024","email":"rm.pessoal999@gmail.com","phone":"45988888888"},{"customer_id":"17","register_date":"2024-02-03T14:01:46.059Z","name":"Pedro","last_name":"Vinicius","birth_date":"2001-03-10T03:00:00.000Z","cpf":"12087651914","email":"peddrovini41@gmail.com","phone":"45998509887"},{"customer_id":"18","register_date":"2024-02-05T15:01:06.135Z","name":"Jose","last_name":"alberto","birth_date":"2000-09-14T03:00:00.000Z","cpf":"21511146001","email":"rm.pessoal07@gmail.com","phone":"45942572727"},{"customer_id":"19","register_date":"2024-02-07T17:08:52.289Z","name":"Manoel","last_name":"Ribas","birth_date":"2000-09-02T03:00:00.000Z","cpf":"56211893027","email":"rm.pessoal17@gmail.com","phone":"45988404747"},{"customer_id":"21","register_date":"2024-02-07T18:49:39.641Z","name":"Lucas","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"11392300932","email":"rm.pessoal13@gmail.com","phone":"45988109099"},{"customer_id":"22","register_date":"2024-02-07T20:29:07.739Z","name":"Getulio","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"80522847080","email":"rm.pessoal79@gmail.com","phone":"45988736896"},{"customer_id":"23","register_date":"2024-02-07T20:55:37.739Z","name":"Luiz","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"05614472096","email":"rm.pessoal001@gmail.com","phone":"45786763738"},{"customer_id":"24","register_date":"2024-02-07T23:44:29.034Z","name":"Giovana","last_name":"Baldega","birth_date":"2003-07-31T03:00:00.000Z","cpf":"11038814936","email":"giovanabmiranda@gmail.com","phone":"45998554047"},{"customer_id":"25","register_date":"2024-02-08T16:34:59.797Z","name":"Daiane","last_name":"de Lima Amral","birth_date":"1986-11-30T03:00:00.000Z","cpf":"05255374903","email":"dayane_contabilidade.fiscal@hotmail.com","phone":"41996555030"},{"customer_id":"26","register_date":"2024-02-08T16:37:56.051Z","name":"Karine","last_name":"Bartnik Possenti","birth_date":"1982-10-01T03:00:00.000Z","cpf":"03572607914","email":"kbartnikpossenti@icloud.com","phone":"45988095993"},{"customer_id":"27","register_date":"2024-04-08T21:37:40.159Z","name":"Usuario","last_name":"de Teste do PDV","birth_date":"1999-12-29T03:00:00.000Z","cpf":"00780397037","email":"teste.pdv@teste.com","phone":"69909992343"},{"customer_id":"28","register_date":"2024-05-06T12:31:06.707Z","name":"Adriano","last_name":"J Fernandes","birth_date":"1979-01-21T03:00:00.000Z","cpf":"93869690925","email":"adrianodtc@gmail.com","phone":"45999148689"},{"customer_id":"29","register_date":"2024-05-24T05:19:29.549Z","name":"Geraldo","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"00743214048","email":"rm.pessoal12@gmail.com","phone":"86933729342"},{"customer_id":"30","register_date":"2024-05-24T05:39:07.797Z","name":"Marlina","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"15705307004","email":"rm.pessoal21@gmail.com","phone":"33933464516"},{"customer_id":"31","register_date":"2024-05-24T05:43:29.647Z","name":"Teste","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"29568650059","email":"rm.pessoal64@gmail.com","phone":"9621116545"},{"customer_id":"32","register_date":"2024-05-24T06:04:11.725Z","name":"Matilda","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"20683125060","email":"rm.pessoal9999@gmail.com","phone":"4321112617"},{"customer_id":"33","register_date":"2024-05-24T14:05:35.873Z","name":"Fernando","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"48299747023","email":"rm.pessoa759@gmail.com","phone":"4632171653"},{"customer_id":"34","register_date":"2024-05-24T18:14:10.144Z","name":"Fabio","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"60713168048","email":"rm.pessoal87@gmail.com","phone":"4226472481"},{"customer_id":"35","register_date":"2024-05-24T19:23:11.901Z","name":"Rogerio","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"47461657003","email":"rm.pessoal789456@gmail.com","phone":"4126374630"},{"customer_id":"36","register_date":"2024-05-29T19:12:52.622Z","name":"Teste","last_name":"1","birth_date":"2000-09-15T03:00:00.000Z","cpf":"78205236038","email":"rm.pessoal678@gmail.com","phone":"46366767858"},{"customer_id":"37","register_date":"2024-05-29T19:27:42.324Z","name":"Teste","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"45085142004","email":"rm.pessoal3145@gmail.com","phone":"45957345663"},{"customer_id":"38","register_date":"2024-05-29T19:30:51.169Z","name":"Rogerio","last_name":"Sena","birth_date":"2000-09-15T03:00:00.000Z","cpf":"67408921052","email":"rm.pessoal52325625@gmail.com","phone":"45923412525"},{"customer_id":"39","register_date":"2024-05-29T19:34:50.015Z","name":"Marta","last_name":"teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"15297770033","email":"rm.pessoal3245425@gmail.com","phone":"45435624626"}],"meta":{"count":38,"next_id":40,"has_more":false}}
+[13/08/2025 18:15:07.346 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] JSON recebido: {"data":[{"customer_id":"1","register_date":"2024-02-02T13:43:26.335Z","name":"Robby","last_name":"Michael Cavalheiro","birth_date":"1991-02-03T03:00:00.000Z","cpf":"07130709944","email":"robbymichaelcavalheiro@gmail.com","phone":"45998203300"},{"customer_id":"2","register_date":"2024-02-01T14:13:43.252Z","name":"Mauricio","last_name":"","birth_date":"1992-12-28T03:00:00.000Z","cpf":"07581820904","email":"mauricio@mxsolucoes.com.br","phone":"45999504802"},{"customer_id":"3","register_date":"2024-02-01T14:53:51.425Z","name":"Cássio","last_name":"Henrique Stringari Junior","birth_date":"1997-03-25T03:00:00.000Z","cpf":"11125745908","email":"stringaricassio@gmail.com","phone":"45988272832"},{"customer_id":"4","register_date":"2024-02-01T15:11:01.568Z","name":"Joao","last_name":"Teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"98880881060","email":"rm.pessoal10@gmail.com","phone":"45988109097"},{"customer_id":"5","register_date":"2024-02-01T16:54:47.411Z","name":"Marcos","last_name":"Leonardo","birth_date":"2000-09-15T03:00:00.000Z","cpf":"08073015072","email":"rm.pessoal19@gmail.com","phone":"45988101111"},{"customer_id":"6","register_date":"2024-02-01T17:04:16.611Z","name":"Joao","last_name":"Mario","birth_date":"2000-09-15T03:00:00.000Z","cpf":"67575532013","email":"rm.pessoal177@gmail.com","phone":"45816516165"},{"customer_id":"7","register_date":"2024-02-01T17:33:48.735Z","name":"Mariano","last_name":"Souze","birth_date":"2000-09-15T03:00:00.000Z","cpf":"50518182002","email":"rm.pessoal189@gmail.com","phone":"45941816166"},{"customer_id":"8","register_date":"2024-02-01T18:01:21.298Z","name":"Joao","last_name":"mendes","birth_date":"2000-09-15T03:00:00.000Z","cpf":"37312414044","email":"rm.sfsadf@gmail.com","phone":"45981161156"},{"customer_id":"9","register_date":"2024-02-02T18:37:13.684Z","name":"Lucas","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"11392300932","email":"marcia56@gmail.com","phone":"45343453434"},{"customer_id":"10","register_date":"2024-02-02T20:11:48.628Z","name":"John","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"95314295024","email":"rm.perssoal1@gmail.com","phone":"42423424245"},{"customer_id":"11","register_date":"2024-02-01T20:18:01.790Z","name":"User","last_name":"Teste","birth_date":"1970-10-02T03:00:00.000Z","cpf":"92317529953","email":"rm.pessoal11@gmail.com","phone":"45988565656"},{"customer_id":"12","register_date":"2024-02-01T20:52:38.297Z","name":"Carmelinda","last_name":"Aparecida de Souza","birth_date":"1987-10-19T03:00:00.000Z","cpf":"06043907933","email":"carmelinda.cavalheiro@gmail.com","phone":"45991372369"},{"customer_id":"13","register_date":"2024-01-31T23:14:30.230Z","name":"Matheus","last_name":"Cucoloto","birth_date":"1984-04-21T03:00:00.000Z","cpf":"04008521950","email":"matheus@mxsolucoes.com.br","phone":"46999083083"},{"customer_id":"14","register_date":"2024-02-01T02:45:28.642Z","name":"Rodrigo","last_name":"de Oliveira Silva","birth_date":"1995-09-26T03:00:00.000Z","cpf":"01186874929","email":"rodrigo.oliveiira@hotmail.com","phone":"45999346173"},{"customer_id":"15","register_date":"2024-02-03T05:22:13.361Z","name":"Pedro","last_name":"Santos","birth_date":"1995-09-08T03:00:00.000Z","cpf":"06550133181","email":"pedrohenry.viana@gmail.com","phone":"64996634177"},{"customer_id":"16","register_date":"2024-02-03T07:22:00.186Z","name":"User","last_name":"Teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"50197311024","email":"rm.pessoal999@gmail.com","phone":"45988888888"},{"customer_id":"17","register_date":"2024-02-03T14:01:46.059Z","name":"Pedro","last_name":"Vinicius","birth_date":"2001-03-10T03:00:00.000Z","cpf":"12087651914","email":"peddrovini41@gmail.com","phone":"45998509887"},{"customer_id":"18","register_date":"2024-02-05T15:01:06.135Z","name":"Jose","last_name":"alberto","birth_date":"2000-09-14T03:00:00.000Z","cpf":"21511146001","email":"rm.pessoal07@gmail.com","phone":"45942572727"},{"customer_id":"19","register_date":"2024-02-07T17:08:52.289Z","name":"Manoel","last_name":"Ribas","birth_date":"2000-09-02T03:00:00.000Z","cpf":"56211893027","email":"rm.pessoal17@gmail.com","phone":"45988404747"},{"customer_id":"21","register_date":"2024-02-07T18:49:39.641Z","name":"Lucas","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"11392300932","email":"rm.pessoal13@gmail.com","phone":"45988109099"},{"customer_id":"22","register_date":"2024-02-07T20:29:07.739Z","name":"Getulio","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"80522847080","email":"rm.pessoal79@gmail.com","phone":"45988736896"},{"customer_id":"23","register_date":"2024-02-07T20:55:37.739Z","name":"Luiz","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"05614472096","email":"rm.pessoal001@gmail.com","phone":"45786763738"},{"customer_id":"24","register_date":"2024-02-07T23:44:29.034Z","name":"Giovana","last_name":"Baldega","birth_date":"2003-07-31T03:00:00.000Z","cpf":"11038814936","email":"giovanabmiranda@gmail.com","phone":"45998554047"},{"customer_id":"25","register_date":"2024-02-08T16:34:59.797Z","name":"Daiane","last_name":"de Lima Amral","birth_date":"1986-11-30T03:00:00.000Z","cpf":"05255374903","email":"dayane_contabilidade.fiscal@hotmail.com","phone":"41996555030"},{"customer_id":"26","register_date":"2024-02-08T16:37:56.051Z","name":"Karine","last_name":"Bartnik Possenti","birth_date":"1982-10-01T03:00:00.000Z","cpf":"03572607914","email":"kbartnikpossenti@icloud.com","phone":"45988095993"},{"customer_id":"27","register_date":"2024-04-08T21:37:40.159Z","name":"Usuario","last_name":"de Teste do PDV","birth_date":"1999-12-29T03:00:00.000Z","cpf":"00780397037","email":"teste.pdv@teste.com","phone":"69909992343"},{"customer_id":"28","register_date":"2024-05-06T12:31:06.707Z","name":"Adriano","last_name":"J Fernandes","birth_date":"1979-01-21T03:00:00.000Z","cpf":"93869690925","email":"adrianodtc@gmail.com","phone":"45999148689"},{"customer_id":"29","register_date":"2024-05-24T05:19:29.549Z","name":"Geraldo","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"00743214048","email":"rm.pessoal12@gmail.com","phone":"86933729342"},{"customer_id":"30","register_date":"2024-05-24T05:39:07.797Z","name":"Marlina","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"15705307004","email":"rm.pessoal21@gmail.com","phone":"33933464516"},{"customer_id":"31","register_date":"2024-05-24T05:43:29.647Z","name":"Teste","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"29568650059","email":"rm.pessoal64@gmail.com","phone":"9621116545"},{"customer_id":"32","register_date":"2024-05-24T06:04:11.725Z","name":"Matilda","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"20683125060","email":"rm.pessoal9999@gmail.com","phone":"4321112617"},{"customer_id":"33","register_date":"2024-05-24T14:05:35.873Z","name":"Fernando","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"48299747023","email":"rm.pessoa759@gmail.com","phone":"4632171653"},{"customer_id":"34","register_date":"2024-05-24T18:14:10.144Z","name":"Fabio","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"60713168048","email":"rm.pessoal87@gmail.com","phone":"4226472481"},{"customer_id":"35","register_date":"2024-05-24T19:23:11.901Z","name":"Rogerio","last_name":"Silva","birth_date":"2000-09-15T03:00:00.000Z","cpf":"47461657003","email":"rm.pessoal789456@gmail.com","phone":"4126374630"},{"customer_id":"36","register_date":"2024-05-29T19:12:52.622Z","name":"Teste","last_name":"1","birth_date":"2000-09-15T03:00:00.000Z","cpf":"78205236038","email":"rm.pessoal678@gmail.com","phone":"46366767858"},{"customer_id":"37","register_date":"2024-05-29T19:27:42.324Z","name":"Teste","last_name":"Souza","birth_date":"2000-09-15T03:00:00.000Z","cpf":"45085142004","email":"rm.pessoal3145@gmail.com","phone":"45957345663"},{"customer_id":"38","register_date":"2024-05-29T19:30:51.169Z","name":"Rogerio","last_name":"Sena","birth_date":"2000-09-15T03:00:00.000Z","cpf":"67408921052","email":"rm.pessoal52325625@gmail.com","phone":"45923412525"},{"customer_id":"39","register_date":"2024-05-29T19:34:50.015Z","name":"Marta","last_name":"teste","birth_date":"2000-09-15T03:00:00.000Z","cpf":"15297770033","email":"rm.pessoal3245425@gmail.com","phone":"45435624626"}],"meta":{"count":38,"next_id":40,"has_more":false}}
+[13/08/2025 18:15:07.356 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig
+[13/08/2025 18:15:07.367 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] JSON é um objeto
+[13/08/2025 18:15:07.377 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Array encontrado na propriedade "data"
+[13/08/2025 18:15:07.387 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando 38 clientes
+[13/08/2025 18:15:07.398 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:07.407 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:07.424 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 1
+[13/08/2025 18:15:07.431 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:07.441 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 07130709944
+[13/08/2025 18:15:07.455 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:07.467 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:07.476 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:07.487 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:07.498 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:07.511 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:07.522 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 07130709944 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:07.545 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 07130709944 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:07.549 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:07.558 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:07.570 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 2
+[13/08/2025 18:15:07.583 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:07.592 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 07581820904
+[13/08/2025 18:15:07.602 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:07.615 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:07.622 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:07.634 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:07.642 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:07.652 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:07.666 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 07581820904 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:07.678 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 07581820904 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:07.685 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:07.695 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:07.705 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 3
+[13/08/2025 18:15:07.715 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:07.724 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11125745908
+[13/08/2025 18:15:07.733 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:07.745 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:07.752 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:07.761 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:07.771 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:07.781 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:07.790 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11125745908 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:07.802 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11125745908 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:07.808 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:07.818 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:07.902 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 4
+[13/08/2025 18:15:07.903 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:07.922 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 98880881060
+[13/08/2025 18:15:07.934 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:07.943 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:07.952 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:07.961 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:07.973 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:07.983 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:07.995 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 98880881060 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.07 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 98880881060 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.15 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.25 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.36 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 5
+[13/08/2025 18:15:08.44 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.54 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 08073015072
+[13/08/2025 18:15:08.62 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.75 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.84 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.93 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.102 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.111 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.122 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 08073015072 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.134 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 08073015072 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.141 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.152 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.165 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 6
+[13/08/2025 18:15:08.173 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.183 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 67575532013
+[13/08/2025 18:15:08.192 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.202 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.209 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.219 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.228 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.238 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.248 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 67575532013 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.260 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 67575532013 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.267 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.278 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.290 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 7
+[13/08/2025 18:15:08.296 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.306 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 50518182002
+[13/08/2025 18:15:08.317 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.331 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.339 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.348 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.350 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.351 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.364 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 50518182002 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.378 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 50518182002 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.383 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.393 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.405 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 8
+[13/08/2025 18:15:08.416 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.425 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 37312414044
+[13/08/2025 18:15:08.436 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.449 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.458 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.467 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.475 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.486 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.496 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 37312414044 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.509 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 37312414044 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.517 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.526 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.538 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 9
+[13/08/2025 18:15:08.547 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.558 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11392300932
+[13/08/2025 18:15:08.569 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.584 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.593 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.603 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.613 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.624 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.635 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11392300932 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.647 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11392300932 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.661 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.672 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.685 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 10
+[13/08/2025 18:15:08.694 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.706 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 95314295024
+[13/08/2025 18:15:08.719 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.732 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.749 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.760 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.769 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.777 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.787 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 95314295024 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.799 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 95314295024 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.806 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.816 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.854 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 11
+[13/08/2025 18:15:08.854 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.864 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 92317529953
+[13/08/2025 18:15:08.873 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:08.884 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:08.891 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:08.901 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:08.911 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:08.921 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:08.932 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 92317529953 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:08.946 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 92317529953 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:08.955 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:08.964 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:08.977 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 12
+[13/08/2025 18:15:08.986 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:08.997 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 06043907933
+[13/08/2025 18:15:09.08 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.24 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.33 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.43 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.57 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.66 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.76 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 06043907933 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.92 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 06043907933 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.100 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.109 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.120 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 13
+[13/08/2025 18:15:09.131 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.144 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 04008521950
+[13/08/2025 18:15:09.154 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.166 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.176 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.189 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.200 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.210 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.222 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 04008521950 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.236 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 04008521950 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.244 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.253 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.264 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 14
+[13/08/2025 18:15:09.275 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.283 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 01186874929
+[13/08/2025 18:15:09.292 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.309 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.317 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.327 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.336 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.346 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.356 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 01186874929 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.370 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 01186874929 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.376 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.388 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.399 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 15
+[13/08/2025 18:15:09.409 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.419 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 06550133181
+[13/08/2025 18:15:09.428 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.442 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.450 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.461 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.471 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.482 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.494 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 06550133181 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.507 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 06550133181 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.513 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.528 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.539 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 16
+[13/08/2025 18:15:09.548 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.557 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 50197311024
+[13/08/2025 18:15:09.566 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.578 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.586 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.595 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.603 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.614 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.625 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 50197311024 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.637 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 50197311024 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.646 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.658 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.688 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 17
+[13/08/2025 18:15:09.688 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.698 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 12087651914
+[13/08/2025 18:15:09.708 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.720 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.729 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.739 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.749 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.758 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.767 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 12087651914 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.780 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 12087651914 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.789 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.799 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.812 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 18
+[13/08/2025 18:15:09.822 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.832 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 21511146001
+[13/08/2025 18:15:09.843 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.856 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:09.865 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:09.876 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:09.885 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:09.896 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:09.906 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 21511146001 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:09.920 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 21511146001 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:09.929 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:09.940 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:09.950 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 19
+[13/08/2025 18:15:09.960 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:09.972 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 56211893027
+[13/08/2025 18:15:09.981 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:09.993 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.07 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.17 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.28 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.38 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.50 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 56211893027 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.64 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 56211893027 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.71 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.80 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.91 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 21
+[13/08/2025 18:15:10.105 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.115 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11392300932
+[13/08/2025 18:15:10.126 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.138 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.147 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.157 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.166 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.176 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.187 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11392300932 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.199 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11392300932 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.207 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.217 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.228 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 22
+[13/08/2025 18:15:10.237 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.246 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 80522847080
+[13/08/2025 18:15:10.256 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.267 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.275 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.284 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.293 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.301 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.315 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 80522847080 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.328 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 80522847080 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.334 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.346 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.357 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 23
+[13/08/2025 18:15:10.366 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.376 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 05614472096
+[13/08/2025 18:15:10.386 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.397 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.406 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.416 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.425 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.436 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.446 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 05614472096 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.459 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 05614472096 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.464 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.476 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.486 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 24
+[13/08/2025 18:15:10.495 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.504 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11038814936
+[13/08/2025 18:15:10.512 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.524 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.533 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.541 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.551 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.559 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.569 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11038814936 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.583 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11038814936 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.589 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.599 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.609 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 25
+[13/08/2025 18:15:10.617 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.628 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 05255374903
+[13/08/2025 18:15:10.637 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.648 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.658 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.668 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.679 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.687 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.699 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 05255374903 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.711 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 05255374903 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:10.718 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.727 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.737 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 26
+[13/08/2025 18:15:10.750 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.759 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 03572607914
+[13/08/2025 18:15:10.769 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.784 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.792 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.800 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.810 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.818 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.830 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 03572607914 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.846 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 03572607914 encontrado nas duas tabelas com cod_classe: 28
+[13/08/2025 18:15:10.852 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 03572607914 já possui cod_classe = 28
+[13/08/2025 18:15:10.862 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:10.875 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:10.885 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 27
+[13/08/2025 18:15:10.896 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:10.905 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 00780397037
+[13/08/2025 18:15:10.917 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:10.931 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:10.939 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:10.948 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:10.958 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:10.970 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:10.980 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 00780397037 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:10.992 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 00780397037 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.01 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.11 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.21 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 28
+[13/08/2025 18:15:11.30 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.39 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 93869690925
+[13/08/2025 18:15:11.50 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.62 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.69 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.78 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.88 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.98 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.106 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 93869690925 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.120 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 93869690925 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.128 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.137 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.147 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 29
+[13/08/2025 18:15:11.155 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.165 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 00743214048
+[13/08/2025 18:15:11.173 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.186 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.196 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.204 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.218 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.228 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.237 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 00743214048 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.250 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 00743214048 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.256 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.268 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.282 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 30
+[13/08/2025 18:15:11.290 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.301 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 15705307004
+[13/08/2025 18:15:11.311 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.322 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.330 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.342 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.352 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.364 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.372 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 15705307004 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.385 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 15705307004 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.391 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.403 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.416 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 31
+[13/08/2025 18:15:11.425 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.435 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 29568650059
+[13/08/2025 18:15:11.447 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.463 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.470 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.480 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.491 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.504 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.515 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 29568650059 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.534 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 29568650059 encontrado nas duas tabelas com cod_classe: 28
+[13/08/2025 18:15:11.539 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 29568650059 já possui cod_classe = 28
+[13/08/2025 18:15:11.549 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.560 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.570 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 32
+[13/08/2025 18:15:11.579 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.588 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 20683125060
+[13/08/2025 18:15:11.597 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.608 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.620 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.628 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.637 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.647 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.657 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 20683125060 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.671 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 20683125060 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.676 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.687 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.699 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 33
+[13/08/2025 18:15:11.708 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.720 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 48299747023
+[13/08/2025 18:15:11.730 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.747 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.757 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.766 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.775 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.784 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.794 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 48299747023 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.807 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 48299747023 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.812 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.821 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.835 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 34
+[13/08/2025 18:15:11.843 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.852 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 60713168048
+[13/08/2025 18:15:11.861 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.872 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:11.880 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:11.888 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:11.897 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:11.905 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:11.918 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 60713168048 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:11.929 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 60713168048 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:11.936 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:11.946 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:11.955 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 35
+[13/08/2025 18:15:11.965 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:11.973 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 47461657003
+[13/08/2025 18:15:11.982 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:11.994 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.04 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.14 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.23 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.34 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.44 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 47461657003 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.59 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 47461657003 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.65 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:12.74 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:12.85 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 36
+[13/08/2025 18:15:12.94 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.103 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 78205236038
+[13/08/2025 18:15:12.113 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.123 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.131 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.140 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.148 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.158 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.169 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 78205236038 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.183 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 78205236038 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.190 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:12.200 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:12.210 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 37
+[13/08/2025 18:15:12.219 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.228 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 45085142004
+[13/08/2025 18:15:12.239 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.250 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.257 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.267 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.275 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.284 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.292 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 45085142004 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.304 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 45085142004 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.310 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:12.320 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:12.334 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 38
+[13/08/2025 18:15:12.343 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.352 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 67408921052
+[13/08/2025 18:15:12.363 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.374 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.382 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.391 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.399 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.409 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.420 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 67408921052 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.431 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 67408921052 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.438 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO InserirClienteNoBanco ***
+[13/08/2025 18:15:12.449 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Conexão CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig, Usuário: moduladb
+[13/08/2025 18:15:12.457 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Cliente inserido: 39
+[13/08/2025 18:15:12.466 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.474 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 15297770033
+[13/08/2025 18:15:12.483 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.495 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.505 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.515 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.523 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.533 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.542 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 15297770033 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.554 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 15297770033 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.561 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Maior customer_id encontrado: 39, Próximo since_id será: 40
+[13/08/2025 18:15:12.570 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Lote processado. Próximo since_id: 40, Clientes processados neste lote: 38
+[13/08/2025 18:15:12.582 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Buscando clientes com since_id=40
+[13/08/2025 18:15:12.592 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Headers enviados: Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImlwIjowLCJsb2dpbl90b2tlbiI6IjA3NDJlNDdmLTUyYTQtNGRiMy04ZjUwLTVlZmM1OWIzMWI2NyIsInVzZXIiOiJ1c2VyX3Bkdl9ub3ZvX2ZveHhfMiIsInR5cGUiOiJpbnRlZ3JhdGlvbiIsImlhdCI6MTc1NTExOTc3NSwiZXhwIjoxNzU1MjA2MTc1fQ.8PCwrinu6vPciV-mc-JgvtP2rzXwdwMT14nHa3zy3PI, Content-Type=application/json
+[13/08/2025 18:15:12.650 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta recebida. Status: 200
+[13/08/2025 18:15:12.650 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando dados dos clientes...
+[13/08/2025 18:15:12.660 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Resposta completa da API: {"data":[],"meta":{"count":0,"next_id":null,"has_more":false}}
+[13/08/2025 18:15:12.676 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] JSON recebido: {"data":[],"meta":{"count":0,"next_id":null,"has_more":false}}
+[13/08/2025 18:15:12.687 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CXClient - IP: 127.0.0.1, Porta: 5440, Banco: sig
+[13/08/2025 18:15:12.695 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] JSON é um objeto
+[13/08/2025 18:15:12.705 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Array encontrado na propriedade "data"
+[13/08/2025 18:15:12.719 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Nenhum cliente encontrado no JSON
+[13/08/2025 18:15:12.726 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Erro no processamento. Parando busca automática.
+[13/08/2025 18:15:12.737 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Último since_id salvo: 40
+[13/08/2025 18:15:12.746 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Busca automática concluída. Total de lotes processados: 1
+[13/08/2025 18:15:12.761 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Sistema aguardando próximos dados automaticamente.
+[13/08/2025 18:15:12.771 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO Server] Clientes buscados e inseridos com sucesso!
+[13/08/2025 18:15:12.779 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Iniciando verificação de classe automática...
+[13/08/2025 18:15:12.790 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] ===== INICIANDO VERIFICAÇÃO DE CLASSE EM LOTE =====
+[13/08/2025 18:15:12.801 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Lista de clientes atualizados limpa
+[13/08/2025 18:15:12.809 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Buscando CPFs na tabela de integração...
+[13/08/2025 18:15:12.822 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Encontrados 37 CPFs únicos para verificar
+[13/08/2025 18:15:12.830 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 1/37: 05255374903
+[13/08/2025 18:15:12.841 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.851 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 05255374903
+[13/08/2025 18:15:12.860 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.872 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.880 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.889 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:12.896 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:12.906 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:12.916 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 05255374903 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:12.930 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 05255374903 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:12.936 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 2/37: 47461657003
+[13/08/2025 18:15:12.950 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:12.958 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 47461657003
+[13/08/2025 18:15:12.969 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:12.979 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:12.987 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:12.995 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.05 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.15 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.27 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 47461657003 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.39 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 47461657003 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.46 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 3/37: 56211893027
+[13/08/2025 18:15:13.55 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.63 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 56211893027
+[13/08/2025 18:15:13.74 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.87 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.94 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.105 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.116 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.125 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.134 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 56211893027 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.148 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 56211893027 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.155 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 4/37: 11392300932
+[13/08/2025 18:15:13.164 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.173 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11392300932
+[13/08/2025 18:15:13.181 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.194 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.204 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.219 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.227 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.244 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.296 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11392300932 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.309 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11392300932 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.320 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 5/37: 07130709944
+[13/08/2025 18:15:13.328 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.339 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 07130709944
+[13/08/2025 18:15:13.349 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.361 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.370 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.379 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.390 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.398 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.409 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 07130709944 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.422 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 07130709944 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.428 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 6/37: 07581820904
+[13/08/2025 18:15:13.438 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.453 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 07581820904
+[13/08/2025 18:15:13.461 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.473 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.480 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.491 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.501 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.509 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.520 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 07581820904 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.532 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 07581820904 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.540 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 7/37: 80522847080
+[13/08/2025 18:15:13.548 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.558 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 80522847080
+[13/08/2025 18:15:13.569 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.581 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.589 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.598 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.607 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.615 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.627 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 80522847080 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.640 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 80522847080 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.646 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 8/37: 29568650059
+[13/08/2025 18:15:13.657 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.666 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 29568650059
+[13/08/2025 18:15:13.676 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.688 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.697 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.709 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.717 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.726 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.737 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 29568650059 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.756 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 29568650059 encontrado nas duas tabelas com cod_classe: 28
+[13/08/2025 18:15:13.762 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 29568650059 já possui cod_classe = 28
+[13/08/2025 18:15:13.771 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 9/37: 21511146001
+[13/08/2025 18:15:13.782 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.791 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 21511146001
+[13/08/2025 18:15:13.802 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.813 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.821 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.829 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.840 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.848 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.861 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 21511146001 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.873 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 21511146001 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.881 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 10/37: 12087651914
+[13/08/2025 18:15:13.891 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:13.900 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 12087651914
+[13/08/2025 18:15:13.909 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:13.922 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:13.930 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:13.941 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:13.949 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:13.959 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:13.969 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 12087651914 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:13.982 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 12087651914 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:13.989 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 11/37: 92317529953
+[13/08/2025 18:15:13.998 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.10 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 92317529953
+[13/08/2025 18:15:14.21 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.31 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.40 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.48 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.58 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.68 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.78 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 92317529953 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.90 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 92317529953 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.98 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 12/37: 20683125060
+[13/08/2025 18:15:14.108 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.116 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 20683125060
+[13/08/2025 18:15:14.125 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.137 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.144 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.154 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.162 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.173 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.183 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 20683125060 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.197 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 20683125060 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.205 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 13/37: 00743214048
+[13/08/2025 18:15:14.213 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.228 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 00743214048
+[13/08/2025 18:15:14.239 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.249 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.257 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.265 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.278 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.288 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.297 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 00743214048 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.308 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 00743214048 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.316 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 14/37: 11125745908
+[13/08/2025 18:15:14.326 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.335 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11125745908
+[13/08/2025 18:15:14.346 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.359 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.367 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.377 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.387 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.396 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.408 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11125745908 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.421 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11125745908 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.427 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 15/37: 98880881060
+[13/08/2025 18:15:14.438 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.450 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 98880881060
+[13/08/2025 18:15:14.461 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.472 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.479 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.490 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.498 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.507 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.516 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 98880881060 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.529 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 98880881060 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.553 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 16/37: 05614472096
+[13/08/2025 18:15:14.553 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.562 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 05614472096
+[13/08/2025 18:15:14.572 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.583 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.591 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.599 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.610 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.623 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.630 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 05614472096 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.643 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 05614472096 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.649 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 17/37: 08073015072
+[13/08/2025 18:15:14.659 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.667 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 08073015072
+[13/08/2025 18:15:14.677 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.689 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.697 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.706 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.716 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.725 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.733 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 08073015072 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.749 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 08073015072 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.754 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 18/37: 95314295024
+[13/08/2025 18:15:14.765 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.773 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 95314295024
+[13/08/2025 18:15:14.782 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.796 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.802 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.812 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.822 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.831 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.840 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 95314295024 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.852 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 95314295024 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.859 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 19/37: 15705307004
+[13/08/2025 18:15:14.867 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.877 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 15705307004
+[13/08/2025 18:15:14.886 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:14.897 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:14.906 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:14.915 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:14.924 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:14.933 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:14.943 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 15705307004 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:14.955 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 15705307004 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:14.962 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 20/37: 06550133181
+[13/08/2025 18:15:14.971 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:14.980 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 06550133181
+[13/08/2025 18:15:14.992 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.02 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.10 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.19 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.28 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.36 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.48 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 06550133181 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.61 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 06550133181 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.66 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 21/37: 67408921052
+[13/08/2025 18:15:15.76 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.84 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 67408921052
+[13/08/2025 18:15:15.95 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.106 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.114 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.123 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.131 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.141 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.151 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 67408921052 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.163 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 67408921052 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.169 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 22/37: 15297770033
+[13/08/2025 18:15:15.178 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.187 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 15297770033
+[13/08/2025 18:15:15.198 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.209 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.217 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.227 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.237 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.248 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.257 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 15297770033 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.271 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 15297770033 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.278 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 23/37: 67575532013
+[13/08/2025 18:15:15.288 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.298 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 67575532013
+[13/08/2025 18:15:15.308 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.319 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.327 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.336 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.346 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.354 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.364 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 67575532013 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.377 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 67575532013 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.382 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 24/37: 60713168048
+[13/08/2025 18:15:15.392 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.402 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 60713168048
+[13/08/2025 18:15:15.411 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.421 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.428 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.437 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.448 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.458 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.466 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 60713168048 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.479 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 60713168048 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.485 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 25/37: 06043907933
+[13/08/2025 18:15:15.498 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.506 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 06043907933
+[13/08/2025 18:15:15.516 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.527 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.534 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.545 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.553 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.563 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.573 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 06043907933 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.586 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 06043907933 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.594 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 26/37: 50518182002
+[13/08/2025 18:15:15.602 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.613 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 50518182002
+[13/08/2025 18:15:15.621 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.632 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.641 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.650 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.661 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.670 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.679 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 50518182002 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.693 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 50518182002 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.700 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 27/37: 78205236038
+[13/08/2025 18:15:15.711 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.720 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 78205236038
+[13/08/2025 18:15:15.730 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.742 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.750 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.760 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.769 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.778 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.788 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 78205236038 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.800 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 78205236038 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.807 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 28/37: 00780397037
+[13/08/2025 18:15:15.816 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.827 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 00780397037
+[13/08/2025 18:15:15.835 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.846 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.853 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.862 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.872 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.882 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.890 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 00780397037 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:15.903 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 00780397037 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:15.911 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 29/37: 50197311024
+[13/08/2025 18:15:15.921 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:15.929 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 50197311024
+[13/08/2025 18:15:15.937 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:15.948 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:15.955 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:15.967 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:15.977 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:15.986 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:15.995 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 50197311024 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.11 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 50197311024 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.17 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 30/37: 04008521950
+[13/08/2025 18:15:16.26 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.35 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 04008521950
+[13/08/2025 18:15:16.47 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.58 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.66 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.74 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.85 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.96 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.103 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 04008521950 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.116 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 04008521950 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.121 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 31/37: 45085142004
+[13/08/2025 18:15:16.132 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.143 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 45085142004
+[13/08/2025 18:15:16.152 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.163 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.170 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.181 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.189 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.199 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.208 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 45085142004 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.222 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 45085142004 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.230 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 32/37: 93869690925
+[13/08/2025 18:15:16.239 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.251 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 93869690925
+[13/08/2025 18:15:16.260 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.272 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.280 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.289 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.300 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.309 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.319 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 93869690925 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.331 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 93869690925 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.337 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 33/37: 11038814936
+[13/08/2025 18:15:16.347 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.357 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 11038814936
+[13/08/2025 18:15:16.368 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.382 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.391 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.400 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.411 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.420 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.429 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 11038814936 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.441 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 11038814936 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.447 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 34/37: 48299747023
+[13/08/2025 18:15:16.457 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.468 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 48299747023
+[13/08/2025 18:15:16.478 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.488 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.496 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.505 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.515 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.524 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.533 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 48299747023 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.547 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 48299747023 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.552 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 35/37: 37312414044
+[13/08/2025 18:15:16.563 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.572 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 37312414044
+[13/08/2025 18:15:16.582 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.592 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.601 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.610 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.619 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.629 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.638 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 37312414044 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.651 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 37312414044 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.657 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 36/37: 01186874929
+[13/08/2025 18:15:16.666 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.675 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 01186874929
+[13/08/2025 18:15:16.686 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.698 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.706 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.715 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.724 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.733 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.743 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 01186874929 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.756 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 01186874929 não encontrado no JOIN entre integracao.clientes_int_estrada e public.pessoas
+[13/08/2025 18:15:16.763 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Processando CPF 37/37: 03572607914
+[13/08/2025 18:15:16.773 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO VerificarEAtualizarClasse ***
+[13/08/2025 18:15:16.783 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF recebido: 03572607914
+[13/08/2025 18:15:16.793 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.804 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.812 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.822 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.832 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.840 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:16.849 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Verificando classe para CPF: 03572607914 (JOIN entre integracao.clientes_int_estrada e public.pessoas)
+[13/08/2025 18:15:16.862 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 03572607914 encontrado nas duas tabelas com cod_classe: 28
+[13/08/2025 18:15:16.868 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPF 03572607914 já possui cod_classe = 28
+[13/08/2025 18:15:16.879 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] ===== VERIFICAÇÃO DE CLASSE CONCLUÍDA =====
+[13/08/2025 18:15:16.889 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Total de CPFs encontrados: 37
+[13/08/2025 18:15:16.897 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPFs processados: 37
+[13/08/2025 18:15:16.907 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] CPFs atualizados: 0
+[13/08/2025 18:15:16.916 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Relatório final - Total: 37, Processados: 37, Atualizados: 0
+[13/08/2025 18:15:16.925 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Iniciando atualização de regras de vendas...
+[13/08/2025 18:15:16.935 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] ===== INICIANDO ATUALIZAÇÃO DE REGRAS DE VENDAS =====
+[13/08/2025 18:15:16.943 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Carregando configurações da API...
+[13/08/2025 18:15:16.956 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Configurações carregadas:
+[13/08/2025 18:15:16.963 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - URL API: https://api-admin-grupoestrada-homo.mxsolucoes.com.br
+[13/08/2025 18:15:16.972 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Usuário: user_pdv_novo_foxx_2
+[13/08/2025 18:15:16.981 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Código Classe Destino: 28
+[13/08/2025 18:15:16.991 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] - Limite Registros: 100
+[13/08/2025 18:15:17.00 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Buscando regras de vendas para atualizar...
+[13/08/2025 18:15:17.18 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Encontrados 0 registros de regras_vendas para atualizar
+[13/08/2025 18:15:17.20 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Nenhuma regra de venda encontrada para atualizar
+[13/08/2025 18:15:17.28 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Iniciando envio de email em lote...
+[13/08/2025 18:15:17.40 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** CHAMANDO EnviarEmailEmLote ***
+[13/08/2025 18:15:17.50 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** ENTRANDO NA FUNÇÃO EnviarEmailEmLote ***
+[13/08/2025 18:15:17.58 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] FClientesAtualizados atribuído: True
+[13/08/2025 18:15:17.67 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Total de clientes na lista: 0
+[13/08/2025 18:15:17.76 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Nenhum cliente atualizado para enviar email
+[13/08/2025 18:15:17.86 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] Email em lote enviado com sucesso!
+[13/08/2025 18:15:17.94 INFO(1)] [EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** FINALIZANDO PROCESSO DE INTEGRAÇÃO - BitBtn7Click ***
+[14/08/2025 10:13:29.793 INFO(1)] Iniciando aplicação Dtc_Atualizador_Server
+[14/08/2025 10:13:29.817 INFO(1)] Dtc_Atualizador_Server já não existia.
+[14/08/2025 10:13:36.898 INFO(1)] [HTTP SERVER] Servidor HTTP parado
+[14/08/2025 10:43:24.367 INFO(1)] Iniciando aplicação Dtc_Atualizador_Server
+[14/08/2025 10:43:24.382 INFO(1)] Dtc_Atualizador_Server já não existia.

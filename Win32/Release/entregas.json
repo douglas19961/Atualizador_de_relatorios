@@ -1,0 +1,234 @@
+﻿{
+  "vendas": 
+  [
+    {
+      "cod_lanc_financeiro": "7348601",
+      "chave_acesso": "",
+      "valor": "86.88",
+      "numero_documento": "",
+      "data_inclusao": "2026-01-08 19:57:36",
+      "pessoa": 
+      {
+        "cod_pessoa": "332",
+        "nome": "ADMIR MURBACK",
+        "identificacao": "24041726972",
+        "endereco": "SITIO BETEL",
+        "numero": "S/N",
+        "uf": "PR",
+        "cep": "87340-000",
+        "telefone_comercial": "3568-1856",
+        "telefone_residencial": "8404-5408",
+        "nome_cidade": "Mamborê"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "2845",
+          "nome": "DIESEL B S10",
+          "valor": "36.4",
+          "quantidade": "5.4",
+          "cod_barra": ""
+        },
+        {
+          "cod_produto": "4336",
+          "nome": "COCA-COLA SA MELAN E MOR 310ML",
+          "valor": "4",
+          "quantidade": "1",
+          "cod_barra": "7894900029000"
+        },
+        {
+          "cod_produto": "5847",
+          "nome": "GASOLINA COMUM",
+          "valor": "46.48",
+          "quantidade": "7",
+          "cod_barra": ""
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "7348701",
+      "chave_acesso": "",
+      "valor": "144.79",
+      "numero_documento": "",
+      "data_inclusao": "2026-01-08 19:57:58",
+      "pessoa": 
+      {
+        "cod_pessoa": "545",
+        "nome": "AGENOR LEONCO JUNIOR",
+        "identificacao": "03102528902",
+        "endereco": "SITIO NOSSA SENHORA APARECIDA",
+        "numero": "SN",
+        "uf": "PR",
+        "cep": "87340-000",
+        "telefone_comercial": "8436-0166",
+        "telefone_residencial": "",
+        "nome_cidade": "Mamborê"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "1735",
+          "nome": "LEITE LIDER INTEGRAL 1L",
+          "valor": "105",
+          "quantidade": "15",
+          "cod_barra": "7896569405003"
+        },
+        {
+          "cod_produto": "4248",
+          "nome": "BISC LEITE MALTADO PIRAQUE",
+          "valor": "5.9",
+          "quantidade": "1",
+          "cod_barra": "7896024760319"
+        },
+        {
+          "cod_produto": "6111",
+          "nome": "RUFFLES HOT DOG/HAMBURGER 35GR",
+          "valor": "4.99",
+          "quantidade": "1",
+          "cod_barra": "7892840821074"
+        },
+        {
+          "cod_produto": "6371",
+          "nome": "RUFFLES LATA",
+          "valor": "12.9",
+          "quantidade": "1",
+          "cod_barra": "7892840822040"
+        },
+        {
+          "cod_produto": "6445",
+          "nome": "AGUA DE COCO PURO COCO 1L",
+          "valor": "16",
+          "quantidade": "1",
+          "cod_barra": "7896000593672"
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "7348801",
+      "chave_acesso": "",
+      "valor": "24.76",
+      "numero_documento": "",
+      "data_inclusao": "2026-01-09 08:38:27",
+      "pessoa": 
+      {
+        "cod_pessoa": "104",
+        "nome": "DTC - AUTOMAÇÕES COMERCIAIS LTDA - ME",
+        "identificacao": "02793984000130",
+        "endereco": "AV TANCREDO NEVES, 843",
+        "numero": "1958",
+        "uf": "PR",
+        "cep": "85802-226",
+        "telefone_comercial": "045-3035-1011",
+        "telefone_residencial": "(45)3036555",
+        "nome_cidade": "Cascavel"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "5846",
+          "nome": "ETANOL HIDRATADO",
+          "valor": "22.26",
+          "quantidade": "4.6",
+          "cod_barra": ""
+        },
+        {
+          "cod_produto": "6095",
+          "nome": "COCA COLA MINI 200ML PET",
+          "valor": "2.5",
+          "quantidade": "1",
+          "cod_barra": "78908901"
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "7348901",
+      "chave_acesso": "",
+      "valor": "2.5",
+      "numero_documento": "",
+      "data_inclusao": "2026-01-09 09:51:44",
+      "pessoa": 
+      {
+        "cod_pessoa": "104",
+        "nome": "DTC - AUTOMAÇÕES COMERCIAIS LTDA - ME",
+        "identificacao": "02793984000130",
+        "endereco": "AV TANCREDO NEVES, 843",
+        "numero": "1958",
+        "uf": "PR",
+        "cep": "85802-226",
+        "telefone_comercial": "045-3035-1011",
+        "telefone_residencial": "(45)3036555",
+        "nome_cidade": "Cascavel"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "6095",
+          "nome": "COCA COLA MINI 200ML PET",
+          "valor": "2.5",
+          "quantidade": "1",
+          "cod_barra": "78908901"
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "7349001",
+      "chave_acesso": "",
+      "valor": "67.22",
+      "numero_documento": "",
+      "data_inclusao": "2026-01-09 09:58:23",
+      "pessoa": 
+      {
+        "cod_pessoa": "1041",
+        "nome": "LUIS CARLOS DA SILVA",
+        "identificacao": "00476042984",
+        "endereco": "RUA NELSON CAMARGO ALVES, 402",
+        "numero": "402",
+        "uf": "PR",
+        "cep": "87340-000",
+        "telefone_comercial": "9814-5677",
+        "telefone_residencial": "",
+        "nome_cidade": "Mamborê"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "5845",
+          "nome": "DIESEL B S500",
+          "valor": "67.22",
+          "quantidade": "10.2",
+          "cod_barra": ""
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "7349101",
+      "chave_acesso": "41260108039969000188650100000000491212267587",
+      "valor": "6.59",
+      "numero_documento": "49",
+      "data_inclusao": "2026-01-09 10:01:05",
+      "pessoa": 
+      {
+        "cod_pessoa": "104",
+        "nome": "DTC - AUTOMAÇÕES COMERCIAIS LTDA - ME",
+        "identificacao": "02793984000130",
+        "endereco": "AV TANCREDO NEVES, 843",
+        "numero": "1958",
+        "uf": "PR",
+        "cep": "85802-226",
+        "telefone_comercial": "045-3035-1011",
+        "telefone_residencial": "(45)3036555",
+        "nome_cidade": "Cascavel"
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "5845",
+          "nome": "DIESEL B S500",
+          "valor": "6.59",
+          "quantidade": "1",
+          "cod_barra": ""
+        }
+      ]
+    }
+  ]
+}

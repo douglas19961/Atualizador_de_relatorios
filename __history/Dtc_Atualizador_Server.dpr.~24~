@@ -1,0 +1,38 @@
+program Dtc_Atualizador_Server;
+
+uses
+  Vcl.Forms,
+  UntPrincipal in 'UntPrincipal.pas' {FrmPrincipal},
+  uTransferenciaThread in 'uTransferenciaThread.pas',
+  uTransferenciaServerThread in 'uTransferenciaServerThread.pas',
+  UntTelaInicial in 'UntTelaInicial.pas' {FrmLogin},
+  UntConexaoCliente in 'UntConexaoCliente.pas',
+  UntBuscarBanco in 'UntBuscarBanco.pas',
+  UntBuscarModulos in 'UntBuscarModulos.pas',
+  UntSalvarConfig in 'UntSalvarConfig.pas',
+  UntSalvarServerConfig in 'UntSalvarServerConfig.pas',
+  UntInserirModulos in 'UntInserirModulos.pas',
+  uThreadCarregarConfig in 'uThreadCarregarConfig.pas',
+  UntInserirModulosClient in 'UntInserirModulosClient.pas',
+  uThreadCarregarConfigClient in 'uThreadCarregarConfigClient.pas',
+  uTransferenciaVariaveisServerThread in 'uTransferenciaVariaveisServerThread.pas',
+  uThreadVersao in 'uThreadVersao.pas',
+  uThreadmonitorDeOcorrencia in 'uThreadmonitorDeOcorrencia.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  // Cria o FrmPrincipal primeiro
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  // Cria o FrmLogin
+  Application.CreateForm(TFrmLogin, FrmLogin);
+
+  // Exibe o FrmLogin
+  FrmLogin.ShowModal; // Use ShowModal para que o FrmLogin seja modal
+
+  // Após o FrmLogin ser fechado, o FrmPrincipal estará disponível
+  Application.Run;
+end.

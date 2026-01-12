@@ -1,0 +1,231 @@
+unit UntSalvarServerconfig;
+
+interface
+
+uses
+  System.Classes, SysUtils, Uni, UniProvider, MySQLUniProvider,PostgreSQLUniProvider, Dialogs,MidasLib, Forms;
+
+type
+  TSalvarConfigServerThread = class(TThread)
+  private
+    FNomeDBServer, FIPServer, FUsuarioServer, FPortaServer, FSenhaServer: string;
+    FNomeDBServerCliente, FIPServerCliente, FUsuarioServerCliente, FPortaServerCliente, FSenhaServerCliente: string;
+    FIDServer, FCnpjServer: string;
+    procedure SalvarConfiguracao;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(
+      NomeDBServer, IPServer, UsuarioServer, PortaServer, SenhaServer: string;
+      NomeDBServerCliente, IPServerCliente, UsuarioServerCliente, PortaServerCliente, SenhaServerCliente: string;
+      IDServer, CnpjServer: string);
+  end;
+
+implementation
+
+{ TSalvarConfigServerThread }
+
+constructor TSalvarConfigServerThread.Create(
+  NomeDBServer, IPServer, UsuarioServer, PortaServer, SenhaServer: string;
+  NomeDBServerCliente, IPServerCliente, UsuarioServerCliente, PortaServerCliente, SenhaServerCliente: string;
+  IDServer, CnpjServer: string);
+begin
+  inherited Create(False);
+  FreeOnTerminate := True;
+
+//   Atribuir parâmetros às variáveis da thread
+  FNomeDBServer := NomeDBServer;
+  FIPServer := IPServer;
+  FUsuarioServer := UsuarioServer;
+  FPortaServer := PortaServer;
+  FSenhaServer := SenhaServer;
+
+
+
+//  FNomeDBServer := NomeDBServerCliente;
+//  FIPServer := IPServerCliente;
+//  FUsuarioServer := UsuarioServerCliente;
+//  FPortaServer := PortaServerCliente;
+//  FSenhaServer := SenhaServerCliente;
+
+  FNomeDBServerCliente := NomeDBServerCliente;
+  FIPServerCliente := IPServerCliente;
+  FUsuarioServerCliente := UsuarioServerCliente;
+  FPortaServerCliente := PortaServerCliente;
+  FSenhaServerCliente := SenhaServerCliente;
+
+//    FNomeDBServerCliente := NomeDBServer;
+//  FIPServerCliente := IPServer;
+//  FUsuarioServerCliente := UsuarioServer;
+//  FPortaServerCliente := PortaServer;
+//  FSenhaServerCliente := SenhaServer;
+
+  FIDServer := IDServer;
+  FCnpjServer := CnpjServer;
+end;
+
+procedure TSalvarConfigServerThread.Execute;
+begin
+  SalvarConfiguracao;
+end;
+
+procedure TSalvarConfigServerThread.SalvarConfiguracao;
+var
+  ConfigFile: TextFile;
+  FileName: string;
+  Conexao1: TUniConnection;
+  Query: TUniQuery;
+  ExisteRegistro: Boolean;
+begin
+  Conexao1 := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  try
+    try
+      // Configuração da conexão com o banco do SERVER
+      Conexao1.ProviderName := 'PostgreSQL';
+      Conexao1.SpecificOptions.Values['CharSet'] := 'UTF8';
+      Conexao1.Server := FIPServer;
+      Conexao1.Database := FNomeDBServer;
+      Conexao1.Username := FUsuarioServer;
+      Conexao1.Password := FSenhaServer;
+
+      if FPortaServer <> '' then
+        Conexao1.Port := StrToIntDef(FPortaServer, 5432)
+      else
+        Conexao1.Port := 5432; // Porta padrão do PostgreSQL
+
+      Conexao1.LoginPrompt := False;
+      Conexao1.Connected := True;
+
+      if not Conexao1.Connected then
+        raise Exception.Create('Erro ao conectar ao banco de dados do Server!');
+
+      // Criar a tabela se não existir
+      Query.Connection := Conexao1;
+      Query.SQL.Text :=
+        'CREATE TABLE IF NOT EXISTS Config_Server_DTC (' +
+        '  ID SERIAL PRIMARY KEY, ' +
+        '  Nome_DB_Server VARCHAR(255), ' +
+        '  IP_DB_Server VARCHAR(255), ' +
+        '  Usuario_DB_Server VARCHAR(255), ' +
+        '  Porta_DB_Server VARCHAR(10), ' +
+        '  Senha_DB_Server VARCHAR(255), ' +
+        '  Nome_DB_Server_Cliente VARCHAR(255), ' +
+        '  IP_DB_Server_Cliente VARCHAR(255), ' +
+        '  Usuario_DB_Server_Cliente VARCHAR(255), ' +
+        '  Porta_DB_Server_Cliente VARCHAR(10), ' +
+        '  Senha_DB_Server_Cliente VARCHAR(255), ' +
+        '  ID_Server VARCHAR(50) UNIQUE, ' +
+        '  CNPJ_Server VARCHAR(50) UNIQUE, ' +
+        '  id_modulo INTEGER, ' +
+        '  nome_modulo VARCHAR(50), ' +
+        '  id_empresa VARCHAR(255) ' +
+        ');';
+
+      Query.Execute;
+
+      // Verificar se o ID_Server já existe na tabela
+      Query.SQL.Text := 'SELECT COUNT(*) FROM Config_Server_DTC WHERE ID_Server = :IDServer';
+      Query.ParamByName('IDServer').AsString := FIDServer;
+      Query.Open;
+
+      ExisteRegistro := Query.Fields[0].AsInteger > 0;
+
+      if ExisteRegistro then
+      begin
+        // Atualizar os dados se o ID já existir
+
+        Query.SQL.Text :=
+          'UPDATE Config_Server_DTC SET ' +
+          '  Nome_DB_Server = :NomeDBServer, IP_DB_Server = :IPServer, ' +
+          '  Usuario_DB_Server = :UsuarioServer, Porta_DB_Server = :PortaServer, Senha_DB_Server = :SenhaServer, ' +
+          '  Nome_DB_Server_Cliente = :NomeDBServerCliente, IP_DB_Server_Cliente = :IPServerCliente, ' +
+          '  Usuario_DB_Server_Cliente = :UsuarioServerCliente, Porta_DB_Server_Cliente = :PortaServerCliente, ' +
+          '  Senha_DB_Server_Cliente = :SenhaServerCliente, ' +
+          '  CNPJ_Server = :CNPJServer ' +
+          'WHERE ID_Server = :IDServer';
+
+      end
+      else
+      begin
+        // Inserir um novo registro se não existir
+        Query.SQL.Text :=
+          'INSERT INTO Config_Server_DTC (' +
+          '  Nome_DB_Server, IP_DB_Server, Usuario_DB_Server, Porta_DB_Server, Senha_DB_Server, ' +
+          '  Nome_DB_Server_Cliente, IP_DB_Server_Cliente, Usuario_DB_Server_Cliente, Porta_DB_Server_Cliente, ' +
+          '  Senha_DB_Server_Cliente, ' +
+          '  ID_Server, CNPJ_Server ' +
+          ') VALUES (' +
+          '  :NomeDBServer, :IPServer, :UsuarioServer, :PortaServer, :SenhaServer, ' +
+          '  :NomeDBServerCliente, :IPServerCliente, :UsuarioServerCliente, :PortaServerCliente, ' +
+          '  :SenhaServerCliente, ' +
+          '  :IDServer, :CNPJServer)';
+      end;
+
+      // Atribuir os parâmetros para a query
+      Query.ParamByName('NomeDBServer').AsString := FNomeDBServerCliente;
+      Query.ParamByName('IPServer').AsString := FIPServerCliente;
+      Query.ParamByName('UsuarioServer').AsString := FUsuarioServerCliente;
+      Query.ParamByName('PortaServer').AsString := FPortaServerCliente;
+      Query.ParamByName('SenhaServer').AsString := FSenhaServerCliente;
+
+
+      Query.ParamByName('NomeDBServerCliente').AsString := FNomeDBServer;
+      Query.ParamByName('IPServerCliente').AsString := FIPServer;
+      Query.ParamByName('UsuarioServerCliente').AsString := FUsuarioServer;
+      Query.ParamByName('PortaServerCliente').AsString := FPortaServer;
+      Query.ParamByName('SenhaServerCliente').AsString := FSenhaServer;
+
+
+
+      Query.ParamByName('IDServer').AsString := FIDServer;
+      Query.ParamByName('CNPJServer').AsString := FCnpjServer;
+
+      Query.Execute;
+        FileName := 'ConfigServer.txt'; // Caminho do arquivo
+      AssignFile(ConfigFile, FileName);
+
+      try
+        // Cria ou sobrescreve o arquivo
+        Rewrite(ConfigFile);
+
+        // Escreve os dados no arquivo
+        WriteLn(ConfigFile, 'Nome_DB_Server: ' + FNomeDBServer);
+        WriteLn(ConfigFile, 'IP_DB_Server: ' + FIPServer);
+        WriteLn(ConfigFile, 'Usuario_DB_Server: ' + FUsuarioServer);
+        WriteLn(ConfigFile, 'Porta_DB_Server: ' + FPortaServer);
+        WriteLn(ConfigFile, 'Senha_DB_Server: ' + FSenhaServer);
+        WriteLn(ConfigFile, 'ID_Server: ' + FIDServer);
+
+      finally
+        // Fecha o arquivo
+        CloseFile(ConfigFile);
+      end;
+      // Mensagem de sucesso
+      Synchronize(
+        procedure
+        begin
+          if ExisteRegistro then
+            ShowMessage('Configuração atualizada com sucesso!')
+          else
+            ShowMessage('Configuração salva com sucesso!');
+        end
+      );
+
+    except
+      on E: Exception do
+        Synchronize(
+          procedure
+          begin
+            ShowMessage('Erro ao salvar configuração: ' + E.Message);
+          end
+        );
+    end;
+  finally
+    Query.Free;
+    Conexao1.Free;
+  end;
+end;
+
+end.
+

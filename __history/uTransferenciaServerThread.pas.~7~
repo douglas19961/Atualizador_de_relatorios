@@ -1,0 +1,275 @@
+unit uTransferenciaServerThread;
+
+interface
+
+uses
+  System.Classes, Data.DB, Uni, FireDAC.Comp.Client, System.SysUtils, Vcl.StdCtrls;
+
+type
+  TTransferenciaServerThread = class(TThread)
+  private
+    FConexaoOrigem: TUniConnection;
+    FConexaoDestino: TUniConnection;
+    FMemoLog: TMemo; // Para registrar logs (Opcional)
+    procedure Log(const Msg: string);
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(AConexaoOrigem, AConexaoDestino: TUniConnection; AMemoLog: TMemo);
+  end;
+
+implementation
+
+constructor TTransferenciaServerThread.Create(AConexaoOrigem, AConexaoDestino: TUniConnection; AMemoLog: TMemo);
+begin
+  inherited Create(False); // Criar e iniciar imediatamente
+  FreeOnTerminate := True; // Liberar a thread automaticamente ao terminar
+  FConexaoOrigem := AConexaoOrigem;
+  FConexaoDestino := AConexaoDestino;
+  FMemoLog := AMemoLog;
+end;
+
+procedure TTransferenciaServerThread.Log(const Msg: string);
+begin
+  if Assigned(FMemoLog) then
+  begin
+    TThread.Synchronize(nil,
+      procedure
+      begin
+        FMemoLog.Lines.Add(Msg);
+      end);
+  end;
+end;
+
+procedure TTransferenciaServerThread.Execute;
+var
+  QueryOrigem, QueryDestino, QueryVerifica: TUniQuery;
+  RecordCount,MaxCodRelatorio: Integer;
+  NeedsUpdate: Boolean;
+begin
+  QueryOrigem := TUniQuery.Create(nil);
+  QueryDestino := TUniQuery.Create(nil);
+  QueryVerifica := TUniQuery.Create(nil);
+
+  try
+    try
+      // Configurar conexões
+      QueryOrigem.Connection := FConexaoOrigem;
+      QueryDestino.Connection := FConexaoDestino;
+      QueryVerifica.Connection := FConexaoDestino;
+
+      // Preparar query de seleção na origem
+      QueryOrigem.SQL.Text :=
+        'SELECT cod_relatorio, categoria, subcategoria, descricao, relatorio, ' +
+        '       exibir, nome, uso_interno, relatorio_pai, relatorio_sistema, ' +
+        '       data_inclusao, data_alteracao ' +
+        'FROM relatorios where cod_relatorio >= ''500'' ';
+      QueryOrigem.Open;
+
+      // Contador de registros
+      RecordCount := 0;
+
+      // Iniciar transação
+      QueryDestino.Connection.StartTransaction;
+
+      // Iterar sobre os registros e inserir ou atualizar
+      while not QueryOrigem.Eof do
+      begin
+        // Verificar se o relatório já existe no destino
+        QueryVerifica.Close;
+        QueryVerifica.SQL.Text :=
+          'SELECT * FROM relatorios WHERE cod_relatorio = :cod_relatorio';
+        QueryVerifica.ParamByName('cod_relatorio').AsInteger :=
+          QueryOrigem.FieldByName('cod_relatorio').AsInteger;
+        QueryVerifica.Open;
+
+        if QueryVerifica.IsEmpty then
+        begin
+          // Preparar query de inserção no destino
+          QueryDestino.SQL.Text :=
+            'INSERT INTO relatorios (' +
+            '  cod_relatorio, categoria, subcategoria, descricao, relatorio, ' +
+            '  exibir, nome, uso_interno, relatorio_pai, relatorio_sistema, ' +
+            '  data_inclusao, data_alteracao ' +
+            ') VALUES (' +
+            '  :cod_relatorio, :categoria, :subcategoria, :descricao, :relatorio, ' +
+            '  :exibir, :nome, :uso_interno, :relatorio_pai, :relatorio_sistema, ' +
+            '  :data_inclusao, :data_alteracao ' +
+            ')';
+
+          // Inserir novos registros
+          QueryDestino.ParamByName('cod_relatorio').AsInteger := QueryOrigem.FieldByName('cod_relatorio').AsInteger;
+          QueryDestino.ParamByName('categoria').AsString := QueryOrigem.FieldByName('categoria').AsString;
+          QueryDestino.ParamByName('subcategoria').AsString := QueryOrigem.FieldByName('subcategoria').AsString;
+          QueryDestino.ParamByName('descricao').AsString := QueryOrigem.FieldByName('descricao').AsString;
+          QueryDestino.ParamByName('relatorio').AsString := QueryOrigem.FieldByName('relatorio').AsString;
+          QueryDestino.ParamByName('exibir').AsInteger := QueryOrigem.FieldByName('exibir').AsInteger;
+          QueryDestino.ParamByName('nome').AsString := QueryOrigem.FieldByName('nome').AsString;
+          QueryDestino.ParamByName('uso_interno').AsBoolean := QueryOrigem.FieldByName('uso_interno').AsBoolean;
+
+          // Tratar campos que podem ser nulos
+          if QueryOrigem.FieldByName('relatorio_pai').IsNull then
+            QueryDestino.ParamByName('relatorio_pai').Clear
+          else
+            QueryDestino.ParamByName('relatorio_pai').AsInteger :=  QueryOrigem.FieldByName('relatorio_pai').AsInteger;
+          QueryDestino.ParamByName('relatorio_sistema').AsBoolean := QueryOrigem.FieldByName('relatorio_sistema').AsBoolean;
+          QueryDestino.ParamByName('data_inclusao').AsDateTime := QueryOrigem.FieldByName('data_inclusao').AsDateTime;
+
+          if QueryOrigem.FieldByName('data_alteracao').IsNull then
+            QueryDestino.ParamByName('data_alteracao').Clear
+          else
+            QueryDestino.ParamByName('data_alteracao').AsDateTime := QueryOrigem.FieldByName('data_alteracao').AsDateTime;
+
+
+          // Executar inserção
+          QueryDestino.ExecSQL;
+
+          Log('Inserido: ' + QueryOrigem.FieldByName('cod_relatorio').AsString);
+          Inc(RecordCount);
+        end
+        else
+        begin
+          // Verificar se há necessidade de atualização
+          NeedsUpdate := False;
+
+          // Comparações de cada campo
+          if (QueryVerifica.FieldByName('descricao').AsString <> QueryOrigem.FieldByName('descricao').AsString) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('relatorio').AsString <> QueryOrigem.FieldByName('relatorio').AsString) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('categoria').AsString <> QueryOrigem.FieldByName('categoria').AsString) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('subcategoria').AsString <> QueryOrigem.FieldByName('subcategoria').AsString) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('exibir').AsInteger <> QueryOrigem.FieldByName('exibir').AsInteger) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('nome').AsString <> QueryOrigem.FieldByName('nome').AsString) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('uso_interno').AsBoolean <> QueryOrigem.FieldByName('uso_interno').AsBoolean) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('relatorio_pai').AsInteger <> QueryOrigem.FieldByName('relatorio_pai').AsInteger) then
+            NeedsUpdate := True;
+
+          if (QueryVerifica.FieldByName('relatorio_sistema').AsBoolean <> QueryOrigem.FieldByName('relatorio_sistema').AsBoolean) then
+            NeedsUpdate := True;
+
+          // Formatar as datas antes da comparação
+          var DataInclusaoOrigem := FormatDateTime('yyyy-mm-dd hh:nn:ss', QueryOrigem.FieldByName('data_inclusao').AsDateTime);
+          var DataInclusaoDestino := FormatDateTime('yyyy-mm-dd hh:nn:ss', QueryVerifica.FieldByName('data_inclusao').AsDateTime);
+
+          if DataInclusaoOrigem <> DataInclusaoDestino then
+            NeedsUpdate := True;
+
+          var DataAlteracaoOrigem := FormatDateTime('yyyy-mm-dd hh:nn:ss', QueryOrigem.FieldByName('data_alteracao').AsDateTime);
+          var DataAlteracaoDestino := FormatDateTime('yyyy-mm-dd hh:nn:ss', QueryVerifica.FieldByName('data_alteracao').AsDateTime);
+
+          if DataAlteracaoOrigem <> DataAlteracaoDestino then
+            NeedsUpdate := True;
+
+
+          // Se houver alterações, executar a atualização
+          if NeedsUpdate then
+          begin
+            QueryDestino.SQL.Text :=
+              'UPDATE relatorios SET ' +
+              '  categoria = :categoria, ' +
+              '  subcategoria = :subcategoria, ' +
+              '  descricao = :descricao, ' +
+              '  relatorio = :relatorio, ' +
+              '  exibir = :exibir, ' +
+              '  nome = :nome, ' +
+              '  uso_interno = :uso_interno, ' +
+              '  relatorio_pai = :relatorio_pai, ' +
+              '  relatorio_sistema = :relatorio_sistema, ' +
+              '  data_inclusao = :data_inclusao, ' +
+              '  data_alteracao = :data_alteracao ' +
+
+              'WHERE cod_relatorio = :cod_relatorio';
+
+            // Atribuir valores para a consulta de atualização
+            QueryDestino.ParamByName('cod_relatorio').AsInteger := QueryOrigem.FieldByName('cod_relatorio').AsInteger;
+            QueryDestino.ParamByName('categoria').AsString := QueryOrigem.FieldByName('categoria').AsString;
+            QueryDestino.ParamByName('subcategoria').AsString := QueryOrigem.FieldByName('subcategoria').AsString;
+            QueryDestino.ParamByName('descricao').AsString := QueryOrigem.FieldByName('descricao').AsString;
+            QueryDestino.ParamByName('relatorio').AsString := QueryOrigem.FieldByName('relatorio').AsString;
+            QueryDestino.ParamByName('exibir').AsInteger := QueryOrigem.FieldByName('exibir').AsInteger;
+            QueryDestino.ParamByName('nome').AsString := QueryOrigem.FieldByName('nome').AsString;
+            QueryDestino.ParamByName('uso_interno').AsBoolean := QueryOrigem.FieldByName('uso_interno').AsBoolean;
+
+            // Tratar campos que podem ser nulos
+            if QueryOrigem.FieldByName('relatorio_pai').IsNull then
+              QueryDestino.ParamByName('relatorio_pai').Clear
+            else
+              QueryDestino.ParamByName('relatorio_pai').AsInteger := QueryOrigem.FieldByName('relatorio_pai').AsInteger;
+
+            QueryDestino.ParamByName('relatorio_sistema').AsBoolean := QueryOrigem.FieldByName('relatorio_sistema').AsBoolean;
+
+            QueryDestino.ParamByName('data_inclusao').AsDateTime := QueryOrigem.FieldByName('data_inclusao').AsDateTime;
+
+            if QueryOrigem.FieldByName('data_alteracao').IsNull then
+              QueryDestino.ParamByName('data_alteracao').Clear
+            else
+              QueryDestino.ParamByName('data_alteracao').AsDateTime := QueryOrigem.FieldByName('data_alteracao').AsDateTime;
+
+
+            // Executar atualização
+            QueryDestino.ExecSQL;
+
+            Log('Atualizado: ' + QueryOrigem.FieldByName('cod_relatorio').AsString);
+            Inc(RecordCount);
+          end;
+        end;
+
+        // Avançar para o próximo registro
+        QueryOrigem.Next;
+      end;
+
+      QueryOrigem.Close;
+      QueryOrigem.SQL.Text := 'SELECT MAX(cod_relatorio) AS MaxCod FROM relatorios';
+      QueryOrigem.Open;
+      MaxCodRelatorio := QueryOrigem.FieldByName('MaxCod').AsInteger;
+        if MaxCodRelatorio > 0 then
+      begin
+        // Apaga os registros da tabela de destino com cod_relatorio maior que o máximo da origem
+        QueryDestino.Close;
+        QueryDestino.SQL.Text := 'DELETE FROM relatorios WHERE cod_relatorio > :MaxCod';
+        QueryDestino.ParamByName('MaxCod').AsInteger := MaxCodRelatorio;
+        QueryDestino.ExecSQL;
+      end;
+
+
+      // Confirmar transação
+      QueryDestino.Connection.Commit;
+
+      // Log de conclusão
+      Log('Transferência concluída com sucesso!');
+      Log('Total de registros transferidos: ' + IntToStr(RecordCount));
+
+    except
+      on E: Exception do
+      begin
+        // Reverter transação em caso de erro
+        if QueryDestino.Connection.InTransaction then
+          QueryDestino.Connection.Rollback;
+
+        // Log de erro
+        Log('Erro na transferênciaServer: ' + E.Message);
+      end;
+    end;
+  finally
+    // Liberar recursos
+    QueryOrigem.Free;
+    QueryDestino.Free;
+    QueryVerifica.Free;
+  end;
+end;
+
+end.
+

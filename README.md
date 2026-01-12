@@ -109,8 +109,8 @@ API_PASSWORD = '**************' (MD5)
 
 #### **URLs Dinâmicas:**
 O sistema seleciona automaticamente a URL baseado no modo:
-- **Modo Cliente**: `http://dtcmonitor.ddns.com.br:4450`
-- **Modo Servidor**: `http://192.168.0.205:4450`
+- **Modo Cliente**: `http://******.ddns.com.br:44****`
+- **Modo Servidor**: `http://192.168.0.000:44**`
 
 ---
 
@@ -122,7 +122,7 @@ O sistema seleciona automaticamente a URL baseado no modo:
 
 **Exemplo de Requisição:**
 ```http
-GET http://192.168.0.205:4450/api/config/111
+GET http://192.168.0.000:44****/api/config/111111
 Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 ```
 
@@ -216,15 +216,15 @@ O sistema cliente **automaticamente** chama a API `/api/atualizar-empresa` nas s
 
 SERVIDOR                                    CLIENTE
     │                                          │
-    │ 1. Busca relatórios (cod >= 450)        │
+    │ 1. Busca relatórios (cod >= 450)         │
     │    na tabela relatorios                  │
     │                                          │
-    │ 2. Compara com destino                  │
-    │    - Se não existe: INSERE              │
-    │    - Se existe e diferente: ATUALIZA    │
-    │    - Se não existe na origem: EXCLUI    │
+    │ 2. Compara com destino                   │
+    │    - Se não existe: INSERE               │
+    │    - Se existe e diferente: ATUALIZA     │
+    │    - Se não existe na origem: EXCLUI     │
     │                                          │
-    │ 3. Transação atômica                    │
+    │ 3. Transação atômica                     │
     │    - Commit em caso de sucesso           │
     │    - Rollback em caso de erro            │
     │                                          │
@@ -393,7 +393,7 @@ SERVIDOR                                    CLIENTE
 
 ### **Exemplos:**
 ```
-[INFO] [106] [API CLIENTE] Enviando requisição para: http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
+[INFO] [106] [API CLIENTE] Enviando requisição para: http://**********.ddns.com.br:44**/api/atualizar-empresa
 [INFO] [122] [TRANSFERENCIA SERVER] Transferência concluída com sucesso! Total de registros: 45
 [ERRO] [108] [INTEGRACAO ESTRADA] Erro ao conectar na API externa: Connection timeout
 [LOG BACKUP] Arquivo Logs.txt movido para logs\Logs_2025-01-13_11-39-58.txt

@@ -16,13 +16,13 @@ O **DTC Atualizador Server** é um sistema completo desenvolvido em Delphi/Pasca
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌──────────────┐         ┌──────────────┐                  │
-│  │   MODO       │         │   MODO        │                 │
-│  │  SERVIDOR    │◄───────►│  CLIENTE      │                 │
+│  │   MODO       │         │   MODO       │                  │
+│  │  SERVIDOR    │◄───────►│  CLIENTE     │                  │
 │  └──────┬───────┘         └──────┬───────┘                  │
 │         │                        │                          │
 │         ▼                        ▼                          │
 │  ┌──────────────────────────────────────────┐               │
-│  │      SERVIDOR HTTP (Porta 44**)          │               │
+│  │      SERVIDOR HTTP (Porta *****)         │               │
 │  │      API REST com Autenticação Basic     │               │
 │  └──────────────────────────────────────────┘               │
 │         │                        │                          │
@@ -50,7 +50,7 @@ O **DTC Atualizador Server** é um sistema completo desenvolvido em Delphi/Pasca
 O sistema em modo **Servidor** atua como o **núcleo central** do sistema:
 
 #### **Funcionalidades:**
-- ✅ **Servidor HTTP REST** na porta **44******
+- ✅ **Servidor HTTP REST** na porta *********
 - ✅ **Sincronização de Relatórios** (código >= 450) do servidor para clientes
 - ✅ **Gerenciamento de Configurações** via API
 - ✅ **Monitoramento de Ocorrências** em múltiplos bancos
@@ -99,7 +99,7 @@ ID_Client=111111
 
 ### **Servidor HTTP REST**
 
-O servidor expõe uma **API REST** na porta **44****** com autenticação Basic HTTP.
+O servidor expõe uma **API REST** na porta ********* com autenticação Basic HTTP.
 
 #### **Credenciais de Autenticação:**
 ```pascal
@@ -109,8 +109,8 @@ API_PASSWORD = '**************' (MD5)
 
 #### **URLs Dinâmicas:**
 O sistema seleciona automaticamente a URL baseado no modo:
-- **Modo Cliente**: `http://******.ddns.com.br:44****`
-- **Modo Servidor**: `http://192.168.0.000:44**`
+- **Modo Cliente**: `http://******.ddns.com.br:*****`
+- **Modo Servidor**: `http://192.168.0.000:*****`
 
 ---
 
@@ -122,7 +122,7 @@ O sistema seleciona automaticamente a URL baseado no modo:
 
 **Exemplo de Requisição:**
 ```http
-GET http://192.168.0.000:44****/api/config/111111
+GET http://192.168.0.000:*****/api/config/111111
 Authorization: Basic ******************************************(MD5)
 ```
 
@@ -136,7 +136,7 @@ Authorization: Basic ******************************************(MD5)
       "id": 1,
       "numeroempresamodulo": 111111,
       "ip": "192.168.0.000",
-      "port": 3306,
+      "port": *****,
       "nomeempresa": "Empresa Exemplo",
       "apilogin": "http://api.exemplo.com/login",
       "apiabastecimentos": "http://api.exemplo.com/abastecimentos",
@@ -156,7 +156,7 @@ Authorization: Basic ******************************************(MD5)
 
 **Exemplo de Requisição:**
 ```http
-POST http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
+POST http://******.ddns.com.br:*****/api/atualizar-empresa
 Content-Type: application/json
 Authorization: Basic ************************************************(MD5)
 
@@ -198,7 +198,7 @@ O sistema cliente **automaticamente** chama a API `/api/atualizar-empresa` nas s
 
 **Exemplo de Log:**
 ```
-[API CLIENTE] Enviando requisição para: http://`***********`.ddns.com.br:44`**`/api/atualizar-empresa
+[API CLIENTE] Enviando requisição para: http://******.ddns.com.br:*****/api/atualizar-empresa
 [API CLIENTE] Corpo da requisição: {"id_empresa": 111111}
 [API CLIENTE] Resposta recebida: {"success": true, "message": "Data atualizada com sucesso", ...}
 ```
@@ -371,34 +371,170 @@ SERVIDOR                                    CLIENTE
 
 ## 📝 Sistema de Logs
 
+O sistema de logs é uma funcionalidade robusta que gerencia automaticamente o registro de todas as operações do sistema, com processamento inteligente de códigos de tipo e interface otimizada para visualização.
+
 ### **Gerenciamento Automático**
 
 #### **Backup Automático:**
 - **Trigger**: Quando `Logs.txt` atinge **5MB**
-- **Ação**: Move para `logs\Logs_YYYY-MM-DD_HH-NN-SS.txt`
+- **Ação**: Move automaticamente para `logs\Logs_YYYY-MM-DD_HH-NN-SS.txt`
 - **Resultado**: Cria novo arquivo `Logs.txt` vazio
+- **Log**: Registra a ação no próprio sistema de logs
 
 #### **Limpeza Automática:**
 - **Frequência**: 1 em cada 100 chamadas de `WriteLogFormatted`
 - **Critério**: Arquivos mais antigos que **30 dias**
 - **Localização**: Pasta `logs\`
 - **Padrão**: `Logs_*.txt`
+- **Log**: Registra quantos arquivos foram removidos
 
-### **Formato de Logs:**
+### **Processamento Automático de Códigos de Tipo**
+
+O sistema identifica automaticamente códigos de tipo nas mensagens de log e converte para nomes descritivos:
+
+#### **Formato de Entrada:**
 ```
-[INFO] [CÓDIGO] [CONTEXTO] Mensagem de log
-[ERRO] [CÓDIGO] [CONTEXTO] Mensagem de erro
-[DEBUG] [CÓDIGO] [CONTEXTO] Mensagem de debug
+INFO(107)] Mensagem de log
+ERROR(101)] Mensagem de erro
+DEBUG(108)] Mensagem de debug
 ```
 
-### **Exemplos:**
+#### **Processamento:**
+- **Extração**: Identifica automaticamente padrões como `INFO(107)` na mensagem
+- **Conversão**: Códigos são convertidos para nomes descritivos baseados na legenda
+- **Limpeza**: Remove o prefixo `INFO(código)]` da mensagem exibida
+
+### **Legenda de Códigos de Tipo**
+
+| Código | Nome do Tipo | Descrição |
+|--------|--------------|-----------|
+| **1** | LOGS(SISTEMA) | GERENCIAMENTO DE LOGS |
+| **101** | PRODUÇÃO | ERRO PRODUÇÃO |
+| **102** | CNPJ | VALIDAÇÃO CNPJ |
+| **103** | NFC-e | CONSULTA NFCE DIVERGENCIA |
+| **104** | NF-e | CONSULTA NFE DIVERGENCIA |
+| **105** | VALIDADE | ATUALIZA VALIDADE DO SIGILO |
+| **106** | API CLIENTE | COMUNICAÇÃO COM API DO CLIENTE |
+| **107** | ATUALIZA DATA E HORA | ATUALIZA DATA E HORA DO CLIENTE VIA API |
+| **108** | EXECUTADOR DE INTEGRAÇÃO ESTRADA | ESTRADA |
+| **109** | Conexão do cliente | Conexão do cliente |
+| **110** | Divergencia encerrantes sig | DIVERCENCIA DE ENCERRANTES SIGILO |
+| **111** | CERTIFICADOS WINDOWNS | VERIFICAR CERTIFICADOS CLIENTES |
+| **112** | VERSÃO DTCSYNC | CONSULTA VERSÃO DTCSYNC |
+| **120** | MONITOR DE OCORRENCIA | MONITORAMENTO DE OCORRÊNCIAS |
+| **122** | TRANSFERENCIA SERVER | SINCRONIZAÇÃO DE RELATÓRIOS |
+
+### **Formatos de Log Suportados**
+
+O sistema processa automaticamente diferentes formatos de log:
+
+#### **1. Formato com Pipe (|)**
 ```
-[INFO] [106] [API CLIENTE] Enviando requisição para: http://**********.ddns.com.br:44**/api/atualizar-empresa
+Data Hora | Nível | Tipo | ThreadID | INFO(107)] Mensagem
+28/08/2025 08:24:48 | INFO | INFO | 18832 | INFO(107)] Atualizando data e hora do cliente
+```
+
+#### **2. Formato com Hífen (-)**
+```
+Data Hora - Nível - Tipo - ThreadID - INFO(107)] Mensagem
+28/08/2025 08:24:48 - INFO - INFO - 18832 - INFO(107)] Atualizando data e hora do cliente
+```
+
+#### **3. Formato Simples**
+```
+Data Hora INFO(107)] Mensagem
+28/08/2025 08:24:48 INFO(107)] Atualizando data e hora do cliente
+```
+
+### **Interface de Visualização**
+
+#### **Colunas do Grid:**
+1. **Data**: Data do log (formato: DD/MM/YYYY)
+2. **Hora**: Hora do log (formato: HH:NN:SS)
+3. **Nível**: Nível do log (INFO, ERROR, DEBUG, WARNING)
+4. **Tipo**: Nome descritivo baseado no código extraído (ex: "ATUALIZA DATA E HORA - ATUALIZA DATA E HORA DO CLIENTE VIA API")
+5. **Mensagem**: Mensagem limpa (sem prefixo INFO(código))
+
+#### **Exemplo de Exibição:**
+```
+Data        | Hora     | Nível | Tipo                                    | Mensagem
+28/08/2025  | 08:24:48 | INFO  | ATUALIZA DATA E HORA - ATUALIZA DATA... | Atualizando data e hora do cliente via API
+28/08/2025  | 08:25:12 | INFO  | CNPJ - VALIDAÇÃO CNPJ                  | Validando CNPJ do cliente
+28/08/2025  | 08:25:45 | ERROR | PRODUÇÃO - ERRO PRODUÇÃO               | Erro na conexão com banco de dados
+```
+
+### **Funcionalidades da Interface**
+
+#### **1. Visualização de Logs**
+- ✅ **Logs Atuais**: Visualiza arquivo `Logs.txt` na raiz do aplicativo
+- ✅ **Logs Históricos**: Navega por arquivos na pasta `logs/`
+- ✅ **Suporte Múltiplos Formatos**: Processa arquivos `.txt` e `.log`
+
+#### **2. Controles de Atualização**
+- ✅ **Atualização Automática**: Configurável com intervalo personalizável (1-3600 segundos)
+- ✅ **Limite de Registros**: Configurável de 1 a 10.000 registros
+- ✅ **Atualização Manual**: Botão para atualizar imediatamente
+
+#### **3. Navegação**
+- ✅ **Botões de Navegação**: Primeiro, Anterior, Próximo, Último
+- ✅ **Seleção de Linha**: Clica na linha para ver mensagem completa
+- ✅ **Filtros**: Filtra por nível, tipo ou data
+
+#### **4. Log Manual**
+- ✅ **Adição Manual**: Permite adicionar entradas manuais
+- ✅ **Formato Padronizado**: Usa código 1 (LOGS(SISTEMA)) para logs manuais
+
+### **Exemplos de Logs do Sistema**
+
+```
+[INFO] [107] [ATUALIZA DATA E HORA] Atualizando data e hora do cliente via API
+[INFO] [106] [API CLIENTE] Enviando requisição para: http://******.ddns.com.br:*****/api/atualizar-empresa
 [INFO] [122] [TRANSFERENCIA SERVER] Transferência concluída com sucesso! Total de registros: 45
 [ERRO] [108] [INTEGRACAO ESTRADA] Erro ao conectar na API externa: Connection timeout
+[INFO] [102] [CNPJ] Validando CNPJ: 12.345.678/0001-90
 [LOG BACKUP] Arquivo Logs.txt movido para logs\Logs_2025-01-13_11-39-58.txt
 [LOG CLEANUP] Removidos 5 arquivos de log antigos (mais de 30 dias)
 ```
+
+### **Adicionar Novos Códigos**
+
+Para adicionar novos códigos à legenda, edite a função `ObterNomeTipoPorCodigo` no arquivo `UntLogs.pas`:
+
+```pascal
+function TFrmLogs.ObterNomeTipoPorCodigo(const Codigo: string): string;
+begin
+  case Codigo of
+    '1': Result := 'LOGS(SISTEMA) - GERENCIAMENTO DE LOGS';
+    '101': Result := 'PRODUÇÃO - ERRO PRODUÇÃO';
+    // ... outros códigos existentes ...
+    '113': Result := 'NOVO TIPO - DESCRIÇÃO DO NOVO TIPO'; // Adicionar aqui
+    else
+      Result := 'TIPO DESCONHECIDO (' + Codigo + ')';
+  end;
+end;
+```
+
+### **Vantagens do Sistema de Logs**
+
+#### **1. Organização Automática**
+- Códigos são automaticamente convertidos para nomes descritivos
+- Facilita a identificação do tipo de log
+- Interface limpa e organizada
+
+#### **2. Escalabilidade**
+- Fácil adição de novos códigos na legenda
+- Sistema preparado para expansão
+- Compatibilidade com formatos existentes
+
+#### **3. Manutenção Automática**
+- Backup automático quando arquivo atinge 5MB
+- Limpeza automática de logs antigos
+- Reduz necessidade de intervenção manual
+
+#### **4. Rastreabilidade**
+- Todos os eventos do sistema são registrados
+- Histórico completo de operações
+- Facilita troubleshooting e auditoria
 
 ---
 
@@ -415,15 +551,15 @@ ID_Client=111111
 #### **2. ConfigServer.ini (Servidor)**
 ```ini
 [Config]
-IP_Servidor=192.168`*******`
-Porta_Servidor=44`**`
+IP_Servidor=192.168.0.000
+Porta_Servidor=*****
 ```
 
 ### **Tabelas do Banco de Dados**
 
 #### **public.config**
 Armazena todas as configurações do sistema por empresa:
-- Configurações de conexão (IP, porta, usuário, senha)
+- Configurações de conexão (IP, porta, usuário, *****)
 - URLs de APIs externas
 - Configurações de bicos, tanques, medidores
 - Flags de funcionalidades (sw1, sw2, sw3, etc.)
@@ -533,7 +669,7 @@ Dtc_Atualizador_Server/
 #### **1. Erro 401 Unauthorized na API**
 - Verificar se o header `Authorization` está correto
 - Verificar se as credenciais estão corretas
-- Verificar se o servidor está rodando na porta 4450
+- Verificar se o servidor está rodando na porta configurada
 
 #### **2. Erro de Conexão com Banco**
 - Verificar se o banco está acessível
@@ -586,7 +722,7 @@ Dtc_Atualizador_Server/
    └─ Inicia timers
 
 2. MODO SERVIDOR
-   ├─ Servidor HTTP ativo (porta 4450)
+   ├─ Servidor HTTP ativo (porta *****)
    ├─ Aguarda requisições de clientes
    ├─ Sincroniza relatórios para clientes
    ├─ Monitora ocorrências

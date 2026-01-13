@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-O servidor HTTP foi implementado para expor APIs REST que permitem acesso às configurações do banco de dados e atualização de dados de empresas. O servidor roda na porta 4450 e utiliza autenticação básica HTTP.
+O servidor HTTP foi implementado para expor APIs REST que permitem acesso às configurações do banco de dados e atualização de dados de empresas. O servidor roda na porta ***** e utiliza autenticação básica HTTP.
 
 ## Arquitetura
 
@@ -14,7 +14,7 @@ O servidor HTTP foi implementado para expor APIs REST que permitem acesso às co
 - **TNetHTTPClient**: Cliente HTTP para chamadas externas
 
 ### Configuração do Servidor
-- **Porta**: 4450
+- **Porta**: *****
 - **Protocolo**: HTTP
 - **Autenticação**: Basic HTTP Authentication
 - **Inicialização**: Automática no `FormCreate`
@@ -24,7 +24,7 @@ O servidor HTTP foi implementado para expor APIs REST que permitem acesso às co
 ```pascal
 const
   API_USERNAME = 'admin';
-  API_PASSWORD = '98a1c316501a55a7372f6f854a345b64';
+  API_PASSWORD = '*****';
 ```
 
 ## Endpoints Disponíveis
@@ -40,12 +40,12 @@ const
 
 **Exemplo de URL**:
 ```
-http://192.168.0.205:4450/api/config/111
+http://192.168.0.000:*****/api/config/111
 ```
 
 **Headers de Autenticação**:
 ```
-Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
+Authorization: Basic ************************************************
 ```
 
 **Resposta de Sucesso (200)**:
@@ -60,15 +60,15 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
       "data": "2024-01-01",
       "hora": "10:00:00",
       "enviado": 1,
-      "empresa": 111,
-      "ip": "192.168.1.100",
-      "port": 3306,
-      "numeroempresaapi": 111,
+      "empresa": 111111,
+      "ip": "192.168.0.000",
+      "port": *****,
+      "numeroempresaapi": 111111,
       "virguladecimaltotallitros": 2,
       "virguladecimalprecoporlitro": 2,
       "virguladecimalprecototal": 2,
       "dtcusuario": "usuario",
-      "dtcsenha": "senha",
+      "dtcsenha": "*****",
       "apilogin": "http://api.exemplo.com/login",
       "apiabastecimentos": "http://api.exemplo.com/abastecimentos",
       "apitags": "http://api.exemplo.com/tags",
@@ -81,7 +81,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
       "apicompra": "http://api.exemplo.com/compra",
       "apimedidor": "http://api.exemplo.com/medidor",
       "apivinculomotorista": "http://api.exemplo.com/vinculomotorista",
-      "portapi": 8080,
+      "portapi": *****,
       "bico_1": "BICO1",
       "bico_2": "BICO2",
       "bico_3": "BICO3",
@@ -92,13 +92,13 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
       "bico_8": "BICO8",
       "bico_9": "BICO9",
       "bico_10": "BICO10",
-      "ipmedidor": "192.168.1.200",
-      "portmedidor": 502,
+      "ipmedidor": "192.168.0.000",
+      "portmedidor": *****,
       "tanquesrenomeid": "TANQUE1",
       "tanquesmedidor": "Medidor Tanque 1",
       "empmedidor": 111,
       "numeroempresamodulo": 111,
-      "ipservidor": "192.168.1.1",
+      "ipservidor": "192.168.0.000",
       "twc": true,
       "android": false,
       "server": true,
@@ -125,7 +125,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
     }
   ],
   "total": 1,
-  "numeroempresamodulo": 111
+  "numeroempresamodulo": 1111111
 }
 ```
 
@@ -137,19 +137,19 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 
 **URL**:
 ```
-http://192.168.0.205:4450/api/atualizar-empresa
+http://192.168.0.000:*****/api/atualizar-empresa
 ```
 
 **Headers**:
 ```
 Content-Type: application/json
-Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
+Authorization: Basic ************************************************
 ```
 
 **Corpo da Requisição**:
 ```json
 {
-  "id_empresa": 111
+  "id_empresa": 1111111
 }
 ```
 
@@ -158,7 +158,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 {
   "success": true,
   "message": "Data atualizada com sucesso",
-  "id_empresa": 111,
+  "id_empresa": 111111,
   "data_atualizada": "2025-01-13 11:39:58"
 }
 ```
@@ -178,7 +178,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 {
   "success": false,
   "message": "Atualizador inativo para esta empresa",
-  "id_empresa": 111,
+  "id_empresa": 11111111,
   "data_atualizada": ""
 }
 ```
@@ -207,14 +207,14 @@ ID_Client=111
 
 O sistema seleciona automaticamente a URL correta baseado no modo:
 
-- **Modo Cliente**: `http://dtcmonitor.ddns.com.br:4450`
-- **Modo Servidor**: `http://192.168.0.205:4450`
+- **Modo Cliente**: `http://******.ddns.com.br:*****`
+- **Modo Servidor**: `http://192.168.0.000:*****`
 
 ### Logs do Cliente
 
 ```
-[API CLIENTE] Enviando requisição para: http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
-[API CLIENTE] Corpo da requisição: {"id_empresa": 111}
+[API CLIENTE] Enviando requisição para: http://******.ddns.com.br:*****/api/atualizar-empresa
+[API CLIENTE] Corpo da requisição: {"id_empresa": 1111111}
 [API CLIENTE] Resposta recebida: {"success": true, "message": "Data atualizada com sucesso", "id_empresa": 111, "data_atualizada": "2025-01-13 11:39:58"}
 ```
 
@@ -304,38 +304,38 @@ function TFrmPrincipal.ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequest
 
 **Configuração**:
 - **Método**: GET
-- **URL**: `http://192.168.0.205:4450/api/config/111`
+- **URL**: `http://192.168.0.000:*****/api/config/1111111`
 - **Headers**:
-  - `Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=`
+  - `Authorization: Basic ************************************************`
 
 **cURL**:
 ```bash
-curl --location 'http://192.168.0.205:4450/api/config/111' \
---header 'Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0='
+curl --location 'http://192.168.0.000:*****/api/config/1111111' \
+--header 'Authorization: Basic ************************************************'
 ```
 
 ### 2. Teste POST /api/atualizar-empresa
 
 **Configuração**:
 - **Método**: POST
-- **URL**: `http://192.168.0.205:4450/api/atualizar-empresa`
+- **URL**: `http://192.168.0.000:*****/api/atualizar-empresa`
 - **Headers**:
   - `Content-Type: application/json`
-  - `Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=`
+  - `Authorization: Basic ************************************************`
 - **Body** (raw JSON):
 ```json
 {
-  "id_empresa": 111
+  "id_empresa": 11111111
 }
 ```
 
 **cURL**:
 ```bash
-curl --location 'http://192.168.0.205:4450/api/atualizar-empresa' \
+curl --location 'http://192.168.0.000:*****/api/atualizar-empresa' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=' \
+--header 'Authorization: Basic ************************************************' \
 --data '{
-  "id_empresa": 111
+  "id_empresa": 11111111
 }'
 ```
 
@@ -370,7 +370,7 @@ CREATE TABLE "cadastro_empresas" (
 ### Autenticação
 - **Tipo**: Basic HTTP Authentication
 - **Usuário**: admin
-- **Senha**: 98a1c316501a55a7372f6f854a345b64 (MD5)
+- **Senha**: ***** (MD5)
 
 ### Recomendações
 - Implementar HTTPS para produção
@@ -387,7 +387,7 @@ CREATE TABLE "cadastro_empresas" (
    - Verificar se as credenciais estão corretas
 
 2. **Erro de conexão**:
-   - Verificar se o servidor está rodando na porta 4450
+   - Verificar se o servidor está rodando na porta configurada
    - Verificar se o firewall permite conexões
 
 3. **Erro de banco de dados**:

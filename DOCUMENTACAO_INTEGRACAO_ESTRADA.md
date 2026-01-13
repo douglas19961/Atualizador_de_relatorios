@@ -259,7 +259,7 @@ INSERT INTO integracao.config_api (
   smtp_ssl, smtp_tls, email_remetente, email_destinatario, 
   enviar_email_notificacao
 ) VALUES (
-  true, 'smtp.gmail.com', 587, 'seu-email@gmail.com', 'sua-senha',
+  true, 'smtp.gmail.com', *****, 'seu-email@gmail.com', '*****',
   false, true, 'seu-email@gmail.com', 'destinatario@empresa.com',
   true
 );
@@ -267,9 +267,9 @@ INSERT INTO integracao.config_api (
 
 ### **Campos Obrigatórios**
 - `smtp_servidor`: Servidor SMTP (ex: smtp.gmail.com)
-- `smtp_porta`: Porta SMTP (ex: 587 para TLS, 465 para SSL)
+- `smtp_porta`: Porta SMTP (ex: ***** para TLS, ***** para SSL)
 - `smtp_usuario`: Usuário SMTP
-- `smtp_senha`: Senha SMTP
+- `smtp_senha`: *****
 - `email_remetente`: Email de origem
 - `email_destinatario`: Email de destino
 - `enviar_email_notificacao`: Flag para habilitar/desabilitar

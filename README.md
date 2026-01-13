@@ -14,30 +14,30 @@ O **DTC Atualizador Server** é um sistema completo desenvolvido em Delphi/Pasca
 ┌─────────────────────────────────────────────────────────────┐
 │              DTC ATUALIZADOR SERVER                         │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────┐         ┌──────────────┐                 │
+│                                                             │
+│  ┌──────────────┐         ┌──────────────┐                  │
 │  │   MODO       │         │   MODO        │                 │
 │  │  SERVIDOR    │◄───────►│  CLIENTE      │                 │
-│  └──────┬───────┘         └──────┬───────┘                 │
+│  └──────┬───────┘         └──────┬───────┘                  │
 │         │                        │                          │
 │         ▼                        ▼                          │
-│  ┌──────────────────────────────────────────┐              │
-│  │      SERVIDOR HTTP (Porta 44**)          │              │
-│  │      API REST com Autenticação Basic     │              │
-│  └──────────────────────────────────────────┘              │
+│  ┌──────────────────────────────────────────┐               │
+│  │      SERVIDOR HTTP (Porta 44**)          │               │
+│  │      API REST com Autenticação Basic     │               │
+│  └──────────────────────────────────────────┘               │
 │         │                        │                          │
 │         ▼                        ▼                          │
-│  ┌──────────────┐         ┌──────────────┐                 │
-│  │ Banco Server │         │ Banco Cliente│                 │
-│  │ (PostgreSQL) │         │ (PostgreSQL) │                 │
-│  └──────────────┘         └──────────────┘                 │
-│                                                              │
-│  ┌──────────────────────────────────────────┐              │
-│  │     INTEGRAÇÕES EXTERNAS                 │              │
-│  │  - Integração Estrada (API Externa)      │              │
-│  │  - Integração Entregas (JSON)           │              │
-│  │  - Integração Ararajuba                  │              │
-│  └──────────────────────────────────────────┘              │
+│  ┌──────────────┐         ┌──────────────┐                  │
+│  │ Banco Server │         │ Banco Cliente│                  │
+│  │ (PostgreSQL) │         │ (PostgreSQL) │                  │
+│  └──────────────┘         └──────────────┘                  │
+│                                                             │
+│  ┌──────────────────────────────────────────┐               │
+│  │     INTEGRAÇÕES EXTERNAS                 │               │
+│  │  - Integração Estrada (API Externa)      │               │
+│  │  - Integração Entregas (JSON)            │               │
+│  │  - Integração Ararajuba                  │               │
+│  └──────────────────────────────────────────┘               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -50,7 +50,7 @@ O **DTC Atualizador Server** é um sistema completo desenvolvido em Delphi/Pasca
 O sistema em modo **Servidor** atua como o **núcleo central** do sistema:
 
 #### **Funcionalidades:**
-- ✅ **Servidor HTTP REST** na porta **4450**
+- ✅ **Servidor HTTP REST** na porta **44******
 - ✅ **Sincronização de Relatórios** (código >= 450) do servidor para clientes
 - ✅ **Gerenciamento de Configurações** via API
 - ✅ **Monitoramento de Ocorrências** em múltiplos bancos
@@ -123,7 +123,7 @@ O sistema seleciona automaticamente a URL baseado no modo:
 **Exemplo de Requisição:**
 ```http
 GET http://192.168.0.000:44****/api/config/111111
-Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
+Authorization: Basic ******************************************(MD5)
 ```
 
 **Resposta de Sucesso:**
@@ -158,7 +158,7 @@ Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
 ```http
 POST http://dtcmonitor.ddns.com.br:4450/api/atualizar-empresa
 Content-Type: application/json
-Authorization: Basic YWRtaW46OThhMWMzMTY1MDFhNTVhNzM3MmY2ZjI4NTRhMzQ1YjY0=
+Authorization: Basic ************************************************(MD5)
 
 {
   "id_empresa": 111111
@@ -211,7 +211,7 @@ O sistema cliente **automaticamente** chama a API `/api/atualizar-empresa` nas s
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│              SINCRONIZAÇÃO DE RELATÓRIOS                   │
+│              SINCRONIZAÇÃO DE RELATÓRIOS                    │
 └─────────────────────────────────────────────────────────────┘
 
 SERVIDOR                                    CLIENTE
@@ -409,7 +409,7 @@ SERVIDOR                                    CLIENTE
 #### **1. ConfigServer.ini**
 ```ini
 [Config]
-ID_Client=111
+ID_Client=111111
 ```
 
 #### **2. ConfigServer.ini (Servidor)**

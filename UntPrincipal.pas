@@ -279,6 +279,7 @@ type
     procedure TimerintegracoesRotinaTimerTimer(Sender: TObject);
     procedure SpBLogoClick(Sender: TObject);
     procedure BitBtn15Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
     // Credenciais de autenticação para a API
@@ -381,7 +382,7 @@ uses
   API_USERNAME = 'admin';
   API_PASSWORD = '98a1c316501a55a7372f6f854a345b64';
   API_SERVER_URL_CLIENTE = 'http://dtcmonitor.ddns.com.br:4450'; // URL do servidor API para cliente
-  API_SERVER_URL_SERVER = 'http://192.168.0.205:4450'; // URL do servidor API para servidor
+  API_SERVER_URL_SERVER = 'http://127.0.0.1:4450'; // URL do servidor API para servidor
   
  function EhModoServer(ComboBox: TComboBox): Boolean;
 begin
@@ -1131,7 +1132,20 @@ end;
 
 
 
-  procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
+procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
+var
+ ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
+begin
+ if EhModoserver(ComboBox1) then
+   begin
+//    InserirOcorrencias;
+     ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
+     ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
+     ThreadMonitorSERVER.Start; // Inicia a execução da thread
+     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
+   end;
+end;
+procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
 begin
   integracaoentregapegoraro;
 end;
@@ -3704,7 +3718,7 @@ var
         begin
       // Lendo o valor do arquivo INI para verificar se a conexão deve ser mantida ativa
           TimerConexaoServer := IniFile.ReadString('Config', 'BTimerConexaoServer', '0');
-          WriteLogFormatted('INFO', '1', '[EXECUTADOR DE ATUALIZADOR DE INFORMAÇÕES SERVER] Execução feita com sucesso!');
+
          if TimerConexaoServer = '1' then
           begin
           if (CXServer.Connected)  then

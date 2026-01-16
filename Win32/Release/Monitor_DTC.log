@@ -1778,3 +1778,13 @@ Processo: Dtc_Atualizador_Server.exe
 Caminho: C:\Program Files\Datacom\DtcSync\Dtc_Atualizador_Server.exe 
 ========================================
 [17/12/2025 15:45:38,11] Monitoramento iniciado 
+========================================
+Inicio: 14/01/2026  8:43:00,27 
+Processo: Dtc_Atualizador_Server.exe 
+Caminho: C:\Program Files\Datacom\DtcSync\Dtc_Atualizador_Server.exe 
+========================================
+[14/01/2026  8:43:00,32] Monitoramento iniciado 
+[ 8:43:00,48] Processo nao encontrado. Iniciando... 
+[ 8:43:00,48] Processo iniciado 
+[ 8:43:13,28] Processo nao encontrado. Iniciando... 
+[ 8:43:13,28] Processo iniciado 

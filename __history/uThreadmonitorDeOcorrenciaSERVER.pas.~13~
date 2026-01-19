@@ -129,7 +129,7 @@ begin
           '  THEN 4 else 1 ' +
           'END AS prioridade ' +
           'FROM public.cadastro_empresas ' +
-          'WHERE ativo IS TRUE AND ID_TIPO_SISTEMA = 1 ' +
+          'WHERE ativo IS TRUE ' +
           'AND EXTRACT(EPOCH FROM (now() - data_atualizada)) / 3600 >= 2 ' +
           'ORDER BY data_atualizada DESC';
         QSelect.Open;

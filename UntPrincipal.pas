@@ -3691,7 +3691,7 @@ var
          Mensagem:= False;
       //  LoadTimeFromIniTimer;
         IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
-        try
+      try
          IF ComboBox1.ItemIndex = 1 THEN
          BEGIN
 //         WriteLogFormatted('INFO', '1', '[EXECUTADOR DE ATUALIZADOR DE INFORMAÇÕES CLIENT] Execução feita com sucesso!');
@@ -3710,7 +3710,7 @@ var
                 Panel8.Caption:='Off';
         //        TimerRelatoriosClient.Enabled:=False;
                 end;
- END;
+            END;
          END;
   //
   //  /// parte do server
@@ -3732,9 +3732,9 @@ var
         end;
         end;
         end;
-     finally
-     IniFile.Free;
-    end;
+         finally
+         IniFile.Free;
+      end;
     end;
   end;
  end;

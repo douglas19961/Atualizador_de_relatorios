@@ -39,6 +39,7 @@ type
     procedure executarVariosBancosCorrigindoEncerrantes;
     procedure ConsultaValidade;
     procedure apagarocorrenciascomdatalimite;
+    procedure OcorrenciaVencimentoSigilo;
   protected
     procedure Execute; override;
   end;
@@ -1145,9 +1146,9 @@ begin
     QryMySQL.ExecSQL;
   finally
     QryMySQL.Free;
-    apagarocorrenciascomdatalimite;
+   // apagarocorrenciascomdatalimite;
   end;
-
+   apagarocorrenciascomdatalimite;
 end;
 procedure ThreadMonitordeOcorrenciaServer.apagarocorrenciascomdatalimite;
 var
@@ -1222,8 +1223,84 @@ begin
 
   QSelect.Free;
   QDelete.Free;
-
+    OcorrenciaVencimentoSigilo;
 end;
 
+
+
+
+
+
+procedure ThreadMonitordeOcorrenciaServer.OcorrenciaVencimentoSigilo;
+var
+  QSelect, qexclusao, QInsert: TUniQuery;
+  CurrentDate: TDateTime;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '130', 'Iniciando inserção de ocorrências');
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  qexclusao := TUniQuery.Create(nil);
+
+  try
+      try
+        QSelect.Connection := FrmPrincipal.ConexaoModulo;
+        QInsert.Connection := FrmPrincipal.ConexaoModulo;
+        qexclusao.Connection := FrmPrincipal.ConexaoModulo;
+        CurrentDate := Now; // Pega a data/hora atuaiss
+        // Depois busca as empresas
+        QSelect.SQL.Text :=
+        SELECT
+
+         ';;;;;;;; Vence em: '|| vs.vencimentos || 'Não sincronizando;;;;;;;;;;' as info_concatenada,
+           CASE
+            WHEN EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 >= 2
+             AND EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 <= 5 THEN 1
+            WHEN EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 >= 5
+             AND EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 <= 9 THEN 2
+            WHEN EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 > 9
+             AND EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 <= 12 THEN 3
+            WHEN EXTRACT(EPOCH FROM (NOW() - TO_TIMESTAMP(vs.vencimentos, 'DD/MM/YYYY'))) / 3600 > 16 THEN 4
+            ELSE 1
+          END AS prioridade,
+        FROM public.versao_sistema vs
+        JOIN cadastro_empresas ce
+          ON ce.id_empresa_help = vs.id_empresa_help
+        WHERE
+            ce.data_atualizada >= (NOW() - INTERVAL '30 minutes')
+          AND TO_DATE(vs.vencimentos, 'DD/MM/YYYY') BETWEEN (CURRENT_DATE - INTERVAL '15 days') AND CURRENT_DATE
+        ORDER BY vs.id_versao_sist ASC;
+
+        QSelect.Open;
+        // Agora insere um novo registro para cada empresa
+        while not QSelect.Eof do
+        begin
+          QInsert.SQL.Clear;
+          QInsert.SQL.Add('INSERT INTO monitor_ocorrencias ');
+          QInsert.SQL.Add('(id_empresa_help, ocorrencia, id_prioridade, id_modulo_ocorrencia, data_ocorrencia, hora)');
+          QInsert.SQL.Add('VALUES (:id_empresa_help, :ocorrencia, :id_prioridade, :id_modulo_ocorrencia, :data_ocorrencia, :hora)');
+          QInsert.ParamByName('id_empresa_help').AsInteger := QSelect.FieldByName('id_empresa_help').AsInteger;
+          QInsert.ParamByName('ocorrencia').AsString := QSelect.FieldByName('info_concatenada').AsString;
+          QInsert.ParamByName('id_prioridade').AsInteger := QSelect.FieldByName('prioridade').AsInteger;
+          QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 14;
+          QInsert.ParamByName('data_ocorrencia').AsDateTime := DateOf(CurrentDate);
+          QInsert.ParamByName('hora').AsTime := TimeOf(CurrentDate);         // Só a hora         // Só a hora
+          QInsert.ExecSQL;
+          QSelect.Next;
+        end;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '130', '[DTCSYNC NÃO SINCRONIZADOS] inserido dados com sucesso');
+    except
+      on E: Exception do
+      begin
+        // Só grava o erro no log, não mostra na tela
+        FrmPrincipal.WriteLogFormatted('ERRO', '130', '[DTCSYNC NÃO SINCRONIZADOS] erro: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    QInsert.Free;
+    qexclusao.Free;
+  end;
+
+end;
 
 end.

@@ -37,6 +37,7 @@ type
      procedure consultaNFcECONTIGENCIA;
      procedure consultaNFcCONTIGENCIA;
      procedure EnviarVersaoSistemaAPI;
+     procedure NFE_NFCE_DUPLICADAS;
 
 
   protected
@@ -563,19 +564,20 @@ begin
 
       Query.SQL.Text :=
         'SELECT ' +
-        '  TO_CHAR(s.ultimo_sucesso_sinc, ''YYYY-MM-DD'') || '';'' || ' +
-        '  TO_CHAR(s.ultimo_sucesso_sinc, ''HH24:MI:SS'') || '';'' || ' +
+        '  COALESCE(TO_CHAR(s.ultimo_sucesso_sinc, ''YYYY-MM-DD''), '''') || '';'' || ' +
+        '  COALESCE(TO_CHAR(s.ultimo_sucesso_sinc, ''HH24:MI:SS''), '''') || '';'' || ' +
         '  '';'' || '';'' || '';'' || '';'' || '';'' || '';'' || ' +
-        '  ss.descricao || '';'' || ' +
+        '  COALESCE(ss.descricao, '''') || '';'' || ' +
         '  COALESCE(NULLIF(s.msg, ''''), ''Não sincronizando'') || '';'' || ' +
         '  '';'' || '';'' || '';'' || '';'' || '';'' || '';'' AS Ocorrencia ' +
         'FROM sigservers_status s ' +
         'INNER JOIN sigservers ss ON ss.mac_addr = s.mac_addr ' +
-        'WHERE ' +
+        'WHERE s.replica = true and ' +
         '(s.ultimo_sucesso_sinc IS NULL OR s.ultimo_sucesso_sinc < (CURRENT_TIMESTAMP - INTERVAL ''2 hour'')) ' +
         'OR ' +
         '(s.msg IS NOT NULL AND s.msg <> '''' AND ' +
         '(s.msg ILIKE ''%erro%'' OR s.msg ILIKE ''%falha%'' OR s.msg ILIKE ''%timeout%''))';
+
 
       Query.Open;
       FrmPrincipal.WriteLogFormatted('DEBUG', '114', Format('Consulta de sincronização executada. Registros encontrados: %d', [Query.RecordCount]));
@@ -3711,10 +3713,338 @@ begin
     QSelect.Free;
  
   end;
+  NFE_NFCE_DUPLICADAS;
 end;
 
 
+procedure ThreadMonitordeOcorrencia.NFE_NFCE_DUPLICADAS;
+var
+  QSelect, QSelectEmpresa: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  CodEmpresa: Integer;
+  TotalRegistros: Integer;
+  Ocorrencia: string;
+  TentativasReconexao: Integer;
+  ConexaoEstavel: Boolean;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '129', 'Iniciando verificação de NFE/NFCE duplicadas');
+  QSelect := TUniQuery.Create(nil);
+  QSelectEmpresa := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  TentativasReconexao := 0;
+  ConexaoEstavel := False;
+  try
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '129', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
 
+    try
+      // Configurar conexões
+      QSelect.Connection := FrmPrincipal.CXClient;
+      QSelectEmpresa.Connection := FrmPrincipal.CXClient;
+
+      // Preparar HttpClient
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+      // Resetar para CXClient
+      TentativasReconexao := 0;
+      ConexaoEstavel := False;
+
+      if not Assigned(FrmPrincipal.CXClient) then
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '129', 'CXClient não está atribuída');
+        Exit;
+      end;
+
+      // Estabilizar CXClient
+      while not ConexaoEstavel and (TentativasReconexao < 5) do
+      begin
+        try
+          if not FrmPrincipal.CXClient.Connected then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Tentativa %d - Reconectando CXClient...', [TentativasReconexao + 1]));
+            FrmPrincipal.CXClient.Connect;
+          end;
+
+          // Conexão CXClient estabilizada
+
+          ConexaoEstavel := True;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '129', 'CXClient estabilizada com sucesso');
+        except
+          on E: Exception do
+          begin
+            Inc(TentativasReconexao);
+            FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Tentativa %d - Falha ao estabilizar CXClient: %s', [TentativasReconexao, E.Message]));
+
+            if TentativasReconexao >= 5 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Máximo de tentativas para CXClient atingido');
+              Exit;
+            end;
+
+            Sleep(2000); // Aguardar 2 segundos antes da próxima tentativa
+          end;
+        end;
+      end;
+      // Buscar o cod_empresa do sistema (apenas se houver uma única empresa)
+      try
+        // Primeiro verificar se existe apenas uma empresa do sistema
+        QSelectEmpresa.SQL.Text :=
+          'SELECT COUNT(*) as total_empresas ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true';
+        QSelectEmpresa.Open;
+
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger > 1 then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '129', 'Mais de uma empresa do sistema encontrada - Abortando verificação');
+              Exit;
+            end;
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger = 0 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Nenhuma empresa do sistema encontrada');
+              Exit;
+            end;
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro ao acessar campo total_empresas: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Query de contagem de empresas não retornou dados');
+          Exit;
+        end;
+
+        // Buscar o cod_pessoa da única empresa
+        QSelectEmpresa.Close;
+        QSelectEmpresa.SQL.Text :=
+          'SELECT cod_pessoa ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true ' +
+          'ORDER BY cod_pessoa asc ' +
+          'LIMIT 1';
+        QSelectEmpresa.Open;
+
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            CodEmpresa := QSelectEmpresa.FieldByName('cod_pessoa').AsInteger;
+            FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Empresa única do sistema encontrada: %d', [CodEmpresa]));
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro ao acessar campo cod_pessoa: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Query de busca da empresa não retornou dados');
+          Exit;
+        end;
+      except
+        on E: Exception do
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '129', 'ERRO AO BUSCAR EMPRESA DO SISTEMA: ' + E.Message);
+          Exit;
+        end;
+      end;
+
+      // Verificar NFE/NFCE duplicadas usando o cod_pessoa
+      try
+        // Verificar se CodEmpresa é válido
+        if CodEmpresa <= 0 then
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '129', 'CodEmpresa inválido: ' + IntToStr(CodEmpresa));
+          Exit;
+        end;
+
+        // Primeiro, vamos testar se há registros duplicados
+        try
+          QSelect.SQL.Text :=
+            'SELECT COUNT(*) as total_registros ' +
+            'FROM ( ' +
+            '  SELECT cod_empresa, chave_acesso ' +
+            '  FROM lancamentos_financeiros ' +
+            '  WHERE chave_acesso <> '''' ' +
+            '    AND chave_acesso IS NOT NULL ' +
+            '    AND situacao = 2 ' +
+            '    AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
+            '    AND cod_empresa = :pempresa ' +
+            '  GROUP BY cod_empresa, chave_acesso ' +
+            '  HAVING COUNT(*) > 1 ' +
+            ') duplicadas';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+
+          if QSelect.Active and not QSelect.IsEmpty then
+          begin
+            try
+              TotalRegistros := QSelect.FieldByName('total_registros').AsInteger;
+              FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Total de chaves de acesso duplicadas encontradas: %d', [TotalRegistros]));
+            except
+              on E: Exception do
+              begin
+                FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro ao acessar campo total_registros: ' + E.Message);
+                Exit;
+              end;
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '129', 'Nenhum registro duplicado encontrado na consulta de contagem');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro na consulta de contagem: ' + E.Message);
+            Exit;
+          end;
+        end;
+
+        // Agora vamos buscar a ocorrência de NFE/NFCE duplicadas
+        try
+          QSelect.Close;
+          QSelect.SQL.Text :=
+            'SELECT ' +
+            '  MAX(DATE(data_movimento)) || '';'' || ' +
+            '  TO_CHAR(MAX(data_movimento), ''HH24:MI'') || '';'' || ' +
+            '  cod_empresa || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || ' +
+
+           // ' '';;cod lanc: '' || STRING_AGG(DISTINCT CAST(cod_lanc_financeiro AS VARCHAR), '', '') || '' - Chave de Acesso: '' || chave_acesso AS ocorrencia '+
+            '  '';;cod lanc: '' || STRING_AGG(DISTINCT CAST(cod_lanc_financeiro AS VARCHAR) || '' | '' || nome_lancamento_padrao || '' | '' || TO_CHAR(data_movimento, ''DD/MM/YYYY''), '', '') AS ocorrencia '+
+
+            'FROM lancamentos_financeiros ' +
+            'WHERE chave_acesso <> '''' ' +
+            '  AND chave_acesso IS NOT NULL ' +
+            '  AND situacao = 2 ' +
+            '  AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
+            '  AND cod_empresa = :pempresa ' +
+            'GROUP BY cod_empresa, chave_acesso ' +
+            'HAVING COUNT(*) > 1 ' +
+            'ORDER BY cod_empresa, chave_acesso';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+
+          FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Executando consulta de NFE/NFCE duplicadas para empresa: %d', [CodEmpresa]));
+
+          if QSelect.Active then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Registros encontrados na consulta: %d', [QSelect.RecordCount]));
+
+            if not QSelect.IsEmpty then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('NFE/NFCE duplicadas encontradas - Processando %d ocorrências', [QSelect.RecordCount]));
+
+              // Processar cada ocorrência encontrada
+              QSelect.First;
+              while not QSelect.Eof do
+              begin
+                Ocorrencia := QSelect.FieldByName('ocorrencia').AsString;
+                FrmPrincipal.WriteLogFormatted('DEBUG', '129', Format('Enviando ocorrência para API: %s', [Ocorrencia]));
+
+                // Enviar via API
+                try
+                  var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+                  var IdModulo := 13; // Módulo sNFE/NFCE Duplicadas
+                  var Ocorr := Ocorrencia;
+                  var Prior := 2; // Prioridade média
+                  var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+                  var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+                  var Obj := TJSONObject.Create;
+                  try
+                    Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                    Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                    Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                    Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                    Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                    Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                    RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+                  finally
+                    Obj.Free;
+                  end;
+                  try
+                    Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                    if Assigned(Response) and (Response.StatusCode = 200) then
+                    begin
+                      Inc(RegistrosProcessados);
+                      FrmPrincipal.WriteLogFormatted('INFO', '129', Format('Ocorrência de NFE/NFCE duplicadas enviada para API com sucesso (%d/%d)', [RegistrosProcessados, QSelect.RecordCount]));
+                    end
+                    else
+                    begin
+                      var MsgFalha: string;
+                      if Assigned(Response) then
+                        MsgFalha := Response.ContentAsString
+                      else
+                        MsgFalha := 'Sem resposta';
+                      FrmPrincipal.WriteLogFormatted('ERRO', '129', '[API CLIENTE] Falha ao enviar ocorrência de NFE/NFCE duplicadas: ' + MsgFalha);
+                    end;
+                  finally
+                    RequestBody.Free;
+                  end;
+                except
+                  on E: Exception do
+                    FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro ao enviar ocorrência de NFE/NFCE duplicadas para API: ' + E.Message);
+                end;
+
+                QSelect.Next;
+              end;
+            end
+            else
+            begin
+              FrmPrincipal.WriteLogFormatted('INFO', '129', 'Nenhuma NFE/NFCE duplicada encontrada');
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Query não está ativa após execução');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro na consulta de NFE/NFCE duplicadas: ' + E.Message);
+            Exit;
+          end;
+        end;
+      except
+        on E: Exception do
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '129', 'ERRO AO VERIFICAR NFE/NFCE DUPLICADAS: ' + E.Message);
+          Exit;
+        end;
+      end;
+    except
+      on E: Exception do
+        FrmPrincipal.WriteLogFormatted('ERRO', '129', 'Erro ao executar verificação: ' + E.Message);
+    end;
+  finally
+    QSelect.Free;
+    QSelectEmpresa.Free;
+    HttpClient.Free;
+
+  end;
+  FrmPrincipal.WriteLogFormatted('INFO', '129', Format('Verificação de NFE/NFCE duplicadas finalizada com %d ocorrências processadas', [RegistrosProcessados]));
+end;
 
 
 

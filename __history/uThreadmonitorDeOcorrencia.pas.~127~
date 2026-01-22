@@ -1,0 +1,4050 @@
+﻿unit uThreadmonitorDeOcorrencia;
+interface
+uses
+    Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
+  Vcl.Controls, Vcl.Forms, Data.DB, MemDS, DBAccess, Uni,IniFiles, DateUtils, Registry,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, UniProvider, MySQLUniProvider,  IdHashSHA, System.Hash,
+  PostgreSQLUniProvider, Vcl.WinXCtrls, Vcl.Menus, JvMenus, Vcl.ComCtrls,
+  Vcl.DBCtrls, JvExStdCtrls, JvEdit, JvListBox, Vcl.Grids, Vcl.DBGrids,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Datasnap.DBClient,System.Zip,IdFTPCommon,
+  JvFullColorSpaces, JvFullColorCtrls, Vcl.Mask, ShellAPI, IdBaseComponent,
+  IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase,
+  IdFTP, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  ComObj, ShlObj, ActiveX,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, JvExControls, JvSwitch,
+  System.Net.HttpClient, System.Net.URLClient, System.Net.HttpClientComponent,
+  System.JSON, System.NetEncoding, IdSMTP, IdMessage, IdText,
+  IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdIOHandler,
+  IdHTTPServer, IdContext, IdCustomHTTPServer, IdGlobal, IdCustomTCPServer,
+  Winapi.Windows, IdSSLOpenSSLHeaders, StrUtils;
+type
+  ThreadMonitordeOcorrencia = class(TThread)
+     private
+
+     procedure atualizar_data_ativo_do_cliente;
+     procedure InserirDocFiscalEmAberto;
+     procedure Inserir_Replicas_Lojas;
+     procedure consultaNFEDivergencia;
+     procedure consultaNFcEDivergencia;
+     procedure InserirerroProducao;
+     procedure Divergencia_encerrantes_sigilo;
+     procedure VerificarCertificadosClientes;
+     procedure validacao_CNPJ;
+     procedure Inserir_Replicas_Lojas_Vazias;
+     procedure hardwarclient;
+     procedure consultaNFcECONTIGENCIA;
+     procedure consultaNFcCONTIGENCIA;
+     procedure EnviarVersaoSistemaAPI;
+     procedure NFE_NFCE_DUPLICADAS;
+
+
+  protected
+    procedure Execute; override;
+  end;
+
+// Funções auxiliares para coleta de hardware
+function GetSystemMemory: Int64;
+function GetDiskSize(const Drive: string): Int64;
+function GetDetailedProcessorInfo: string;
+function GetDetailedOSInfo: string;
+function GetDetailedMemoryInfo: string;
+function GetDetailedDiskInfo: string;
+function GetMotherboardInfo: string;
+function GetBIOSInfo: string;
+function GetDiskSerialInfo: string;
+function GetDiskSerialFromRegistry: string;
+function GetVolumeSerialNumber(const Drive: string): string;
+function GetMACAddressInfo: string;
+function GetMACFromRegistry: string;
+function GetMACAddressNative: string;
+function GetMACAddressAlternative: string;
+function GetDellServerInfo: string;
+function GetShortSerialForDell: string;
+implementation
+uses
+  UntPrincipal;
+  
+function GetApiUrlFromEdit: string;
+var
+  HostEdit: string;
+  HostEditLower: string;
+begin
+  HostEdit := '';
+  TThread.Synchronize(nil, procedure
+  begin
+    HostEdit := (FrmPrincipal.IP_DB_Cliente.Text);
+  end);
+
+  HostEditLower := LowerCase(HostEdit);
+
+  if (Pos('http://', HostEditLower) = 1) or (Pos('https://', HostEditLower) = 1) then
+    Result := HostEdit
+  else
+    Result := 'http://' + HostEdit + ':4450';
+
+  FrmPrincipal.WriteLogFormatted('DEBUG', '106', '[API CLIENTE] IP_DB_Cliente.Text="' + HostEdit + '" => URL resolvida: ' + Result);
+end;
+  const
+    API_USERNAME = 'admin';
+  API_PASSWORD = '98a1c316501a55a7372f6f854a345b64';
+  // API_SERVER_URL_CLIENTE removido: URL agora obtida do edit via GetApiUrlFromEdit
+  API_SERVER_URL_SERVER = 'http://192.168.0.205:4450'; // URL do servidor API para sservidor
+
+
+procedure ThreadMonitordeOcorrencia.Execute;
+begin
+  try
+      atualizar_data_ativo_do_cliente;
+
+    except
+      on E: Exception do
+        FrmPrincipal.WriteLogFormatted('ERRO', '120', Format('[THREAD MONITOR OCORRENCIAS] Erro conectando ao banco: %s', [E.Message]));
+    end;
+end;
+
+
+procedure ThreadMonitordeOcorrencia.atualizar_data_ativo_do_cliente;
+
+var
+  IniFile: TIniFile;
+  IdClient: string;
+  HttpClient: TNetHTTPClient;
+  RequestBody: TStringStream;
+  Response: IHTTPResponse;
+  JSONResponse: TJSONObject;
+  ConfigPath: string;
+begin
+  try
+    // Carregar ID_Client do arquivo de configuração
+    ConfigPath := ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini';
+
+    if not FileExists(ConfigPath) then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] Arquivo de configuração não encontrado: ' + ConfigPath);
+      Exit;
+    end;
+
+    IniFile := TIniFile.Create(ConfigPath);
+    try
+      IdClient := IniFile.ReadString('Config', 'ID_Client', '');
+
+      if IdClient = '' then
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] ID_Client não encontrado no arquivo de configuração');
+        Exit;
+      end;
+
+      FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] ID_Client carregado: ' + IdClient);
+
+    finally
+      IniFile.Free;
+    end;
+
+    // Criar cliente HTTP
+    HttpClient := TNetHTTPClient.Create(nil);
+    try
+      // Configurar autenticação Basic
+      var AuthString := API_USERNAME + ':' + API_PASSWORD;
+      var EncodedAuth := TNetEncoding.Base64.Encode(AuthString);
+
+      // Preparar corpo da requisição
+      var JSONBody := '{"id_empresa":' + IdClient + '}';
+      RequestBody := TStringStream.Create(JSONBody, TEncoding.UTF8);
+
+      try
+        // Configurar headers
+        HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+        HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+        FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Enviando requisição para: ' + GetApiUrlFromEdit + '/api/atualizar-empresa');
+        FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Corpo da requisição: ' + JSONBody);
+
+        // Fazer a requisição POST
+      Response := HttpClient.Post(GetApiUrlFromEdit + '/api/atualizar-empresa', RequestBody);
+
+        if Assigned(Response) then
+        begin
+          FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Resposta recebida. Status: ' + IntToStr(Response.StatusCode));
+          FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Conteúdo da resposta: ' + Response.ContentAsString);
+
+          // Tentar fazer parse da resposta JSON
+          try
+            JSONResponse := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONObject;
+            if Assigned(JSONResponse) then
+            begin
+              var Success: Boolean;
+              var Message: string;
+
+              if JSONResponse.TryGetValue<Boolean>('success', Success) then
+              begin
+                if Success then
+                  FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] API executada com sucesso para empresa ID: ' + IdClient)
+                else
+                  FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] API retornou erro para empresa ID: ' + IdClient);
+              end;
+
+              if JSONResponse.TryGetValue<string>('message', Message) then
+                FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Mensagem: ' + Message);
+
+              JSONResponse.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] Erro ao fazer parse da resposta JSON: ' + E.Message);
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] Nenhuma resposta recebida do servidor');
+        end;
+
+      finally
+        RequestBody.Free;
+      end;
+
+    finally
+      HttpClient.Free;
+
+    end;
+
+  except
+    on E: Exception do
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '106', '[API CLIENTE] Erro ao chamar API: ' + E.Message);
+    end;
+  end;
+   InserirDocFiscalEmAberto;
+
+end;
+
+
+procedure ThreadMonitordeOcorrencia.InserirDocFiscalEmAberto;
+var
+  Query, QInsert, QueryApagar: TUniQuery;
+  RegistrosProcessados: Integer;
+  DataAtual: TDateTime;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin
+  Query := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  
+  try                                               //[VERwIFICAR DOCUMENTOS FISCAIS]
+    FrmPrincipal.WriteLogFormatted('INFO', '113', 'Iniciando verificação de documentos fiscais em aberto');
+    
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '113', 'EdtEmpresaTodos está vazio ou inválido. Valor atual: "' + FrmPrincipal.EdtEmpresaTodos.Text + '"');
+      Exit;
+    end;
+
+    FrmPrincipal.WriteLogFormatted('DEBUG', '113', 'EdtEmpresaTodos valor: "' + FrmPrincipal.EdtEmpresaTodos.Text + '"');
+    // Validar CXClient sem reconectar
+    if (not Assigned(FrmPrincipal.cxclient)) or (not FrmPrincipal.cxclient.Connected) then
+     begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '113', 'CXClient indisponível');
+       Exit;
+     end;
+
+    // Configurar conexões
+    Query.Connection := FrmPrincipal.cxclient;
+
+    // Preparar cliente HTTP para enviar as ocorsrências via API
+    HttpClient := TNetHTTPClient.Create(nil);
+    try
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    // Executar consulta para buscar documentos fiscais em aberto
+    try
+      Query.SQL.Text :=
+        'SELECT ' +
+        '  CAST(lf.data_movimento AS TEXT) || ' + QuotedStr(';') + ' || ' +
+         QuotedStr(';') + ' || ' +
+        '  CAST(lf.cod_empresa AS TEXT) || ' + QuotedStr(';') + ' || ' +
+        '  ee.nome || ' + QuotedStr(';') + ' || ' +
+        '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || ' +
+        '  lf.nome_lancamento_padrao || ' + QuotedStr(';') + ' || ' +
+        '  CAST(lf.cod_lanc_financeiro AS TEXT) || ' + QuotedStr(';') + ' || ' +
+        '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || ' +
+         '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || ' +
+         QuotedStr(';') + ' || ' +
+        '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || ' +
+        '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || ' +
+        '  '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') + ' || '''' || ' + QuotedStr(';') +
+        '  AS Ocorrencia, ' +
+        '  CASE ' +
+        '    WHEN current_date - lf.data_movimento >= 1 AND current_date - lf.data_movimento <= 2 THEN 1 ' +
+        '    WHEN current_date - lf.data_movimento >= 2 AND current_date - lf.data_movimento <= 3 THEN 2 ' +
+        '    WHEN current_date - lf.data_movimento >= 3 AND current_date - lf.data_movimento <= 4 THEN 3 ' +
+        '    ELSE 4 ' +
+        '  END AS prioridade ' +
+        'FROM lancamentos_financeiros lf ' +
+        'LEFT JOIN caixas cx ON lf.cod_registro_caixa = cx.cod_registro ' +
+        'LEFT JOIN usuarios us ON lf.cod_registro_caixa = cx.cod_registro AND us.cod_usuario = cx.cod_usuario ' +
+        'LEFT JOIN pessoas p ON us.cod_pessoa = p.cod_pessoa ' +
+        'LEFT JOIN pessoas e ON cx.cod_empresa = e.cod_pessoa ' +
+        'LEFT JOIN pessoas ee ON lf.cod_empresa = ee.cod_pessoa ' +
+        'WHERE lf.cod_modelo_doc IN (''65'',''55'') ' +
+        '  AND lf.situacao NOT IN (''2'', ''-3'') ' +
+        '  AND lf.data_movimento <= current_date - interval ''1 day'' ' +
+        '  AND lf.data_movimento >= current_date - interval ''90 day'' ' +
+        'ORDER BY lf.cod_empresa, lf.data_movimento DESC';
+      Query.Open;                                            //[VERIFICAR DOCUMENTOS FISCAIS]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '113', Format('Consulta executada. Registros encontrados: %d', [Query.RecordCount]));
+      
+      if not Query.IsEmpty then
+      begin
+        while not Query.Eof do
+        begin
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var IdModulo := 1;
+            var Ocorr := Query.FieldByName('Ocorrencia').AsString;
+            var Prior := Query.FieldByName('prioridade').AsInteger;
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+            var JSONBody := '{' +
+              '"id_empresa_help":' + IntToStr(IdEmpresaHelp) + ',' +
+              '"id_modulo_ocorrencia":' + IntToStr(IdModulo) + ',' +
+              '"ocorrencia":' + '"' + StringReplace(Ocorr, '"', '\"', [rfReplaceAll]) + '"' + ',' +
+              '"dataocorrencia":' + '"' + DataStr + '"' + ',' +
+              '"hora":' + '"' + HoraStr + '"' + ',' +
+              '"id_prioridade":' + IntToStr(Prior) +
+            '}';
+            RequestBody := TStringStream.Create(JSONBody, TEncoding.UTF8);
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) then
+              begin
+                FrmPrincipal.WriteLogFormatted('INFO', '113', '[API CLIENTE] Enviado monitor-ocorrencia. Status: ' + IntToStr(Response.StatusCode));
+                if Response.StatusCode = 200 then
+                  Inc(RegistrosProcessados)
+                else
+                  FrmPrincipal.WriteLogFormatted('ERRO', '113', '[API CLIENTE] Falha ao enviar ocorrência: ' + Response.ContentAsString);
+              end
+              else
+              begin
+                FrmPrincipal.WriteLogFormatted('ERRO', '113', '[API CLIENTE] Resposta nula do servidor ao enviar ocorrência');
+              end;
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '113', 'Erro ao enviar ocorrência para API: ' + E.Message);
+          end;
+          Query.Next;
+        end;
+                                                               //[VERIFICAR DOCUMENTOS FISCAIS]
+        FrmPrincipal.WriteLogFormatted('INFO', '113', Format('Processamento concluído. %d ocorrências inseridas com sucesso', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[VERIFICAR DOCUMENTOS FISCAIS]
+        FrmPrincipal.WriteLogFormatted('INFO', '113', 'Nenhum documento fiscal em aberto encontrado');
+      end;
+      
+    except
+      on E: Exception do
+      begin                                                  //[VERIFICAR DOCUMENTOS FISCAIS]
+        FrmPrincipal.WriteLogFormatted('ERRO', '113', Format('Erro ao executar consulta: %s', [E.Message]));
+      end;
+    end;
+    
+
+
+    
+  finally
+
+    end;
+    
+  finally
+    FreeAndNil(Query);
+    FreeAndNil(QInsert);
+    FreeAndNil(QueryApagar);
+    Inserir_Replicas_Lojas;
+  end;
+end;
+
+procedure ThreadMonitordeOcorrencia.Inserir_Replicas_Lojas;
+var
+  Query,QInsert, QueryApagar: TUniQuery;
+  LocalConnection: TUniConnection;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin
+  LocalConnection := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+
+  try                                               //[VERIFICAR REPLICAS CLIENTES]
+    FrmPrincipal.WriteLogFormatted('INFO', '114', 'Iniciando verificação de replicas dos clientes');
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin                                             //[VERIFICAR REPLICAS CLIENTES]
+      FrmPrincipal.WriteLogFormatted('ERRO', '114', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
+    
+    // Verificar conexões
+    if not Assigned(FrmPrincipal.cxclient) or not FrmPrincipal.cxclient.Connected then
+    begin                                             //[VERIFICAR REPLICAS CLIENTES]
+      FrmPrincipal.WriteLogFormatted('ERRO', '114', 'CXClient não está conectada');
+      Exit;
+    end;
+    
+
+    
+    // Configurar conexões
+    Query.Connection := FrmPrincipal.cxclient;
+    
+    // Preparar cliente HTTP para enviar as ocorrências via API
+    HttpClient := TNetHTTPClient.Create(nil);
+    try
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+    // Executar consulta para buscar replicas com problemas
+    try
+      Query.SQL.Text :=
+        'SELECT ' + QuotedStr(';;;;;;;;;;Nao possui Replica;;;;;;;;;;') + ' AS Ocorrencia ' +
+        'FROM (SELECT 1) AS dummy ' +
+        'WHERE NOT EXISTS (SELECT 1 FROM sigservers_status) ' +
+        'LIMIT 100';
+      
+      Query.Open;                                             //[VERIFICAR REPLICAS CLIENTES]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '114', Format('Consulta executada. Registros encontrados: %d', [Query.RecordCount]));
+      
+      if not Query.IsEmpty then
+      begin
+        // Processar cada registro encontrado
+        while not Query.Eof do
+        begin
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var IdModulo := 4; // Módulo Replicas
+            var Ocorr := Query.FieldByName('Ocorrencia').AsString;
+            var Prior := 4;
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+            
+            var Obj := TJSONObject.Create;
+            try
+              Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+              Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+              Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+              Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+              Obj.AddPair('hora', TJSONString.Create(HoraStr));
+              Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+              
+              RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+            finally
+              Obj.Free;
+            end;
+            
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) then
+              begin
+                FrmPrincipal.WriteLogFormatted('INFO', '114', '[API CLIENTE] Enviado monitor-ocorrencia Replicas. Status: ' + IntToStr(Response.StatusCode));
+                if Response.StatusCode = 200 then
+                  Inc(RegistrosProcessados)
+                else
+                  FrmPrincipal.WriteLogFormatted('ERRO', '114', '[API CLIENTE] Falha ao enviar ocorrência Replicas: ' + Response.ContentAsString);
+              end
+              else
+              begin
+                FrmPrincipal.WriteLogFormatted('ERRO', '114', '[API CLIENTE] Resposta nula do servidor ao enviar ocorrência Replicas');
+              end;
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+            begin                                                    //[VERIFICAR REPLICAS CLIENTES]
+              FrmPrincipal.WriteLogFormatted('ERRO', '114', 'Erro ao enviar ocorrência Replicas para API: ' + E.Message);
+            end;
+          end;
+          
+          Query.Next;
+        end;
+                                                               //[VERIFICAR REPLICAS CLIENTES]
+        FrmPrincipal.WriteLogFormatted('INFO', '114', Format('Processamento concluído. %d ocorrências inseridas com sucesso', [RegistrosProcessados]));
+      end
+      else
+      begin                                              //[VERIFICAR REPLICAS CLIENTES]
+        FrmPrincipal.WriteLogFormatted('INFO', '114', 'Nenhuma réplica com problema encontrada');
+      end;
+      
+    except
+      on E: Exception do
+      begin                                                    //[VERIFICAR REPLICAS CLIENTES]
+        FrmPrincipal.WriteLogFormatted('ERRO', '114', Format('Erro ao executar consulta: %s', [E.Message]));
+      end;
+    end;
+
+  finally
+
+
+
+  end;
+  finally
+    Query.Free;
+    QInsert.Free;
+    QueryApagar.Free;
+    LocalConnection.Free;
+
+    Inserir_Replicas_Lojas_Vazias;
+  end;
+
+end;
+procedure ThreadMonitordeOcorrencia.Inserir_Replicas_Lojas_Vazias;
+var
+  Query,QInsert, QueryApagar: TUniQuery;
+  LocalConnection: TUniConnection;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin
+  LocalConnection := TUniConnection.Create(nil);
+  Query := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+
+  try
+    FrmPrincipal.WriteLogFormatted('INFO', '114', 'Iniciando verificação de réplicas - verificação de sincronização');
+
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '114', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
+
+    // Verificar conexões
+    if not Assigned(FrmPrincipal.cxclient) or not FrmPrincipal.cxclient.Connected then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '114', 'CXClient não está conectada');
+      Exit;
+    end;
+
+
+    // Configurar conexões
+    Query.Connection := FrmPrincipal.cxclient;
+
+    // HTTP client
+    HttpClient := TNetHTTPClient.Create(nil);
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+    // Executar consulta para buscar réplicas com problemas de sincronização
+    try
+
+      Query.SQL.Text :=
+        'SELECT ' +
+        '  TO_CHAR(s.ultimo_sucesso_sinc, ''YYYY-MM-DD'') || '';'' || ' +
+        '  TO_CHAR(s.ultimo_sucesso_sinc, ''HH24:MI:SS'') || '';'' || ' +
+        '  '';'' || '';'' || '';'' || '';'' || '';'' || '';'' || ' +
+        '  ss.descricao || '';'' || ' +
+        '  COALESCE(NULLIF(s.msg, ''''), ''Não sincronizando'') || '';'' || ' +
+        '  '';'' || '';'' || '';'' || '';'' || '';'' || '';'' AS Ocorrencia ' +
+        'FROM sigservers_status s ' +
+        'INNER JOIN sigservers ss ON ss.mac_addr = s.mac_addr ' +
+        'WHERE ' +
+        '(s.ultimo_sucesso_sinc IS NULL OR s.ultimo_sucesso_sinc < (CURRENT_TIMESTAMP - INTERVAL ''2 hour'')) ' +
+        'OR ' +
+        '(s.msg IS NOT NULL AND s.msg <> '''' AND ' +
+        '(s.msg ILIKE ''%erro%'' OR s.msg ILIKE ''%falha%'' OR s.msg ILIKE ''%timeout%''))';
+
+      Query.Open;
+      FrmPrincipal.WriteLogFormatted('DEBUG', '114', Format('Consulta de sincronização executada. Registros encontrados: %d', [Query.RecordCount]));
+
+      if not Query.IsEmpty then
+      begin
+        // Processar cada registro encontrado
+        while not Query.Eof do
+        begin
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var IdModulo := 4;
+            var Ocorr := Query.FieldByName('Ocorrencia').AsString;
+            var Prior := 4;
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+            
+            var Obj := TJSONObject.Create;
+            try
+              Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+              Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+              Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+              Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+              Obj.AddPair('hora', TJSONString.Create(HoraStr));
+              Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+              RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+            finally
+              Obj.Free;
+            end;
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) then
+              begin
+                FrmPrincipal.WriteLogFormatted('INFO', '114', '[API CLIENTE] Enviado monitor-ocorrencia Sync. Status: ' + IntToStr(Response.StatusCode));
+                if Response.StatusCode = 200 then
+                  Inc(RegistrosProcessados)
+                else
+                  FrmPrincipal.WriteLogFormatted('ERRO', '114', '[API CLIENTE] Falha ao enviar ocorrência Sync: ' + Response.ContentAsString);
+              end
+              else
+                FrmPrincipal.WriteLogFormatted('ERRO', '114', '[API CLIENTE] Resposta nula do servidor ao enviar ocorrência Sync');
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '114', 'Erro ao enviar ocorrência Sync para API: ' + E.Message);
+            end;
+          Query.Next;
+        end;
+
+        FrmPrincipal.WriteLogFormatted('INFO', '114', Format('Verificação de sincronização concluída. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin
+        FrmPrincipal.WriteLogFormatted('INFO', '114', 'Nenhuma ocorrência de sincronização de réplica encontrada');
+      end;
+
+    except
+      on E: Exception do
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '114', Format('Erro ao executar consulta de sincronização: %s', [E.Message]));
+      end;
+    end;
+
+  finally
+    Query.Free;
+    QInsert.Free;
+    QueryApagar.Free;
+    LocalConnection.Free;
+    consultaNFEDivergencia;
+  end;
+
+end;
+
+procedure ThreadMonitordeOcorrencia.consultaNFEDivergencia;
+var
+  QSelect,QueryApagar: TUniQuery;
+  QInsert: TUniQuery;
+  UltimoRegistro: string;
+  DataUltimaAlteracao: TDateTime;
+  OcorrenciaFormatada: string;
+  RegistrosProcessados: Integer;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin
+  RegistrosProcessados := 0;                    //[CONSULTA NFE DIVERGENCIA]
+  FrmPrincipal.WriteLogFormatted('INFO', '104', 'Iniciando verificação de divergências NFE');
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  QueryApagar := TUniQuery.Create(nil);
+  try
+    // Removido delete direto; limpeza será tratada pelo servidor via política (>30min)
+
+
+    // Verificar se CXClient está ativa
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin                                            //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('ERRO', '104', 'CXClient não está conectada');
+      Exit;
+    end;
+    // Configurar query de seleção - buscar último registro por date_changed
+    QSelect.Connection := FrmPrincipal.CXClient;
+    QSelect.SQL.Text := 'SELECT operation_mode, operation_mode_status, date_changed, alert_message, motive ' +
+                       'FROM modnfe.system_operation ' +
+                       'ORDER BY date_changed DESC ' +
+                       'LIMIT 1';
+    // Preparar cliente HTTP
+    HttpClient := TNetHTTPClient.Create(nil);
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    try
+      QSelect.Open;                                  //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '104', 'Consulta executada. Registros encontrados: ' + IntToStr(QSelect.RecordCount));
+      if not QSelect.IsEmpty then
+      begin
+        UltimoRegistro := QSelect.FieldByName('operation_mode').AsString;
+        DataUltimaAlteracao := QSelect.FieldByName('date_changed').AsDateTime;
+        FrmPrincipal.WriteLogFormatted('DEBUG', '104', Format('Último registro encontrado: %s (Data: %s)',
+                                                             //[CONSULTA NFE DIVERGENCIA]
+          [UltimoRegistro, DateTimeToStr(DataUltimaAlteracao)]));
+        // Verificar se o último registro é diferente de 'nom_normal'
+        if UltimoRegistro <> 'nom_normal' then
+        begin                                                   //[CONSULTA NFE DIVERGENCIA]
+          FrmPrincipal.WriteLogFormatted('DEBUG', '104', Format('Divergência detectada: %s (esperado: nom_normal)', [UltimoRegistro]));
+                    // Formatar ocorrência com campos separados por ponto e vírgula
+          OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', DataUltimaAlteracao) + ';' +
+                                FormatDateTime('HH:NN:SS', DataUltimaAlteracao) + ';' +
+                                FrmPrincipal.EdtEmpresaTodos.Text + ';' + // empresa
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                'Divergência NFE detectada: ' + UltimoRegistro + ' - ' +
+                                QSelect.FieldByName('alert_message').AsString + ' - ' +
+                                QSelect.FieldByName('motive').AsString + ';' +
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';'; // campo vazio
+          // Enviar ocorrência via API
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataUltimaAlteracao));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataUltimaAlteracao));
+            var Obj := TJSONObject.Create;
+            try
+              Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+              Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(8));
+              Obj.AddPair('ocorrencia', TJSONString.Create(OcorrenciaFormatada));
+              Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+              Obj.AddPair('hora', TJSONString.Create(HoraStr));
+              Obj.AddPair('id_prioridade', TJSONNumber.Create(2));
+              RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+            finally
+              Obj.Free;
+            end;
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) and (Response.StatusCode = 200) then
+              begin
+                Inc(RegistrosProcessados);
+                FrmPrincipal.WriteLogFormatted('DEBUG', '104', Format('Ocorrência enviada para divergência NFE: %s', [UltimoRegistro]));
+              end
+              else
+              begin
+                var MsgFalha: string;
+                if Assigned(Response) then
+                  MsgFalha := Response.ContentAsString
+                else
+                  MsgFalha := 'Sem resposta';
+                FrmPrincipal.WriteLogFormatted('ERRO', '104', '[API CLIENTE] Falha ao enviar divergência NFE: ' + MsgFalha);
+              end;
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '104', 'Erro ao enviar divergência NFE para API: ' + E.Message);
+          end;
+        end
+        else
+        begin                                            //[CONSULTA NFE DIVERGENCIA]
+          FrmPrincipal.WriteLogFormatted('INFO', '104', 'Nenhuma divergência detectada - operation_mode é nom_normal');
+        end;                                              //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('INFO', '104', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('INFO', '104', 'Nenhum registro encontrado na tabela system_operation');
+      end;
+    except
+      on E: Exception do
+      begin                                           //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('ERRO', '104', 'Erro ao executar consulta: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    QInsert.Free;
+    QueryApagar.Free;
+
+    consultaNFcEDivergencia;
+  end;
+end;
+procedure ThreadMonitordeOcorrencia.consultaNFcEDivergencia;
+var
+  QSelect: TUniQuery;
+  QInsert: TUniQuery;
+  UltimoRegistro: string;
+  DataUltimaAlteracao: TDateTime;
+  OcorrenciaFormatada: string;
+  RegistrosProcessados: Integer;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin
+  RegistrosProcessados := 0;                   //[CONSULTA NFE DIVERGENCIA]
+  FrmPrincipal.WriteLogFormatted('INFO', '103', 'Iniciando verificação de divergências NFE');
+  QSelect := TUniQuery.Create(nil);
+  QInsert := TUniQuery.Create(nil);
+  try
+
+    // Verificar se CXClient está ativa
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin                                           //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('ERRO', '103', 'CXClient não está conectada');
+      Exit;
+    end;
+    // Configurar query de seleção - buscar último registro por date_changed
+    QSelect.Connection := FrmPrincipal.CXClient;
+    QSelect.SQL.Text := 'SELECT operation_mode, operation_mode_status, date_changed, alert_message, motive ' +
+                       'FROM modnfce.nfce_system_operation ' +
+                       'ORDER BY date_changed DESC ' +
+                       'LIMIT 1';
+    // Preparar cliente HTTP
+    HttpClient := TNetHTTPClient.Create(nil);
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    try
+      QSelect.Open;                                  //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '103', 'Consulta executada. Registros encontrados: ' + IntToStr(QSelect.RecordCount));
+      if not QSelect.IsEmpty then
+      begin
+        UltimoRegistro := QSelect.FieldByName('operation_mode').AsString;
+        DataUltimaAlteracao := QSelect.FieldByName('date_changed').AsDateTime;
+        FrmPrincipal.WriteLogFormatted('DEBUG', '103', Format('Último registro encontrado: %s (Data: %s)',
+                                                             //[CONSULTA NFE DIVERGENCIA]
+          [UltimoRegistro, DateTimeToStr(DataUltimaAlteracao)]));
+        // Verificar se o último registro é diferente de 'nom_normal'
+        if UltimoRegistro <> 'nom_normal' then
+        begin                                                   //[CONSULTA NFE DIVERGENCIA]
+          FrmPrincipal.WriteLogFormatted('DEBUG', '103', Format('Divergência detectada: %s (esperado: nom_normal)', [UltimoRegistro]));
+                    // Formatar ocorrência com campos separados por ponto e vírgula
+          OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', DataUltimaAlteracao) + ';' +
+                                FormatDateTime('HH:NN:SS', DataUltimaAlteracao) + ';' +
+                                FrmPrincipal.EdtEmpresaTodos.Text + ';' + // empresa
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                'Divergência NFCe detectada: ' + UltimoRegistro + ' - ' +
+                                QSelect.FieldByName('alert_message').AsString + ' - ' +
+                                QSelect.FieldByName('motive').AsString + ';' +
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';' + // campo vazio
+                                ';'; // campo vazio
+          // Enviar ocorrência via API
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataUltimaAlteracao));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataUltimaAlteracao));
+            var Obj := TJSONObject.Create;
+            try
+              Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+              Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(8));
+              Obj.AddPair('ocorrencia', TJSONString.Create(OcorrenciaFormatada));
+              Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+              Obj.AddPair('hora', TJSONString.Create(HoraStr));
+              Obj.AddPair('id_prioridade', TJSONNumber.Create(2));
+              RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+            finally
+              Obj.Free;
+            end;
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) and (Response.StatusCode = 200) then
+              begin
+                Inc(RegistrosProcessados);
+                FrmPrincipal.WriteLogFormatted('DEBUG', '103', Format('Ocorrência enviada para divergência NFCe: %s', [UltimoRegistro]));
+              end
+              else
+              begin
+                var MsgFalha: string;
+                if Assigned(Response) then
+                  MsgFalha := Response.ContentAsString
+                else
+                  MsgFalha := 'Sem resposta';
+                FrmPrincipal.WriteLogFormatted('ERRO', '103', '[API CLIENTE] Falha ao enviar divergência NFCe: ' + MsgFalha);
+              end;
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '103', 'Erro ao enviar divergência NFCe para API: ' + E.Message);
+          end;
+        end
+        else
+        begin                                           //[CONSULTA NFE DIVERGENCIA]
+          FrmPrincipal.WriteLogFormatted('INFO', '103', 'Nenhuma divergência detectada - operation_mode é nom_normal');
+        end;
+        FrmPrincipal.WriteLogFormatted('INFO', '103', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('INFO', '103', 'Nenhum registro encontrado na tabela system_operation');
+      end;
+    except
+      on E: Exception do
+      begin                                            //[CONSULTA sNFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('ERRO', '103', 'Erro ao executar consulta: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+
+    validacao_CNPJ;
+  end;
+end;
+
+procedure ThreadMonitordeOcorrencia.validacao_CNPJ;
+var
+  QSelect: TUniQuery;
+  OcorrenciaFormatada, OcorrenciaBase: string;
+  RegistrosProcessados: Integer;
+  DataAtual: TDateTime;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin                                           //[VALIDAÇÃO CNPJ]
+  FrmPrincipal.WriteLogFormatted('INFO', '102', 'Iniciando validação de CNPJs');
+  QSelect := TUniQuery.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  try
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin                                           //[VALIDAÇÃO CNPJ]
+      FrmPrincipal.WriteLogFormatted('ERRO', '102', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
+    
+    // Validar CXClient
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '102', 'CXClient não está conectada');
+      Exit;
+    end;
+    
+    try
+      // Conectar ao banco cliente
+      if not FrmPrincipal.CXClient.Connected then
+        FrmPrincipal.CXClient.Connect;
+      QSelect.Connection := FrmPrincipal.CXClient;
+      QSelect.SQL.Text :=
+        'SELECT ' +
+        '''Ocorrência: '' || ' +
+        '(SELECT cod_pessoa FROM pessoas ORDER BY cod_pessoa ASC LIMIT 1) || '' - '' || ' +
+        '(SELECT nome FROM pessoas ORDER BY cod_pessoa ASC LIMIT 1) || '' - '' || ' +
+        '(SELECT identificacao FROM pessoas ORDER BY cod_pessoa ASC LIMIT 1) AS ocorrencia ' +
+        'FROM config_dtc c ' +
+        'WHERE c.cnpj_client IS NOT NULL ' +
+        'AND TRIM(c.cnpj_client) <> '''' ' +
+        'AND NOT EXISTS ( ' +
+        '  SELECT 1 FROM pessoas px WHERE px.identificacao = c.cnpj_client ' +
+        ')';
+      QSelect.Open;
+      
+      // Preparar HttpClient
+      HttpClient := TNetHTTPClient.Create(nil);
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+      
+      while not QSelect.Eof do
+      begin
+        // Campo retornado pela query
+        OcorrenciaBase := Trim(QSelect.FieldByName('ocorrencia').AsString);
+        // Só cria ocorrência se houver algo
+        if OcorrenciaBase <> '' then
+        begin
+          OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', DataAtual) + ';' +
+                                FormatDateTime('HH:NN:SS', DataAtual) + ';' +
+                                FrmPrincipal.EdtEmpresaTodos.Text + ';' +
+                                ';' + ';' + ';' + ';' + ';' + ';' + ';' +
+                                OcorrenciaBase + ';' +
+                                ';' + ';' + ';' + ';' + ';' + ';' + ';';
+          
+          // Enviar via API
+          try
+            var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+            var IdModulo := 9;
+            var Prior := 2;
+            var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+            var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+            var Obj := TJSONObject.Create;
+            try
+              Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+              Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+              Obj.AddPair('ocorrencia', TJSONString.Create(OcorrenciaFormatada));
+              Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+              Obj.AddPair('hora', TJSONString.Create(HoraStr));
+              Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+              RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+            finally
+              Obj.Free;
+            end;
+            
+            try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+              if Assigned(Response) and (Response.StatusCode = 200) then
+              begin
+          Inc(RegistrosProcessados);
+                FrmPrincipal.WriteLogFormatted('DEBUG', '102', Format('Ocorrência CNPJ enviada - Prioridade: %d', [Prior]));
+              end
+              else
+              begin
+                var MsgFalha: string;
+                if Assigned(Response) then
+                  MsgFalha := Response.ContentAsString
+                else
+                  MsgFalha := 'Sem resposta';
+                FrmPrincipal.WriteLogFormatted('ERRO', '102', '[API CLIENTE] Falha ao enviar ocorrência CNPJ: ' + MsgFalha);
+              end;
+            finally
+              RequestBody.Free;
+            end;
+          except
+            on E: Exception do
+              FrmPrincipal.WriteLogFormatted('ERRO', '102', 'Erro ao enviar ocorrência CNPJ para API: ' + E.Message);
+          end;
+        end;
+        QSelect.Next;
+      end;
+    except
+      on E: Exception do                              //[VALIDAÇÃO CNPJ]
+        FrmPrincipal.WriteLogFormatted('ERRO', '102', 'Erro ao executar validação: ' + E.Message);
+    end;
+  finally
+    QSelect.Free;
+    HttpClient.Free;
+InserirerroProducao;
+  end;                                                  //[VALIDAÇÃO CNPJ]
+  FrmPrincipal.WriteLogFormatted('INFO', '102', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+  end;
+procedure ThreadMonitordeOcorrencia.InserirerroProducao;
+var
+  QSelect: TUniQuery;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+begin                                            //[INSERIR EaRRO PRODUÇÃO]
+  FrmPrincipal.WriteLogFormatted('INFO', '101', 'Iniciando verificação de erros de produção');
+
+  QSelect := TUniQuery.Create(nil);
+
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  try
+//    conexaomodulos;
+    try
+      // Verificar se EdtEmpresaTodos tem valor válido
+      if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+      begin                                            //[INSERIR ERRO PRODUÇÃOa]
+        FrmPrincipal.WriteLogFormatted('ERRO', '101', 'EdtEmpresaTodos está vazio ou inválido');
+        Exit;
+      end;
+      // Conectar ao banco de módulos
+
+      // Configurar conexões
+
+      QSelect.Connection := FrmPrincipal.CXClient;
+
+
+      if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+      begin                                            //[INSERIR ERRO PRODUÇÃO]
+        FrmPrincipal.WriteLogFormatted('ERRO', '101', '[INSERIR ERRO PRODUÇÃO] CXClient não está conectada');
+        Exit;
+      end;
+      // Removido DELETE direto; limpeza será tratada pela API (regra >30min)
+
+             // Configurar query de seleção
+            QSelect.SQL.Text :=
+              'SELECT ' +
+             ' DISTINCT ON (cod_empresa)'+
+              '  TO_CHAR(data_movimento, ''YYYY-MM-DD'') || '';'' || ' +  // data + ;
+              '  repeat('';'', 1) || ' +                                 // ; (extra)
+              '  cod_empresa || ' +
+              '  repeat('';'', 8) || ' +                                // 7 ; após cod_empresa
+              '  mensagem || repeat('';'', 7) AS ocorrencias, ' +       // mensagem + 7 ; no final
+              '  CASE ' +
+              '    WHEN current_date - data_movimento >= 1 AND current_date - data_movimento <= 2 THEN 2 ' +
+              '    WHEN current_date - data_movimento >= 2 AND current_date - data_movimento <= 3 THEN 2 ' +
+              '    WHEN current_date - data_movimento >= 3 AND current_date - data_movimento <= 4 THEN 2 ' +
+              '    ELSE 2 ' +
+              '  END AS prioridade ' +
+              'FROM pendencias_producao_produtos lf ' +
+              'ORDER BY cod_empresa, data_movimento';
+                                                     //[INSERIR ERRO PRODUÇÃO]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '101', 'Executando consulta de erros de produção');
+      QSelect.Open;
+      
+      // Preparar HttpClient
+      HttpClient := TNetHTTPClient.Create(nil);
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+      if not QSelect.IsEmpty then
+      begin                                                   //[INSERIR ERRO PRODUÇÃO]
+        FrmPrincipal.WriteLogFormatted('DEBUG', '101', Format('Encontrados %d registros de erros de produção', [QSelect.RecordCount]));
+                 while not QSelect.Eof do
+         begin
+           if not QSelect.FieldByName('ocorrencias').IsNull then
+           begin
+            // Enviar via API
+            try
+              var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+              var IdModulo := 10;
+              var Ocorr := QSelect.FieldByName('ocorrencias').AsString;
+              var Prior := QSelect.FieldByName('prioridade').AsInteger;
+              var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+              var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+              var Obj := TJSONObject.Create;
+              try
+                Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+              finally
+                Obj.Free;
+              end;
+              try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                if Assigned(Response) and (Response.StatusCode = 200) then
+                begin
+                  Inc(RegistrosProcessados);
+                  FrmPrincipal.WriteLogFormatted('DEBUG', '101', Format('Ocorrência enviada - Prioridade: %d', [Prior]));
+                end
+                else
+                begin
+                  var MsgFalha: string;
+                  if Assigned(Response) then
+                    MsgFalha := Response.ContentAsString
+                  else
+                    MsgFalha := 'Sem resposta';
+                  FrmPrincipal.WriteLogFormatted('ERRO', '101', '[API CLIENTE] Falha ao enviar ocorrência de produção: ' + MsgFalha);
+                end;
+              finally
+                RequestBody.Free;
+              end;
+            except
+              on E: Exception do
+                FrmPrincipal.WriteLogFormatted('ERRO', '101', 'Erro ao enviar ocorrência de produção para API: ' + E.Message);
+            end;
+           end;
+           QSelect.Next;
+         end;                                                 //[INSERIR ERRO PRODUÇÃO]
+        FrmPrincipal.WriteLogFormatted('DEBUG', '101', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[INSERIR ERRO PRODUÇÃO]
+        FrmPrincipal.WriteLogFormatted('INFO', '101', 'Nenhum erro de produção encontrado');
+      end;
+      except
+        on E: Exception do                             //[INSERIR ERRO PRODUÇÃO]
+         FrmPrincipal.WriteLogFormatted('ERRO', '101', 'Erro ao executar verificação: ' + E.Message);
+      end;
+  finally
+    QSelect.Free;
+
+
+     Divergencia_encerrantes_sigilo;
+  end;
+                                                      //[INSERIR ERRO PRODUÇÃO]
+  FrmPrincipal.WriteLogFormatted('INFO', '101', Format('Finalizado com %d ocorrências processadas', [RegistrosProcessados]));
+  end;
+procedure ThreadMonitordeOcorrencia.Divergencia_encerrantes_sigilo;
+var
+  QSelect, QSelectEmpresa: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  CodEmpresa: Integer;
+  TotalRegistros: Integer;
+  Divergencia: string;
+  TentativasReconexao: Integer;
+  ConexaoEstavel: Boolean;
+begin                                            //[INSERIR encerrantes sigilo]
+  FrmPrincipal.WriteLogFormatted('INFO', '110', 'Iniciando verificação de divergências de encerrantes');
+  QSelect := TUniQuery.Create(nil);
+  QSelectEmpresa := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  TentativasReconexao := 0;
+  ConexaoEstavel := False;
+  try
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin                                            //[INSERIR encerrantes sigilo]
+      FrmPrincipal.WriteLogFormatted('ERRO', '110', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
+    
+    try
+      // Configurar conexões
+      QSelect.Connection := FrmPrincipal.CXClient;
+      QSelectEmpresa.Connection := FrmPrincipal.CXClient;
+      
+      // Preparar HttpClient
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+      
+      // Resetar para CXClient
+      TentativasReconexao := 0;
+      ConexaoEstavel := False;
+      
+      if not Assigned(FrmPrincipal.CXClient) then
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '110', 'CXClient não está atribuída');
+        Exit;
+      end;
+      
+      // Estabilizar CXClient
+      while not ConexaoEstavel and (TentativasReconexao < 5) do
+      begin
+        try
+          if not FrmPrincipal.CXClient.Connected then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Tentativa %d - Reconectando CXClient...', [TentativasReconexao + 1]));
+            FrmPrincipal.CXClient.Connect;
+          end;
+          
+          // Conexão CXClient estabilizada
+          
+          ConexaoEstavel := True;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'CXClient estabilizada com sucesso');
+        except
+          on E: Exception do
+          begin
+            Inc(TentativasReconexao);
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Tentativa %d - Falha ao estabilizar CXClient: %s', [TentativasReconexao, E.Message]));
+            
+            if TentativasReconexao >= 5 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Máximo de tentativas para CXClient atingido');
+              Exit;
+            end;
+            
+            Sleep(2000); // Aguardar 2 segundos antes da próxima tentativa
+          end;
+        end;
+      end;
+      // Buscar o cod_empresa do sistema (apenas se houver uma única empresa)
+      try
+        // Primeiro verificar se existe apenas uma empresa do sistema
+        QSelectEmpresa.SQL.Text :=
+          'SELECT COUNT(*) as total_empresas ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true';
+        QSelectEmpresa.Open;
+        
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger > 1 then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'Mais de uma empresa do sistema encontrada - Abortando verificação');
+              Exit;
+            end;
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger = 0 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Nenhuma empresa do sistema encontrada');
+              Exit;
+            end;
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo total_empresas: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query de contagem de empresas não retornou dados');
+          Exit;
+        end;
+        
+        // Buscar o cod_pessoa da única empresa
+        QSelectEmpresa.Close;
+        QSelectEmpresa.SQL.Text :=
+          'SELECT cod_pessoa ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true ' +
+          'ORDER BY cod_pessoa asc ' +
+          'LIMIT 1';
+        QSelectEmpresa.Open;
+        
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            CodEmpresa := QSelectEmpresa.FieldByName('cod_pessoa').AsInteger;
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Empresa única do sistema encontrada: %d', [CodEmpresa]));
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo cod_pessoa: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query de busca da empresa não retornou dados');
+          Exit;
+        end;
+      except
+        on E: Exception do
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'ERRO AO BUSCAR EMPRESA DO SISTEMA: ' + E.Message);
+          Exit;
+        end;
+      end;
+
+      // Verificar divergências de encerrantes usando o cod_pessoa
+      try
+        // Verificar se CodEmpresa é válido
+        if CodEmpresa <= 0 then
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'CodEmpresa inválido: ' + IntToStr(CodEmpresa));
+          Exit;
+        end;
+
+        // Primeiro, vamos testar se a função retorna dados
+        try
+          QSelect.SQL.Text :=
+            'SELECT COUNT(*) as total_registros ' +
+            'FROM calcula_encerrantes_bomba_e_gerencial_por_dia(:pempresa, 0, current_date - 1, current_date - 1) f ' +
+            'WHERE f.diferenca_encerrantes > 2';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+
+          if QSelect.Active and not QSelect.IsEmpty then
+          begin
+            try
+              TotalRegistros := QSelect.FieldByName('total_registros').AsInteger;
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Total de registros com divergência > 2: %d', [TotalRegistros]));
+            except
+              on E: Exception do
+              begin
+                FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo total_registros: ' + E.Message);
+                Exit;
+              end;
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'Nenhum registro encontrado na consulta de contagem');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro na consulta de contagem: ' + E.Message);
+            Exit;
+          end;
+        end;
+
+        // Agora vamos buscar a divergência
+        try
+          QSelect.Close;
+          QSelect.SQL.Text :=
+            'SELECT ' +
+            '  '';;;;;;;;;;Divergência de encerrantes nos bicos;;;;;;;;;'' AS divergencia ' +
+            'FROM calcula_encerrantes_bomba_e_gerencial_por_dia(:pempresa, 0, current_date -1, current_date -1) f ' +
+            'WHERE f.diferenca_encerrantes > 2 ' +
+            'LIMIT 1';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+          
+          FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Executando consulta de divergências de encerrantes para empresa: %d', [CodEmpresa]));
+          
+          if QSelect.Active then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Registros encontrados na consulta: %d', [QSelect.RecordCount]));
+            
+            if not QSelect.IsEmpty then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'Divergência de encerrantes encontrada - Enviando para API');
+                   
+                   Divergencia := QSelect.FieldByName('divergencia').AsString;
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Enviando ocorrência para API: %s', [Divergencia]));
+              
+              // Enviar via API
+              try
+                var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+                var IdModulo := 11; // Módulo Divergência de encerrantes
+                var Ocorr := Divergencia;
+                var Prior := 2; // Prioridade média
+                var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+                var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+                var Obj := TJSONObject.Create;
+                try
+                  Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                  Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                  Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                  Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                  Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                  Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                  RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+                finally
+                  Obj.Free;
+                end;
+                try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                  if Assigned(Response) and (Response.StatusCode = 200) then
+                       begin
+                    Inc(RegistrosProcessados);
+                    FrmPrincipal.WriteLogFormatted('INFO', '110', 'Ocorrência de divergência de encerrantes enviada para API com sucesso');
+                  end
+                  else
+                  begin
+                    var MsgFalha: string;
+                    if Assigned(Response) then
+                      MsgFalha := Response.ContentAsString
+                    else
+                      MsgFalha := 'Sem resposta';
+                    FrmPrincipal.WriteLogFormatted('ERRO', '110', '[API CLIENTE] Falha ao enviar divergência de encerrantes: ' + MsgFalha);
+                  end;
+                finally
+                  RequestBody.Free;
+                end;
+              except
+                on E: Exception do
+                  FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao enviar divergência de encerrantes para API: ' + E.Message);
+               end;
+            end
+            else
+            begin
+              FrmPrincipal.WriteLogFormatted('INFO', '110', 'Nenhuma divergência de encerrantes encontrada');
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query não está ativa após execução');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro na consulta de divergências: ' + E.Message);
+            Exit;
+          end;
+        end;
+      except
+        on E: Exception do
+        begin                                           //[INSERIR encerrantes sigilo]
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'ERRO AO VERIFICAR DIVERGÊNCIAS DE ENCERRANTES: ' + E.Message);
+          Exit;
+        end;
+      end;
+    except
+      on E: Exception do                              //[INSERIR encerrantes sigilo]
+        FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao executar verificação: ' + E.Message);
+    end;
+  finally
+    QSelect.Free;
+    QSelectEmpresa.Free;
+
+    VerificarCertificadosClientes;
+  end;
+                                                         //[INSERIR encerrantes sigilo]
+  FrmPrincipal.WriteLogFormatted('INFO', '110', Format('[INSERIR encerrantes sigilo] Finalizado com %d ocorrências processadas', [RegistrosProcessados]));
+  end;
+procedure ThreadMonitordeOcorrencia.VerificarCertificadosClientes;
+var
+  QSelect: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  SerialNumber: string;
+  CertInfo: string;
+  CertExpired: Boolean;
+  ExpirationDate: TDateTime;
+  NormalizedSerial: string;
+  TempFile: string;
+  CmdLine: string;
+  ExitCode: Integer;
+  AllCerts: TStringList;
+  i, j: Integer;
+  FoundCert: Boolean;
+  LineSerial: string;
+begin                                           //[VERIFICAR CERTIFICADOS CLIENTES]
+  FrmPrincipal.WriteLogFormatted('INFO', '111', 'Iniciando verificação de certificados dos clientes');
+  QSelect := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  try
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '111', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;                                          //[VERIFICAR CERTIFICADOS CLIENTES]
+    end;
+    // Conectar ao banco do cliente
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '111', 'CXClient não está conectada');
+      Exit;                                          //[VERIFICAR CERTIFICADOS CLIENTES]
+    end;
+    // Configurar conexões
+    QSelect.Connection := FrmPrincipal.CXClient;
+    
+    // Preparar HttpClient
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    // Buscar todos os certificados dos clientes
+    try
+      QSelect.SQL.Text :=
+        'SELECT DISTINCT sender_certificate_number, cod_empresa ' +
+        'FROM modnfe.nfe_senders_configs ' +
+        'WHERE sender_certificate_number IS NOT NULL ' +
+        'AND sender_certificate_number <> '''' ' +
+        'ORDER BY sender_certificate_number';
+      QSelect.Open;                                         //[VERIFICAR CERTIFICADOS CLIENTES]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '111', Format('Encontrados %d certificados para verificar', [QSelect.RecordCount]));
+      if not QSelect.IsEmpty then
+      begin
+        // Primeiro, vamos obter a lista de todos os certificados do sistema
+        AllCerts := TStringList.Create;
+        try
+          // Usa certutil para listar todos os certificados
+          CmdLine := Format('cmd.exe /c certutil -store MY > "%s"', [ExtractFilePath(ParamStr(0)) + 'all_certs_temp.txt']);
+          ExitCode := ShellExecute(0, 'open', 'cmd.exe', PChar('/c ' + CmdLine), nil, SW_HIDE);
+          if ExitCode > 32 then
+          begin
+            Sleep(3000); // Aguarda o comando terminar
+            TempFile := ExtractFilePath(ParamStr(0)) + 'all_certs_temp.txt';
+            if FileExists(TempFile) then
+            begin
+              AllCerts.LoadFromFile(TempFile);
+              DeleteFile(PChar(TempFile));                         //[VERIFICAR CERTIFICADOS CLIENTES]
+              FrmPrincipal.WriteLogFormatted('DEBUG', '111', Format('Lista de certificados do sistema carregada: %d linhas', [AllCerts.Count]));
+            end
+            else
+            begin                                          //[VERIFICAR CERTIFICADOS CLIENTES]
+              FrmPrincipal.WriteLogFormatted('ERRO', '111', 'Não foi possível obter a lista de certificados do sistema');
+              Exit;
+            end;
+          end
+          else
+          begin                                           //[VERIFICAR CERTIFICADOS CLIENTES]
+            FrmPrincipal.WriteLogFormatted('ERRO', '111', 'Falha ao executar comando certutil');
+            Exit;
+          end;
+          // Processar cada certificado dos clientes
+          while not QSelect.Eof do
+          begin
+                                   SerialNumber := QSelect.FieldByName('sender_certificate_number').AsString;
+                       var CodEmpresaCliente: Integer := QSelect.FieldByName('cod_empresa').AsInteger;
+            if Trim(SerialNumber) <> '' then
+             begin
+              // Normaliza o número de série (remove zeros à esquerda e converte para minúsculas)
+              NormalizedSerial := LowerCase(Trim(SerialNumber));
+              while (Length(NormalizedSerial) > 1) and (NormalizedSerial[1] = '0') do
+                NormalizedSerial := Copy(NormalizedSerial, 2, Length(NormalizedSerial) - 1);
+              FrmPrincipal.WriteLogFormatted('DEBUG', '111', Format('Verificando certificado: %s (normalizado: %s)', [SerialNumber, NormalizedSerial]));
+              // Verificar se o certificado existe e está vencido
+              CertExpired := False;                                //[VERIFICAR CERTIFICADOS CLIENTES]
+              ExpirationDate := 0;
+              for i := 0 to AllCerts.Count - 1 do
+              begin
+                // Procura por linhas que contenham "Número de Série" ou "Serial Number"
+                if (Pos('número de série', LowerCase(AllCerts[i])) > 0) or
+                   (Pos('serial number', LowerCase(AllCerts[i])) > 0) then
+                begin
+                  // Extrai o número de série da linha
+                  LineSerial := LowerCase(AllCerts[i]);
+                  // Remove caracteres não hexadecimais
+                  LineSerial := StringReplace(LineSerial, ' ', '', [rfReplaceAll]);
+                  LineSerial := StringReplace(LineSerial, ':', '', [rfReplaceAll]);
+                  LineSerial := StringReplace(LineSerial, '-', '', [rfReplaceAll]);
+                  // Procura o número de série na linha
+                  if Pos(NormalizedSerial, LineSerial) > 0 then
+                  begin
+                    // Certificado encontrado, agora verificar data de expiração
+                    for j := i + 1 to AllCerts.Count - 1 do
+                    begin
+                      if Pos('notafter', LowerCase(AllCerts[j])) > 0 then
+                      begin
+                        // Extrair data de expiração
+                        CertInfo := AllCerts[j];
+                        // Tentar extrair a data (formato pode variar)
+                        if Pos(':', CertInfo) > 0 then
+                        begin
+                          CertInfo := Copy(CertInfo, Pos(':', CertInfo) + 1, Length(CertInfo));
+                          CertInfo := Trim(CertInfo);
+                          try
+                            ExpirationDate := StrToDateTime(CertInfo);
+                            if ExpirationDate < Now then
+                            begin
+                              CertExpired := True;                                   //[VERIFICAR CERTIFICADOS CLIENTES]
+                              FrmPrincipal.WriteLogFormatted('INFO', '111', Format('Certificado %s VENCIDO - Expira em: %s', [SerialNumber, DateTimeToStr(ExpirationDate)]));
+                            end
+                            else
+                            begin                                                     //[VERIFICAR CERTIFICADOS CLIENTES]
+                              FrmPrincipal.WriteLogFormatted('DEBUG', '111', Format('Certificado %s VÁLIDO - Expira em: %s', [SerialNumber, DateTimeToStr(ExpirationDate)]));
+                            end;
+                          except                                                   //[VERIFICAR CERTIFICADOS CLIENTES]
+                            FrmPrincipal.WriteLogFormatted('ERRO', '111', Format('Erro ao converter data: %s', [CertInfo]));
+                          end;
+                        end;
+                        Break;
+                      end;
+                    end;
+                    Break;
+                  end;
+                end;
+              end;
+                                       // Verificar se o certificado está vencido ou próximo do vencimento
+               if ExpirationDate > 0 then
+               begin
+                 // Calcular dias restantes até o vencimento
+                 var DiasRestantes: Integer := Trunc(ExpirationDate - Now);
+                 var Prioridade: Integer := 0;
+                 var Mensagem: string := '';
+                 if DiasRestantes < 0 then
+                 begin
+                   // Certificado vencido
+                   Prioridade := 4;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vencido: %s - Expirou em: %s;;;;;;;;;;', [CodEmpresaCliente, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end
+                 else if DiasRestantes <= 3 then
+                 begin
+                   // Vence em 3 dias ou menos
+                   Prioridade := 4;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vence em %d dias: %s - Expira em: %s;;;;;;;;;;', [CodEmpresaCliente, DiasRestantes, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end
+                 else if DiasRestantes <= 7 then
+                 begin
+                   // Vence em 7 dias ou menos
+                   Prioridade := 3;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vence em %d dias: %s - Expira em: %s;;;;;;;;;;', [CodEmpresaCliente, DiasRestantes, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end
+                 else if DiasRestantes <= 15 then
+                 begin
+                   // Vence em 15 dias ou menos
+                   Prioridade := 2;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vence em %d dias: %s - Expira em: %s;;;;;;;;;;', [CodEmpresaCliente, DiasRestantes, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end
+                 else if DiasRestantes <= 30 then
+                 begin
+                   // Vence em 15 dias ou menos
+                   Prioridade := 1;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vence em %d dias: %s - Expira em: %s;;;;;;;;;;', [CodEmpresaCliente, DiasRestantes, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end
+                 else if DiasRestantes <= 45 then
+                 begin
+                   // Vence em 30 dias ou menos
+                   Prioridade := 1;
+                   Mensagem := Format(';;%d;;;;;;;;Certificado digital vence em %d dias: %s - Expira em: %s;;;;;;;;;;', [CodEmpresaCliente, DiasRestantes, SerialNumber, DateTimeToStr(ExpirationDate)]);
+                 end;
+                 // Se há uma mensagem para enviar (certificado vencido ou próximo do vencimento)
+                 if Mensagem <> '' then
+                 begin
+                   // Enviar via API
+                   try
+                     var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+                     var IdModulo := 12; // Módulo Certificados vencidos
+                     var Ocorr := Mensagem;
+                     var Prior := Prioridade;
+                     var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+                     var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+                     var Obj := TJSONObject.Create;
+                     try
+                       Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                       Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                       Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                       Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                       Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                       Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                       RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+                     finally
+                       Obj.Free;
+                     end;
+                     try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                       if Assigned(Response) and (Response.StatusCode = 200) then
+                       begin
+                         Inc(RegistrosProcessados);
+                         FrmPrincipal.WriteLogFormatted('DEBUG', '111', Format('Ocorrência enviada para certificado (Prioridade %d): %s', [Prioridade, SerialNumber]));
+                       end
+                       else
+                       begin
+                         var MsgFalha: string;
+                         if Assigned(Response) then
+                           MsgFalha := Response.ContentAsString
+                         else
+                           MsgFalha := 'Sem resposta';
+                         FrmPrincipal.WriteLogFormatted('ERRO', '111', '[API CLIENTE] Falha ao enviar certificado: ' + MsgFalha);
+                       end;
+                     finally
+                       RequestBody.Free;
+                     end;
+                   except
+                     on E: Exception do
+                       FrmPrincipal.WriteLogFormatted('ERRO', '111', 'Erro ao enviar certificado para API: ' + E.Message);
+                   end;
+                 end;
+               end;
+             end;
+            QSelect.Next;
+          end;
+        finally
+          AllCerts.Free;
+        end;
+      end
+      else
+      begin                                            //[VERIFICAR CERTIFICADOS CLIENTES]
+        FrmPrincipal.WriteLogFormatted('INFO', '111', 'Nenhum certificado encontrado na tabela de clientes');
+      end;
+    except
+      on E: Exception do
+      begin                                            //[VERIFICAR CERTIFICADOS CLIENTES]
+        FrmPrincipal.WriteLogFormatted('ERRO', '111', 'ERRO AO BUSCAR CERTIFICADOS DOS CLIENTES: ' + E.Message);
+        Exit;
+      end;
+    end;
+  finally
+    QSelect.Free;
+    EnviarVersaoSistemaAPI;
+//    Consultaversao_DTCSync;
+  end;                                                  //[VERIFICAR CERTIFICADOS CLIENTES]
+  FrmPrincipal.WriteLogFormatted('INFO', '111', Format('Finalizado com %d ocorrências processadas', [RegistrosProcessados]));
+end;
+
+// Nova procedure unificada para enviar todas as informações de versão via API
+procedure ThreadMonitordeOcorrencia.EnviarVersaoSistemaAPI;
+var
+  QryPostgres: TUniQuery;
+  EmpresaID: Integer;
+  VersaoSigilo: string;
+  Vencimentos: string;
+  VersaoDtcSync: string;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  JSONPayload: string;
+  Texto: string;
+  p1, p2: Integer;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '130', 'Iniciando coleta unificada de informações de versão');
+
+  // Validar empresa
+  if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+  begin
+    FrmPrincipal.WriteLogFormatted('ERRO', '130', 'EdtEmpresaTodos está vazio ou inválido');
+    Exit;
+  end;
+
+  EmpresaID := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+  if EmpresaID = 0 then
+  begin
+    FrmPrincipal.WriteLogFormatted('ERRO', '130', 'EmpresaID inválido');
+    Exit;
+  end;
+
+  // Inicializar variáveis
+  VersaoSigilo := '';
+  Vencimentos := '';
+  VersaoDtcSync := '';
+
+  try
+    // 1. Coletar VENCIMENTOS (ConsultaValidade)
+    FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Coletando informações de vencimento...');
+    QryPostgres := TUniQuery.Create(nil);
+    try
+      QryPostgres.Connection := FrmPrincipal.CxClient;
+      QryPostgres.SQL.Text :=
+        'SELECT a.data_vencimento AS validade ' +
+        'FROM autorizacoes a ' +
+        'INNER JOIN pessoas p ON a.cod_pessoa = p.cod_pessoa ' +
+        'WHERE p.reg_desativado IS FALSE ' +
+        'AND a.data_vencimento IS NOT NULL ' +
+        'ORDER BY a.data_vencimento DESC ' +
+        'LIMIT 1;';
+      QryPostgres.Open;
+      if not QryPostgres.IsEmpty then
+        Vencimentos := QryPostgres.FieldByName('validade').AsString;
+    finally
+      QryPostgres.Free;
+    end;
+
+    // 2. Coletar VERSÃO DTC SYNC (Consultaversao_DTCSync)
+    FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Coletando versão DTC Sync...');
+    Texto := FrmPrincipal.LabelVersao.Caption;
+  p1 := Pos('monitor', Texto);
+  if p1 > 0 then
+  begin
+      p1 := p1 + Length('monitor');
+    p2 := Pos('.txt', Texto);
+    if (p2 > p1) then
+        VersaoDtcSync := Copy(Texto, p1, p2 - p1);
+    end;
+
+    // 3. Coletar VERSÃO SIGILO (Versaosigilo)
+    FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Coletando versão do Sigilo...');
+    QryPostgres := TUniQuery.Create(nil);
+    try
+      QryPostgres.Connection := FrmPrincipal.CxClient;
+      QryPostgres.SQL.Text :=
+        'SELECT substring(aplicacao from ''\((.*?)\)'') AS extracted_value ' +
+        'FROM auditor.transactions_audit ' +
+        'WHERE tipo_evento = ''INSERT''' +
+        'AND aplicacao LIKE ''Sig%'' and esquema = ''modnfce'' ' +
+        'ORDER BY data_hora DESC ' +
+        'LIMIT 1;';
+      QryPostgres.Open;
+      if not QryPostgres.IsEmpty then
+        VersaoSigilo := QryPostgres.FieldByName('extracted_value').AsString;
+  finally
+      QryPostgres.Free;
+    end;
+
+    FrmPrincipal.WriteLogFormatted('DEBUG', '130', Format('Dados coletados - Vencimentos: %s, DTC Sync: %s, Sigilo: %s', 
+      [Vencimentos, VersaoDtcSync, VersaoSigilo]));
+
+    // 4. Enviar via API
+    HttpClient := TNetHTTPClient.Create(nil);
+    try
+      // Configurar autenticação Basic
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+      
+      // Preparar payload JSON
+      JSONPayload := Format('{"id_empresa_help":%d,"versao":"%s","vencimentos":"%s","versaodtcsync":"%s"}', 
+        [EmpresaID, 
+         StringReplace(VersaoSigilo, '"', '\"', [rfReplaceAll]),
+         StringReplace(Vencimentos, '"', '\"', [rfReplaceAll]),
+         StringReplace(VersaoDtcSync, '"', '\"', [rfReplaceAll])]);
+      
+      RequestBody := TStringStream.Create(JSONPayload, TEncoding.UTF8);
+      
+      try
+        FrmPrincipal.WriteLogFormatted('INFO', '130', Format('Enviando informações de versão via API para empresa: %d', [EmpresaID]));
+        FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Payload: ' + JSONPayload);
+        
+        // Fazer requisição POST para a API
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/versao-sistema', RequestBody);
+        
+        if Assigned(Response) then
+      begin
+          if Response.StatusCode = 200 then
+          begin
+            FrmPrincipal.WriteLogFormatted('INFO', '130', Format('Informações de versão enviadas com sucesso para empresa %d', [EmpresaID]));
+            FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Resposta da API: ' + Response.ContentAsString);
+      end
+      else
+      begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '130', Format('Falha ao enviar informações de versão. Status: %d', [Response.StatusCode]));
+            FrmPrincipal.WriteLogFormatted('DEBUG', '130', 'Resposta da API: ' + Response.ContentAsString);
+          end;
+        end
+        else
+  begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '130', 'Resposta da API é nil');
+        end;
+        
+    finally
+        RequestBody.Free;
+      end;
+      
+      finally
+      HttpClient.Free;
+      end;
+
+     except
+    on E: Exception do
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '130', 'Erro ao coletar/enviar informações de versão: ' + E.Message);
+    end;
+  end;
+  
+  FrmPrincipal.WriteLogFormatted('INFO', '130', 'Coleta unificada de informações de versão finalizada');
+  hardwarclient;
+end;
+procedure ThreadMonitordeOcorrencia.hardwarclient;
+var
+  QryMySQL: TUniQuery;
+  EmpresaID: Integer;
+  HardwareInfo: string;
+  ProcessorName: string;
+  TotalMemory: string;
+  DiskSize: string;
+  OSInfo: string;
+  ComputerName: string;
+  EmpresaExiste: Boolean;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '123', 'Iniciando coleta de especificações de hardware');
+  
+  // Validar empresa
+  if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+  begin
+    FrmPrincipal.WriteLogFormatted('ERRO', '123', 'EdtEmpresaTodos está vazio ou inválido');
+    Exit;
+  end;
+
+  EmpresaID := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+  if EmpresaID = 0 then
+  begin
+    FrmPrincipal.WriteLogFormatted('ERRO', '123', 'EmpresaID inválido');
+    Exit;
+  end;
+
+  FrmPrincipal.WriteLogFormatted('DEBUG', '123', Format('Coletando hardware para empresa: %d', [EmpresaID]));
+
+  // Coletar informações de hardware detalhadas
+  try
+    // Nome do computador
+    ComputerName := GetEnvironmentVariable('COMPUTERNAME');
+    if ComputerName = '' then
+      ComputerName := 'Desconhecido';
+    
+    // Informações detalhadas do processador
+    ProcessorName := GetDetailedProcessorInfo;
+    
+    // Informações detalhadas do sistema operacional
+    OSInfo := GetDetailedOSInfo;
+    
+    // Memória total detalhada
+    TotalMemory := GetDetailedMemoryInfo;
+    
+    // Informações detalhadas do disco
+    DiskSize := GetDetailedDiskInfo;
+    
+    // Informações da placa mãe
+    var Motherboard := GetMotherboardInfo;
+    
+    // Informações do BIOS
+    var BIOSInfo := GetBIOSInfo;
+    
+    // Detectar se é servidor Dell e usar abordagem específica
+    var IsDellServer := (Pos('Dell', Motherboard) > 0) or (Pos('Dell', BIOSInfo) > 0);
+    
+    var DiskSerial: string;
+    var MACAddress: string;
+    
+    if IsDellServer then
+    begin
+      FrmPrincipal.WriteLogFormatted('DEBUG', '123', 'Detectado servidor Dell, usando abordagem específica');
+      
+      // Tentar abordagem específica para Dell
+      var DellInfo := GetDellServerInfo;
+      
+      // Extrair serial e MAC do resultado combinado
+      if Pos(';', DellInfo) > 0 then
+      begin
+        DiskSerial := Copy(DellInfo, 1, Pos(';', DellInfo) - 1);
+        MACAddress := Copy(DellInfo, Pos(';', DellInfo) + 1, Length(DellInfo));
+      end
+      else
+      begin
+        DiskSerial := DellInfo;
+        MACAddress := 'mac-desconhecido';
+      end;
+      
+      FrmPrincipal.WriteLogFormatted('DEBUG', '123', Format('Dell Info: %s', [DellInfo]));
+      
+      // Se MAC ainda não conseguiu, tentar comando direto
+      if (MACAddress = 'mac-desconhecido') then
+      begin
+        FrmPrincipal.WriteLogFormatted('DEBUG', '123', 'MAC não detectado, tentando comando direto');
+        
+        // Comando direto para MAC
+        var TempFile := 'C:\Windows\Temp\direct_mac.txt';
+        var Command := 'cmd /c getmac /fo csv /nh | findstr /v "Transport Name" > "' + TempFile + '"';
+        
+        if WinExec(PAnsiChar(AnsiString(Command)), SW_HIDE) > 32 then
+        begin
+          Sleep(2000);
+          if FileExists(TempFile) then
+          begin
+            var Output := TStringList.Create;
+            try
+              Output.LoadFromFile(TempFile);
+              for var j := 0 to Output.Count - 1 do
+              begin
+                var Line := Trim(Output[j]);
+                if (Length(Line) > 20) and (Pos('-', Line) > 0) then
+                begin
+                  var MACValue := Copy(Line, 1, Pos(',', Line) - 1);
+                  MACValue := StringReplace(MACValue, '"', '', [rfReplaceAll]);
+                  MACValue := StringReplace(MACValue, '-', ':', [rfReplaceAll]);
+                  MACValue := Trim(MACValue);
+                  
+                  if (Length(MACValue) = 17) and (MACValue <> '00:00:00:00:00:00') and (MACValue <> 'FF:FF:FF:FF:FF:FF') then
+                  begin
+                    MACAddress := MACValue;
+                    Break;
+                  end;
+                end;
+              end;
+            finally
+              Output.Free;
+            end;
+            DeleteFile(PWideChar(TempFile));
+          end;
+        end;
+      end;
+    end
+    else
+    begin
+      // Usar abordagem normal
+      DiskSerial := GetDiskSerialInfo;
+      MACAddress := GetMACAddressInfo;
+    end;
+    
+    // Montar string de hardware essencial (sem rótulos e com tamanho do HD)
+    HardwareInfo := Format('%s;%s;%s;%s;%s;%s;%s;%s', 
+      [ComputerName, ProcessorName, OSInfo, TotalMemory, DiskSize, Motherboard, BIOSInfo, MACAddress]);
+    
+    FrmPrincipal.WriteLogFormatted('DEBUG', '123', Format('Hardware detalhado coletado: %s', [HardwareInfo]));
+    
+  except
+    on E: Exception do
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '123', 'Erro ao coletar hardware: ' + E.Message);
+      Exit;
+    end;
+  end;
+
+  // Enviar hardware via API
+  var HttpClient := TNetHTTPClient.Create(nil);
+  var Response: IHTTPResponse;
+  var RequestBody: TStringStream;
+  var EncodedAuth: string;
+  var JSONPayload: string;
+  var MsgFalha: string;
+  
+  try
+    // Configurar autenticação Basic
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    
+    // Preparar payload JSON
+    JSONPayload := Format('{"id_empresa":%d,"info_hardware":"%s"}', [EmpresaID, StringReplace(HardwareInfo, '"', '\"', [rfReplaceAll])]);
+    RequestBody := TStringStream.Create(JSONPayload, TEncoding.UTF8);
+    
+    try
+      FrmPrincipal.WriteLogFormatted('INFO', '123', Format('Enviando hardware via API para empresa: %d', [EmpresaID]));
+      FrmPrincipal.WriteLogFormatted('DEBUG', '123', 'Payload: ' + JSONPayload);
+      
+      // Fazer requisição POST para a API
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/hardware-empresa', RequestBody);
+      
+      if Assigned(Response) then
+      begin
+        if Response.StatusCode = 200 then
+        begin
+          FrmPrincipal.WriteLogFormatted('INFO', '123', Format('Hardware enviado com sucesso para empresa %d', [EmpresaID]));
+          FrmPrincipal.WriteLogFormatted('DEBUG', '123', 'Resposta da API: ' + Response.ContentAsString);
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '123', Format('Falha ao enviar hardware. Status: %d', [Response.StatusCode]));
+          FrmPrincipal.WriteLogFormatted('DEBUG', '123', 'Resposta da API: ' + Response.ContentAsString);
+        end;
+      end
+      else
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '123', 'Resposta da API é nil');
+      end;
+      
+    except
+      on E: Exception do
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '123', 'Erro ao enviar hardware via API: ' + E.Message);
+      end;
+    end;
+
+  finally
+    RequestBody.Free;
+    HttpClient.Free;
+  end;
+  
+  FrmPrincipal.WriteLogFormatted('INFO', '123', 'Coleta de hardware finalizada');
+  consultaNFcECONTIGENCIA;
+    
+end;
+
+// Função auxiliar para obter memória do sistema
+function GetSystemMemory: Int64;
+var
+  MemoryStatus: TMemoryStatus;
+begin
+  MemoryStatus.dwLength := SizeOf(TMemoryStatus);
+  GlobalMemoryStatus(MemoryStatus);
+  Result := MemoryStatus.dwTotalPhys;
+end;
+
+// Função auxiliar para obter tamanho do disco
+function GetDiskSize(const Drive: string): Int64;
+var
+  FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes: Int64;
+begin
+  Result := 0;
+  if GetDiskFreeSpaceEx(PChar(Drive), FreeBytesAvailable, TotalNumberOfBytes, @TotalNumberOfFreeBytes) then
+    Result := TotalNumberOfBytes;
+end;
+
+// Função para obter informações detalhadas do processador
+function GetDetailedProcessorInfo: string;
+var
+  Registry: TRegistry;
+  ProcessorName: string;
+  ProcessorSpeed: string;
+  ProcessorSpeedInt: Integer;
+begin
+  Result := 'processador-desconhecido';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKeyReadOnly('\HARDWARE\DESCRIPTION\System\CentralProcessor\0') then
+    begin
+      ProcessorName := Registry.ReadString('ProcessorNameString');
+      
+      // Tentar ler velocidade como inteiro primeiro
+      try
+        ProcessorSpeedInt := Registry.ReadInteger('~MHz');
+        ProcessorSpeed := IntToStr(ProcessorSpeedInt);
+      except
+        // Se falhar, tentar como string
+        try
+          ProcessorSpeed := Registry.ReadString('~MHz');
+        except
+          ProcessorSpeed := '';
+        end;
+      end;
+      
+      if ProcessorName <> '' then
+      begin
+        // Limpar nome do processador
+        ProcessorName := StringReplace(ProcessorName, '  ', ' ', [rfReplaceAll]);
+        ProcessorName := Trim(ProcessorName);
+        
+        Result := ProcessorName;
+        
+        if ProcessorSpeed <> '' then
+          Result := Result + Format('-%sMHz', [ProcessorSpeed]);
+      end;
+      Registry.CloseKey;
+    end;
+  except
+    on E: Exception do
+      Result := 'processador-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para detectar arquitetura real do sistema operacional
+function GetSystemArchitecture: string;
+var
+  SystemInfo: TSystemInfo;
+  IsWow64: BOOL;
+begin
+  Result := '32bit'; // padrão
+  
+  try
+    // Primeiro, verificar se estamos em um processo 32-bit rodando em SO 64-bit
+    if IsWow64Process(GetCurrentProcess, IsWow64) then
+    begin
+      if IsWow64 then
+        Result := '64bit' // processo 32-bit em SO 64-bit
+      else
+        Result := '32bit'; // processo 32-bit em SO 32-bit
+    end
+    else
+    begin
+      // Fallback: usar GetSystemInfo para detectar arquitetura
+      Winapi.Windows.GetSystemInfo(SystemInfo);
+      // Usar valores numéricos das constantes para evitar problemas de compilação
+      case SystemInfo.wProcessorArchitecture of
+        9: Result := '64bit';  // PROCESSOR_ARCHITECTURE_AMD64
+        6: Result := '64bit';  // PROCESSOR_ARCHITECTURE_IA64
+        12: Result := '64bit'; // PROCESSOR_ARCHITECTURE_ARM64
+        else Result := '32bit';
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := '32bit'; // fallback em caso de erro
+  end;
+end;
+
+// Função para obter informações detalhadas do sistema operacional
+function GetDetailedOSInfo: string;
+var
+  Registry: TRegistry;
+  OSName: string;
+  OSVersion: string;
+  Architecture: string;
+begin
+  Result := 'so-desconhecido';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKeyReadOnly('\SOFTWARE\Microsoft\Windows NT\CurrentVersion') then
+    begin
+      try
+        OSName := Registry.ReadString('ProductName');
+        OSVersion := Registry.ReadString('DisplayVersion');
+        if OSVersion = '' then
+          OSVersion := Registry.ReadString('ReleaseId');
+      except
+        OSName := '';
+        OSVersion := '';
+      end;
+      
+      if OSName <> '' then
+      begin
+        // Determinar arquitetura real do sistema operacional
+        Architecture := GetSystemArchitecture;
+        
+        if OSVersion <> '' then
+          Result := Format('%s-%s-%s', [OSName, OSVersion, Architecture])
+        else
+          Result := Format('%s-%s', [OSName, Architecture]);
+      end;
+      Registry.CloseKey;
+    end;
+  except
+    on E: Exception do
+      Result := 'so-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para obter informações detalhadas de memória
+function GetDetailedMemoryInfo: string;
+var
+  MemoryStatus: TMemoryStatusEx;
+  TotalGB: Int64;
+  AvailableGB: Int64;
+begin
+  MemoryStatus.dwLength := SizeOf(TMemoryStatusEx);
+  
+  if GlobalMemoryStatusEx(MemoryStatus) then
+  begin
+    TotalGB := MemoryStatus.ullTotalPhys div (1024 * 1024 * 1024);
+    AvailableGB := MemoryStatus.ullAvailPhys div (1024 * 1024 * 1024);
+    
+    Result := Format('%dGB-total-%dGB-disponivel', [TotalGB, AvailableGB]);
+  end
+  else
+  begin
+    // Fallback para versão antiga se falhar
+    var OldMemoryStatus: TMemoryStatus;
+    OldMemoryStatus.dwLength := SizeOf(TMemoryStatus);
+    GlobalMemoryStatus(OldMemoryStatus);
+    
+    TotalGB := OldMemoryStatus.dwTotalPhys div (1024 * 1024 * 1024);
+    AvailableGB := OldMemoryStatus.dwAvailPhys div (1024 * 1024 * 1024);
+    
+    Result := Format('%dGB-total-%dGB-disponivel', [TotalGB, AvailableGB]);
+  end;
+end;
+
+// Função para obter informações detalhadas do disco
+function GetDetailedDiskInfo: string;
+var
+  FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes: Int64;
+  TotalGB, FreeGB: Integer;
+  DriveType: string;
+begin
+  Result := 'hd-desconhecido';
+  
+  if GetDiskFreeSpaceEx('C:', FreeBytesAvailable, TotalNumberOfBytes, @TotalNumberOfFreeBytes) then
+  begin
+    TotalGB := TotalNumberOfBytes div (1024 * 1024 * 1024);
+    FreeGB := TotalNumberOfFreeBytes div (1024 * 1024 * 1024);
+    
+    // Verificar tipo de drive
+    case GetDriveType('C:') of
+      DRIVE_FIXED: DriveType := 'HDD';
+      DRIVE_REMOVABLE: DriveType := 'Removivel';
+      DRIVE_CDROM: DriveType := 'CDROM';
+      DRIVE_RAMDISK: DriveType := 'RAMDISK';
+      DRIVE_REMOTE: DriveType := 'Rede';
+    else
+      DriveType := 'Desconhecido';
+    end;
+    
+    Result := Format('%s-%dGB-total-%dGB-livre', [DriveType, TotalGB, FreeGB]);
+  end;
+end;
+
+// Função para obter informações da placa de vídeo
+function GetVideoCardInfo: string;
+var
+  Registry: TRegistry;
+  VideoCardName: string;
+  i: Integer;
+  KeyPath: string;
+begin
+  Result := 'video-desconhecida';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    
+    // Tentar diferentes chaves de vídeo (0000, 0001, etc.)
+    for i := 0 to 5 do
+    begin
+      KeyPath := Format('\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\%04d', [i]);
+      if Registry.OpenKeyReadOnly(KeyPath) then
+      begin
+        try
+          VideoCardName := Registry.ReadString('DriverDesc');
+          if VideoCardName <> '' then
+          begin
+            VideoCardName := StringReplace(VideoCardName, '  ', ' ', [rfReplaceAll]);
+            VideoCardName := Trim(VideoCardName);
+            Result := Format('video-%s', [VideoCardName]);
+            Registry.CloseKey;
+            Break;
+          end;
+        except
+          // Ignorar erro e tentar próxima chave
+        end;
+        Registry.CloseKey;
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'video-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para obter informações da placa mãe
+function GetMotherboardInfo: string;
+var
+  Registry: TRegistry;
+  MotherboardName: string;
+  Manufacturer: string;
+begin
+  Result := 'placa-mae-desconhecida';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKeyReadOnly('\HARDWARE\DESCRIPTION\System\BIOS') then
+    begin
+      try
+        Manufacturer := Registry.ReadString('BaseBoardManufacturer');
+      except
+        Manufacturer := '';
+      end;
+      
+      try
+        MotherboardName := Registry.ReadString('BaseBoardProduct');
+      except
+        MotherboardName := '';
+      end;
+      
+      if (Manufacturer <> '') and (MotherboardName <> '') then
+        Result := Format('%s-%s', [Manufacturer, MotherboardName])
+      else if MotherboardName <> '' then
+        Result := MotherboardName
+      else if Manufacturer <> '' then
+        Result := Manufacturer;
+        
+      Registry.CloseKey;
+    end;
+  except
+    on E: Exception do
+      Result := 'placa-mae-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para obter informações da placa de rede
+function GetNetworkCardInfo: string;
+var
+  Registry: TRegistry;
+  NetworkName: string;
+  MACAddress: string;
+  i: Integer;
+  KeyPath: string;
+begin
+  Result := 'rede-desconhecida';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    
+    // Tentar diferentes chaves de rede
+    for i := 0 to 10 do
+    begin
+      KeyPath := Format('\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\%04d', [i]);
+      if Registry.OpenKeyReadOnly(KeyPath) then
+      begin
+        try
+          NetworkName := Registry.ReadString('DriverDesc');
+          if NetworkName <> '' then
+          begin
+            NetworkName := StringReplace(NetworkName, '  ', ' ', [rfReplaceAll]);
+            NetworkName := Trim(NetworkName);
+            
+            // Tentar obter MAC Address
+            try
+              MACAddress := Registry.ReadString('NetworkAddress');
+              if MACAddress = '' then
+                MACAddress := 'MAC-Desconhecido';
+            except
+              MACAddress := 'MAC-Desconhecido';
+            end;
+            
+            Result := Format('rede-%s-MAC-%s', [NetworkName, MACAddress]);
+            Registry.CloseKey;
+            Break;
+          end;
+        except
+          // Ignorar erro e tentar próxima chave
+        end;
+        Registry.CloseKey;
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'rede-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para obter informações do disco (serial, etc.) usando múltiplas abordagens
+function GetDiskSerialInfo: string;
+var
+  WMI: Variant;
+  WMIQuery: Variant;
+  DiskSerial: string;
+  DiskModel: string;
+  i: Integer;
+begin
+  Result := 'disco-serial-desconhecido';
+  
+  try
+    // Conectar ao WMI
+    WMI := CreateOleObject('WbemScripting.SWbemLocator');
+    WMI := WMI.ConnectServer('.', 'root\cimv2');
+    
+    // Tentativa 1: Win32_PhysicalMedia (mais direto)
+    try
+      WMIQuery := WMI.ExecQuery('SELECT SerialNumber FROM Win32_PhysicalMedia');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        for i := 0 to WMIQuery.Count - 1 do
+        begin
+          DiskSerial := WMIQuery.ItemIndex(i).SerialNumber;
+          
+          if DiskSerial <> '' then
+          begin
+            DiskSerial := Trim(DiskSerial);
+            Result := Format('disco-serial-%s', [DiskSerial]);
+            Exit;
+          end;
+        end;
+      end;
+    except
+      // Continuar para próxima tentativa
+    end;
+    
+    // Tentativa 2: Win32_DiskDrive com filtro mais amplo
+    if Result = 'disco-serial-desconhecido' then
+    begin
+      WMIQuery := WMI.ExecQuery('SELECT SerialNumber, Model FROM Win32_DiskDrive');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        for i := 0 to WMIQuery.Count - 1 do
+        begin
+          DiskSerial := WMIQuery.ItemIndex(i).SerialNumber;
+          DiskModel := WMIQuery.ItemIndex(i).Model;
+          
+          if DiskSerial <> '' then
+          begin
+            DiskSerial := Trim(DiskSerial);
+            DiskModel := Trim(DiskModel);
+            
+            if DiskModel <> '' then
+              Result := Format('disco-serial-%s-modelo-%s', [DiskSerial, DiskModel])
+            else
+              Result := Format('disco-serial-%s', [DiskSerial]);
+            Exit;
+          end;
+        end;
+      end;
+    end;
+    
+    // Tentativa 3: Win32_LogicalDisk para obter informações do disco
+    if Result = 'disco-serial-desconhecido' then
+    begin
+      WMIQuery := WMI.ExecQuery('SELECT VolumeSerialNumber FROM Win32_LogicalDisk WHERE DriveType = 3');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        DiskSerial := WMIQuery.ItemIndex(0).VolumeSerialNumber;
+        
+        if DiskSerial <> '' then
+        begin
+          DiskSerial := Trim(DiskSerial);
+          Result := Format('disco-serial-%s', [DiskSerial]);
+          Exit;
+        end;
+      end;
+    end;
+    
+    // Tentativa 4: Usar API nativa do Windows para obter serial do volume
+    if Result = 'disco-serial-desconhecido' then
+    begin
+      Result := GetVolumeSerialNumber('C:\');
+    end;
+  except
+    on E: Exception do
+    begin
+      // Fallback para registry se WMI falhar
+      Result := GetDiskSerialFromRegistry;
+    end;
+  end;
+end;
+
+// Função auxiliar para obter serial do disco via registry (fallback)
+function GetDiskSerialFromRegistry: string;
+var
+  Registry: TRegistry;
+  DiskSerial: string;
+  DiskModel: string;
+  i, j: Integer;
+  KeyPath: string;
+  SubKeys, SubSubKeys: TStringList;
+begin
+  Result := 'disco-serial-desconhecido';
+  Registry := TRegistry.Create;
+  SubKeys := TStringList.Create;
+  SubSubKeys := TStringList.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    
+    // Tentar caminho para discos SATA/SSD
+    if Registry.OpenKeyReadOnly('\SYSTEM\CurrentControlSet\Enum\SCSI') then
+    begin
+      Registry.GetKeyNames(SubKeys);
+      Registry.CloseKey;
+      
+      for i := 0 to SubKeys.Count - 1 do
+      begin
+        if Pos('Disk&Ven_', SubKeys[i]) > 0 then
+        begin
+          KeyPath := '\SYSTEM\CurrentControlSet\Enum\SCSI\' + SubKeys[i];
+          if Registry.OpenKeyReadOnly(KeyPath) then
+          begin
+            Registry.GetKeyNames(SubSubKeys);
+            Registry.CloseKey;
+            
+            for j := 0 to SubSubKeys.Count - 1 do
+            begin
+              KeyPath := '\SYSTEM\CurrentControlSet\Enum\SCSI\' + SubKeys[i] + '\' + SubSubKeys[j];
+              if Registry.OpenKeyReadOnly(KeyPath) then
+              begin
+                try
+                  DiskSerial := Registry.ReadString('SerialNumber');
+                  DiskModel := Registry.ReadString('FriendlyName');
+                  
+                  if DiskSerial <> '' then
+                  begin
+                    if DiskModel <> '' then
+                      Result := Format('disco-serial-%s-modelo-%s', [DiskSerial, DiskModel])
+                    else
+                      Result := Format('disco-serial-%s', [DiskSerial]);
+                    Registry.CloseKey;
+                    Exit;
+                  end;
+                except
+                  // Ignorar erro e tentar próxima chave
+                end;
+                Registry.CloseKey;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'disco-serial-erro-coleta';
+  end;
+  Registry.Free;
+  SubKeys.Free;
+  SubSubKeys.Free;
+end;
+
+// Função para obter informações do BIOS
+function GetBIOSInfo: string;
+var
+  Registry: TRegistry;
+  BIOSVersion: string;
+  BIOSDate: string;
+  BIOSVendor: string;
+begin
+  Result := 'bios-desconhecido';
+  Registry := TRegistry.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    if Registry.OpenKeyReadOnly('\HARDWARE\DESCRIPTION\System\BIOS') then
+    begin
+      try
+        BIOSVendor := Registry.ReadString('BIOSVendor');
+      except
+        BIOSVendor := '';
+      end;
+      
+      try
+        BIOSVersion := Registry.ReadString('BIOSVersion');
+      except
+        BIOSVersion := '';
+      end;
+      
+      try
+        BIOSDate := Registry.ReadString('BIOSReleaseDate');
+      except
+        BIOSDate := '';
+      end;
+      
+      if (BIOSVendor <> '') and (BIOSVersion <> '') then
+        Result := Format('%s-%s', [BIOSVendor, BIOSVersion])
+      else if BIOSVersion <> '' then
+        Result := BIOSVersion
+      else if BIOSVendor <> '' then
+        Result := BIOSVendor;
+        
+      if BIOSDate <> '' then
+        Result := Result + Format('-data-%s', [BIOSDate]);
+        
+      Registry.CloseKey;
+    end;
+  except
+    on E: Exception do
+      Result := 'bios-erro-coleta';
+  end;
+  Registry.Free;
+end;
+
+// Função para obter informações do sistema
+function GetSystemInfo: string;
+var
+  SystemInfo: TSystemInfo;
+  ProcessorCount: Integer;
+  PageSize: Integer;
+begin
+  Result := 'sistema-desconhecido';
+  
+  try
+    Winapi.Windows.GetSystemInfo(SystemInfo);
+    ProcessorCount := SystemInfo.dwNumberOfProcessors;
+    PageSize := SystemInfo.dwPageSize;
+    
+    Result := Format('sistema-processadores-%d-pagesize-%d', [ProcessorCount, PageSize]);
+  except
+    on E: Exception do
+      Result := 'sistema-erro-coleta';
+  end;
+end;
+
+// Função para obter MAC Address da placa de rede principal usando múltiplas abordagens
+function GetMACAddressInfo: string;
+var
+  WMI: Variant;
+  WMIQuery: Variant;
+  MACAddress: string;
+  NetworkName: string;
+  i: Integer;
+begin
+  Result := 'mac-desconhecido';
+  
+  try
+    // Conectar ao WMI
+    WMI := CreateOleObject('WbemScripting.SWbemLocator');
+    WMI := WMI.ConnectServer('.', 'root\cimv2');
+    
+    // Tentativa 1: Win32_NetworkAdapterConfiguration (mais confiável)
+    try
+      WMIQuery := WMI.ExecQuery('SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = True');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        for i := 0 to WMIQuery.Count - 1 do
+        begin
+          MACAddress := WMIQuery.ItemIndex(i).MACAddress;
+          
+          if (MACAddress <> '') and (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+          begin
+            Result := MACAddress;
+            Exit;
+          end;
+        end;
+      end;
+    except
+      // Continuar para próxima tentativa
+    end;
+    
+    // Tentativa 2: Win32_NetworkAdapter com filtro físico
+    if Result = 'mac-desconhecido' then
+    begin
+      WMIQuery := WMI.ExecQuery('SELECT MACAddress, Name FROM Win32_NetworkAdapter WHERE PhysicalAdapter = True');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        for i := 0 to WMIQuery.Count - 1 do
+        begin
+          MACAddress := WMIQuery.ItemIndex(i).MACAddress;
+          NetworkName := WMIQuery.ItemIndex(i).Name;
+          
+          if (MACAddress <> '') and (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+          begin
+            // Verificar se não é um adaptador virtual
+            if (Pos('Virtual', NetworkName) = 0) and (Pos('VMware', NetworkName) = 0) and 
+               (Pos('VirtualBox', NetworkName) = 0) and (Pos('Hyper-V', NetworkName) = 0) and
+               (Pos('Loopback', NetworkName) = 0) and (Pos('Teredo', NetworkName) = 0) then
+            begin
+              Result := MACAddress;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    end;
+    
+    // Tentativa 3: Todos os adaptadores (última tentativa)
+    if Result = 'mac-desconhecido' then
+    begin
+      WMIQuery := WMI.ExecQuery('SELECT MACAddress, Name FROM Win32_NetworkAdapter');
+      
+      if WMIQuery.Count > 0 then
+      begin
+        for i := 0 to WMIQuery.Count - 1 do
+        begin
+          MACAddress := WMIQuery.ItemIndex(i).MACAddress;
+          NetworkName := WMIQuery.ItemIndex(i).Name;
+          
+          if (MACAddress <> '') and (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+          begin
+            // Verificar se não é um adaptador virtual ou loopback
+            if (Pos('Virtual', NetworkName) = 0) and (Pos('VMware', NetworkName) = 0) and 
+               (Pos('VirtualBox', NetworkName) = 0) and (Pos('Hyper-V', NetworkName) = 0) and
+               (Pos('Loopback', NetworkName) = 0) and (Pos('Teredo', NetworkName) = 0) and
+               (Pos('Microsoft', NetworkName) = 0) and (Pos('ISATAP', NetworkName) = 0) then
+            begin
+              Result := MACAddress;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    end;
+    
+    // Tentativa 4: Usar API nativa do Windows para obter MAC Address
+    if Result = 'mac-desconhecido' then
+    begin
+      Result := GetMACAddressNative;
+    end;
+    
+    // Tentativa 5: Comando ipconfig (para servidores Dell)
+    if Result = 'mac-desconhecido' then
+    begin
+      Result := GetMACAddressAlternative;
+    end;
+  except
+    on E: Exception do
+    begin
+      // Fallback para registry se WMI falhar
+      Result := GetMACFromRegistry;
+    end;
+  end;
+end;
+
+// Função auxiliar para obter MAC Address via registry (fallback)
+function GetMACFromRegistry: string;
+var
+  Registry: TRegistry;
+  MACAddress: string;
+  NetworkName: string;
+  i: Integer;
+  KeyPath: string;
+  SubKeys: TStringList;
+begin
+  Result := 'mac-desconhecido';
+  Registry := TRegistry.Create;
+  SubKeys := TStringList.Create;
+  try
+    Registry.RootKey := HKEY_LOCAL_MACHINE;
+    
+    // Tentar encontrar placa de rede ativa
+    if Registry.OpenKeyReadOnly('\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}') then
+    begin
+      Registry.GetKeyNames(SubKeys);
+      Registry.CloseKey;
+      
+      for i := 0 to SubKeys.Count - 1 do
+      begin
+        if (SubKeys[i] <> 'Properties') and (Length(SubKeys[i]) = 4) then
+        begin
+          KeyPath := '\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\' + SubKeys[i];
+          if Registry.OpenKeyReadOnly(KeyPath) then
+          begin
+            try
+              NetworkName := Registry.ReadString('DriverDesc');
+              
+              // Tentar diferentes campos para MAC Address
+              MACAddress := Registry.ReadString('NetworkAddress');
+              if MACAddress = '' then
+                MACAddress := Registry.ReadString('PermanentAddress');
+              if MACAddress = '' then
+                MACAddress := Registry.ReadString('MACAddress');
+              
+              if (NetworkName <> '') and (MACAddress <> '') and (MACAddress <> '00:00:00:00:00:00') then
+              begin
+                Result := MACAddress;
+                Registry.CloseKey;
+                Break;
+              end;
+            except
+              // Ignorar erro e tentar próxima chave
+            end;
+            Registry.CloseKey;
+          end;
+        end;
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'mac-erro-coleta';
+  end;
+  Registry.Free;
+  SubKeys.Free;
+end;
+
+// Função para obter serial do volume usando API nativa do Windows
+function GetVolumeSerialNumber(const Drive: string): string;
+var
+  VolumeSerialNumber: DWORD;
+  MaxComponentLength: DWORD;
+  FileSystemFlags: DWORD;
+  FileSystemNameBuffer: array[0..MAX_PATH] of Char;
+  VolumeNameBuffer: array[0..MAX_PATH] of Char;
+begin
+  Result := 'disco-serial-desconhecido';
+  
+  try
+    if GetVolumeInformation(
+      PChar(Drive),
+      VolumeNameBuffer,
+      SizeOf(VolumeNameBuffer),
+      @VolumeSerialNumber,
+      MaxComponentLength,
+      FileSystemFlags,
+      FileSystemNameBuffer,
+      SizeOf(FileSystemNameBuffer)) then
+    begin
+      if VolumeSerialNumber > 0 then
+      begin
+        Result := Format('disco-serial-%X', [VolumeSerialNumber]);
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'disco-serial-erro-api';
+  end;
+end;
+
+// Função para obter serial curto específico
+function GetShortSerialForDell: string;
+var
+  TempFile: string;
+  Command: string;
+  Output: TStringList;
+  i: Integer;
+  Line: string;
+begin
+  Result := 'disco-serial-desconhecido';
+  
+  try
+    TempFile := 'C:\Windows\Temp\dell_short_serial.txt';
+    
+    // Comando específico para obter serial curto
+    Command := 'cmd /c wmic diskdrive get serialnumber /format:list | findstr "SerialNumber=" | findstr /v "SerialNumber=$" > "' + TempFile + '"';
+    
+    WinExec(PAnsiChar(AnsiString(Command)), SW_HIDE);
+    Sleep(2000);
+    
+    if FileExists(TempFile) then
+    begin
+      Output := TStringList.Create;
+      try
+        Output.LoadFromFile(TempFile);
+        for i := 0 to Output.Count - 1 do
+        begin
+          Line := Trim(Output[i]);
+          if (Pos('SerialNumber=', Line) = 1) then
+          begin
+            var SerialValue := Copy(Line, 13, Length(Line)); // Remove "SerialNumber="
+            if (Length(SerialValue) = 8) then
+            begin
+              Result := 'disco-serial-' + SerialValue;
+              Break;
+            end;
+          end;
+        end;
+      finally
+        Output.Free;
+      end;
+      DeleteFile(PWideChar(TempFile));
+    end;
+  except
+    on E: Exception do
+      Result := 'disco-serial-erro';
+  end;
+end;
+
+// Função específica para servidores Dell usando múltiplos comandos
+function GetDellServerInfo: string;
+var
+  TempFile1, TempFile2, TempFile3: string;
+  Command1, Command2, Command3: string;
+  Output: TStringList;
+  i: Integer;
+  Line: string;
+  MACAddress: string;
+  DiskSerial: string;
+begin
+  Result := 'dell-desconhecido';
+  
+  try
+    // Usar diretórios temporários separados
+    TempFile1 := 'C:\Windows\Temp\dell_disk.txt';
+    TempFile2 := 'C:\Windows\Temp\dell_mac.txt';
+    TempFile3 := 'C:\Windows\Temp\dell_ipconfig.txt';
+    
+    // Comando 1: Serial do disco
+    Command1 := 'cmd /c wmic diskdrive get serialnumber > "' + TempFile1 + '"';
+    // Comando 2: MAC Address
+    Command2 := 'cmd /c wmic path win32_networkadapter get macaddress > "' + TempFile2 + '"';
+    // Comando 3: IPConfig
+    Command3 := 'cmd /c ipconfig /all > "' + TempFile3 + '"';
+    
+    // Executar comandos separadamente
+    WinExec(PAnsiChar(AnsiString(Command1)), SW_HIDE);
+    Sleep(1000);
+    WinExec(PAnsiChar(AnsiString(Command2)), SW_HIDE);
+    Sleep(1000);
+    WinExec(PAnsiChar(AnsiString(Command3)), SW_HIDE);
+    Sleep(2000);
+    
+    MACAddress := 'mac-desconhecido';
+    DiskSerial := 'disco-serial-desconhecido';
+    
+    // Tentar obter serial curto primeiro
+    DiskSerial := GetShortSerialForDell;
+    
+    // Processar arquivo do disco (fallback)
+    if FileExists(TempFile1) then
+    begin
+      Output := TStringList.Create;
+      try
+        Output.LoadFromFile(TempFile1);
+        for i := 0 to Output.Count - 1 do
+        begin
+          Line := Trim(Output[i]);
+          // Pular cabeçalhos e linhas vazias
+          if (Line = '') or (Line = 'SerialNumber') or (Pos('Serial', Line) > 0) or (Pos('Number', Line) > 0) then
+            Continue;
+            
+          if (Length(Line) > 5) then
+          begin
+            // Preferir serial curto (8 caracteres) sobre serial longo
+            if (Length(Line) = 8) then
+            begin
+              DiskSerial := 'disco-serial-' + Line;
+              Break;
+            end
+            // Se não encontrar serial curto, usar o primeiro disponível
+            else if (DiskSerial = 'disco-serial-desconhecido') then
+            begin
+              DiskSerial := 'disco-serial-' + Line;
+            end;
+          end;
+        end;
+      finally
+        Output.Free;
+      end;
+      DeleteFile(PWideChar(TempFile1));
+    end;
+    
+    // Processar arquivo do MAC
+    if FileExists(TempFile2) then
+    begin
+      Output := TStringList.Create;
+      try
+        Output.LoadFromFile(TempFile2);
+        for i := 0 to Output.Count - 1 do
+        begin
+          Line := Trim(Output[i]);
+          // Pular cabeçalhos e linhas vazias
+          if (Line = '') or (Line = 'MACAddress') or (Pos('Serial', Line) > 0) or (Pos('Number', Line) > 0) then
+            Continue;
+            
+          // Aceitar MAC com hífens (formato padrão)
+          if (Length(Line) = 17) and (Pos('-', Line) > 0) then
+          begin
+            Line := StringReplace(Line, '-', ':', [rfReplaceAll]);
+            if (Line <> '00:00:00:00:00:00') and (Line <> 'FF:FF:FF:FF:FF:FF') then
+            begin
+              MACAddress := 'mac-' + Line;
+              Break;
+            end;
+          end
+          // Aceitar MAC sem separadores (formato hexadecimal direto)
+          else if (Length(Line) = 12) and (Pos('-', Line) = 0) and (Pos(':', Line) = 0) then
+          begin
+            // Converter de formato hexadecimal direto para formato com dois pontos
+            var HexMAC := Line;
+            var FormattedMAC := Copy(HexMAC, 1, 2) + ':' + Copy(HexMAC, 3, 2) + ':' + 
+                               Copy(HexMAC, 5, 2) + ':' + Copy(HexMAC, 7, 2) + ':' + 
+                               Copy(HexMAC, 9, 2) + ':' + Copy(HexMAC, 11, 2);
+            
+            if (FormattedMAC <> '00:00:00:00:00:00') and (FormattedMAC <> 'FF:FF:FF:FF:FF:FF') then
+            begin
+              MACAddress := 'mac-' + FormattedMAC;
+              Break;
+            end;
+          end;
+        end;
+      finally
+        Output.Free;
+      end;
+      DeleteFile(PWideChar(TempFile2));
+    end;
+    
+    // Processar arquivo do ipconfig (fallback para MAC)
+    if (MACAddress = 'mac-desconhecido') and FileExists(TempFile3) then
+    begin
+      Output := TStringList.Create;
+      try
+        Output.LoadFromFile(TempFile3);
+        for i := 0 to Output.Count - 1 do
+        begin
+          Line := Output[i];
+          if (Pos('Physical Address', Line) > 0) or (Pos('Endereço físico', Line) > 0) then
+          begin
+            MACAddress := Copy(Line, Pos(':', Line) + 1, Length(Line));
+            MACAddress := StringReplace(MACAddress, '-', ':', [rfReplaceAll]);
+            MACAddress := Trim(MACAddress);
+            
+            if (Length(MACAddress) = 17) and (Pos(':', MACAddress) > 0) then
+            begin
+              if (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+              begin
+                MACAddress := 'mac-' + MACAddress;
+                Break;
+              end;
+            end;
+          end;
+        end;
+      finally
+        Output.Free;
+      end;
+      DeleteFile(PWideChar(TempFile3));
+    end;
+    
+    // Se ainda não conseguiu, tentar comando específico para serial curto
+    if (DiskSerial = 'disco-serial-desconhecido') then
+    begin
+      var TempFile4 := 'C:\Windows\Temp\dell_serial_short.txt';
+      var Command4 := 'cmd /c wmic diskdrive get serialnumber /format:list > "' + TempFile4 + '"';
+      
+      WinExec(PAnsiChar(AnsiString(Command4)), SW_HIDE);
+      Sleep(2000);
+      
+      if FileExists(TempFile4) then
+      begin
+        Output := TStringList.Create;
+        try
+          Output.LoadFromFile(TempFile4);
+          for i := 0 to Output.Count - 1 do
+          begin
+            Line := Trim(Output[i]);
+            if (Pos('SerialNumber=', Line) = 1) then
+            begin
+              var SerialValue := Copy(Line, 13, Length(Line)); // Remove "SerialNumber="
+              if (Length(SerialValue) = 8) then
+              begin
+                DiskSerial := 'disco-serial-' + SerialValue;
+                Break;
+              end;
+            end;
+          end;
+        finally
+          Output.Free;
+        end;
+        DeleteFile(PWideChar(TempFile4));
+      end;
+    end;
+    
+    // Se ainda não conseguiu, tentar PowerShell
+    if (DiskSerial = 'disco-serial-desconhecido') or (MACAddress = 'mac-desconhecido') then
+    begin
+      var TempFile5 := 'C:\Windows\Temp\dell_powershell.txt';
+      var Command5 := 'cmd /c powershell "Get-WmiObject -Class Win32_DiskDrive | Select-Object SerialNumber; Get-WmiObject -Class Win32_NetworkAdapter | Where-Object {$_.MACAddress -ne $null} | Select-Object MACAddress" > "' + TempFile5 + '"';
+      
+      WinExec(PAnsiChar(AnsiString(Command5)), SW_HIDE);
+      Sleep(3000);
+      
+      if FileExists(TempFile5) then
+      begin
+        Output := TStringList.Create;
+        try
+          Output.LoadFromFile(TempFile5);
+          for i := 0 to Output.Count - 1 do
+          begin
+            Line := Trim(Output[i]);
+            
+            // Pular cabeçalhos e linhas vazias
+            if (Line = '') or (Pos('SerialNumber', Line) > 0) or (Pos('MACAddress', Line) > 0) or 
+               (Pos('Serial', Line) > 0) or (Pos('Number', Line) > 0) then
+              Continue;
+            
+            // Buscar serial do disco (preferir formato curto)
+            if (Length(Line) > 5) then
+            begin
+              // Preferir serial curto (8 caracteres) sobre serial longo
+              if (Length(Line) = 8) then
+              begin
+                DiskSerial := 'disco-serial-' + Line;
+                Break;
+              end
+              // Se não encontrar serial curto, usar o primeiro disponível
+              else if (DiskSerial = 'disco-serial-desconhecido') then
+              begin
+                DiskSerial := 'disco-serial-' + Line;
+              end;
+            end;
+            
+            // Buscar MAC Address (formato com hífens)
+            if (MACAddress = 'mac-desconhecido') and (Length(Line) = 17) and (Pos('-', Line) > 0) then
+            begin
+              Line := StringReplace(Line, '-', ':', [rfReplaceAll]);
+              if (Line <> '00:00:00:00:00:00') and (Line <> 'FF:FF:FF:FF:FF:FF') then
+              begin
+                MACAddress := 'mac-' + Line;
+              end;
+            end
+            // Buscar MAC Address (formato hexadecimal direto)
+            else if (MACAddress = 'mac-desconhecido') and (Length(Line) = 12) and (Pos('-', Line) = 0) and (Pos(':', Line) = 0) then
+            begin
+              // Converter de formato hexadecimal direto para formato com dois pontos
+              var HexMAC := Line;
+              var FormattedMAC := Copy(HexMAC, 1, 2) + ':' + Copy(HexMAC, 3, 2) + ':' + 
+                                 Copy(HexMAC, 5, 2) + ':' + Copy(HexMAC, 7, 2) + ':' + 
+                                 Copy(HexMAC, 9, 2) + ':' + Copy(HexMAC, 11, 2);
+              
+              if (FormattedMAC <> '00:00:00:00:00:00') and (FormattedMAC <> 'FF:FF:FF:FF:FF:FF') then
+              begin
+                MACAddress := 'mac-' + FormattedMAC;
+              end;
+            end;
+          end;
+        finally
+          Output.Free;
+        end;
+        DeleteFile(PWideChar(TempFile5));
+      end;
+    end;
+    
+    // Retornar resultado combinado
+    if (DiskSerial <> 'disco-serial-desconhecido') or (MACAddress <> 'mac-desconhecido') then
+    begin
+      Result := DiskSerial + ';' + MACAddress;
+    end;
+    
+  except
+    on E: Exception do
+      Result := 'dell-erro-comando';
+  end;
+end;
+
+// Função auxiliar para obter MAC Address usando ipconfig
+function GetMACAddressAlternative: string;
+var
+  TempFile: string;
+  Command: string;
+  Output: TStringList;
+  i: Integer;
+  Line: string;
+  MACAddress: string;
+begin
+  Result := 'mac-desconhecido';
+  
+  try
+    // Usar diretório temporário do Windows
+    TempFile := 'C:\Windows\Temp\ipconfig_temp.txt';
+    
+    // Comando para salvar saída em arquivo
+    Command := 'cmd /c ipconfig /all > "' + TempFile + '"';
+    
+    // Executar comando
+    if WinExec(PAnsiChar(AnsiString(Command)), SW_HIDE) > 32 then
+    begin
+      // Aguardar um pouco para o comando executar
+      Sleep(2000);
+      
+      // Verificar se arquivo foi criado
+      if FileExists(TempFile) then
+      begin
+        Output := TStringList.Create;
+        try
+          Output.LoadFromFile(TempFile);
+          
+          for i := 0 to Output.Count - 1 do
+          begin
+            Line := Output[i];
+            
+            // Procurar por "Physical Address" ou "Endereço físico"
+            if (Pos('Physical Address', Line) > 0) or (Pos('Endereço físico', Line) > 0) then
+            begin
+              // Extrair MAC Address da linha
+              MACAddress := Copy(Line, Pos(':', Line) + 1, Length(Line));
+              MACAddress := StringReplace(MACAddress, '-', ':', [rfReplaceAll]);
+              MACAddress := Trim(MACAddress);
+              
+              // Verificar se é um MAC válido
+              if (Length(MACAddress) = 17) and (Pos(':', MACAddress) > 0) then
+              begin
+                // Verificar se não é MAC inválido
+                if (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+                begin
+                  Result := MACAddress;
+                  Break;
+                end;
+              end;
+            end;
+          end;
+        finally
+          Output.Free;
+        end;
+        
+        // Limpar arquivo temporário
+        if FileExists(TempFile) then
+          DeleteFile(PWideChar(TempFile));
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'mac-erro-ipconfig';
+  end;
+end;
+
+// Função para obter MAC Address usando comando do sistema
+function GetMACAddressNative: string;
+var
+  TempFile: string;
+  Command: string;
+  Output: TStringList;
+  i: Integer;
+  Line: string;
+  MACAddress: string;
+begin
+  Result := 'mac-desconhecido';
+  
+  try
+    // Usar diretório temporário do Windows
+    TempFile := 'C:\Windows\Temp\mac_temp.txt';
+    
+    // Comando para salvar saída em arquivo
+    Command := 'cmd /c getmac /fo csv /nh > "' + TempFile + '"';
+    
+    // Executar comando
+    if WinExec(PAnsiChar(AnsiString(Command)), SW_HIDE) > 32 then
+    begin
+      // Aguardar um pouco para o comando executar
+      Sleep(2000); // Aumentar tempo para servidores
+      
+      // Verificar se arquivo foi criado
+      if FileExists(TempFile) then
+      begin
+        Output := TStringList.Create;
+        try
+          Output.LoadFromFile(TempFile);
+          
+          for i := 0 to Output.Count - 1 do
+          begin
+            Line := Output[i];
+            
+            // Procurar por MAC Address válido (formato XX-XX-XX-XX-XX-XX)
+            if (Length(Line) > 20) and (Pos('-', Line) > 0) then
+            begin
+              // Extrair MAC Address da linha CSV
+              MACAddress := Copy(Line, 1, Pos(',', Line) - 1);
+              MACAddress := StringReplace(MACAddress, '"', '', [rfReplaceAll]);
+              MACAddress := Trim(MACAddress);
+              
+              // Verificar se é um MAC válido
+              if (Length(MACAddress) = 17) and (Pos('-', MACAddress) > 0) then
+              begin
+                // Converter para formato com dois pontos
+                MACAddress := StringReplace(MACAddress, '-', ':', [rfReplaceAll]);
+                
+                // Verificar se não é MAC inválido
+                if (MACAddress <> '00:00:00:00:00:00') and (MACAddress <> 'FF:FF:FF:FF:FF:FF') then
+                begin
+                  Result := MACAddress;
+                  Break;
+                end;
+              end;
+            end;
+          end;
+        finally
+          Output.Free;
+        end;
+        
+        // Limpar arquivo temporário
+        if FileExists(TempFile) then
+          DeleteFile(PWideChar(TempFile));
+      end;
+    end;
+  except
+    on E: Exception do
+      Result := 'mac-erro-comando';
+  end;
+end;
+
+
+procedure ThreadMonitordeOcorrencia.consultaNFcECONTIGENCIA;
+var
+  QSelect: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  OcorrenciaFormatada: string;
+  RegistrosProcessados: Integer;
+  DataMovimento: TDateTime;
+begin
+  RegistrosProcessados := 0;                   //[CONSULTA NFc-E DIVERGENCIA]
+  FrmPrincipal.WriteLogFormatted('INFO', '124', 'Iniciando verificação de Contingência NFc-E');
+  QSelect := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    // Verificar se CXClient está ativa
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin                                           //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('ERRO', '124', 'CXClient não está conectada');
+      Exit;
+    end;
+    
+    // Preparar HttpClient
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+    
+    // Configurar query de seleção - buscar Contingência NFE
+    QSelect.Connection := FrmPrincipal.CXClient;
+    QSelect.SQL.Text := 'SELECT ' +
+      'lf2.data_inclusao, ' +
+      'mod2.cod_empresa, ' +
+      'mod2.access_key, ' +
+      'mod2.current_status, ' +
+      'lf2.situacao, ' +
+
+      '( ' +
+      '    CASE mod2.current_status ' +
+      '        WHEN ''nis_canceled''     THEN ''NFC-e Cancelado''' +
+      '        WHEN ''nis_authorized''    THEN ''NFC-e Autorizado''' +
+      '        WHEN ''nis_rejected''      THEN ''NFC-e Rejeitado''' +
+      '        WHEN ''nis_overruled''     THEN ''NFC-e Anulado/Denegado''' +
+      '        WHEN ''nis_external_emit'' THEN ''NFC-e Emitida Externamente''' +
+      '        ELSE ''NFC-e Status desconhecido''' +
+      '    END' +
+      ') || ' +
+      '( ' +
+      '   CASE lf2.situacao ' +
+      '       WHEN -3 THEN ''- LancFinanceiro = Cancelado(-3)''' +
+      '       WHEN -2 THEN ''- LancFinanceiro = Em cancelamento(-2)''' +
+      '       WHEN  0 THEN ''- LancFinanceiro = Aberto(0)''' +
+      '       WHEN  1 THEN ''- LancFinanceiro = Em Conclusao(1)''' +
+      '       WHEN  2 THEN ''- LancFinanceiro = Concluido(2)''' +
+      '       WHEN  -1 THEN ''- LancFinanceiro = Cancelamento em Aberto(-1)''' +
+      '       ELSE ''- LancFinanceiro = Status desconhecido''' +
+      '   END' +
+      ') || '' - '' || mod2.access_key AS ocorrencia ' +
+      'FROM modnfce.nfce_invoices mod2 ' +
+      'JOIN lancamentos_financeiros lf2 ' +
+      'ON lf2.chave_acesso = mod2.access_key ' +
+      'WHERE lf2.data_movimento BETWEEN (CURRENT_DATE - INTERVAL ''2 months'') AND CURRENT_DATE ' +
+      'AND ( ' +
+      '    mod2.current_status IN (''nis_rejected'',''nis_external_emit'') ' +
+      ' OR (mod2.current_status = ''nis_authorized'' AND lf2.situacao <> 2) ' +
+      ' OR (mod2.current_status = ''nis_overruled''  AND lf2.situacao <> -3) ' +
+      ' OR (mod2.current_status = ''nis_canceled''   AND lf2.situacao <> -3) ' +
+      ') ' +
+      'ORDER BY mod2.access_key';
+    
+    try
+      QSelect.Open;                                  //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '124', 'Consulta executada. Registros encontrados: ' + IntToStr(QSelect.RecordCount));
+
+      if not QSelect.IsEmpty then
+      begin
+        // Processar cada registro encontrado
+        while not QSelect.Eof do
+        begin
+          try
+            DataMovimento := QSelect.FieldByName('data_inclusao').AsDateTime;
+            
+            // Formatar ocorrência com campos separados por ponto e vírgula
+            OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', DataMovimento) + ';' +
+                                  FormatDateTime('HH:NN:SS', DataMovimento) + ';' +
+                                  QSelect.FieldByName('cod_empresa').AsString + ';' + // empresa
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                   ';' + // campo vazio
+                                  QSelect.FieldByName('ocorrencia').AsString + ';' + // descrição da ocorrência
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';'; // campo vazio
+            
+            // Enviar via API
+            try
+              var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+              var IdModulo := 8; // Módulo NFE
+              var Ocorr := OcorrenciaFormatada;
+              var Prior := 2;
+              // Usar data/hora atuais para controle de expiração na API
+              var DataStr := FormatDateTime('yyyy-mm-dd', Date);
+              var HoraStr := FormatDateTime('hh:nn:ss', Time);
+              var Obj := TJSONObject.Create;
+              try
+                Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+              finally
+                Obj.Free;
+              end;
+              try
+  Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                if Assigned(Response) and (Response.StatusCode = 200) then
+                begin
+                  Inc(RegistrosProcessados);
+                  FrmPrincipal.WriteLogFormatted('DEBUG', '124', Format('Ocorrência enviada para NFc-E: %s', [QSelect.FieldByName('access_key').AsString]));
+                end
+                else
+                begin
+                  var MsgFalha: string;
+                  if Assigned(Response) then
+                    MsgFalha := Response.ContentAsString
+                  else
+                    MsgFalha := 'Sem resposta';
+                  FrmPrincipal.WriteLogFormatted('ERRO', '124', '[API CLIENTE] Falha ao enviar NFc-E: ' + MsgFalha);
+                end;
+              finally
+                RequestBody.Free;
+              end;
+            except
+              on E: Exception do
+                FrmPrincipal.WriteLogFormatted('ERRO', '124', 'Erro ao enviar NFc-E para API: ' + E.Message);
+            end;
+            
+          except
+            on E: Exception do
+            begin                                           //[CONSULTA NFE DIVERGENCIA]
+              FrmPrincipal.WriteLogFormatted('ERRO', '124', 'Erro ao processar registro: ' + E.Message);
+            end;
+          end;
+          
+          QSelect.Next;
+        end;
+        
+        FrmPrincipal.WriteLogFormatted('INFO', '124', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('INFO', '124', 'Nenhuma Contingência NFc-E encontrada');
+      end;
+    except
+      on E: Exception do
+      begin                                            //[CONSULTA NFE DIVERGENCIA]
+        FrmPrincipal.WriteLogFormatted('ERRO', '124', 'Erro ao executar consulta: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+    consultaNFcCONTIGENCIA;
+  end;
+
+end;
+
+
+procedure ThreadMonitordeOcorrencia.consultaNFcCONTIGENCIA;
+var
+  QSelect: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  OcorrenciaFormatada: string;
+  RegistrosProcessados: Integer;
+  DataMovimento: TDateTime;
+begin
+  RegistrosProcessados := 0;                   //[CONSULTA NFE DIVERGENCIA]
+  FrmPrincipal.WriteLogFormatted('INFO', '125', 'Iniciando verificação de Contingência NFE');
+  QSelect := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  try
+    // Verificar se CXClient está ativa
+    if not Assigned(FrmPrincipal.CXClient) or not FrmPrincipal.CXClient.Connected then
+    begin                                           //[CONSULTA NFE DIVERGENCIA]
+      FrmPrincipal.WriteLogFormatted('ERRO', '125', 'CXClient não está conectada');
+      Exit;
+    end;
+    
+    // Preparar HttpClient
+    EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+    HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+    HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+    // Configurar query de seleção - buscar Contingência NFE
+    QSelect.Connection := FrmPrincipal.CXClient;
+    QSelect.SQL.Text := 'SELECT ' +
+      'lf2.data_inclusao, ' +
+      'mod2.cod_empresa, ' +
+      'mod2.access_key, ' +
+      'mod2.current_status, ' +
+      'lf2.situacao, ' +
+
+      '( ' +
+      '    CASE mod2.current_status ' +
+      '        WHEN ''nis_canceled''     THEN ''NFe Cancelado''' +
+      '        WHEN ''nis_authorized''    THEN ''NFe Autorizado''' +
+      '        WHEN ''nis_rejected''      THEN ''NFe Rejeitado''' +
+      '        WHEN ''nis_overruled''     THEN ''NFe Anulado/Denegado''' +
+      '        WHEN ''nis_external_emit'' THEN ''NFe Emitida Externamente''' +
+      '        ELSE ''NFe Status desconhecido''' +
+      '    END' +
+      ') || ' +
+      '( ' +
+      '   CASE lf2.situacao ' +
+      '       WHEN -3 THEN ''- LancFinanceiro = Cancelado(-3)''' +
+      '       WHEN -2 THEN ''- LancFinanceiro = Em cancelamento(-2)''' +
+      '       WHEN  0 THEN ''- LancFinanceiro = Aberto(0)''' +
+      '       WHEN  1 THEN ''- LancFinanceiro = Em Conclusao(1)''' +
+      '       WHEN  2 THEN ''- LancFinanceiro = Concluido(2)''' +
+      '       WHEN  -1 THEN ''- LancFinanceiro = Cancelamento em Aberto(-1)''' +
+      '       ELSE ''- LancFinanceiro = Status desconhecido''' +
+      '   END' +
+      ') || '' - '' || mod2.access_key AS ocorrencia ' +
+      'FROM modnfe.invoices  mod2 ' +
+      'JOIN lancamentos_financeiros lf2 ' +
+      'ON lf2.chave_acesso = mod2.access_key ' +
+      'WHERE lf2.data_movimento BETWEEN (CURRENT_DATE - INTERVAL ''2 months'') AND CURRENT_DATE ' +
+      'AND ( ' +
+      '    mod2.current_status IN (''nis_rejected'',''nis_external_emit'') ' +
+      ' OR (mod2.current_status = ''nis_authorized'' AND lf2.situacao <> 2) ' +
+      ' OR (mod2.current_status = ''nis_overruled''  AND lf2.situacao <> -3) ' +
+      ' OR (mod2.current_status = ''nis_canceled''   AND lf2.situacao <> -3) ' +
+      ') ' +
+      'ORDER BY mod2.access_key';
+
+    try
+      QSelect.Open;                                  //[CONSULTA NFE Contingência]
+      FrmPrincipal.WriteLogFormatted('DEBUG', '125', 'Consulta executada. Registros encontrados: ' + IntToStr(QSelect.RecordCount));
+
+      if not QSelect.IsEmpty then
+      begin
+        // Processar cada registro encontrado
+        while not QSelect.Eof do
+        begin
+          try
+            DataMovimento := QSelect.FieldByName('data_inclusao').AsDateTime;
+
+            // Formatar ocorrência com campos separados por ponto e vírgula
+            OcorrenciaFormatada := FormatDateTime('YYYY-MM-DD', DataMovimento) + ';' +
+                                  FormatDateTime('HH:NN:SS', DataMovimento) + ';' +
+                                  QSelect.FieldByName('cod_empresa').AsString + ';' + // empresa
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                   ';' + // campo vazio
+                                  QSelect.FieldByName('ocorrencia').AsString + ';' + // descrição da ocorrência
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // 3campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';' + // campo vazio
+                                  ';'; // campo vazio
+
+            // Enviar via API
+            try
+              var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+              var IdModulo := 8; // Módulo NFE1
+              var Ocorr := OcorrenciaFormatada;
+              var Prior := 2;
+              // Usar data/hora atuais para controle de expiração na API
+              var DataStr := FormatDateTime('yyyy-mm-dd', Date);
+              var HoraStr := FormatDateTime('hh:nn:ss', Time);
+              var Obj := TJSONObject.Create;
+              try
+                Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+              finally
+                Obj.Free;
+              end;
+              try
+                Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                if Assigned(Response) and (Response.StatusCode = 200) then
+                begin
+                  Inc(RegistrosProcessados);
+                  FrmPrincipal.WriteLogFormatted('DEBUG', '125', Format('Ocorrência enviada para NFE: %s', [QSelect.FieldByName('access_key').AsString]));
+                end
+                else
+                begin
+                  var MsgFalha: string;
+                  if Assigned(Response) then
+                    MsgFalha := Response.ContentAsString
+                  else
+                    MsgFalha := 'Sem resposta';
+                  FrmPrincipal.WriteLogFormatted('ERRO', '125', '[API CLIENTE] Falha ao enviar NFE: ' + MsgFalha);
+                end;
+              finally
+                RequestBody.Free;
+              end;
+            except
+              on E: Exception do
+                FrmPrincipal.WriteLogFormatted('ERRO', '125', 'Erro ao enviar NFE para API: ' + E.Message);
+            end;
+
+          except
+            on E: Exception do
+            begin                                           //[CONSULTA NFE Contingência]
+              FrmPrincipal.WriteLogFormatted('ERRO', '125', 'Erro ao processar registro: ' + E.Message);
+            end;
+          end;
+
+          QSelect.Next;
+        end;
+
+        FrmPrincipal.WriteLogFormatted('INFO', '125', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
+      end
+      else
+      begin                                            //[CONSULTA NFE Contingência]
+        FrmPrincipal.WriteLogFormatted('INFO', '125', 'Nenhuma Contingência NFE encontrada');
+      end;
+    except
+      on E: Exception do
+      begin                                            //[CONSULTA NFE Contingência]
+        FrmPrincipal.WriteLogFormatted('ERRO', '125', 'Erro ao executar consulta: ' + E.Message);
+      end;
+    end;
+  finally
+    QSelect.Free;
+ 
+  end;
+  NFE_NFCE_DUPLICADAS;
+end;
+
+
+procedure ThreadMonitordeOcorrencia.NFE_NFCE_DUPLICADAS;
+var
+  QSelect, QSelectEmpresa: TUniQuery;
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+  EncodedAuth: string;
+  DataAtual: TDateTime;
+  RegistrosProcessados: Integer;
+  CodEmpresa: Integer;
+  TotalRegistros: Integer;
+  Ocorrencia: string;
+  TentativasReconexao: Integer;
+  ConexaoEstavel: Boolean;
+begin
+  FrmPrincipal.WriteLogFormatted('INFO', '110', 'Iniciando verificação de NFE/NFCE duplicadas');
+  QSelect := TUniQuery.Create(nil);
+  QSelectEmpresa := TUniQuery.Create(nil);
+  HttpClient := TNetHTTPClient.Create(nil);
+  RegistrosProcessados := 0;
+  DataAtual := Now;
+  TentativasReconexao := 0;
+  ConexaoEstavel := False;
+  try
+    // Verificar se EdtEmpresaTodos tem valor válido
+    if (FrmPrincipal.EdtEmpresaTodos.Text = '') or (FrmPrincipal.EdtEmpresaTodos.Text = '0') then
+    begin
+      FrmPrincipal.WriteLogFormatted('ERRO', '110', 'EdtEmpresaTodos está vazio ou inválido');
+      Exit;
+    end;
+
+    try
+      // Configurar conexões
+      QSelect.Connection := FrmPrincipal.CXClient;
+      QSelectEmpresa.Connection := FrmPrincipal.CXClient;
+
+      // Preparar HttpClient
+      EncodedAuth := TNetEncoding.Base64.Encode(API_USERNAME + ':' + API_PASSWORD);
+      HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
+      HttpClient.CustomHeaders['Content-Type'] := 'application/json';
+
+      // Resetar para CXClient
+      TentativasReconexao := 0;
+      ConexaoEstavel := False;
+
+      if not Assigned(FrmPrincipal.CXClient) then
+      begin
+        FrmPrincipal.WriteLogFormatted('ERRO', '110', 'CXClient não está atribuída');
+        Exit;
+      end;
+
+      // Estabilizar CXClient
+      while not ConexaoEstavel and (TentativasReconexao < 5) do
+      begin
+        try
+          if not FrmPrincipal.CXClient.Connected then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Tentativa %d - Reconectando CXClient...', [TentativasReconexao + 1]));
+            FrmPrincipal.CXClient.Connect;
+          end;
+
+          // Conexão CXClient estabilizada
+
+          ConexaoEstavel := True;
+          FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'CXClient estabilizada com sucesso');
+        except
+          on E: Exception do
+          begin
+            Inc(TentativasReconexao);
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Tentativa %d - Falha ao estabilizar CXClient: %s', [TentativasReconexao, E.Message]));
+
+            if TentativasReconexao >= 5 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Máximo de tentativas para CXClient atingido');
+              Exit;
+            end;
+
+            Sleep(2000); // Aguardar 2 segundos antes da próxima tentativa
+          end;
+        end;
+      end;
+      // Buscar o cod_empresa do sistema (apenas se houver uma única empresa)
+      try
+        // Primeiro verificar se existe apenas uma empresa do sistema
+        QSelectEmpresa.SQL.Text :=
+          'SELECT COUNT(*) as total_empresas ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true';
+        QSelectEmpresa.Open;
+
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger > 1 then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'Mais de uma empresa do sistema encontrada - Abortando verificação');
+              Exit;
+            end;
+            if QSelectEmpresa.FieldByName('total_empresas').AsInteger = 0 then
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Nenhuma empresa do sistema encontrada');
+              Exit;
+            end;
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo total_empresas: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query de contagem de empresas não retornou dados');
+          Exit;
+        end;
+
+        // Buscar o cod_pessoa da única empresa
+        QSelectEmpresa.Close;
+        QSelectEmpresa.SQL.Text :=
+          'SELECT cod_pessoa ' +
+          'FROM PESSOAS ' +
+          'WHERE empresa_sistema = true ' +
+          'ORDER BY cod_pessoa asc ' +
+          'LIMIT 1';
+        QSelectEmpresa.Open;
+
+        if QSelectEmpresa.Active and not QSelectEmpresa.IsEmpty then
+        begin
+          try
+            CodEmpresa := QSelectEmpresa.FieldByName('cod_pessoa').AsInteger;
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Empresa única do sistema encontrada: %d', [CodEmpresa]));
+          except
+            on E: Exception do
+            begin
+              FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo cod_pessoa: ' + E.Message);
+              Exit;
+            end;
+          end;
+        end
+        else
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query de busca da empresa não retornou dados');
+          Exit;
+        end;
+      except
+        on E: Exception do
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'ERRO AO BUSCAR EMPRESA DO SISTEMA: ' + E.Message);
+          Exit;
+        end;
+      end;
+
+      // Verificar NFE/NFCE duplicadas usando o cod_pessoa
+      try
+        // Verificar se CodEmpresa é válido
+        if CodEmpresa <= 0 then
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'CodEmpresa inválido: ' + IntToStr(CodEmpresa));
+          Exit;
+        end;
+
+        // Primeiro, vamos testar se há registros duplicados
+        try
+          QSelect.SQL.Text :=
+            'SELECT COUNT(*) as total_registros ' +
+            'FROM ( ' +
+            '  SELECT cod_empresa, chave_acesso ' +
+            '  FROM lancamentos_financeiros ' +
+            '  WHERE chave_acesso <> '''' ' +
+            '    AND chave_acesso IS NOT NULL ' +
+            '    AND situacao = 2 ' +
+            '    AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
+            '    AND cod_empresa = :pempresa ' +
+            '  GROUP BY cod_empresa, chave_acesso ' +
+            '  HAVING COUNT(*) > 1 ' +
+            ') duplicadas';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+
+          if QSelect.Active and not QSelect.IsEmpty then
+          begin
+            try
+              TotalRegistros := QSelect.FieldByName('total_registros').AsInteger;
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Total de chaves de acesso duplicadas encontradas: %d', [TotalRegistros]));
+            except
+              on E: Exception do
+              begin
+                FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao acessar campo total_registros: ' + E.Message);
+                Exit;
+              end;
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', 'Nenhum registro duplicado encontrado na consulta de contagem');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro na consulta de contagem: ' + E.Message);
+            Exit;
+          end;
+        end;
+
+        // Agora vamos buscar a ocorrência de NFE/NFCE duplicadas
+        try
+          QSelect.Close;
+          QSelect.SQL.Text :=
+            'SELECT ' +
+            '  MAX(DATE(data_movimento)) || '';'' || ' +
+            '  TO_CHAR(MAX(data_movimento), ''HH24:MI'') || '';'' || ' +
+            '  cod_empresa || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || ' +
+           // '  '';;NFE/NFCE Duplicadas - Chave de Acesso: '' || chave_acesso  AS ocorrencia ' +
+            ' '';;cod lanc: '' || STRING_AGG(DISTINCT CAST(cod_lanc_financeiro AS VARCHAR), '', '') || '' - Chave de Acesso: '' || chave_acesso AS ocorrencia '+
+            'FROM lancamentos_financeiros ' +
+            'WHERE chave_acesso <> '''' ' +
+            '  AND chave_acesso IS NOT NULL ' +
+            '  AND situacao = 2 ' +
+            '  AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
+            '  AND cod_empresa = :pempresa ' +
+            'GROUP BY cod_empresa, chave_acesso ' +
+            'HAVING COUNT(*) > 1 ' +
+            'ORDER BY cod_empresa, chave_acesso';
+          QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
+          QSelect.Open;
+
+          FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Executando consulta de NFE/NFCE duplicadas para empresa: %d', [CodEmpresa]));
+
+          if QSelect.Active then
+          begin
+            FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Registros encontrados na consulta: %d', [QSelect.RecordCount]));
+
+            if not QSelect.IsEmpty then
+            begin
+              FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('NFE/NFCE duplicadas encontradas - Processando %d ocorrências', [QSelect.RecordCount]));
+
+              // Processar cada ocorrência encontrada
+              QSelect.First;
+              while not QSelect.Eof do
+              begin
+                Ocorrencia := QSelect.FieldByName('ocorrencia').AsString;
+                FrmPrincipal.WriteLogFormatted('DEBUG', '110', Format('Enviando ocorrência para API: %s', [Ocorrencia]));
+
+                // Enviar via API
+                try
+                  var IdEmpresaHelp := StrToIntDef(FrmPrincipal.EdtEmpresaTodos.Text, 0);
+                  var IdModulo := 13; // Módulo sNFE/NFCE Duplicadas
+                  var Ocorr := Ocorrencia;
+                  var Prior := 2; // Prioridade média
+                  var DataStr := FormatDateTime('yyyy-mm-dd', DateOf(DataAtual));
+                  var HoraStr := FormatDateTime('hh:nn:ss', TimeOf(DataAtual));
+                  var Obj := TJSONObject.Create;
+                  try
+                    Obj.AddPair('id_empresa_help', TJSONNumber.Create(IdEmpresaHelp));
+                    Obj.AddPair('id_modulo_ocorrencia', TJSONNumber.Create(IdModulo));
+                    Obj.AddPair('ocorrencia', TJSONString.Create(Ocorr));
+                    Obj.AddPair('dataocorrencia', TJSONString.Create(DataStr));
+                    Obj.AddPair('hora', TJSONString.Create(HoraStr));
+                    Obj.AddPair('id_prioridade', TJSONNumber.Create(Prior));
+                    RequestBody := TStringStream.Create(Obj.ToJSON, TEncoding.UTF8);
+                  finally
+                    Obj.Free;
+                  end;
+                  try
+                    Response := HttpClient.Post(GetApiUrlFromEdit + '/api/monitor-ocorrencia', RequestBody);
+                    if Assigned(Response) and (Response.StatusCode = 200) then
+                    begin
+                      Inc(RegistrosProcessados);
+                      FrmPrincipal.WriteLogFormatted('INFO', '110', Format('Ocorrência de NFE/NFCE duplicadas enviada para API com sucesso (%d/%d)', [RegistrosProcessados, QSelect.RecordCount]));
+                    end
+                    else
+                    begin
+                      var MsgFalha: string;
+                      if Assigned(Response) then
+                        MsgFalha := Response.ContentAsString
+                      else
+                        MsgFalha := 'Sem resposta';
+                      FrmPrincipal.WriteLogFormatted('ERRO', '110', '[API CLIENTE] Falha ao enviar ocorrência de NFE/NFCE duplicadas: ' + MsgFalha);
+                    end;
+                  finally
+                    RequestBody.Free;
+                  end;
+                except
+                  on E: Exception do
+                    FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao enviar ocorrência de NFE/NFCE duplicadas para API: ' + E.Message);
+                end;
+
+                QSelect.Next;
+              end;
+            end
+            else
+            begin
+              FrmPrincipal.WriteLogFormatted('INFO', '110', 'Nenhuma NFE/NFCE duplicada encontrada');
+            end;
+          end
+          else
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Query não está ativa após execução');
+          end;
+        except
+          on E: Exception do
+          begin
+            FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro na consulta de NFE/NFCE duplicadas: ' + E.Message);
+            Exit;
+          end;
+        end;
+      except
+        on E: Exception do
+        begin
+          FrmPrincipal.WriteLogFormatted('ERRO', '110', 'ERRO AO VERIFICAR NFE/NFCE DUPLICADAS: ' + E.Message);
+          Exit;
+        end;
+      end;
+    except
+      on E: Exception do
+        FrmPrincipal.WriteLogFormatted('ERRO', '110', 'Erro ao executar verificação: ' + E.Message);
+    end;
+  finally
+    QSelect.Free;
+    QSelectEmpresa.Free;
+    HttpClient.Free;
+
+  end;
+  FrmPrincipal.WriteLogFormatted('INFO', '110', Format('Verificação de NFE/NFCE duplicadas finalizada com %d ocorrências processadas', [RegistrosProcessados]));
+end;
+
+
+
+
+
+end.

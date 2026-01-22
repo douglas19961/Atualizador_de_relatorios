@@ -926,6 +926,8 @@ begin
     Result := 'LOGOS RELATORIOS'
        else if Codigo = '128' then
     Result := 'INICIALIZAR'
+           else if Codigo = '129' then
+    Result := 'NFE_NFCE_DUPLICADAS'
 
 
 
@@ -1138,4 +1140,5 @@ begin
 end;
 
 end.
+
 

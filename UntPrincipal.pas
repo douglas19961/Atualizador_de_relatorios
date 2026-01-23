@@ -268,7 +268,15 @@ type
     function EnviarEmailEmLote: Boolean;
     procedure LimparClientesAtualizados;
     function ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequestInfo): Boolean;
+
+
+        ///SERVIDOR
+
     procedure IdHTTPServer1CommandGet(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
+
+
+
+
     function AtualizarDataEmpresa(const IdEmpresa: Integer): TJSONObject;
     function FormatJSON(const JSONValue: TJSONValue; const Indent: Integer = 0): string;
     procedure ChamarAPIAtualizarEmpresa;
@@ -340,16 +348,16 @@ type
   procedure InserirOcorrenciasDoss;
   function TestarConexaoSMTP: Boolean;
   function serverApiDTC(const NumeroEmpresaModuloDTC: Integer): TJSONObject;
-      procedure replicaslocal;
-    procedure executarVariosBancosCorrigindoEncerrantes;
-    function ConsultarVersaoEmpresa(const IdEmpresa: Integer): TJSONObject;
-    procedure apagarocorrenciascomdatalimite;
-    procedure integracao_ararajuba;
-    procedure BuscarModulosRotina;
-    procedure CarregarIPClienteDeConfig;
-    procedure novoiniciarMonitorando;
-    procedure integracaoentregapegoraro;
-    procedure CriarEstruturaIntegracaoBanco;
+  procedure replicaslocal;
+  procedure executarVariosBancosCorrigindoEncerrantes;
+  function ConsultarVersaoEmpresa(const IdEmpresa: Integer): TJSONObject;
+  procedure apagarocorrenciascomdatalimite;
+  procedure integracao_ararajuba;
+  procedure BuscarModulosRotina;
+  procedure CarregarIPClienteDeConfig;
+  procedure novoiniciarMonitorando;
+  procedure integracaoentregapegoraro;
+  procedure CriarEstruturaIntegracaoBanco;
     { Public declarations }
   end;
 var

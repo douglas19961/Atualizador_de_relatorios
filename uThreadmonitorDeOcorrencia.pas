@@ -3937,6 +3937,7 @@ begin
             'FROM lancamentos_financeiros ' +
             'WHERE chave_acesso <> '''' ' +
             '  AND chave_acesso IS NOT NULL ' +
+            '  AND COD_LANCAMENTO_PADRAO NOT IN (684,685) ' +
             '  AND situacao = 2 ' +
             '  AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
             '  AND cod_empresa = :pempresa ' +

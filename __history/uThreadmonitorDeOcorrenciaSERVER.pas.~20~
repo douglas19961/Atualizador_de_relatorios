@@ -1223,7 +1223,7 @@ begin
 
   QSelect.Free;
   QDelete.Free;
-//    OcorrenciaVencimentoSigilo;
+    OcorrenciaVencimentoSigilo;
 end;
 
 
@@ -1236,7 +1236,7 @@ var
   QSelect, qexclusao, QInsert: TUniQuery;
   CurrentDate: TDateTime;
 begin
-  FrmPrincipal.WriteLogFormatted('INFO', '115', 'Iniciando inserção de ocorrências');
+  FrmPrincipal.WriteLogFormatted('INFO', '130', 'Iniciando inserção de ocorrências');
   QSelect := TUniQuery.Create(nil);
   QInsert := TUniQuery.Create(nil);
   qexclusao := TUniQuery.Create(nil);
@@ -1246,7 +1246,7 @@ begin
         QSelect.Connection := FrmPrincipal.ConexaoModulo;
         QInsert.Connection := FrmPrincipal.ConexaoModulo;
         qexclusao.Connection := FrmPrincipal.ConexaoModulo;
-        CurrentDate := Now; // Pega a data/hora atuais
+        CurrentDate := Now; // Pega a data/hora atuaiss
         // Depois busca as empresas
         QSelect.SQL.Text :=
         SELECT
@@ -1281,18 +1281,18 @@ begin
           QInsert.ParamByName('id_empresa_help').AsInteger := QSelect.FieldByName('id_empresa_help').AsInteger;
           QInsert.ParamByName('ocorrencia').AsString := QSelect.FieldByName('info_concatenada').AsString;
           QInsert.ParamByName('id_prioridade').AsInteger := QSelect.FieldByName('prioridade').AsInteger;
-          QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 5;
+          QInsert.ParamByName('id_modulo_ocorrencia').AsInteger := 14;
           QInsert.ParamByName('data_ocorrencia').AsDateTime := DateOf(CurrentDate);
           QInsert.ParamByName('hora').AsTime := TimeOf(CurrentDate);         // Só a hora         // Só a hora
           QInsert.ExecSQL;
           QSelect.Next;
         end;
-          FrmPrincipal.WriteLogFormatted('DEBUG', '115', '[DTCSYNC NÃO SINCRONIZADOS] inserido dados com sucesso');
+          FrmPrincipal.WriteLogFormatted('DEBUG', '130', '[DTCSYNC NÃO SINCRONIZADOS] inserido dados com sucesso');
     except
       on E: Exception do
       begin
         // Só grava o erro no log, não mostra na tela
-        FrmPrincipal.WriteLogFormatted('ERRO', '115', '[DTCSYNC NÃO SINCRONIZADOS] erro: ' + E.Message);
+        FrmPrincipal.WriteLogFormatted('ERRO', '130', '[DTCSYNC NÃO SINCRONIZADOS] erro: ' + E.Message);
       end;
     end;
   finally

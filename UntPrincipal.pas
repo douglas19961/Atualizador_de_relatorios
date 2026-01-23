@@ -960,6 +960,7 @@ begin
 end;
  procedure TFrmPrincipal.AtualizarDataAtivo;
 var
+ ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
   Query: TUniQuery;
 begin
   try
@@ -993,6 +994,14 @@ begin
     Query.Free;
   end;
 //  Versaosigilo;
+if EhModoserver(ComboBox1) then
+   begin
+//    InserirOcorrencias;
+     ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
+     ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
+     ThreadMonitorSERVER.Start; // Inicia a execução da thread
+     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
+   end;
 end;
 {*
   Função para gerar logs formatados em arquivo txt
@@ -8284,6 +8293,22 @@ begin
       end;
       
       QSelect.Next;
+    end;
+    
+    // Remover ocorrências vazias
+    WriteLogFormatted('DEBUG', '1', '[LIMPEZA OCORRÊNCIAS] Removendo ocorrências vazias');
+    QDelete.SQL.Text :=
+      'DELETE FROM monitor_ocorrencias ' +
+      'WHERE (ocorrencia IS NULL OR ocorrencia = '''') AND id_chamado = 0';
+    
+    QDelete.ExecSQL;
+    
+    Inc(RegistrosRemovidos, QDelete.RowsAffected);
+    
+    if QDelete.RowsAffected > 0 then
+    begin
+      WriteLogFormatted('DEBUG', '1', Format('[LIMPEZA OCORRÊNCIAS] Removidas %d ocorrências vazias',
+        [QDelete.RowsAffected]));
     end;
     
     WriteLogFormatted('INFO', '1', Format('[LIMPEZA OCORRÊNCIAS] Limpeza concluída. Total de registros removidos: %d', [RegistrosRemovidos]));

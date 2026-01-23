@@ -202,14 +202,14 @@ type
     EdtEmpresaTodos: TEdit;
     BTN_Logs: TSpeedButton;
     SpeedButton2: TSpeedButton;
-    BitBtn12: TBitBtn;
     TimerMonitorServer: TTimer;
-    BitBtn14: TBitBtn;
     TimerintegracoesRotinaTimer: TTimer;
     BitBtn15: TBitBtn;
     btnlogo: TBitBtn;
     Panel29: TPanel;
     SpBLogo: TSpeedButton;
+    Timertemporarioserver: TTimer;
+    BitBtn16: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -274,11 +274,13 @@ type
     procedure ChamarAPIAtualizarEmpresa;
     procedure LimparLogsAntigos;
     function GetAPIServerURL(ComboBox: TComboBox): string;
-    procedure BitBtn12Click(Sender: TObject);
     procedure TimerMonitorServerTimer(Sender: TObject);
     procedure TimerintegracoesRotinaTimerTimer(Sender: TObject);
     procedure SpBLogoClick(Sender: TObject);
     procedure BitBtn15Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
+    procedure TimertemporarioserverTimer(Sender: TObject);
+    procedure BitBtn16Click(Sender: TObject);
   private
     { Private declarations }
     // Credenciais de autenticação para a API
@@ -327,9 +329,7 @@ type
   procedure AtualizarDataAtivoDTCFrota(Empresa: integer);
   procedure executarVariosBancosAtivoDtcSite;
   procedure executarVariosBancosMedicoesSite;
-
   procedure Versaosigiloatual;
-
   procedure executarVariosBancosmedicaodivergente;
   function FazerLogin: Boolean;
   function BuscarClientes(const Token: string): Boolean;
@@ -349,7 +349,6 @@ type
     procedure CarregarIPClienteDeConfig;
     procedure novoiniciarMonitorando;
     procedure integracaoentregapegoraro;
-
     procedure CriarEstruturaIntegracaoBanco;
     { Public declarations }
   end;
@@ -373,8 +372,6 @@ uses
   HORARIO_EXECUCAO_RELATORIOS_TURNO_2 = '12:00';
 
 
-
-
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1 = '23:50';
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2 = '12:50';
   HORARIO_EXECUCAO_INTEGRACAO_TURNO_1 = '15:30';
@@ -388,7 +385,6 @@ begin
   Result := ComboBox.ItemIndex = 0;
 end;
 
-
 function TFrmPrincipal.ConsultarVersaoEmpresa(const IdEmpresa: Integer): TJSONObject;
 var
   Query: TUniQuery;
@@ -396,7 +392,6 @@ var
 begin
   WriteLogFormatted('INFO', '108', '[CONSULTAR VERSAO EMPRESA] Iniciando consulta para empresa ID: ' + IntToStr(IdEmpresa));
   ResultJSON := TJSONObject.Create;
-
   try
     Query := TUniQuery.Create(nil);
     try
@@ -409,7 +404,6 @@ begin
       Query.ParamByName('id_empresa_help').AsInteger := IdEmpresa;
       WriteLogFormatted('INFO', '108', '[CONSULTAR VERSAO EMPRESA] Executando consulta SQL para empresa: ' + IntToStr(IdEmpresa));
       Query.Open;
-
       if Query.IsEmpty then
       begin
         WriteLogFormatted('INFO', '108', '[CONSULTAR VERSAO EMPRESA] Nenhum registro encontrado para empresa: ' + IntToStr(IdEmpresa));
@@ -513,7 +507,6 @@ begin
     LabelVers.Caption := 'Versão não encontrada';
   end;
 end;
-
 procedure TFrmPrincipal.AdicionarAoStartup;
 var
   Shell, Shortcut: OleVariant;
@@ -604,7 +597,6 @@ begin
   Self.Hide;                 // Esconde a janela
   TrayIcon1.Visible := True; // Exibe o ícone na bandeja
 end;
-
 
 procedure TFrmPrincipal.InserirOcorrenciaExterna(Empresa: integer; idModulo: Integer; ocorrencia: string; prioridade: integer);
 var
@@ -714,7 +706,6 @@ begin
    ConexaoModulo.Connected:=false;
 end;
 
-
 procedure TFrmPrincipal.ExecutadordasOcorrencias;
 var
   QueryApagar: TUniQuery;
@@ -726,7 +717,6 @@ begin
   ThreadMonitor.Start; // Inicia a execução da thread
   WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
 end;
-
 procedure TFrmPrincipal.ListarConexoes(Memo: TMemo);
 var
   ListaConexoes: array of TUniConnection;
@@ -1129,17 +1119,47 @@ end else exit
 end;
 
 
-
-
-  procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
+procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
+var
+ ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
 begin
-  integracaoentregapegoraro;
+ if EhModoserver(ComboBox1) then
+   begin
+////    InserirOcorrencias;
+//     ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
+//     ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
+//     ThreadMonitorSERVER.Start; // Inicia a execução da thread
+//     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
+apagarocorrenciascomdatalimite;
+   end;
+end;
+procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
+begin
+  BuscarModulosRotina;
 end;
 
 
 
-
-
+procedure TFrmPrincipal.BitBtn16Click(Sender: TObject);
+begin
+  begin
+   conexaomodulos;
+    TimerRelatoriosServerExe.Enabled := False; // Desativa o timer para evitar execuções repetidas
+   // ShowMessage('Executando ação programada!');
+     MemoLogServer.Lines.Add('Executando Atualizador de  Relatórios Server ! TURNO1');
+    // Coloque aqui o código que deseja executar
+        CXServer.Connected:=False;
+        CXServer.Connected:=True;
+      if ModuloHabilitado(5) then
+        begin
+       WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS Server] Execução feita com sucesso!');
+      TTransferenciaServerThread.Create(CXServer, ConexaoModulo, MemoLogServer);
+      end else exit;
+    // Opcional: reativar o timer para o próximo dia
+    TimerRelatoriosServerExe.Interval := 60000; // Verifica a cada minuto
+    TimerRelatoriosServerExe.Enabled := True;
+  end;
+end;
 
 procedure TFrmPrincipal.integracaoentregapegoraro;
 var
@@ -1214,7 +1234,6 @@ begin
         'INNER JOIN municipios m ON pe.cidade = m.cod_municipio ' +
         'WHERE lf.cash_back_lanc IS NOT TRUE ' +
         '  AND lf.data_inclusao between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
-
         'ORDER BY lf.cod_lanc_financeiro, lp.cod_produto';
       
       // Definir parâmetros de data
@@ -1411,7 +1430,6 @@ begin
     end;
   end;
 end;
-
 function TFrmPrincipal.FormatJSON(const JSONValue: TJSONValue; const Indent: Integer = 0): string;
 var
   IndentStr: string;
@@ -1515,7 +1533,6 @@ begin
     Result := JSONValue.ToString;
   end;
 end;
-
 procedure TFrmPrincipal.BtnSalvarClientClick(Sender: TObject);
 var
   IniFile: TIniFile;
@@ -1669,7 +1686,6 @@ begin
     CloseFile(Arquivo);
   end;
 end;
-
 procedure TFrmPrincipal.BTN_MenuClick(Sender: TObject);
 begin
 if bexpandido then
@@ -2880,7 +2896,6 @@ procedure TFrmPrincipal.SpBLogoClick(Sender: TObject);
 begin
 apagarocorrenciascomdatalimite;
 end;
-
 procedure TFrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
   PageControl.Visible := True; // Torna visível ao clicar
@@ -2915,6 +2930,16 @@ begin
   end;
 end;
 end;
+procedure TFrmPrincipal.TimertemporarioserverTimer(Sender: TObject);
+begin
+ if EhModoserver(ComboBox1) then
+   begin
+
+    apagarocorrenciascomdatalimite;
+   end;
+   BuscarModulosRotina;
+end;
+
 procedure TFrmPrincipal.Timer2Timer(Sender: TObject);
 var
   ValorStr, TimerConexao: string;
@@ -2979,16 +3004,13 @@ try
   Q := TUniQuery.Create(nil);
   try
     Q.Connection := CXClient;
-
     WriteLogFormatted('INFO', '126', 'Iniciando verificação e criação da estrutura de integração');
-
     // 1) Verifica se schema integracao existe
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.schemata WHERE schema_name = ''integracao'')');
     Q.Open;
     SchemaExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not SchemaExiste then
     begin
       Q.SQL.Clear;
@@ -3000,14 +3022,12 @@ try
     begin
       WriteLogFormatted('INFO', '126', 'Schema integracao já existe, pulando criação');
     end;
-
     // 2) Verifica se tabela logo_relatorios existe
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = ''integracao'' AND table_name = ''verificacao_limpar_var_relatorios'')');
     Q.Open;
     TabelaExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not TabelaExiste then
     begin
       Q.SQL.Clear;
@@ -3024,30 +3044,24 @@ try
       Q.SQL.Add('SELECT false');
       Q.SQL.Add('WHERE NOT EXISTS (SELECT 1 FROM integracao.verificacao_limpar_var_relatorios);');
     Q.Execute;
-
       WriteLogFormatted('INFO', '127', 'Registro padrão garantido na tabela verificacao_limpar_var_relatorios');
-
     end
     else
     begin
       WriteLogFormatted('INFO', '126', 'Tabela verificacao_limpar_var_relatorios já existe, pulando criação');
-
     Q.SQL.Clear;
       Q.SQL.Add('INSERT INTO integracao.verificacao_limpar_var_relatorios (limpar_var_relatorios)');
       Q.SQL.Add('SELECT false');
       Q.SQL.Add('WHERE NOT EXISTS (SELECT 1 FROM integracao.verificacao_limpar_var_relatorios);');
       Q.Execute;
-
       WriteLogFormatted('INFO', '127', 'Registro padrão garantido na tabela verificacao_limpar_var_relatorios');
     end;
-
     // 3) Verifica se view public_lancamentos_financeiros_excluidos existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''public_lancamentos_financeiros_excluidos'')');
     Q.Open;
     ViewExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not ViewExiste then
     begin
       Q.SQL.Clear;
@@ -3081,14 +3095,12 @@ try
     begin
       WriteLogFormatted('INFO', '126', 'View public_lancamentos_financeiros_excluidos já existe, pulando criação');
     end;
-
     // 4) Verifica se view view_legado_lanc_financeiros existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''view_legado_lanc_financeiros'')');
     Q.Open;
     ViewExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not ViewExiste then
     begin
       Q.SQL.Clear;
@@ -3132,14 +3144,12 @@ try
     begin
       WriteLogFormatted('INFO', '126', 'View view_legado_lanc_financeiros já existe, pulando criação');
     end;
-
     // 5) Verifica se view public_lancamentos_produtos_excluidos existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''public_lancamentos_produtos_excluidos'')');
     Q.Open;
     ViewExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not ViewExiste then
     begin
       Q.SQL.Clear;
@@ -3176,13 +3186,99 @@ try
       WriteLogFormatted('INFO', '126', 'View public_lancamentos_produtos_excluidos já existe, pulando criação');
     end;
 
-    // 6) Verifica se view lancamentos_excluidos existe no schema public
+
+
+    // 6) Verifica se função func_saldo_contas_empresas_DTC existe no schema relatorios
+    Q.SQL.Clear;
+    Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.routines WHERE routine_schema = ''relatorios'' AND routine_name = ''func_saldo_contas_empresas_DTC'')');
+    Q.Open;
+    ViewExiste := Q.Fields[0].AsBoolean;
+    Q.Close;
+    if not ViewExiste then
+    begin
+      Q.SQL.Clear;
+      Q.SQL.Add('CREATE OR REPLACE FUNCTION relatorios.func_saldo_contas_empresas_DTC(');
+      Q.SQL.Add('    p_empresa     integer,');
+      Q.SQL.Add('    p_filial      integer,');
+      Q.SQL.Add('    p_data_ini    date,');
+      Q.SQL.Add('    p_data_fim    date');
+      Q.SQL.Add(')');
+      Q.SQL.Add('RETURNS TABLE (');
+      Q.SQL.Add('    cod_empresa   integer,');
+      Q.SQL.Add('    nome_empresa  text,');
+      Q.SQL.Add('    id            text,');
+      Q.SQL.Add('    debito        numeric,');
+      Q.SQL.Add('    credito       numeric');
+      Q.SQL.Add(')');
+      Q.SQL.Add('LANGUAGE plpgsql');
+      Q.SQL.Add('AS $$');
+      Q.SQL.Add('DECLARE');
+      Q.SQL.Add('    r RECORD;');
+      Q.SQL.Add('BEGIN');
+      Q.SQL.Add('    -- =========================');
+      Q.SQL.Add('    -- EMPRESA ESPECÍFICA');
+      Q.SQL.Add('    -- =========================');
+      Q.SQL.Add('    IF p_empresa <> 0 THEN');
+      Q.SQL.Add('        RETURN QUERY');
+      Q.SQL.Add('        SELECT');
+      Q.SQL.Add('            pe.cod_pessoa,');
+      Q.SQL.Add('            pe.nome::text,');
+      Q.SQL.Add('            f.id::text,');
+      Q.SQL.Add('            f.debito,');
+      Q.SQL.Add('            f.credito');
+      Q.SQL.Add('        FROM pessoas pe');
+      Q.SQL.Add('        JOIN relatorios.func_saldo_contas(');
+      Q.SQL.Add('            p_empresa,');
+      Q.SQL.Add('            p_filial,');
+      Q.SQL.Add('            p_data_ini,');
+      Q.SQL.Add('            p_data_fim');
+      Q.SQL.Add('        ) f ON true');
+      Q.SQL.Add('        WHERE pe.cod_pessoa = p_empresa;');
+      Q.SQL.Add('    -- =========================');
+      Q.SQL.Add('    -- TODAS AS EMPRESAS');
+      Q.SQL.Add('    -- =========================');
+      Q.SQL.Add('    ELSE');
+      Q.SQL.Add('        FOR r IN');
+      Q.SQL.Add('            SELECT cod_pessoa, nome');
+      Q.SQL.Add('            FROM pessoas');
+      Q.SQL.Add('            WHERE empresa_sistema = true');
+      Q.SQL.Add('        LOOP');
+      Q.SQL.Add('            RETURN QUERY');
+      Q.SQL.Add('            SELECT');
+      Q.SQL.Add('                r.cod_pessoa,');
+      Q.SQL.Add('                r.nome::text,');
+      Q.SQL.Add('                f.id::text,');
+      Q.SQL.Add('                f.debito,');
+      Q.SQL.Add('                f.credito');
+      Q.SQL.Add('            FROM relatorios.func_saldo_contas(');
+      Q.SQL.Add('                r.cod_pessoa,');
+      Q.SQL.Add('                p_filial,');
+      Q.SQL.Add('                p_data_ini,');
+      Q.SQL.Add('                p_data_fim');
+      Q.SQL.Add('            ) f;');
+      Q.SQL.Add('        END LOOP;');
+      Q.SQL.Add('    END IF;');
+      Q.SQL.Add('END;');
+      Q.SQL.Add('$$;');
+      Q.Execute;
+      WriteLogFormatted('INFO', '126', 'Função relatorios.func_saldo_contas_empresas_DTC criada');
+    end
+    else
+    begin
+      WriteLogFormatted('INFO', '126', 'Função relatorios.func_saldo_contas_empresas_DTC já existe, pulando criação');
+    end;
+
+
+
+
+
+
+    // 7) Verifica se view lancamentos_excluidos existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''lancamentos_excluidos'')');
     Q.Open;
     ViewExiste := Q.Fields[0].AsBoolean;
     Q.Close;
-
     if not ViewExiste then
     begin
       Q.SQL.Clear;
@@ -3202,9 +3298,7 @@ try
     begin
       WriteLogFormatted('INFO', '126', 'View lancamentos_excluidos já existe, pulando criação');
     end;
-
     WriteLogFormatted('INFO', '126', 'Verificação e criação da estrutura concluída');
-
   except
     on E: Exception do
     begin
@@ -3217,9 +3311,7 @@ try
         conexaomodulo.Connected:=false;
     ExecutadordasOcorrencias;
   end;
-
 end;
-
 
 procedure TFrmPrincipal.TimerMonitorServerTimer(Sender: TObject);
 var
@@ -3235,7 +3327,6 @@ begin
    end;
 end;
 procedure TFrmPrincipal.TimerMonitorTimer(Sender: TObject);
-
 begin
  if EhModocliente(ComboBox1) then
    begin
@@ -3294,8 +3385,6 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
       var EncodedAuth := TNetEncoding.Base64.Encode(AuthString);
       HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
 
-
-
       var Url := 'http://'+IP_DB_Cliente.text + ':4450/api/versao-empresa?id_empresa=' + IdEmpresaStr;
       WriteLogFormatted('INFO', '106', '[API CLIENTE] Requisitando versão: ' + Url);
       Response := HttpClient.Get(Url);
@@ -3333,7 +3422,6 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
   end;
   
   WriteLogFormatted('INFO', '106', '[API CLIENTE] API aprovou atualização. Success: ' + BoolToStr(SuccessAPI) + ', Atualizado: ' + BoolToStr(AtualizadoAPI) + ', Versao: ' + VersaoAPI);
-
  
   // 2) Proceder com FTP usando o nome versionado
   FTP := TIdFTP.Create(nil);
@@ -3555,13 +3643,12 @@ BuscarModulosRotina;
         end;
         WriteLogFormatted('INFO', '400', '[EXECUTADOR DE INTEGRAÇÃO ESTRADA] *** FINALIZANDO PROCESSO DE INTEGRAÇÃO - BitBtn7Click ***');
       end;
-
 end;
-procedure TFrmPrincipal.TimerRelatoriosClientExeTimer(Sender: TObject);
+              procedure TFrmPrincipal.TimerRelatoriosClientExeTimer(Sender: TObject);
 var
 HoraAtual, HoraAtual1:string;
 begin
-     
+
        HoraAtual := FormatDateTime('hh:nn', Now);
       HoraAtual1 := FormatDateTime('hh:nn', Now);
        if EhModocliente(ComboBox1) then
@@ -3617,16 +3704,6 @@ begin
   Senha := GerarSenha(ComboBoxIDClient.Text, ComboBoxCnpjClient.Text);
   ShowMessage('Senha: ' + Senha);
 end;
-procedure TFrmPrincipal.BitBtn12Click(Sender: TObject);
-var   ThreadMonitor: ThreadMonitordeOcorrencia;
-begin
- if EhModoserver(ComboBox1) then
-   begin
-    InserirOcorrencias;
-   end;
-end;
-
-
 procedure TFrmPrincipal.BtnAutorizacaoClick(Sender: TObject);
 var
   SenhaGerada, SenhaDigitada, IDCliente, CNPJ: string;
@@ -3677,7 +3754,7 @@ var
          Mensagem:= False;
       //  LoadTimeFromIniTimer;
         IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
-        try
+      try
          IF ComboBox1.ItemIndex = 1 THEN
          BEGIN
 //         WriteLogFormatted('INFO', '1', '[EXECUTADOR DE ATUALIZADOR DE INFORMAÇÕES CLIENT] Execução feita com sucesso!');
@@ -3696,7 +3773,7 @@ var
                 Panel8.Caption:='Off';
         //        TimerRelatoriosClient.Enabled:=False;
                 end;
- END;
+            END;
          END;
   //
   //  /// parte do server
@@ -3704,7 +3781,6 @@ var
         begin
       // Lendo o valor do arquivo INI para verificar se a conexão deve ser mantida ativa
           TimerConexaoServer := IniFile.ReadString('Config', 'BTimerConexaoServer', '0');
-
          if TimerConexaoServer = '1' then
           begin
           if (CXServer.Connected)  then
@@ -3718,9 +3794,9 @@ var
         end;
         end;
         end;
-     finally
-     IniFile.Free;
-    end;
+         finally
+         IniFile.Free;
+      end;
     end;
   end;
  end;
@@ -4209,7 +4285,6 @@ begin
   QueryInserir.Free;
   QueryVerifica.Free;
 end;
-
 procedure TFrmPrincipal.InserirModulosClient;
 var
   QueryOrigem: TUniQuery;
@@ -4962,8 +5037,6 @@ begin
   end;
   ConsultaValidade;
 end;
-
-
 
 procedure TFrmPrincipal.ConsultaValidade;
 var
@@ -7861,7 +7934,6 @@ begin
   end;
 end;
 
-
 procedure TFrmPrincipal.LimparLogsAntigos;
 var
   LogsDir: string;
@@ -8226,7 +8298,6 @@ begin
   QSelect.Free;
   QDelete.Free;
 end;
-
 procedure TFrmPrincipal.integracao_ararajuba;
 var
   QConsulta, QCaminho: TUniQuery;
@@ -8458,7 +8529,6 @@ begin
       FrmPrincipal.WriteLogFormatted('ERRO', '126', Format('[GERAR ARQUIVO APPCLUBE] Erro: %s', [E.Message]));
   end;
 end;
-
 procedure tFrmPrincipal.novoiniciarMonitorando;
 var
   StartupPath, LinkPath, VbsPath: string;
@@ -8491,15 +8561,12 @@ begin
     
     if PrecisaDownload1 then
     begin
-
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS não encontrado, será necessário download');
    end
     else
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: ' + NomeArquivoVbs);
-
     if PrecisaDownload2 then
     begin
-
       WriteLogFormatted('INFO', '128', '[NOVO INICIAR MONITORANDO] Arquivo BAT não encontrado, será necessário download');
    end
     else
@@ -8761,6 +8828,5 @@ begin
     end;
   end;
 end;
-
 
 end.

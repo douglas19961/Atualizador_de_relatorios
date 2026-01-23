@@ -2569,7 +2569,7 @@ object FrmPrincipal: TFrmPrincipal
               Top = 38
               Width = 1140
               Height = 550
-              ActivePage = TSClient
+              ActivePage = TSServer
               Align = alClient
               TabOrder = 0
               Visible = False
@@ -3754,6 +3754,7 @@ object FrmPrincipal: TFrmPrincipal
                         Height = 25
                         Caption = 'BitBtn15'
                         TabOrder = 2
+                        Visible = False
                         OnClick = BitBtn15Click
                       end
                       object btnlogo: TBitBtn

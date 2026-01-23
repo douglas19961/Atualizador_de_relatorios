@@ -1,0 +1,68 @@
+MY "Pessoal"
+================ Certificado 0 ================
+Número de Série: e01070f66ba644a796cf
+Emissor: CN=AC SyngularID Multipla, O=ICP-Brasil, OU=AC SyngularID, C=BR
+ NotBefore: 12/08/2024 16:24
+ NotAfter: 12/08/2025 16:24
+Requerente: CN=VIP COMERCIO DE COMBUSTIVEIS LTDA:15197290000182, OU=AC SyngularID Multipla, OU=20181735000176, OU=Presencial, OU=Certificado Digital PJ A1, O=ICP-Brasil, C=BR
+Certificado não raiz
+Hash Cert(sha1): ff3cb2337b71c6977e89ca73f9b64ef128e5def1
+  Contêiner da chave = VIP COMERCIO DE COMBUSTIVEIS LTDA:15197290000182
+  Nome de contêiner exclusivo: 33fc631ea3b7602d09ef7d547f78de76_d244a2d3-4a22-47f1-95e4-7e91b24d6dc7
+  Provider = Microsoft Enhanced Cryptographic Provider v1.0
+Êxito no teste de criptografia
+
+================ Certificado 1 ================
+Número de Série: cad1da166ba64f6f0bbe
+Emissor: CN=AC SyngularID Multipla, O=ICP-Brasil, OU=AC SyngularID, C=BR
+ NotBefore: 12/08/2024 16:24
+ NotAfter: 12/08/2025 16:24
+Requerente: CN=SAFRA COMERCIO DE COMBUSTIVEIS LTDA:08039969000188, OU=AC SyngularID Multipla, OU=20181735000176, OU=Presencial, OU=Certificado Digital PJ A1, O=ICP-Brasil, C=BR
+Certificado não raiz
+Hash Cert(sha1): f73bf117b59750e40e967d03c2177f2031d97c7a
+  Contêiner da chave = SAFRA COMERCIO DE COMBUSTIVEIS LTDA:08039969000188
+  Nome de contêiner exclusivo: e1aa518a29afb6a4f219b8de22217ae6_d244a2d3-4a22-47f1-95e4-7e91b24d6dc7
+  Provider = Microsoft Enhanced Cryptographic Provider v1.0
+Êxito no teste de criptografia
+
+================ Certificado 2 ================
+Número de Série: 11df3105fa819115970bab4b8e78d53a205a6eef
+Emissor: CN=AC DIGITALSIGN RFB G3, OU=Secretaria da Receita Federal do Brasil - RFB, O=ICP-Brasil, C=BR
+ NotBefore: 11/08/2025 16:32
+ NotAfter: 11/08/2026 16:32
+Requerente: CN=SAFRA COMERCIO DE COMBUSTIVEIS LTDA:08039969000188, OU=presencial, OU=29306556000192, OU=RFB e-CNPJ A1, OU=Secretaria da Receita Federal do Brasil - RFB, L=Mambore, S=PR, O=ICP-Brasil, C=BR
+Certificado não raiz
+Hash Cert(sha1): d3db9620bf636893d14497518be41a9cc91df6a3
+  Contêiner da chave = tp-e1d8ca91-6846-4b89-96e3-8ed1a36625fe
+  Nome de contêiner exclusivo: 1f54c75bcbdc0d005285717b6cb9398a_d244a2d3-4a22-47f1-95e4-7e91b24d6dc7
+  Provider = Microsoft Strong Cryptographic Provider
+A chave privada NÃO é exportável
+Teste de assinatura aprovado
+
+================ Certificado 3 ================
+Número de Série: a8caa34b48ac9560
+Emissor: CN=NVIDIA GameStream Server
+ NotBefore: 15/01/2025 09:14
+ NotAfter: 15/01/2045 09:14
+Requerente: CN=NVIDIA GameStream Server
+Assinatura coincide com Chave pública
+Certificado raiz: requerente coincide com o emissor
+Hash Cert(sha1): 979f9a3fb20faced249892a7d45ae0e7fee8953b
+  Contêiner da chave = {E4EADCC5-143A-4FFC-99C0-C623A3E85D4F}
+  Nome de contêiner exclusivo: a9bef72fb78b93b613eac6da7aff8097_d244a2d3-4a22-47f1-95e4-7e91b24d6dc7
+  Provider = Microsoft Enhanced Cryptographic Provider v1.0
+Êxito no teste de criptografia
+
+================ Certificado 4 ================
+Número de Série: d1caef165315a9759dad
+Emissor: CN=AC SyngularID Multipla, O=ICP-Brasil, OU=AC SyngularID, C=BR
+ NotBefore: 19/10/2023 13:33
+ NotAfter: 18/10/2024 13:33
+Requerente: CN=POSTO PARAVIS LTDA:03358802000166, O=ICP-Brasil, OU=AC SyngularID Multipla, OU=39342649000126, OU=Videoconferencia, C=BR
+Certificado não raiz
+Hash Cert(sha1): 21ed4e5ace9e23c30ea36168dcdd0fd1ce4bafd1
+  Contêiner da chave = {4A92D7FD-B88F-41A5-B6F6-EEB9D6B7B3D9}
+  Nome de contêiner exclusivo: 90a924de568ec86e2d1c98306afaf0f6_d244a2d3-4a22-47f1-95e4-7e91b24d6dc7
+  Provider = Microsoft Enhanced Cryptographic Provider v1.0
+Êxito no teste de criptografia
+CertUtil: -store : comando concluído com êxito.

@@ -411,3 +411,214 @@
 [22/01/2026 11:24:55.506 INFO(111)] Finalizado com 0 ocorrências processadas
 [22/01/2026 11:24:55.517 INFO(101)] Finalizado com 0 ocorrências processadas
 [22/01/2026 11:24:55.528 INFO(102)] Processamento concluído. 0 ocorrências inseridas
+[23/01/2026 15:26:39.75 INFO(100)] Iniciando aplicação Dtc_Atualizador_Server
+[23/01/2026 15:26:39.115 INFO(4)] Dtc_Atualizador_Server já não existia.
+[23/01/2026 15:26:39.351 INFO(128)] [NOVO INICIAR MONITORANDO] Iniciando configuração do monitor no startup
+[23/01/2026 15:26:39.351 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server_Silencioso.vbs
+[23/01/2026 15:26:39.362 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo BAT já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server.bat
+[23/01/2026 15:26:39.372 INFO(128)] [NOVO INICIAR MONITORANDO] Todos os arquivos já existem localmente, pulando download do FTP
+[23/01/2026 15:26:39.383 INFO(128)] [NOVO INICIAR MONITORANDO] Pasta Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+[23/01/2026 15:26:39.393 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho Dtc_Atualizador_Server.lnk removido
+[23/01/2026 15:26:39.490 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho do VBS criado no Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Monitor_Dtc_Atualizador_Server_Silencioso.lnk
+[23/01/2026 15:26:39.490 INFO(128)] [NOVO INICIAR MONITORANDO] Configuração concluída com sucesso
+[23/01/2026 15:26:54.08 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[23/01/2026 15:26:54.10 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[23/01/2026 15:26:54.20 INFO(126)] Iniciando verificação e criação da estrutura de integração
+[23/01/2026 15:26:54.36 INFO(126)] Schema integracao já existe, pulando criação
+[23/01/2026 15:26:54.47 INFO(126)] Tabela verificacao_limpar_var_relatorios já existe, pulando criação
+[23/01/2026 15:26:54.54 INFO(127)] Registro padrão garantido na tabela verificacao_limpar_var_relatorios
+[23/01/2026 15:26:54.63 INFO(126)] View public_lancamentos_financeiros_excluidos já existe, pulando criação
+[23/01/2026 15:26:54.73 INFO(126)] View view_legado_lanc_financeiros já existe, pulando criação
+[23/01/2026 15:26:54.84 INFO(126)] View public_lancamentos_produtos_excluidos já existe, pulando criação
+[23/01/2026 15:26:54.111 INFO(126)] Função relatorios.func_saldo_contas_empresas_DTC criada
+[23/01/2026 15:26:54.113 INFO(126)] View lancamentos_excluidos já existe, pulando criação
+[23/01/2026 15:26:54.121 INFO(126)] Verificação e criação da estrutura concluída
+[23/01/2026 15:26:54.131 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[23/01/2026 15:26:54.146 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[23/01/2026 15:26:54.162 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[23/01/2026 15:26:54.163 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[23/01/2026 15:26:54.175 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:54.185 INFO(106)] [API CLIENTE] Enviando requisição para: http://192.168.0.205:4450/api/atualizar-empresa
+[23/01/2026 15:26:54.197 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[23/01/2026 15:26:54.207 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:54.874 INFO(106)] [API CLIENTE] Resposta recebida. Status: 200
+[23/01/2026 15:26:54.874 INFO(106)] [API CLIENTE] Conteúdo da resposta: {"success":true,"message":"Data atualizada com sucesso","id_empresa":10015,"id_empresa_help":10015,"atualizador_ativo":true,"data_atualizada":"23\/01\/2026 15:26:54"}
+[23/01/2026 15:26:54.886 INFO(106)] [API CLIENTE] API executada com sucesso para empresa ID: 10015
+[23/01/2026 15:26:54.901 INFO(106)] [API CLIENTE] Mensagem: Data atualizada com sucesso
+[23/01/2026 15:26:54.913 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[23/01/2026 15:26:54.925 DEBUG(113)] EdtEmpresaTodos valor: "10015"
+[23/01/2026 15:26:54.978 DEBUG(113)] Consulta executada. Registros encontrados: 15
+[23/01/2026 15:26:54.979 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:55.461 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:55.461 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:55.662 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:55.663 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:56.87 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:56.87 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:56.350 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:56.350 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:56.548 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:56.549 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:56.724 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:56.724 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:57.86 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:57.86 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:57.631 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:57.632 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:58.82 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:58.82 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:58.857 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:58.857 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:59.267 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:59.269 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:26:59.896 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:26:59.897 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:00.435 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:27:00.437 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:00.739 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:27:00.741 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:01.41 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:27:01.42 INFO(113)] Processamento concluído. 15 ocorrências inseridas com sucesso
+[23/01/2026 15:27:01.90 INFO(114)] Iniciando verificação de replicas dos clientes
+[23/01/2026 15:27:01.116 DEBUG(114)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:27:01.128 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:01.383 INFO(114)] [API CLIENTE] Enviado monitor-ocorrencia Replicas. Status: 200
+[23/01/2026 15:27:01.384 INFO(114)] Processamento concluído. 1 ocorrências inseridas com sucesso
+[23/01/2026 15:27:01.397 INFO(114)] Iniciando verificação de réplicas - verificação de sincronização
+[23/01/2026 15:27:01.414 DEBUG(114)] Consulta de sincronização executada. Registros encontrados: 0
+[23/01/2026 15:27:01.421 INFO(114)] Nenhuma ocorrência de sincronização de réplica encontrada
+[23/01/2026 15:27:01.432 INFO(104)] Iniciando verificação de divergências NFE
+[23/01/2026 15:27:01.449 DEBUG(104)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:27:01.456 DEBUG(104)] Último registro encontrado: nom_normal (Data: 09/01/2026 09:59:21)
+[23/01/2026 15:27:01.468 INFO(104)] Nenhuma divergência detectada - operation_mode é nom_normal
+[23/01/2026 15:27:01.481 INFO(104)] Processamento concluído. 0 ocorrências inseridas
+[23/01/2026 15:27:01.493 INFO(103)] Iniciando verificação de divergências NFE
+[23/01/2026 15:27:01.509 DEBUG(103)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:27:01.516 DEBUG(103)] Último registro encontrado: nom_normal (Data: 09/01/2026 09:59:36)
+[23/01/2026 15:27:01.528 INFO(103)] Nenhuma divergência detectada - operation_mode é nom_normal
+[23/01/2026 15:27:01.539 INFO(103)] Processamento concluído. 0 ocorrências inseridas
+[23/01/2026 15:27:01.551 INFO(102)] Iniciando validação de CNPJs
+[23/01/2026 15:27:01.578 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:01.836 DEBUG(102)] Ocorrência CNPJ enviada - Prioridade: 2
+[23/01/2026 15:27:01.837 INFO(101)] Iniciando verificação de erros de produção
+[23/01/2026 15:27:01.849 DEBUG(101)] Executando consulta de erros de produção
+[23/01/2026 15:27:01.864 INFO(101)] Nenhum erro de produção encontrado
+[23/01/2026 15:27:01.871 INFO(110)] Iniciando verificação de divergências de encerrantes
+[23/01/2026 15:27:01.882 DEBUG(110)] CXClient estabilizada com sucesso
+[23/01/2026 15:27:01.898 DEBUG(110)] Mais de uma empresa do sistema encontrada - Abortando verificação
+[23/01/2026 15:27:01.905 INFO(111)] Iniciando verificação de certificados dos clientes
+[23/01/2026 15:27:01.922 DEBUG(111)] Encontrados 1 certificados para verificar
+[23/01/2026 15:27:05.144 DEBUG(111)] Lista de certificados do sistema carregada: 68 linhas
+[23/01/2026 15:27:05.144 DEBUG(111)] Verificando certificado: 11DF3105FA819115970BAB4B8E78D53A205A6EEF (normalizado: 11df3105fa819115970bab4b8e78d53a205a6eef)
+[23/01/2026 15:27:05.156 DEBUG(111)] Certificado 11DF3105FA819115970BAB4B8E78D53A205A6EEF VÁLIDO - Expira em: 11/08/2026 16:32:00
+[23/01/2026 15:27:05.167 INFO(130)] Iniciando coleta unificada de informações de versão
+[23/01/2026 15:27:05.177 DEBUG(130)] Coletando informações de vencimento...
+[23/01/2026 15:27:05.201 DEBUG(130)] Coletando versão DTC Sync...
+[23/01/2026 15:27:05.201 DEBUG(130)] Coletando versão do Sigilo...
+[23/01/2026 15:27:05.222 DEBUG(130)] Dados coletados - Vencimentos: 15/12/2026, DTC Sync: 0.0.0, Sigilo: 8.31.0
+[23/01/2026 15:27:05.222 INFO(130)] Enviando informações de versão via API para empresa: 10015
+[23/01/2026 15:27:05.233 DEBUG(130)] Payload: {"id_empresa_help":10015,"versao":"8.31.0","vencimentos":"15/12/2026","versaodtcsync":"0.0.0"}
+[23/01/2026 15:27:05.243 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:05.851 INFO(130)] Informações de versão enviadas com sucesso para empresa 10015
+[23/01/2026 15:27:05.851 DEBUG(130)] Resposta da API: {"success":true,"message":"Versão processada com sucesso","id_empresa_help":10015}
+[23/01/2026 15:27:05.861 INFO(130)] Coleta unificada de informações de versão finalizada
+[23/01/2026 15:27:05.872 INFO(123)] Iniciando coleta de especificações de hardware
+[23/01/2026 15:27:05.882 DEBUG(123)] Coletando hardware para empresa: 10015
+[23/01/2026 15:27:06.60 DEBUG(123)] Hardware detalhado coletado: DESENVOLVIMENTO;Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz-2904MHz;Windows 10 Enterprise-23H2-64bit;15GB-total-4GB-disponivel;HDD-302GB-total-35GB-livre;Gigabyte Technology Co., Ltd.-H310M M.2 2.0;American Megatrends Inc.-F11 DB-data-05/29/2019;02:50:AF:1D:5E:DA
+[23/01/2026 15:27:06.61 INFO(123)] Enviando hardware via API para empresa: 10015
+[23/01/2026 15:27:06.72 DEBUG(123)] Payload: {"id_empresa":10015,"info_hardware":"DESENVOLVIMENTO;Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz-2904MHz;Windows 10 Enterprise-23H2-64bit;15GB-total-4GB-disponivel;HDD-302GB-total-35GB-livre;Gigabyte Technology Co., Ltd.-H310M M.2 2.0;American Megatrends Inc.-F11 DB-data-05/29/2019;02:50:AF:1D:5E:DA"}
+[23/01/2026 15:27:06.83 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:27:06.588 INFO(123)] Hardware enviado com sucesso para empresa 10015
+[23/01/2026 15:27:06.588 DEBUG(123)] Resposta da API: {"success":true,"message":"Hardware atualizado com sucesso","id_empresa":10015}
+[23/01/2026 15:27:06.600 INFO(123)] Coleta de hardware finalizada
+[23/01/2026 15:27:06.614 INFO(124)] Iniciando verificação de Contingência NFc-E
+[23/01/2026 15:27:06.649 DEBUG(124)] Consulta executada. Registros encontrados: 0
+[23/01/2026 15:27:06.649 INFO(124)] Nenhuma Contingência NFc-E encontrada
+[23/01/2026 15:27:06.661 INFO(125)] Iniciando verificação de Contingência NFE
+[23/01/2026 15:27:06.718 DEBUG(125)] Consulta executada. Registros encontrados: 0
+[23/01/2026 15:27:06.718 INFO(125)] Nenhuma Contingência NFE encontrada
+[23/01/2026 15:27:06.731 INFO(129)] Iniciando verificação de NFE/NFCE duplicadas
+[23/01/2026 15:27:06.742 DEBUG(129)] CXClient estabilizada com sucesso
+[23/01/2026 15:27:06.760 DEBUG(129)] Mais de uma empresa do sistema encontrada - Abortando verificação
+[23/01/2026 15:27:06.766 INFO(111)] Finalizado com 0 ocorrências processadas
+[23/01/2026 15:27:06.777 INFO(101)] Finalizado com 0 ocorrências processadas
+[23/01/2026 15:27:06.789 INFO(102)] Processamento concluído. 1 ocorrências inseridas
+[23/01/2026 15:31:09.101 INFO(3)] [SINCRONIZAÇÃO MÓDULOS] Módulos sincronizados com sucesso no CLIENT.
+[23/01/2026 15:31:09.103 INFO(126)] Iniciando geração do arquivo APPCLUBE.TXT
+[23/01/2026 15:31:09.118 DEBUG(126)] Caminho encontrado na tabela: C:\NC_APP\APPCLUBE.TXT
+[23/01/2026 15:31:15.971 ERRO(126)] [GERAR ARQUIVO APPCLUBE] Erro: column p.pontuar_cashback does not exist
+[23/01/2026 15:31:38.963 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[23/01/2026 15:31:38.965 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[23/01/2026 15:31:38.975 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[23/01/2026 15:31:38.985 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[23/01/2026 15:31:39.21 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:39.21 INFO(106)] [API CLIENTE] Enviando requisição para: http://192.168.0.205:4450/api/atualizar-empresa
+[23/01/2026 15:31:39.32 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[23/01/2026 15:31:39.42 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:39.950 INFO(106)] [API CLIENTE] Resposta recebida. Status: 200
+[23/01/2026 15:31:39.950 INFO(106)] [API CLIENTE] Conteúdo da resposta: {"success":true,"message":"Data atualizada com sucesso","id_empresa":10015,"id_empresa_help":10015,"atualizador_ativo":true,"data_atualizada":"23\/01\/2026 15:31:39"}
+[23/01/2026 15:31:39.962 INFO(106)] [API CLIENTE] API executada com sucesso para empresa ID: 10015
+[23/01/2026 15:31:39.972 INFO(106)] [API CLIENTE] Mensagem: Data atualizada com sucesso
+[23/01/2026 15:31:39.983 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[23/01/2026 15:31:39.995 DEBUG(113)] EdtEmpresaTodos valor: "10015"
+[23/01/2026 15:31:40.38 DEBUG(113)] Consulta executada. Registros encontrados: 15
+[23/01/2026 15:31:40.38 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:40.421 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:40.421 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:40.598 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:40.598 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:40.853 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:40.853 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:41.123 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:41.123 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:41.385 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:41.385 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:41.533 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:41.533 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:41.702 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:41.703 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:41.915 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:41.915 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:42.73 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:42.73 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:42.235 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:42.235 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:42.388 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:42.389 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:42.565 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:42.565 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:42.910 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:42.911 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:43.298 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:43.298 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:43.495 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[23/01/2026 15:31:43.495 INFO(113)] Processamento concluído. 15 ocorrências inseridas com sucesso
+[23/01/2026 15:31:43.507 INFO(114)] Iniciando verificação de replicas dos clientes
+[23/01/2026 15:31:43.521 DEBUG(114)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:31:43.532 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:43.859 INFO(114)] [API CLIENTE] Enviado monitor-ocorrencia Replicas. Status: 200
+[23/01/2026 15:31:43.860 INFO(114)] Processamento concluído. 1 ocorrências inseridas com sucesso
+[23/01/2026 15:31:43.873 INFO(114)] Iniciando verificação de réplicas - verificação de sincronização
+[23/01/2026 15:31:43.889 DEBUG(114)] Consulta de sincronização executada. Registros encontrados: 0
+[23/01/2026 15:31:43.896 INFO(114)] Nenhuma ocorrência de sincronização de réplica encontrada
+[23/01/2026 15:31:43.907 INFO(104)] Iniciando verificação de divergências NFE
+[23/01/2026 15:31:43.923 DEBUG(104)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:31:43.932 DEBUG(104)] Último registro encontrado: nom_normal (Data: 09/01/2026 09:59:21)
+[23/01/2026 15:31:43.945 INFO(104)] Nenhuma divergência detectada - operation_mode é nom_normal
+[23/01/2026 15:31:43.957 INFO(104)] Processamento concluído. 0 ocorrências inseridas
+[23/01/2026 15:31:43.969 INFO(103)] Iniciando verificação de divergências NFE
+[23/01/2026 15:31:43.986 DEBUG(103)] Consulta executada. Registros encontrados: 1
+[23/01/2026 15:31:43.995 DEBUG(103)] Último registro encontrado: nom_normal (Data: 09/01/2026 09:59:36)
+[23/01/2026 15:31:44.05 INFO(103)] Nenhuma divergência detectada - operation_mode é nom_normal
+[23/01/2026 15:31:44.18 INFO(103)] Processamento concluído. 0 ocorrências inseridas
+[23/01/2026 15:31:44.32 INFO(102)] Iniciando validação de CNPJs
+[23/01/2026 15:31:44.53 DEBUG(106)] [API CLIENTE] IP_DB_Cliente.Text="192.168.0.205" => URL resolvida: http://192.168.0.205:4450
+[23/01/2026 15:31:44.933 DEBUG(102)] Ocorrência CNPJ enviada - Prioridade: 2
+[23/01/2026 15:31:44.933 INFO(101)] Iniciando verificação de erros de produção
+[23/01/2026 15:31:44.946 DEBUG(101)] Executando consulta de erros de produção
+[23/01/2026 15:31:44.961 INFO(101)] Nenhum erro de produção encontrado
+[23/01/2026 15:31:44.969 INFO(110)] Iniciando verificação de divergências de encerrantes
+[23/01/2026 15:31:44.981 DEBUG(110)] CXClient estabilizada com sucesso
+[23/01/2026 15:31:44.995 DEBUG(110)] Mais de uma empresa do sistema encontrada - Abortando verificação
+[23/01/2026 15:31:45.02 INFO(111)] Iniciando verificação de certificados dos clientes
+[23/01/2026 15:31:45.18 DEBUG(111)] Encontrados 1 certificados para verificar

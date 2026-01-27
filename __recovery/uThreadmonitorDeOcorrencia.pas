@@ -1,4 +1,4 @@
-﻿unit uThreadmonitorDeOcorrencia;
+unit uThreadmonitorDeOcorrencia;
 interface
 uses
     Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,

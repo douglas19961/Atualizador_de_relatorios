@@ -924,11 +924,14 @@ begin
     Result := 'CRIAR TABELAS PADRÕES'
     else if Codigo = '127' then
     Result := 'LOGOS RELATORIOS'
-       else if Codigo = '128' then
+   else if Codigo = '128' then
     Result := 'INICIALIZAR'
-           else if Codigo = '129' then
+   else if Codigo = '129' then
     Result := 'NFE_NFCE_DUPLICADAS'
-
+   else if Codigo = '130' then
+    Result := 'VENCIMENTO SIGILO'
+   else if Codigo = '131' then
+    Result := 'BAT TIMER'
 
 
   else if Codigo = '1500' then

@@ -270,6 +270,7 @@ type
     function ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequestInfo): Boolean;
 
 
+
         ///SERVIDOR
 
     procedure IdHTTPServer1CommandGet(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
@@ -302,6 +303,8 @@ type
     FrmLogs: TFrmLogs;
     // Critical Section para controle de thread-safety nos logs
     FLogCriticalSection: TCriticalSection;
+    // Controle de fallback da conexão de módulos (cliente): se True, usa IP fixo
+    FUsarIpFixoConexaoModulo: Boolean;
    procedure PreencherComboBoxs(Campo: string; Valor: string);
    procedure LoadTimeFromIni;
    procedure SaveConfigToIni;
@@ -358,6 +361,8 @@ type
   procedure novoiniciarMonitorando;
   procedure integracaoentregapegoraro;
   procedure CriarEstruturaIntegracaoBanco;
+  procedure bat_hora_atual;
+  procedure bat_verificar_a_hora_atual;
     { Public declarations }
   end;
 var
@@ -458,6 +463,92 @@ begin
   else
     Result := API_SERVER_URL_SERVER; // Default para servidor
 end;
+
+
+procedure TFrmPrincipal.bat_verificar_a_hora_atual;
+var
+  BatPath: string;
+  BatScript: TStringList;
+begin
+  // Caminho do BAT na mesma pasta do executável
+  BatPath := ExtractFilePath(ParamStr(0)) + 'Monitor_Dtc_Atualizador_Server.bat';
+
+  // Se o BAT já existir, não recria nem altera
+  if FileExists(BatPath) then
+  begin
+    WriteLogFormatted('INFO', '140',
+      '[TIMER] Arquivo ' + ExtractFileName(BatPath) + ' já existe. Nenhuma alteração realizada.');
+    Exit;
+  end;
+
+  BatScript := TStringList.Create;
+  try
+    BatScript.Add('@echo off');
+    BatScript.Add('setlocal enabledelayedexpansion');
+    BatScript.Add('set "BASEDIR=%~dp0"');
+    BatScript.Add('');
+    BatScript.Add(':loop');
+    BatScript.Add('echo [BAT] Verificando timer.ini em %BASEDIR%');
+    BatScript.Add('');
+    // Linha PowerShell em uma única string Delphi, construída com concatenação
+    BatScript.Add(
+      'powershell -NoProfile -Command ' +
+      '"$ini = Join-Path ''%BASEDIR%'' ''timer.ini''; ' +
+      'if (Test-Path $ini) { ' +
+      '  $line = Get-Content $ini | Where-Object { $_ -match ''DataHora='' }; ' +
+      '  if ($line) { ' +
+      '    $value = $line.Split(''='')[1].Trim(); ' +
+      '    $dt = [datetime]::ParseExact($value, ''yyyy-MM-dd HH:mm:ss'', $null); ' +
+      '    $span = New-TimeSpan -Start $dt -End (Get-Date); ' +
+      '    if ($span.TotalMinutes -ge 10) { ' +
+      '      $exe = Join-Path ''%BASEDIR%'' ''Dtc_Atualizador_Server.exe''; ' +
+      '      if (-not (Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $exe })) { Start-Process -FilePath $exe } ' +
+      '    } ' +
+      '  } ' +
+      '}"'
+    );
+    BatScript.Add('');
+    // Espera 480 segundos (8 minutos) antes de verificar novamente
+    BatScript.Add('timeout /t 480 /nobreak >nul');
+    BatScript.Add('goto loop');
+
+    BatScript.SaveToFile(BatPath, TEncoding.ANSI);
+  finally
+    BatScript.Free;
+  end;
+
+  WriteLogFormatted('INFO', '140',
+    '[TIMER] Arquivo ' + ExtractFileName(BatPath) + ' criado em: ' + BatPath);
+
+end;
+
+procedure TFrmPrincipal.bat_hora_atual;
+var
+  Ini: TIniFile;
+  IniPath: string;
+  DataHoraStr: string;
+begin
+  // Caminho do arquivo timer.ini na mesma pasta do executável
+  IniPath := ExtractFilePath(ParamStr(0)) + 'timer.ini';
+
+  // Formato de data/hora (ajuste se quiser outro formato)
+  DataHoraStr := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+
+  Ini := TIniFile.Create(IniPath);
+  try
+    // Grava a data/hora em uma seção e chave simples
+    Ini.WriteString('Timer', 'DataHora', DataHoraStr);
+  finally
+    Ini.Free;
+  end;
+
+  // Log opcional para acompanhamento
+  WriteLogFormatted('INFO', '140',
+    '[TIMER] Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
+end;
+
+
+
 procedure TFrmPrincipal.CarregarIPClienteDeConfig;
 var
   Query: TUniQuery;
@@ -483,6 +574,9 @@ begin
   end;
   Query.Free;
 end;
+
+
+
 procedure TFrmPrincipal.ExtrairVersao;
 var
   Versao: string;
@@ -1152,7 +1246,7 @@ apagarocorrenciascomdatalimite;
 end;
 procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
 begin
-  BuscarModulosRotina;
+bat_verificar_a_hora_atual
 end;
 
 
@@ -1161,7 +1255,7 @@ procedure TFrmPrincipal.BitBtn16Click(Sender: TObject);
 begin
   begin
    conexaomodulos;
-    TimerRelatoriosServerExe.Enabled := False; // Desativa o timer para evitar execuções repetidas
+    TimerRelatoriosServerExe.Enabled := False; // Desativa o timer para evSitar execuções repetidas
    // ShowMessage('Executando ação programada!');
      MemoLogServer.Lines.Add('Executando Atualizador de  Relatórios Server ! TURNO1');
     // Coloque aqui o código que deseja executar
@@ -3000,6 +3094,7 @@ IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
       CarregarIPClienteDeConfig;
       CriarEstruturaIntegracaoBanco;
       ExecucaoUnicaMonitor.Enabled:=false;
+      bat_hora_atual;
       end;
   end;
   IF ComboBox1.ItemIndex = 0 THEN
@@ -3349,6 +3444,7 @@ begin
    begin
     ExecutadordasOcorrencias;
     ListarConexoes(memolog);
+    bat_hora_atual;
    end;
 end;
 procedure TFrmPrincipal.TimerAtualizadoAPPTimer(Sender: TObject);
@@ -3967,37 +4063,90 @@ begin
   end;
 end;
 function TFrmPrincipal.conexaomodulos: Boolean;
+var
+  HostDescricao: string;
 begin
   Result := False;  // Define o valor inicial como False, caso a conexão falhe
   try
-     IF ComboBox1.ItemIndex = 1 THEN
-     begin
-    // Configura a conexão para FDCanceladosPFB
+    // Garante que a conexão esteja fechada antes de reconfigurar
+    if ConexaoModulo.Connected then
+      ConexaoModulo.Connected := False;
+
+    // Modo CLIENTE (ComboBox1.ItemIndex = 1) -> usa host do edit com fallback para IP fixo
+    if ComboBox1.ItemIndex = 1 then
+    begin
       ConexaoModulo.Database := Nome_DB_Cliente.Text;
       ConexaoModulo.UserName := Usuario_DB_Cliente.Text;
       ConexaoModulo.Password := Senha_DB_Cliente.Text;
-      ConexaoModulo.Server := IP_DB_Cliente.Text;
-      ConexaoModulo.Port := StrToInt(Porta_DB_Cliente.Text); // Certifique-se de que a porta seja um número
-     end;
-     IF ComboBox1.ItemIndex = 0 THEN
-     begin
-    // Configura a conexão para FDCanceladosPFB
+      ConexaoModulo.Port := StrToIntDef(Porta_DB_Cliente.Text, 3306); // porta padrão se inválida
+
+      // Escolhe o host conforme o estado do fallback
+      if FUsarIpFixoConexaoModulo then
+      begin
+        ConexaoModulo.Server := '26.169.7.136';
+        HostDescricao := 'IP fixo 26.169.7.136';
+      end
+      else
+      begin
+        ConexaoModulo.Server := IP_DB_Cliente.Text;
+        HostDescricao := 'DDNS/host do cliente: ' + IP_DB_Cliente.Text;
+      end;
+
+      WriteLogFormatted('INFO', '2',
+        '[CONEXAOMODULOS] Tentando conexão CLIENTE em ' + HostDescricao +
+        ' DB=' + ConexaoModulo.Database);
+
+      try
+        ConexaoModulo.Connected := True;
+      except
+        on E: Exception do
+        begin
+          WriteLogFormatted('ERRO', '2',
+            '[CONEXAOMODULOS] Falha ao conectar em ' + HostDescricao +
+            ' - Erro: ' + E.Message);
+
+          // Se ainda estamos usando o host do edit (DDNS), tenta fallback para IP fixo
+          if not FUsarIpFixoConexaoModulo then
+          begin
+            FUsarIpFixoConexaoModulo := True;
+            ConexaoModulo.Connected := False;
+            ConexaoModulo.Server := '26.169.7.136';
+
+            WriteLogFormatted('INFO', '2',
+              '[CONEXAOMODULOS] Alternando para IP fixo 26.169.7.136 e tentando novamente');
+
+            // Tenta novamente com IP fixo; se falhar, deixa exceção subir para o try externo
+            ConexaoModulo.Connected := True;
+          end
+          else
+            raise;
+        end;
+      end;
+    end
+    // Modo SERVER (ComboBox1.ItemIndex = 0) -> mantém comportamento atual, sem fallback
+    else if ComboBox1.ItemIndex = 0 then
+    begin
       ConexaoModulo.Database := Nome_DB_server.Text;
       ConexaoModulo.UserName := Usuario_DB_server.Text;
       ConexaoModulo.Password := Senha_DB_server.Text;
       ConexaoModulo.Server := IP_DB_server.Text;
-      ConexaoModulo.Port := StrToInt(Porta_DB_server.Text); // Certifique-se de que a porta seja um número
-     end;
-    // Conecta ao servidor
-    ConexaoModulo.Connected := True;
+      ConexaoModulo.Port := StrToIntDef(Porta_DB_server.Text, 3306);
+
+      WriteLogFormatted('INFO', '2',
+        '[CONEXAOMODULOS] Tentando conexão SERVER em ' + ConexaoModulo.Server +
+        ' DB=' + ConexaoModulo.Database);
+
+      ConexaoModulo.Connected := True;
+    end;
+
     // Se a conexão for bem-sucedida, retorna True
     Result := ConexaoModulo.Connected;
   except
     on E: Exception do
     begin
       // Tratar erro de conexão
-//      ShowMessage('Erro ao conectar conexaoServerRotina: ' + E.Message);
       WriteLogFormatted('ERRO', '2', 'Erro ao conectar conexaomodulos: ' + E.Message);
+      Result := False;
     end;
   end;
 end;

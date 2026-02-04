@@ -3754,6 +3754,7 @@ object FrmPrincipal: TFrmPrincipal
                         Height = 25
                         Caption = 'BitBtn15'
                         TabOrder = 2
+                        Visible = False
                         OnClick = BitBtn15Click
                       end
                       object btnlogo: TBitBtn

@@ -932,6 +932,8 @@ begin
     Result := 'VENCIMENTO SIGILO'
    else if Codigo = '131' then
     Result := 'BAT TIMER'
+       else if Codigo = '140' then
+    Result := 'BAT VERIFICADOR'
 
 
   else if Codigo = '1500' then

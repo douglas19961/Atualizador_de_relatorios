@@ -469,6 +469,7 @@ procedure TFrmPrincipal.bat_verificar_a_hora_atual;
 var
   BatPath: string;
   BatScript: TStringList;
+  PsCommand: string;
 begin
   // Caminho do BAT na mesma pasta do executável
   BatPath := ExtractFilePath(ParamStr(0)) + 'Monitor_Dtc_Atualizador_Server.bat';
@@ -481,37 +482,56 @@ begin
     Exit;
   end;
 
+  // Montar comando PowerShell quebrado em múltiplas partes para evitar erro de 255 caracteres
+  // Inclui logs detalhados no formato especificado
+  PsCommand := 'powershell -NoProfile -ExecutionPolicy Bypass -Command "' +
+    '$logFile=''monitor_timer.log'';' +
+    'function Write-Log { param($msg,$level=''INFO'');' +
+    '  $timestamp=Get-Date -Format ''dd/MM/yyyy HH:mm:ss.fff]'';' +
+    '  $logMsg=''['' + $timestamp + '' '' + $level + ''(140)] '' + $msg;' +
+    '  Add-Content -Path $logFile -Value $logMsg;' +
+    '};' +
+    '$ini=''timer.ini'';' +
+    'if (Test-Path $ini) {' +
+    '  Write-Log ''Verificando arquivo timer.ini'';' +
+    '  $line=Get-Content $ini | Select-String ''DataHora='';' +
+    '  if ($line) {' +
+    '    $value=$line.ToString().Split(''='')[1].Trim();' +
+    '    Write-Log (''DataHora encontrada: '' + $value);' +
+    '    $dt=[datetime]::ParseExact($value,''yyyy-MM-dd HH:mm:ss'',$null);' +
+    '    $span=New-TimeSpan -Start $dt -End (Get-Date);' +
+    '    $minutos=[math]::Round($span.TotalMinutes,2);' +
+    '    Write-Log (''Diferenca de tempo: '' + $minutos + '' minutos'');' +
+    '    if ($span.TotalMinutes -gt 10) {' +
+    '      Write-Log ''Tempo superior a 10 minutos. Verificando aplicacao...'';' +
+    '      $exe=''Dtc_Atualizador_Server.exe'';' +
+    '      $process=Get-Process -Name ''Dtc_Atualizador_Server'' -ErrorAction SilentlyContinue;' +
+    '      if (-not $process) {' +
+    '        Write-Log ''Nao encontro a aplicacao'';' +
+    '        Start-Process $exe;' +
+    '        Write-Log ''Aplicacao iniciada com sucesso'';' +
+    '      } else {' +
+    '        Write-Log ''Aplicacao ja esta em execucao'';' +
+    '      }' +
+    '    } else {' +
+    '      Write-Log (''Tempo dentro do limite ('' + $minutos + '' minutos). Nenhuma acao necessaria.'');' +
+    '    }' +
+    '  } else {' +
+    '    Write-Log ''Chave DataHora nao encontrada no timer.ini'' ''ERRO'';' +
+    '  }' +
+    '} else {' +
+    '  Write-Log ''Arquivo timer.ini nao encontrado'' ''ERRO'';' +
+    '}"';
+
+  // Criar arquivo BAT
   BatScript := TStringList.Create;
   try
     BatScript.Add('@echo off');
-    BatScript.Add('setlocal enabledelayedexpansion');
-    BatScript.Add('set "BASEDIR=%~dp0"');
-    BatScript.Add('');
+    BatScript.Add('cd /d "%~dp0"');
     BatScript.Add(':loop');
-    BatScript.Add('echo [BAT] Verificando timer.ini em %BASEDIR%');
-    BatScript.Add('');
-    // Linha PowerShell em uma única string Delphi, construída com concatenação
-    BatScript.Add(
-      'powershell -NoProfile -Command ' +
-      '"$ini = Join-Path ''%BASEDIR%'' ''timer.ini''; ' +
-      'if (Test-Path $ini) { ' +
-      '  $line = Get-Content $ini | Where-Object { $_ -match ''DataHora='' }; ' +
-      '  if ($line) { ' +
-      '    $value = $line.Split(''='')[1].Trim(); ' +
-      '    $dt = [datetime]::ParseExact($value, ''yyyy-MM-dd HH:mm:ss'', $null); ' +
-      '    $span = New-TimeSpan -Start $dt -End (Get-Date); ' +
-      '    if ($span.TotalMinutes -ge 10) { ' +
-      '      $exe = Join-Path ''%BASEDIR%'' ''Dtc_Atualizador_Server.exe''; ' +
-      '      if (-not (Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $exe })) { Start-Process -FilePath $exe } ' +
-      '    } ' +
-      '  } ' +
-      '}"'
-    );
-    BatScript.Add('');
-    // Espera 480 segundos (8 minutos) antes de verificar novamente
-    BatScript.Add('timeout /t 480 /nobreak >nul');
+    BatScript.Add(PsCommand);
+    BatScript.Add('timeout /t 60 /nobreak >nul');
     BatScript.Add('goto loop');
-
     BatScript.SaveToFile(BatPath, TEncoding.ANSI);
   finally
     BatScript.Free;

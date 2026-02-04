@@ -1251,7 +1251,7 @@ begin
         'SELECT ce.id_empresa_help,'+
 
 
-          ''';;;;;;;;;; Vence em: ''|| vs.vencimentos || ''Sistema Vencendo;;;;;;;;;;''  as info_concatenada,'+
+          ''';;;;;;;;;; Vence em: ''|| vs.vencimentos || '';;;;;;;;;;''  as info_concatenada,'+
           'CASE ' +
           '  WHEN EXTRACT(EPOCH FROM (TO_TIMESTAMP(vs.vencimentos, ''DD/MM/YYYY'') - NOW())) / 3600 <= 2 THEN 4 ' +
           '  WHEN EXTRACT(EPOCH FROM (TO_TIMESTAMP(vs.vencimentos, ''DD/MM/YYYY'') - NOW())) / 3600 <= 5 THEN 3 ' +

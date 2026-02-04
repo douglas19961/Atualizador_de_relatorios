@@ -1,63 +1,6 @@
 @echo off
-setlocal enabledelayedexpansion
-
-:: ===== Configurações =====
-set "BASEDIR=%~dp0"
-set "LOG=%BASEDIR%monitor_timer.log"
-
-:: ===== Inicio do monitoramento =====
-echo ======================================== >> "%LOG%"
-echo Inicio: %date% %time% >> "%LOG%"
-echo ======================================== >> "%LOG%"
-
-echo Monitor iniciado. Pressione ENTER para iniciar o loop...
-pause
-
+cd /d "%~dp0"
 :loop
-echo [%date% %time%] [BAT] Verificando timer.ini em %BASEDIR%
-echo [%date% %time%] [BAT] Verificando timer.ini em %BASEDIR% >> "%LOG%"
-
-:: ===== PowerShell temporário =====
-set "PSFILE=%BASEDIR%verifica_timer.ps1"
-(
-echo $log = '%LOG%'
-echo $ini = Join-Path '%BASEDIR%' 'timer.ini'
-echo Add-Content $log ('[' + (Get-Date) + '] Iniciando verificacao do timer.ini')
-echo if (Test-Path $ini) {
-echo     Add-Content $log 'timer.ini encontrado'
-echo     $line = Get-Content $ini ^| Where-Object { $_ -match 'DataHora=' }
-echo     if ($line) {
-echo         Add-Content $log ('Linha DataHora encontrada: ' + $line)
-echo         $value = $line.Split('=')[1].Trim()
-echo         Add-Content $log ('Valor extraido: ' + $value)
-echo         $dt = [datetime]::ParseExact($value, 'yyyy-MM-dd HH:mm:ss', $null)
-echo         $span = New-TimeSpan -Start $dt -End (Get-Date)
-echo         Add-Content $log ('Minutos decorridos desde DataHora: ' + [int]$span.TotalMinutes)
-echo         if ($span.TotalMinutes -ge 10) {
-echo             $exe = Join-Path '%BASEDIR%' 'Dtc_Atualizador_Server.exe'
-echo             $p = Get-Process -ErrorAction SilentlyContinue ^| Where-Object { $_.Path -eq $exe }
-echo             if (!$p) {
-echo                 Add-Content $log ('Processo nao rodando -> iniciando')
-echo                 Start-Process -FilePath $exe
-echo             } else {
-echo                 Add-Content $log 'Processo ja em execucao'
-echo             }
-echo         } else {
-echo             Add-Content $log 'Menos de 10 minutos -> nao inicia processo'
-echo         }
-echo     } else {
-echo         Add-Content $log 'Linha DataHora nao encontrada'
-echo     }
-echo } else {
-echo     Add-Content $log 'timer.ini nao encontrado'
-echo }
-) > "%PSFILE%"
-
-:: ===== Executa PowerShell =====
-powershell -NoProfile -ExecutionPolicy Bypass -File "%PSFILE%"
-
-echo [%date% %time%] Aguardando 480 segundos antes da proxima verificacao...
-echo [%date% %time%] Aguardando 480 segundos antes da proxima verificacao... >> "%LOG%"
-
-timeout /t 480 /nobreak >nul
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$logFile='monitor_timer.log';function Write-Log { param($msg,$level='INFO');  $timestamp=Get-Date -Format 'dd/MM/yyyy HH:mm:ss.fff]';  $logMsg='[' + $timestamp + ' ' + $level + '(140)] ' + $msg;  Add-Content -Path $logFile -Value $logMsg;};$ini='timer.ini';if (Test-Path $ini) {  Write-Log 'Verificando arquivo timer.ini';  $line=Get-Content $ini | Select-String 'DataHora=';  if ($line) {    $value=$line.ToString().Split('=')[1].Trim();    Write-Log ('DataHora encontrada: ' + $value);    $dt=[datetime]::ParseExact($value,'yyyy-MM-dd HH:mm:ss',$null);    $span=New-TimeSpan -Start $dt -End (Get-Date);    $minutos=[math]::Round($span.TotalMinutes,2);    Write-Log ('Diferenca de tempo: ' + $minutos + ' minutos');    if ($span.TotalMinutes -gt 10) {      Write-Log 'Tempo superior a 10 minutos. Verificando aplicacao...';      $exe='Dtc_Atualizador_Server.exe';      $process=Get-Process -Name 'Dtc_Atualizador_Server' -ErrorAction SilentlyContinue;      if (-not $process) {        Write-Log 'Nao encontro a aplicacao';        Start-Process $exe;        Write-Log 'Aplicacao iniciada com sucesso';      } else {        Write-Log 'Aplicacao ja esta em execucao';      }    } else {      Write-Log ('Tempo dentro do limite (' + $minutos + ' minutos). Nenhuma acao necessaria.');    }  } else {    Write-Log 'Chave DataHora nao encontrada no timer.ini' 'ERRO';  }} else {  Write-Log 'Arquivo timer.ini nao encontrado' 'ERRO';}"
+timeout /t 60 /nobreak >nul
 goto loop

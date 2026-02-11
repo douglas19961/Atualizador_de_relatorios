@@ -7121,7 +7121,7 @@ begin
   WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Iniciando atualização para empresa ID: ' + IntToStr(IdEmpresa));
   ConfigJSON := TJSONObject.Create;
   DataAtual := Now;
-  
+
   try
     // Verificar se a conexão está ativa
     if not Assigned(ConexaoModulo) or not ConexaoModulo.Connected then
@@ -7134,9 +7134,9 @@ begin
       Result := ConfigJSON;
       Exit;
     end;
-    
+
     WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Conexão com banco verificada');
-    
+
     // Criar query para verificar se a empresa existe e se atualizador_ativo é true
     Query := TUniQuery.Create(nil);
     try
@@ -7147,7 +7147,7 @@ begin
       Query.ParamByName('id_empresa_help').AsInteger := IdEmpresa;
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Executando consulta para empresa ID: ' + IntToStr(IdEmpresa));
       Query.Open;
-      
+
       if Query.IsEmpty then
       begin
         WriteLogFormatted('ERRO', '107', '[ATUALIZAR DATA EMPRESA] Empresa não encontrada: ' + IntToStr(IdEmpresa));
@@ -7158,7 +7158,7 @@ begin
         Result := ConfigJSON;
         Exit;
       end;
-      
+
       // Salvar dados importantes antes do UPDATE
       var IdEmpresaHelp: Integer := Query.FieldByName('id_empresa_help').AsInteger;
       var DataAtualizadaOriginal: string := Query.FieldByName('data_atualizada').AsString;
@@ -7180,7 +7180,7 @@ begin
       end;
       
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Atualizador ativo, procedendo com atualização');
-      
+
       // Fechar query de consulta
       Query.Close;
       
@@ -7190,12 +7190,12 @@ begin
                        'WHERE id_empresa_help = :id_empresa_help AND atualizador_ativo = true';
       Query.ParamByName('data_atualizada').AsDateTime := DataAtual;
       Query.ParamByName('id_empresa_help').AsInteger := IdEmpresaHelp;
-      
+
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Executando UPDATE para empresa ID: ' + IntToStr(IdEmpresa));
       Query.ExecSQL;
       
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] UPDATE executado com sucesso. Linhas afetadas: ' + IntToStr(Query.RowsAffected));
-      
+
       // Verificar se o UPDATE foi bem-sucedido
       if Query.RowsAffected > 0 then
       begin
@@ -7215,7 +7215,7 @@ begin
         ConfigJSON.AddPair('id_empresa', TJSONNumber.Create(IdEmpresa));
         ConfigJSON.AddPair('data_atualizada', TJSONString.Create(''));
       end;
-      
+
     finally
       Query.Free;
     end;
@@ -7230,7 +7230,7 @@ begin
       ConfigJSON.AddPair('data_atualizada', TJSONString.Create(''));
     end;
   end;
-  
+
   WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Função concluída para empresa ID: ' + IntToStr(IdEmpresa));
   Result := ConfigJSON;
 end;
@@ -8009,6 +8009,7 @@ begin
       AResponseInfo.ResponseNo := 500;
     end;
   end;
+  ConexaoModulo.Connected := false;
 end;
 procedure TFrmPrincipal.ChamarAPIAtualizarEmpresa;
 var

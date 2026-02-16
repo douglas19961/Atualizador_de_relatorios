@@ -1,4 +1,4 @@
-﻿unit uTransferenciaServerThread;
+unit uTransferenciaServerThread;
 
 interface
 
@@ -6,12 +6,20 @@ uses
   System.Classes, Data.DB, Uni, FireDAC.Comp.Client, System.SysUtils, UntPrincipal,Vcl.StdCtrls;
 
 type
+  TConnectionParams = record
+    ProviderName, Server, Database, Username, Password: string;
+    Port: Integer;
+  end;
+
   TTransferenciaServerThread = class(TThread)
   private
     FConexaoOrigem: TUniConnection;
     FConexaoDestino: TUniConnection;
     FMemoLog: TMemo; // Para registrar logs (Opcional)
+    FParamsOrigem: TConnectionParams;
+    FParamsDestino: TConnectionParams;
     procedure Log(const Msg: string);
+    procedure ObterParametrosConexao; // Executado na thread principal via Synchronize
   protected
     procedure Execute; override;
   public
@@ -43,25 +51,71 @@ begin
   FrmPrincipal.WriteLogFormatted('INFO', '122', Msg);
 end;
 
+procedure TTransferenciaServerThread.ObterParametrosConexao;
+begin
+  if Assigned(FConexaoOrigem) then
+  begin
+    FParamsOrigem.ProviderName := FConexaoOrigem.ProviderName;
+    FParamsOrigem.Server := FConexaoOrigem.Server;
+    FParamsOrigem.Database := FConexaoOrigem.Database;
+    FParamsOrigem.Username := FConexaoOrigem.Username;
+    FParamsOrigem.Password := FConexaoOrigem.Password;
+    FParamsOrigem.Port := FConexaoOrigem.Port;
+  end;
+  if Assigned(FConexaoDestino) then
+  begin
+    FParamsDestino.ProviderName := FConexaoDestino.ProviderName;
+    FParamsDestino.Server := FConexaoDestino.Server;
+    FParamsDestino.Database := FConexaoDestino.Database;
+    FParamsDestino.Username := FConexaoDestino.Username;
+    FParamsDestino.Password := FConexaoDestino.Password;
+    FParamsDestino.Port := FConexaoDestino.Port;
+  end;
+end;
+
 procedure TTransferenciaServerThread.Execute;
 var
   QueryOrigem, QueryDestino, QueryVerifica: TUniQuery;
-  RecordCount,MaxCodRelatorio: Integer;
+  ConexaoOrigemLocal, ConexaoDestinoLocal: TUniConnection;
+  RecordCount, MaxCodRelatorio: Integer;
   NeedsUpdate: Boolean;
 begin
   FrmPrincipal.WriteLogFormatted('INFO', '122', 'Iniciando transferência de relatórios do servidor');
-  
+
+  TThread.Synchronize(nil, ObterParametrosConexao);
+
+  ConexaoOrigemLocal := TUniConnection.Create(nil);
+  ConexaoDestinoLocal := TUniConnection.Create(nil);
   QueryOrigem := TUniQuery.Create(nil);
   QueryDestino := TUniQuery.Create(nil);
   QueryVerifica := TUniQuery.Create(nil);
 
   try
-    try
       // Configurar conex�es
-      QueryOrigem.Connection := FConexaoOrigem;
-      QueryDestino.Connection := FConexaoDestino;
-      QueryVerifica.Connection := FConexaoDestino;
-      
+    ConexaoOrigemLocal.ProviderName := FParamsOrigem.ProviderName;
+    ConexaoOrigemLocal.Server := FParamsOrigem.Server;
+    ConexaoOrigemLocal.Database := FParamsOrigem.Database;
+    ConexaoOrigemLocal.Username := FParamsOrigem.Username;
+    ConexaoOrigemLocal.Password := FParamsOrigem.Password;
+    ConexaoOrigemLocal.Port := FParamsOrigem.Port;
+    ConexaoOrigemLocal.LoginPrompt := False;
+
+    ConexaoDestinoLocal.ProviderName := FParamsDestino.ProviderName;
+    ConexaoDestinoLocal.Server := FParamsDestino.Server;
+    ConexaoDestinoLocal.Database := FParamsDestino.Database;
+    ConexaoDestinoLocal.Username := FParamsDestino.Username;
+    ConexaoDestinoLocal.Password := FParamsDestino.Password;
+    ConexaoDestinoLocal.Port := FParamsDestino.Port;
+    ConexaoDestinoLocal.LoginPrompt := False;
+
+    ConexaoOrigemLocal.Connected := True;
+    ConexaoDestinoLocal.Connected := True;
+
+    QueryOrigem.Connection := ConexaoOrigemLocal;
+    QueryDestino.Connection := ConexaoDestinoLocal;
+    QueryVerifica.Connection := ConexaoDestinoLocal;
+
+    try
       FrmPrincipal.WriteLogFormatted('DEBUG', '122', 'Conexões configuradas para transferência de relatórios');
 
       // Preparar query de sele��o na origem
@@ -238,6 +292,8 @@ begin
         end;
 
         // Avan�ar para o pr�ximo registro
+        if QueryOrigem.FieldByName('cod_relatorio').AsInteger > MaxCodRelatorio then
+          MaxCodRelatorio := QueryOrigem.FieldByName('cod_relatorio').AsInteger;
         QueryOrigem.Next;
       end;
 
@@ -341,14 +397,24 @@ begin
       end;
     end;
   finally
-    // Liberar recursos
     QueryOrigem.Free;
     QueryDestino.Free;
     QueryVerifica.Free;
+    if Assigned(ConexaoOrigemLocal) then
+    begin
+      if ConexaoOrigemLocal.Connected then
+        ConexaoOrigemLocal.Connected := False;
+      ConexaoOrigemLocal.Free;
+    end;
+    if Assigned(ConexaoDestinoLocal) then
+    begin
+      if ConexaoDestinoLocal.Connected then
+        ConexaoDestinoLocal.Connected := False;
+      ConexaoDestinoLocal.Free;
+    end;
   end;
-  
+
   FrmPrincipal.WriteLogFormatted('INFO', '122', 'Transferência de relatórios do servidor finalizada');
-  FrmPrincipal.ConexaoModulo.Connected:=false;
 end;
 
 end.

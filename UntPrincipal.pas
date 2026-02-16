@@ -269,13 +269,8 @@ type
     procedure LimparClientesAtualizados;
     function ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequestInfo): Boolean;
 
-
-
         ///SERVIDOR
-
     procedure IdHTTPServer1CommandGet(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
-
-
 
 
     function AtualizarDataEmpresa(const IdEmpresa: Integer): TJSONObject;
@@ -290,6 +285,7 @@ type
     procedure BitBtn7Click(Sender: TObject);
     procedure TimertemporarioserverTimer(Sender: TObject);
     procedure BitBtn16Click(Sender: TObject);
+    procedure btnlogoClick(Sender: TObject);
   private
     { Private declarations }
     // Credenciais de autenticação para a API
@@ -384,7 +380,6 @@ uses
   HORARIO_EXECUCAO_RELATORIOS_TURNO_1 = '23:59';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_2 = '12:00';
 
-
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1 = '23:50';
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2 = '12:50';
   HORARIO_EXECUCAO_INTEGRACAO_TURNO_1 = '15:30';
@@ -397,7 +392,6 @@ uses
 begin
   Result := ComboBox.ItemIndex = 0;
 end;
-
 function TFrmPrincipal.ConsultarVersaoEmpresa(const IdEmpresa: Integer): TJSONObject;
 var
   Query: TUniQuery;
@@ -464,7 +458,6 @@ begin
     Result := API_SERVER_URL_SERVER; // Default para servidor
 end;
 
-
 procedure TFrmPrincipal.bat_verificar_a_hora_atual;
 var
   BatPath: string;
@@ -473,7 +466,6 @@ var
 begin
   // Caminho do BAT na mesma pasta do executável
   BatPath := ExtractFilePath(ParamStr(0)) + 'Monitor_Dtc_Atualizador_Server.bat';
-
   // Se o BAT já existir, não recria nem altera
   if FileExists(BatPath) then
   begin
@@ -481,7 +473,6 @@ begin
       '[TIMER] Arquivo ' + ExtractFileName(BatPath) + ' já existe. Nenhuma alteração realizada.');
     Exit;
   end;
-
   // Montar comando PowerShell quebrado em múltiplas partes para evitar erro de 255 caracteres
   // Inclui logs detalhados no formato especificado
   PsCommand := 'powershell -NoProfile -ExecutionPolicy Bypass -Command "' +
@@ -522,7 +513,6 @@ begin
     '} else {' +
     '  Write-Log ''Arquivo timer.ini nao encontrado'' ''ERRO'';' +
     '}"';
-
   // Criar arquivo BAT
   BatScript := TStringList.Create;
   try
@@ -536,12 +526,9 @@ begin
   finally
     BatScript.Free;
   end;
-
   WriteLogFormatted('INFO', '140',
     '[TIMER] Arquivo ' + ExtractFileName(BatPath) + ' criado em: ' + BatPath);
-
 end;
-
 procedure TFrmPrincipal.bat_hora_atual;
 var
   Ini: TIniFile;
@@ -550,10 +537,8 @@ var
 begin
   // Caminho do arquivo timer.ini na mesma pasta do executável
   IniPath := ExtractFilePath(ParamStr(0)) + 'timer.ini';
-
   // Formato de data/hora (ajuste se quiser outro formato)
   DataHoraStr := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
-
   Ini := TIniFile.Create(IniPath);
   try
     // Grava a data/hora em uma seção e chave simples
@@ -561,13 +546,10 @@ begin
   finally
     Ini.Free;
   end;
-
   // Log opcional para acompanhamento
   WriteLogFormatted('INFO', '140',
     '[TIMER] Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
 end;
-
-
 
 procedure TFrmPrincipal.CarregarIPClienteDeConfig;
 var
@@ -594,8 +576,6 @@ begin
   end;
   Query.Free;
 end;
-
-
 
 procedure TFrmPrincipal.ExtrairVersao;
 var
@@ -719,7 +699,6 @@ begin
   Self.Hide;                 // Esconde a janela
   TrayIcon1.Visible := True; // Exibe o ícone na bandeja
 end;
-
 procedure TFrmPrincipal.InserirOcorrenciaExterna(Empresa: integer; idModulo: Integer; ocorrencia: string; prioridade: integer);
 var
   SQLInsert, SQLCheck: string;
@@ -827,7 +806,6 @@ begin
   end;
    ConexaoModulo.Connected:=false;
 end;
-
 procedure TFrmPrincipal.ExecutadordasOcorrencias;
 var
   QueryApagar: TUniQuery;
@@ -1249,7 +1227,6 @@ TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogClient);
 end else exit
 end;
 
-
 procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
 var
  ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
@@ -1269,8 +1246,6 @@ begin
 bat_verificar_a_hora_atual
 end;
 
-
-
 procedure TFrmPrincipal.BitBtn16Click(Sender: TObject);
 begin
   begin
@@ -1279,19 +1254,14 @@ begin
    // ShowMessage('Executando ação programada!');
      MemoLogServer.Lines.Add('Executando Atualizador de  Relatórios Server ! TURNO1');
     // Coloque aqui o código que deseja executar
-        CXServer.Connected:=False;
-        CXServer.Connected:=True;
       if ModuloHabilitado(5) then
         begin
        WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS Server] Execução feita com sucesso!');
       TTransferenciaServerThread.Create(CXServer, ConexaoModulo, MemoLogServer);
       end else exit;
     // Opcional: reativar o timer para o próximo dia
-    TimerRelatoriosServerExe.Interval := 60000; // Verifica a cada minuto
-    TimerRelatoriosServerExe.Enabled := True;
   end;
 end;
-
 procedure TFrmPrincipal.integracaoentregapegoraro;
 var
   QConsulta, QUpdate: TUniQuery;
@@ -1349,7 +1319,7 @@ begin
         CXClient.Connect;
       end;
       
-      // Query SQL conforme especificado com filtro de data
+      // Query SQL conforme especificado com fsiltro de data
       QConsulta.SQL.Text :=
         'SELECT lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
         '       lf.valor AS valor_lancamento, lf.numero_documento, lf.data_inclusao, ' +
@@ -3048,8 +3018,6 @@ begin
    // ShowMessage('Executando ação programada!');
      MemoLogServer.Lines.Add('Executando Atualizador de  Relatórios Server ! TURNO1');
     // Coloque aqui o código que deseja executar
-        CXServer.Connected:=False;
-        CXServer.Connected:=True;
       if ModuloHabilitado(5) then
         begin
        WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS Server] Execução feita com sucesso!');
@@ -3065,12 +3033,10 @@ procedure TFrmPrincipal.TimertemporarioserverTimer(Sender: TObject);
 begin
  if EhModoserver(ComboBox1) then
    begin
-
     apagarocorrenciascomdatalimite;
    end;
    BuscarModulosRotina;
 end;
-
 procedure TFrmPrincipal.Timer2Timer(Sender: TObject);
 var
   ValorStr, TimerConexao: string;
@@ -3318,8 +3284,6 @@ try
       WriteLogFormatted('INFO', '126', 'View public_lancamentos_produtos_excluidos já existe, pulando criação');
     end;
 
-
-
     // 6) Verifica se função func_saldo_contas_empresas_DTC existe no schema relatorios
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.routines WHERE routine_schema = ''relatorios'' AND routine_name = ''func_saldo_contas_empresas_DTC'')');
@@ -3402,9 +3366,6 @@ try
 
 
 
-
-
-
     // 7) Verifica se view lancamentos_excluidos existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''lancamentos_excluidos'')');
@@ -3444,7 +3405,6 @@ try
     ExecutadordasOcorrencias;
   end;
 end;
-
 procedure TFrmPrincipal.TimerMonitorServerTimer(Sender: TObject);
 var
  ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
@@ -3456,6 +3416,16 @@ begin
      ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
      ThreadMonitorSERVER.Start; // Inicia a execução da thread
      WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
+   end;
+    if EhModoserver(ComboBox1) then
+   begin
+        conexaomodulos;
+         if ModuloHabilitado(5) then
+        begin
+       WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS Server] Execução feita com sucesso!');
+      TTransferenciaServerThread.Create(CXServer, ConexaoModulo, MemoLogServer);
+      end else exit;
+
    end;
 end;
 procedure TFrmPrincipal.TimerMonitorTimer(Sender: TObject);
@@ -3517,7 +3487,6 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
       var AuthString := API_USERNAME + ':' + API_PASSWORD;
       var EncodedAuth := TNetEncoding.Base64.Encode(AuthString);
       HttpClient.CustomHeaders['Authorization'] := 'Basic ' + EncodedAuth;
-
       var Url := 'http://'+IP_DB_Cliente.text + ':4450/api/versao-empresa?id_empresa=' + IdEmpresaStr;
       WriteLogFormatted('INFO', '106', '[API CLIENTE] Requisitando versão: ' + Url);
       Response := HttpClient.Get(Url);
@@ -3781,7 +3750,6 @@ end;
 var
 HoraAtual, HoraAtual1:string;
 begin
-
        HoraAtual := FormatDateTime('hh:nn', Now);
       HoraAtual1 := FormatDateTime('hh:nn', Now);
        if EhModocliente(ComboBox1) then
@@ -3861,6 +3829,11 @@ begin
     ShowMessage('Senha inválida!');
   end;
 end;
+procedure TFrmPrincipal.btnlogoClick(Sender: TObject);
+begin
+integracaoentregapegoraro;
+end;
+
 procedure TFrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
 TTransferenciaThread.Create(CXserver, ConexaoModulo, MemoLog);
@@ -4091,7 +4064,6 @@ begin
     // Garante que a conexão esteja fechada antes de reconfigurar
     if ConexaoModulo.Connected then
       ConexaoModulo.Connected := False;
-
     // Modo CLIENTE (ComboBox1.ItemIndex = 1) -> usa host do edit com fallback para IP fixo
     if ComboBox1.ItemIndex = 1 then
     begin
@@ -4099,7 +4071,6 @@ begin
       ConexaoModulo.UserName := Usuario_DB_Cliente.Text;
       ConexaoModulo.Password := Senha_DB_Cliente.Text;
       ConexaoModulo.Port := StrToIntDef(Porta_DB_Cliente.Text, 3306); // porta padrão se inválida
-
       // Escolhe o host conforme o estado do fallback
       if FUsarIpFixoConexaoModulo then
       begin
@@ -4111,11 +4082,9 @@ begin
         ConexaoModulo.Server := IP_DB_Cliente.Text;
         HostDescricao := 'DDNS/host do cliente: ' + IP_DB_Cliente.Text;
       end;
-
       WriteLogFormatted('INFO', '2',
         '[CONEXAOMODULOS] Tentando conexão CLIENTE em ' + HostDescricao +
         ' DB=' + ConexaoModulo.Database);
-
       try
         ConexaoModulo.Connected := True;
       except
@@ -4124,17 +4093,14 @@ begin
           WriteLogFormatted('ERRO', '2',
             '[CONEXAOMODULOS] Falha ao conectar em ' + HostDescricao +
             ' - Erro: ' + E.Message);
-
           // Se ainda estamos usando o host do edit (DDNS), tenta fallback para IP fixo
           if not FUsarIpFixoConexaoModulo then
           begin
             FUsarIpFixoConexaoModulo := True;
             ConexaoModulo.Connected := False;
             ConexaoModulo.Server := '26.169.7.136';
-
             WriteLogFormatted('INFO', '2',
               '[CONEXAOMODULOS] Alternando para IP fixo 26.169.7.136 e tentando novamente');
-
             // Tenta novamente com IP fixo; se falhar, deixa exceção subir para o try externo
             ConexaoModulo.Connected := True;
           end
@@ -4151,14 +4117,11 @@ begin
       ConexaoModulo.Password := Senha_DB_server.Text;
       ConexaoModulo.Server := IP_DB_server.Text;
       ConexaoModulo.Port := StrToIntDef(Porta_DB_server.Text, 3306);
-
       WriteLogFormatted('INFO', '2',
         '[CONEXAOMODULOS] Tentando conexão SERVER em ' + ConexaoModulo.Server +
         ' DB=' + ConexaoModulo.Database);
-
       ConexaoModulo.Connected := True;
     end;
-
     // Se a conexão for bem-sucedida, retorna True
     Result := ConexaoModulo.Connected;
   except
@@ -5223,7 +5186,6 @@ begin
   end;
   ConsultaValidade;
 end;
-
 procedure TFrmPrincipal.ConsultaValidade;
 var
   extractedValue: string;
@@ -7121,7 +7083,6 @@ begin
   WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Iniciando atualização para empresa ID: ' + IntToStr(IdEmpresa));
   ConfigJSON := TJSONObject.Create;
   DataAtual := Now;
-
   try
     // Verificar se a conexão está ativa
     if not Assigned(ConexaoModulo) or not ConexaoModulo.Connected then
@@ -7134,9 +7095,7 @@ begin
       Result := ConfigJSON;
       Exit;
     end;
-
     WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Conexão com banco verificada');
-
     // Criar query para verificar se a empresa existe e se atualizador_ativo é true
     Query := TUniQuery.Create(nil);
     try
@@ -7147,7 +7106,6 @@ begin
       Query.ParamByName('id_empresa_help').AsInteger := IdEmpresa;
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Executando consulta para empresa ID: ' + IntToStr(IdEmpresa));
       Query.Open;
-
       if Query.IsEmpty then
       begin
         WriteLogFormatted('ERRO', '107', '[ATUALIZAR DATA EMPRESA] Empresa não encontrada: ' + IntToStr(IdEmpresa));
@@ -7158,7 +7116,6 @@ begin
         Result := ConfigJSON;
         Exit;
       end;
-
       // Salvar dados importantes antes do UPDATE
       var IdEmpresaHelp: Integer := Query.FieldByName('id_empresa_help').AsInteger;
       var DataAtualizadaOriginal: string := Query.FieldByName('data_atualizada').AsString;
@@ -7180,7 +7137,6 @@ begin
       end;
       
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Atualizador ativo, procedendo com atualização');
-
       // Fechar query de consulta
       Query.Close;
       
@@ -7190,12 +7146,10 @@ begin
                        'WHERE id_empresa_help = :id_empresa_help AND atualizador_ativo = true';
       Query.ParamByName('data_atualizada').AsDateTime := DataAtual;
       Query.ParamByName('id_empresa_help').AsInteger := IdEmpresaHelp;
-
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Executando UPDATE para empresa ID: ' + IntToStr(IdEmpresa));
       Query.ExecSQL;
       
       WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] UPDATE executado com sucesso. Linhas afetadas: ' + IntToStr(Query.RowsAffected));
-
       // Verificar se o UPDATE foi bem-sucedido
       if Query.RowsAffected > 0 then
       begin
@@ -7215,7 +7169,6 @@ begin
         ConfigJSON.AddPair('id_empresa', TJSONNumber.Create(IdEmpresa));
         ConfigJSON.AddPair('data_atualizada', TJSONString.Create(''));
       end;
-
     finally
       Query.Free;
     end;
@@ -7230,7 +7183,6 @@ begin
       ConfigJSON.AddPair('data_atualizada', TJSONString.Create(''));
     end;
   end;
-
   WriteLogFormatted('INFO', '107', '[ATUALIZAR DATA EMPRESA] Função concluída para empresa ID: ' + IntToStr(IdEmpresa));
   Result := ConfigJSON;
 end;
@@ -8120,7 +8072,6 @@ begin
     end;
   end;
 end;
-
 procedure TFrmPrincipal.LimparLogsAntigos;
 var
   LogsDir: string;
@@ -9031,5 +8982,4 @@ begin
     end;
   end;
 end;
-
 end.

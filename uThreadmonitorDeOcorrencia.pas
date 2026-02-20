@@ -3970,7 +3970,7 @@ begin
             '    AND situacao = 2 ' +
             '    AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
             '    AND cod_empresa = :pempresa ' +
-            '  GROUP BY cod_empresa, chave_acesso ' +
+            '  GROUP BY cod_empresa, chave_acesso,cod_lancamento_padrao ' +
             '  HAVING COUNT(*) > 1 ' +
             ') duplicadas';
           QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
@@ -4005,7 +4005,7 @@ begin
         try
           QSelect.Close;
           QSelect.SQL.Text :=
-            'SELECT ' +
+            'SELECT cod_lancamento_padrao, ' +
             '  MAX(DATE(data_movimento)) || '';'' || ' +
             '  TO_CHAR(MAX(data_movimento), ''HH24:MI'') || '';'' || ' +
             '  cod_empresa || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || '''' || '';'' || ' +
@@ -4020,7 +4020,7 @@ begin
             '  AND situacao = 2 ' +
             '  AND data_operacao >= (CURRENT_DATE - INTERVAL ''2 months'') ' +
             '  AND cod_empresa = :pempresa ' +
-            'GROUP BY cod_empresa, chave_acesso ' +
+            'GROUP BY cod_empresa, chave_acesso,cod_lancamento_padrao ' +
             'HAVING COUNT(*) > 1 ' +
             'ORDER BY cod_empresa, chave_acesso';
           QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;

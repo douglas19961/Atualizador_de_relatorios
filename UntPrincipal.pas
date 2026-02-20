@@ -856,16 +856,13 @@ conexaomodulos;
   end;
      if EhModoserver(ComboBox1) then
      begin
-//      conexaoServerRotina;
-//      conexaoModuloRotina;
+
      if (CXserver.Connected)  then
         begin
         Panel8.Caption:='On';
-//        TimerRelatoriosClient.Enabled:=True;
         end else
         begin
         Panel8.Caption:='Off';
-//        TimerRelatoriosClient.Enabled:=False;
         end;
      end;
 end;
@@ -1233,12 +1230,13 @@ var
 begin
  if EhModoserver(ComboBox1) then
    begin
+   conexaomodulos;
 ////    InserirOcorrencias;
 //     ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
 //     ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
 //     ThreadMonitorSERVER.Start; // Inicia a execução da thread
 //     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
-apagarocorrenciascomdatalimite;
+    apagarocorrenciascomdatalimite;
    end;
 end;
 procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
@@ -2995,6 +2993,7 @@ begin
 end;
 procedure TFrmPrincipal.SpBLogoClick(Sender: TObject);
 begin
+
 apagarocorrenciascomdatalimite;
 end;
 procedure TFrmPrincipal.SpeedButton1Click(Sender: TObject);
@@ -3031,8 +3030,11 @@ end;
 end;
 procedure TFrmPrincipal.TimertemporarioserverTimer(Sender: TObject);
 begin
+
  if EhModoserver(ComboBox1) then
    begin
+   conexaomodulos;
+
     apagarocorrenciascomdatalimite;
    end;
    BuscarModulosRotina;
@@ -3411,6 +3413,7 @@ var
 begin
  if EhModoserver(ComboBox1) then
    begin
+
 //    InserirOcorrencias;
      ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
      ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
@@ -3425,7 +3428,8 @@ begin
        WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS Server] Execução feita com sucesso!');
       TTransferenciaServerThread.Create(CXServer, ConexaoModulo, MemoLogServer);
       end else exit;
-
+       conexaomodulos;
+    apagarocorrenciascomdatalimite;
    end;
 end;
 procedure TFrmPrincipal.TimerMonitorTimer(Sender: TObject);

@@ -3972,7 +3972,7 @@ begin
             '    AND cod_empresa = :pempresa ' +
             '  GROUP BY cod_empresa, chave_acesso,cod_lancamento_padrao ' +
             '  HAVING COUNT(*) > 1 ' +
-            ') duplicadas';
+            ') duplicadas HAVING COUNT(*) > 0 ';
           QSelect.ParamByName('pempresa').AsInteger := CodEmpresa;
           QSelect.Open;
 

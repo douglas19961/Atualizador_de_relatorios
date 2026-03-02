@@ -240,7 +240,7 @@ begin
       QueryDestino.Connection.Commit;
 
       // Log de conclus�o
-      Log('Transfer�ncia conclu�da com sucesso!');
+      Log('Transferencia concluida com sucesso!');
       Log('Total de registros transferidos: ' + IntToStr(RecordCount));
 
     except
@@ -251,7 +251,7 @@ begin
           QueryDestino.Connection.Rollback;
 
         // Log de erro
-        Log('Erro na transfer�ncia: ' + E.Message);
+        Log('Erro na transferencia: ' + E.Message);
       end;
     end;
 

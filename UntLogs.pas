@@ -101,6 +101,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure spnIntervaloChange(Sender: TObject);
     procedure spnMaxRegistrosChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FLogEntries: TObjectList<TLogEntry>;
     FArquivoAtual: string;
@@ -164,6 +165,15 @@ begin
   inherited Create;
   NomeArquivo := ANome;
   DataModificacao := AData;
+end;
+
+procedure TFrmLogs.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+if chkAtualizarAutomatico.checked = true then
+begin
+  chkAtualizarAutomatico.checked := false;
+end;
+
 end;
 
 procedure TFrmLogs.FormCreate(Sender: TObject);
@@ -417,7 +427,34 @@ begin
   
   try
     // Tentar diferentes formatos de log
-    if Pos('|', Linha) > 0 then
+    // IMPORTANTE: Verificar formato WriteLogFormatted [dd/mm/yyyy hh:nn:ss.zz NIVEL(CODIGO)] mensagem PRIMEIRO
+    // para evitar que " - " na mensagem acione o parser errado (ex: "encontrada - Abortando")
+    if (Length(Linha) > 1) and (Linha[1] = '[') then
+    begin
+      // Formato: [27/02/2026 11:46:37.807 DEBUG(129)] Mensagem aqui
+      DataHora := Copy(Linha, 2, Pos(']', Linha) - 2); // conteúdo dentro dos colchetes
+      if Pos(' ', DataHora) > 0 then
+      begin
+        Result.Data := Copy(DataHora, 1, Pos(' ', DataHora) - 1);
+        Resto := Copy(DataHora, Pos(' ', DataHora) + 1, Length(DataHora));
+        if Pos(' ', Resto) > 0 then
+        begin
+          HoraCompleta := Copy(Resto, 1, Pos(' ', Resto) - 1);
+          PosPonto := Pos('.', HoraCompleta);
+          if PosPonto > 0 then
+            Result.Hora := Copy(HoraCompleta, 1, PosPonto - 1)
+          else
+            Result.Hora := HoraCompleta;
+          // Montar para ProcessarTipoEMensagem: "DEBUG(129)] Mensagem" (padrão que a rotina reconhece)
+          MensagemCompleta := Copy(Resto, Pos(' ', Resto) + 1, Length(Resto)) + ' ' + Trim(Copy(Linha, Pos(']', Linha) + 1, Length(Linha)));
+          ProcessarTipoEMensagem(MensagemCompleta, CodigoTipo, Result.Mensagem, Result.Nivel);
+          Result.CodigoTipo := CodigoTipo;
+          Result.Tipo := ObterNomeTipoPorCodigo(CodigoTipo);
+          LinhaProcessada := True;
+        end;
+      end;
+    end;
+    if not LinhaProcessada and (Pos('|', Linha) > 0) then
     begin
       // Formato: Data Hora | Nível | Tipo | ThreadID | Mensagem
       Partes := Linha.Split(['|']);
@@ -761,16 +798,19 @@ procedure TFrmLogs.ProcessarTipoEMensagem(const MensagemCompleta: string; out Co
 var
   PosInicio, PosFim: Integer;
   Codigo: string;
-  NiveisLog: array[0..4] of string;
+  NiveisLog: array[0..7] of string;
   i: Integer;
   PosColchete: Integer;
 begin
-  // Array com os níveis de log possíveis
+  // Array com os níveis de log possíveis (INFO, DEBUG, DEBG, ERROR, ERRO, WARNING, AVISO, FATAL)
   NiveisLog[0] := 'INFO(';
   NiveisLog[1] := 'DEBUG(';
-  NiveisLog[2] := 'ERROR(';
-  NiveisLog[3] := 'WARNING(';
-  NiveisLog[4] := 'FATAL(';
+  NiveisLog[2] := 'DEBG(';
+  NiveisLog[3] := 'ERROR(';
+  NiveisLog[4] := 'ERRO(';
+  NiveisLog[5] := 'WARNING(';
+  NiveisLog[6] := 'AVISO(';
+  NiveisLog[7] := 'FATAL(';
   
   // Primeiro, verificar se a mensagem começa com '[' (formato WriteLogFormatted)
   if (Length(MensagemCompleta) > 0) and (MensagemCompleta[1] = '[') then
@@ -847,11 +887,11 @@ begin
   // Você pode alimentar esta função com as cores desejadas
   if UpperCase(Nivel) = 'INFO' then
     Result := RGB(175,238,238)  // Verde fraco
-  else if UpperCase(Nivel) = 'ERRO' then
+  else if (UpperCase(Nivel) = 'ERRO') or (UpperCase(Nivel) = 'ERROR') then
     Result := RGB(255, 200, 200)  // Vermelho fraco
-  else if UpperCase(Nivel) = 'WARNING' then
+  else if (UpperCase(Nivel) = 'WARNING') or (UpperCase(Nivel) = 'AVISO') then
     Result := RGB(255, 255, 200)  // Amarelo fraco
-  else if UpperCase(Nivel) = 'DEBUG' then
+  else if (UpperCase(Nivel) = 'DEBUG') or (UpperCase(Nivel) = 'DEBG') then
     Result := RGB(102, 255, 102)  // Azul fraco
   else if UpperCase(Nivel) = 'FATAL' then
     Result := RGB(255, 150, 150)  // Vermelho mais forte
@@ -873,7 +913,8 @@ begin
   else if Codigo = '4' then
     Result := 'DEL INICIALIZADOR'
 
-
+    else if Codigo = '100' then
+    Result := 'INICIALIZAÇÃO '
   else if Codigo = '101' then
     Result := 'PRODUÇÃO'
   else if Codigo = '102' then
@@ -939,6 +980,8 @@ begin
   else if Codigo = '1500' then
     Result := 'INTEGRAÇÃO TONIN'
     else if Codigo = '1501' then
+    Result := 'INTEGRAÇÃO FISTAROL'
+    else if Codigo = '1502' then
     Result := 'INTEGRAÇÃO ENTREGA(PEGORARO)'
 
 

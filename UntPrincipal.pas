@@ -210,6 +210,7 @@ type
     SpBLogo: TSpeedButton;
     Timertemporarioserver: TTimer;
     BitBtn16: TBitBtn;
+    BitBtn12: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -268,14 +269,13 @@ type
     function EnviarEmailEmLote: Boolean;
     procedure LimparClientesAtualizados;
     function ValidarAutenticacaoAPI(const ARequestInfo: TIdHTTPRequestInfo): Boolean;
-
         ///SERVIDOR
     procedure IdHTTPServer1CommandGet(AContext: TIdContext; ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
-
 
     function AtualizarDataEmpresa(const IdEmpresa: Integer): TJSONObject;
     function FormatJSON(const JSONValue: TJSONValue; const Indent: Integer = 0): string;
     procedure ChamarAPIAtualizarEmpresa;
+    function ObterMaxLogSizeBytes: Int64;
     procedure LimparLogsAntigos;
     function GetAPIServerURL(ComboBox: TComboBox): string;
     procedure TimerMonitorServerTimer(Sender: TObject);
@@ -286,6 +286,7 @@ type
     procedure TimertemporarioserverTimer(Sender: TObject);
     procedure BitBtn16Click(Sender: TObject);
     procedure btnlogoClick(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
   private
     { Private declarations }
     // Credenciais de autenticação para a API
@@ -359,6 +360,7 @@ type
   procedure CriarEstruturaIntegracaoBanco;
   procedure bat_hora_atual;
   procedure bat_verificar_a_hora_atual;
+  procedure ValidarConfigLogs;
     { Public declarations }
   end;
 var
@@ -379,7 +381,6 @@ uses
   HORARIO_EXECUCAO_RELATORIOS_TURNO_3 = '12:50';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_1 = '23:59';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_2 = '12:00';
-
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1 = '23:50';
   HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2 = '12:50';
   HORARIO_EXECUCAO_INTEGRACAO_TURNO_1 = '15:30';
@@ -457,7 +458,51 @@ begin
   else
     Result := API_SERVER_URL_SERVER; // Default para servidor
 end;
+procedure TFrmPrincipal.ValidarConfigLogs;
+var
+  CaminhoConfig: string;
+  Ini: TIniFile;
+  LogLevel, MaxLogSize, LogRetention: string;
+  PrecisaSalvar: Boolean;
+begin
+  CaminhoConfig := ExtractFilePath(Application.ExeName) + 'ConfigServer.ini';
 
+  if not FileExists(CaminhoConfig) then
+    Exit; // Arquivo não existe na raiz, nada a fazer
+
+  Ini := TIniFile.Create(CaminhoConfig);
+  try
+    LogLevel := Ini.ReadString('Logs', 'LogLevel', '');
+    MaxLogSize := Ini.ReadString('Logs', 'MaxLogSize', '');
+    LogRetention := Ini.ReadString('Logs', 'LogRetention', '');
+
+    PrecisaSalvar := False;
+
+    // Só preenche se estiver vazio - não altera valores já existentes
+    if LogLevel = '' then
+    begin
+      Ini.WriteString('Logs', 'LogLevel', 'INFO');
+      PrecisaSalvar := True;
+    end;
+    if MaxLogSize = '' then
+    begin
+      Ini.WriteString('Logs', 'MaxLogSize', '4MB');
+      PrecisaSalvar := True;
+    end;
+    if LogRetention = '' then
+    begin
+      Ini.WriteString('Logs', 'LogRetention', '30');
+      PrecisaSalvar := True;
+    end;
+
+    // TIniFile grava automaticamente ao fazer Write, não precisa de UpdateFile explícito
+    // mas UpdateFile garante que foi persistido no disco
+    if PrecisaSalvar then
+      Ini.UpdateFile;
+  finally
+    Ini.Free;
+  end;
+end;
 procedure TFrmPrincipal.bat_verificar_a_hora_atual;
 var
   BatPath: string;
@@ -550,7 +595,6 @@ begin
   WriteLogFormatted('INFO', '140',
     '[TIMER] Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
 end;
-
 procedure TFrmPrincipal.CarregarIPClienteDeConfig;
 var
   Query: TUniQuery;
@@ -576,7 +620,6 @@ begin
   end;
   Query.Free;
 end;
-
 procedure TFrmPrincipal.ExtrairVersao;
 var
   Versao: string;
@@ -611,6 +654,7 @@ begin
 end;
 procedure TFrmPrincipal.AdicionarAoStartup;
 var
+  CaminhoLog: string;
   Shell, Shortcut: OleVariant;
   StartupPath, LinkPath: string;
 begin
@@ -636,6 +680,18 @@ begin
   Shortcut.WindowStyle := 1;
   Shortcut.Description := 'Iniciar Dtc_Atualizador_Server com o Windows';
   Shortcut.Save;
+BEGIN
+  try
+    CaminhoLog := TPath.Combine(ExtractFilePath(ParamStr(0)), 'Monitor_DTC.log');
+    if TFile.Exists(CaminhoLog) then
+      TFile.Delete(CaminhoLog)
+    else
+      WriteLogFormatted('INFO', '4', 'log antigo do bat ja não existia já não existia.');
+  except
+    on E: Exception do
+      WriteLogFormatted('ERRO', '4', 'Falha ao excluir log: ' + E.Message);
+  end;
+END;
 end;
 procedure TFrmPrincipal.RemoverDoStartup(NomeChave: string);
 var
@@ -694,6 +750,7 @@ begin
     end;
   end;
 end;
+
 procedure TFrmPrincipal.FormMinimize(Sender: TObject);
 begin
   Self.Hide;                 // Esconde a janela
@@ -856,7 +913,6 @@ conexaomodulos;
   end;
      if EhModoserver(ComboBox1) then
      begin
-
      if (CXserver.Connected)  then
         begin
         Panel8.Caption:='On';
@@ -1121,7 +1177,27 @@ var
   BackupFileName: string;
   FileSize: Int64;
   FileStream: TFileStream;
+  IniFile: TIniFile;
+  LogLevel: string;
+  NivelAtual: string;
 begin
+  // Validar pelo LogLevel do ConfigServer.ini: INFO = não grava DEBUG; DEBUG = grava tudo
+  NivelAtual := UpperCase(Trim(Status));
+  if (NivelAtual = 'DEBG') then
+    NivelAtual := 'DEBUG';
+  IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
+  try
+    LogLevel := UpperCase(Trim(IniFile.ReadString('Logs', 'LogLevel', 'INFO')));
+    if LogLevel = 'INFO' then
+    begin
+      // Em INFO: não gravar DEBUG/DEBG
+      if (NivelAtual = 'DEBUG') then
+        Exit;
+    end;
+    // LogLevel=DEBUG ou outro: grava tudo
+  finally
+    IniFile.Free;
+  end;
   // Proteger acesso concorrente com Critical Section
   if Assigned(FLogCriticalSection) then
     FLogCriticalSection.Enter;
@@ -1151,8 +1227,8 @@ begin
           FileStream.Free;
         end;
         
-        // Se o arquivo tem mais de 5MB (5 * 1024 * 1024 = 5.242.880 bytes), fazer backup
-        if FileSize > (5 * 1024 * 1024) then
+        // Se o arquivo ultrapassou MaxLogSize do ConfigServer.ini, fazer backup
+        if FileSize > ObterMaxLogSizeBytes then
         begin
           try
             // Criar diretório de logs se não existir
@@ -1223,7 +1299,6 @@ if ModuloHabilitado(5) then
 TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogClient);
 end else exit
 end;
-
 procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
 var
  ThreadMonitorSERVER: ThreadMonitordeOcorrenciaSERVER;
@@ -1243,7 +1318,6 @@ procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
 begin
 bat_verificar_a_hora_atual
 end;
-
 procedure TFrmPrincipal.BitBtn16Click(Sender: TObject);
 begin
   begin
@@ -1262,7 +1336,7 @@ begin
 end;
 procedure TFrmPrincipal.integracaoentregapegoraro;
 var
-  QConsulta, QUpdate: TUniQuery;
+  QConsulta, QUpdate, QCaminho: TUniQuery;
   CaminhoArquivo: string;
   JSONRoot, JSONVenda, JSONProduto: TJSONObject;
   JSONVendas: TJSONArray;
@@ -1274,18 +1348,69 @@ var
   DataInicio, DataFim: TDateTime;
 begin
   try
-    WriteLogFormatted('INFO', '1501', 'Iniciando geração do arquivo JSON');
+    WriteLogFormatted('INFO', '1502', 'Iniciando geração do arquivo JSON');
     
     // Definir período de 1 mês atrás saté hoje
     DataFim := Now;
     DataInicio := IncMonth(DataFim, -1); // 1 mês atrás
     
-    WriteLogFormatted('INFO', '1501', Format('Período: %s até %s', 
+    WriteLogFormatted('INFO', '1502', Format('Período: %s até %s',
       [FormatDateTime('yyyy-mm-dd', DataInicio), FormatDateTime('yyyy-mm-dd', DataFim)]));
     
-    // Caminho do arquivo na pasta raiz do sistema
-    CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
-    WriteLogFormatted('INFO', '1501', Format('Arquivo será salvo em: %s', [CaminhoArquivo]));
+    // Garantir schema e tabela integracao.IntegracaoTXt; buscar caminho (tipo VENDASPIT); se vazio, usar raiz do sistema
+    QCaminho := TUniQuery.Create(nil);
+    try
+      QCaminho.Connection := CXClient;
+      if not CXClient.Connected then CXClient.Connect;
+      try
+        QCaminho.SQL.Text := 'SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = ''integracao'' AND table_name = ''integracoatxt'')';
+        QCaminho.Open;
+        if not QCaminho.Fields[0].AsBoolean then
+        begin
+          QCaminho.Close;
+          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt não existe, criando...');
+          QCaminho.SQL.Text := 'CREATE SCHEMA IF NOT EXISTS integracao';
+          QCaminho.Execute;
+          QCaminho.SQL.Text := 'CREATE TABLE integracao.IntegracaoTXt (' +
+                              'id SERIAL PRIMARY KEY, ' +
+                              'tipo_integracao VARCHAR(50) NOT NULL, ' +
+                              'caminho_arquivo VARCHAR(500) NOT NULL, ' +
+                              'ativo BOOLEAN DEFAULT true, ' +
+                              'data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ' +
+                              'data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP)';
+          QCaminho.Execute;
+          WriteLogFormatted('INFO', '1502', 'Tabela IntegracaoTXt criada');
+        end
+        else
+          QCaminho.Close;
+      except
+        on E: Exception do
+        begin
+          WriteLogFormatted('ERRO', '1502', Format('Erro ao verificar/criar tabela IntegracaoTXt: %s', [E.Message]));
+        end;
+      end;
+      CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
+      try
+        QCaminho.SQL.Text := 'SELECT caminho_arquivo FROM integracao.IntegracaoTXt WHERE tipo_integracao = ''VENDASPIT'' AND COALESCE(ativo, true) = true LIMIT 1';
+        QCaminho.Open;
+        if not QCaminho.IsEmpty then
+        begin
+          CaminhoArquivo := Trim(QCaminho.FieldByName('caminho_arquivo').AsString);
+          if CaminhoArquivo <> '' then
+            WriteLogFormatted('DEBUG', '1502', Format('Caminho encontrado na tabela: %s', [CaminhoArquivo]))
+          else
+            CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
+        end
+        else
+          WriteLogFormatted('DEBUG', '1502', 'Nenhum caminho configurado para VENDASPIT, usando padrão');
+      except
+        on E: Exception do
+          WriteLogFormatted('DEBUG', '1502', 'Usando caminho padrão (raiz do sistema)');
+      end;
+    finally
+      QCaminho.Free;
+    end;
+    WriteLogFormatted('INFO', '1502', Format('Arquivo será salvo em: %s', [CaminhoArquivo]));
     
     // Verificar se arquivo existe e carregar conteúdo existente
     JSONContent := '';
@@ -1293,11 +1418,11 @@ begin
     begin
       try
         JSONContent := TFile.ReadAllText(CaminhoArquivo, TEncoding.UTF8);
-        WriteLogFormatted('INFO', '1501', 'Arquivo JSON existente carregado');
+        WriteLogFormatted('INFO', '1502', 'Arquivo JSON existente carregado');
       except
         on E: Exception do
         begin
-          WriteLogFormatted('AVISO', '1501', Format('Erro ao ler arquivo existente: %s. Criando novo arquivo.', [E.Message]));
+          WriteLogFormatted('AVISO', '1502', Format('Erro ao ler arquivo existente: %s. Criando novo arquivo.', [E.Message]));
           JSONContent := '';
         end;
       end;
@@ -1313,7 +1438,7 @@ begin
       // Garantir conexão ativa
       if not CXClient.Connected then
       begin
-        WriteLogFormatted('INFO', '1501', 'Conectando ao banco...');
+        WriteLogFormatted('INFO', '1502', 'Conectando ao banco...');
         CXClient.Connect;
       end;
       
@@ -1322,6 +1447,11 @@ begin
         'SELECT lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
         '       lf.valor AS valor_lancamento, lf.numero_documento, lf.data_inclusao, ' +
         '       lp.valor AS valor_produto, lp.quantidade, lp.cod_produto, ' +
+        '       COALESCE(TO_CHAR(lf.vendas_pit_data, ''YYYY-MM-DD'') || '' '' || lf.vendas_pit_hora, ''0000-00-00 00:00:00'') AS data_hora_pit, '+
+        '       LEFT(COALESCE(lf.vendas_pit_prioridade, ''0''), 1) AS prioridade, ' +
+        '       LEFT(COALESCE(lf.vendas_pit_forma_pgto, ''0''), 1) AS id_forma_de_pagamento, '+
+        '       SUBSTRING(COALESCE(lf.vendas_pit_forma_pgto, ''1'') FROM 5) AS descricao_forma_de_pagamento, '+
+        '       COALESCE(lf.vendas_pit_valor_areceber, 0 ) as valor_a_receber, '+
         '       p.nome AS nome_produto, p.cod_barra, ' +
         '       pe.nome AS nome_pessoa, pe.identificacao, pe.endereco, ' +
         '       pe.numero, pe.uf, pe.cep, pe.telefone_comercial, pe.telefone_residencial, ' +
@@ -1331,7 +1461,7 @@ begin
         'INNER JOIN produtos p ON p.cod_produto = lp.cod_produto ' +
         'INNER JOIN pessoas pe ON pe.cod_pessoa = lf.cod_pessoa ' +
         'INNER JOIN municipios m ON pe.cidade = m.cod_municipio ' +
-        'WHERE lf.cash_back_lanc IS NOT TRUE ' +
+        'WHERE lf.vendas_pit_interno IS NOT TRUE and vendas_pit_pdv = true' +
         '  AND lf.data_inclusao between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
         'ORDER BY lf.cod_lanc_financeiro, lp.cod_produto';
       
@@ -1343,11 +1473,11 @@ begin
       
       if QConsulta.IsEmpty then
       begin
-        WriteLogFormatted('INFO', '1501', 'Nenhum registro encontrado para processar');
+        WriteLogFormatted('INFO', '1502', 'Nenhum registro encontrado para processar');
         Exit;
       end;
       
-      WriteLogFormatted('INFO', '1501', Format('Registros encontrados: %d', [QConsulta.RecordCount]));
+      WriteLogFormatted('INFO', '1502', Format('Registros encontrados: %d', [QConsulta.RecordCount]));
       
       // Inicializar JSON root
       if (JSONContent <> '') and (Trim(JSONContent) <> '') then
@@ -1371,7 +1501,7 @@ begin
         except
           on E: Exception do
           begin
-            WriteLogFormatted('AVISO', '1501', Format('Erro ao parsear JSON existente: %s. Criando novo.', [E.Message]));
+            WriteLogFormatted('AVISO', '1502', Format('Erro ao parsear JSON existente: %s. Criando novo.', [E.Message]));
             JSONRoot := TJSONObject.Create;
             JSONVendas := TJSONArray.Create;
             JSONRoot.AddPair('vendas', JSONVendas);
@@ -1401,16 +1531,16 @@ begin
             // Se não é a primeira venda, finalizar a anterior
             if not PrimeiraVenda then
             begin
-              // Marcar cash_back_lanc como true para o cod_lanc_financeiro anterior
+              // Marcar vendas_pit_interno como true para o cod_lanc_financeiro anterior
               try
-                QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET cash_back_lanc = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
+                QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET vendas_pit_interno = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
                 QUpdate.ParamByName('cod_lanc_financeiro').AsInteger := CodLancFinanceiroAnterior;
                 QUpdate.ExecSQL;
-                WriteLogFormatted('DEBUG', '1501', Format('cash_back_lanc marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
+                WriteLogFormatted('DEBUG', '1502', Format('vendas_pit_interno marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
               except
                 on E: Exception do
                 begin
-                  WriteLogFormatted('ERRO', '1501', Format('Erro ao atualizar cash_back_lanc: %s', [E.Message]));
+                  WriteLogFormatted('ERRO', '1502', Format('Erro ao atualizar vendas_pit_interno: %s', [E.Message]));
                 end;
               end;
             end;
@@ -1422,7 +1552,11 @@ begin
             JSONVenda.AddPair('valor', TJSONNumber.Create(QConsulta.FieldByName('valor_lancamento').AsFloat));
             JSONVenda.AddPair('numero_documento', TJSONString.Create(QConsulta.FieldByName('numero_documento').AsString));
             JSONVenda.AddPair('data_inclusao', TJSONString.Create(FormatDateTime('yyyy-mm-dd hh:nn:ss', QConsulta.FieldByName('data_inclusao').AsDateTime)));
-            
+            JSONVenda.AddPair('data_entrega', TJSONString.Create((QConsulta.FieldByName('data_hora_pit').AsString)));
+            JSONVenda.AddPair('prioridade', TJSONNumber.Create(QConsulta.FieldByName('prioridade').AsInteger));
+            JSONVenda.AddPair('id_forma_de_pagamento', TJSONNumber.Create(QConsulta.FieldByName('id_forma_de_pagamento').AsInteger));
+            JSONVenda.AddPair('descricao_forma_de_pagamento', TJSONString.Create((QConsulta.FieldByName('descricao_forma_de_pagamento').AsString)));
+            JSONVenda.AddPair('valor_a_receber', TJSONString.Create((QConsulta.FieldByName('valor_a_receber').AsString)));
             // Cabeçalho com dados da pessoa (cod_pessoa - sempre 1 por venda)
             var JSONPessoa := TJSONObject.Create;
             JSONPessoa.AddPair('cod_pessoa', TJSONNumber.Create(QConsulta.FieldByName('cod_pessoa').AsInteger));
@@ -1479,18 +1613,18 @@ begin
           QConsulta.Next;
         end;
         
-        // Marcar cash_back_lanc como true para o último cod_lanc_financeiro
+        // Marcar vendas_pit_interno como true para o último cod_lanc_financeiro
         if not PrimeiraVenda then
         begin
           try
-            QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET cash_back_lanc = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
+            QUpdate.SQL.Text := 'UPDATE lancamentos_financeiros SET vendas_pit_interno = TRUE WHERE cod_lanc_financeiro = :cod_lanc_financeiro';
             QUpdate.ParamByName('cod_lanc_financeiro').AsInteger := CodLancFinanceiroAnterior;
             QUpdate.ExecSQL;
-            WriteLogFormatted('DEBUG', '1501', Format('cash_back_lanc marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
+            WriteLogFormatted('DEBUG', '1502', Format('vendas_pit_interno marcado como TRUE para cod_lanc_financeiro: %d', [CodLancFinanceiroAnterior]));
           except
             on E: Exception do
             begin
-              WriteLogFormatted('ERRO', '1501', Format('Erro ao atualizar cash_back_lanc: %s', [E.Message]));
+              WriteLogFormatted('ERRO', '1502', Format('Erro ao atualizar vendas_pit_interno: %s', [E.Message]));
             end;
           end;
         end;
@@ -1501,12 +1635,12 @@ begin
         // Salvar arquivo JSON (reescrever completo com novas vendas)
         try
           TFile.WriteAllText(CaminhoArquivo, JSONString, TEncoding.UTF8);
-          WriteLogFormatted('INFO', '1501', Format('Arquivo JSON salvo com sucesso: %s', [CaminhoArquivo]));
-          WriteLogFormatted('INFO', '1501', Format('Total de vendas no JSON: %d', [JSONVendas.Count]));
+          WriteLogFormatted('INFO', '1502', Format('Arquivo JSON salvo com sucesso: %s', [CaminhoArquivo]));
+          WriteLogFormatted('INFO', '1502', Format('Total de vendas no JSON: %d', [JSONVendas.Count]));
         except
           on E: Exception do
           begin
-            WriteLogFormatted('ERRO', '1501', Format('Erro ao salvar arquivo JSON: %s', [E.Message]));
+            WriteLogFormatted('ERRO', '1502', Format('Erro ao salvar arquivo JSON: %s', [E.Message]));
             raise;
           end;
         end;
@@ -1520,12 +1654,12 @@ begin
       QUpdate.Free;
     end;
     
-    WriteLogFormatted('INFO', '1501', 'Processamento concluído com sucesso');
+    WriteLogFormatted('INFO', '1502', 'Processamento concluído com sucesso');
     
   except
     on E: Exception do
     begin
-      WriteLogFormatted('ERRO', '1501', Format('Erro: %s', [E.Message]));
+      WriteLogFormatted('ERRO', '1502', Format('Erro: %s', [E.Message]));
     end;
   end;
 end;
@@ -2993,7 +3127,6 @@ begin
 end;
 procedure TFrmPrincipal.SpBLogoClick(Sender: TObject);
 begin
-
 apagarocorrenciascomdatalimite;
 end;
 procedure TFrmPrincipal.SpeedButton1Click(Sender: TObject);
@@ -3030,11 +3163,9 @@ end;
 end;
 procedure TFrmPrincipal.TimertemporarioserverTimer(Sender: TObject);
 begin
-
  if EhModoserver(ComboBox1) then
    begin
    conexaomodulos;
-
     apagarocorrenciascomdatalimite;
    end;
    BuscarModulosRotina;
@@ -3285,7 +3416,6 @@ try
     begin
       WriteLogFormatted('INFO', '126', 'View public_lancamentos_produtos_excluidos já existe, pulando criação');
     end;
-
     // 6) Verifica se função func_saldo_contas_empresas_DTC existe no schema relatorios
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.routines WHERE routine_schema = ''relatorios'' AND routine_name = ''func_saldo_contas_empresas_DTC'')');
@@ -3366,8 +3496,6 @@ try
       WriteLogFormatted('INFO', '126', 'Função relatorios.func_saldo_contas_empresas_DTC já existe, pulando criação');
     end;
 
-
-
     // 7) Verifica se view lancamentos_excluidos existe no schema public
     Q.SQL.Clear;
     Q.SQL.Add('SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_schema = ''public'' AND table_name = ''lancamentos_excluidos'')');
@@ -3413,7 +3541,6 @@ var
 begin
  if EhModoserver(ComboBox1) then
    begin
-
 //    InserirOcorrencias;
      ThreadMonitorSERVER := ThreadMonitordeOcorrenciaSERVER.Create(True); // Cria a thread suspensa
      ThreadMonitorSERVER.FreeOnTerminate := True; // Libera automaticamente quando terminar
@@ -3711,9 +3838,15 @@ end;
 procedure TFrmPrincipal.TimerintegracoesRotinaTimerTimer(Sender: TObject);
 begin
 BuscarModulosRotina;
+///Integração Fistarol
    if ModuloHabilitado(11) then
         begin
           integracao_ararajuba;
+        end;
+      // Integração Vendas PIT
+           if ModuloHabilitado(12) then
+        begin
+          integracaoentregapegoraro;
         end;
        //INTEGRAÇÃO ESTRADA
        if ModuloHabilitado(7) then
@@ -3809,6 +3942,14 @@ begin
   Senha := GerarSenha(ComboBoxIDClient.Text, ComboBoxCnpjClient.Text);
   ShowMessage('Senha: ' + Senha);
 end;
+procedure TFrmPrincipal.BitBtn12Click(Sender: TObject);
+begin
+           if ModuloHabilitado(12) then
+        begin
+          integracaoentregapegoraro;
+        end;
+end;
+
 procedure TFrmPrincipal.BtnAutorizacaoClick(Sender: TObject);
 var
   SenhaGerada, SenhaDigitada, IDCliente, CNPJ: string;
@@ -3837,7 +3978,6 @@ procedure TFrmPrincipal.btnlogoClick(Sender: TObject);
 begin
 integracaoentregapegoraro;
 end;
-
 procedure TFrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
 TTransferenciaThread.Create(CXserver, ConexaoModulo, MemoLog);
@@ -3978,6 +4118,7 @@ begin
   finally
     IniFile.Free;
   end;
+  ValidarConfigLogs;
 end;
 procedure TFrmPrincipal.SaveConfigToIni;
 var
@@ -8076,6 +8217,42 @@ begin
     end;
   end;
 end;
+function TFrmPrincipal.ObterMaxLogSizeBytes: Int64;
+var
+  IniFile: TIniFile;
+  ValorStr: string;
+  Numero: Int64;
+  Unidade: string;
+begin
+  Result := 5 * 1024 * 1024; // default 5MB
+  IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
+  try
+    ValorStr := UpperCase(Trim(IniFile.ReadString('Logs', 'MaxLogSize', '5MB')));
+    if ValorStr = '' then Exit;
+    Unidade := '';
+    Numero := 0;
+    if (Length(ValorStr) >= 2) and CharInSet(ValorStr[Length(ValorStr)], ['B', 'K', 'M', 'G']) then
+    begin
+      if (Length(ValorStr) >= 3) and (ValorStr[Length(ValorStr)] = 'B') and (ValorStr[Length(ValorStr)-1] in ['K', 'M', 'G']) then
+        Unidade := Copy(ValorStr, Length(ValorStr) - 1, 2)
+      else
+        Unidade := ValorStr[Length(ValorStr)];
+      Numero := StrToInt64Def(Trim(Copy(ValorStr, 1, Length(ValorStr) - Length(Unidade))), 5);
+    end
+    else
+      Numero := StrToInt64Def(ValorStr, 5);
+    if Numero <= 0 then Numero := 5;
+    if Unidade = 'KB' then Result := Numero * 1024
+    else if Unidade = 'MB' then Result := Numero * 1024 * 1024
+    else if Unidade = 'GB' then Result := Numero * 1024 * 1024 * 1024
+    else if Unidade = 'K' then Result := Numero * 1024
+    else if Unidade = 'M' then Result := Numero * 1024 * 1024
+    else if Unidade = 'G' then Result := Numero * 1024 * 1024 * 1024
+    else Result := Numero * 1024 * 1024; // assume MB se não reconhecido
+  finally
+    IniFile.Free;
+  end;
+end;
 procedure TFrmPrincipal.LimparLogsAntigos;
 var
   LogsDir: string;
@@ -8086,10 +8263,20 @@ var
   FileName: string;
   TotalFiles: Integer;
   RemovedFiles: Integer;
+  IniFile: TIniFile;
+  LogRetentionDias: Integer;
 begin
   TotalFiles := 0;
   RemovedFiles := 0;
   try
+    LogRetentionDias := 30;
+    IniFile := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'ConfigServer.ini');
+    try
+      LogRetentionDias := IniFile.ReadInteger('Logs', 'LogRetention', 30);
+      if LogRetentionDias < 1 then LogRetentionDias := 30;
+    finally
+      IniFile.Free;
+    end;
     LogsDir := ExtractFilePath(ParamStr(0)) + 'logs\';
     
     if not DirectoryExists(LogsDir) then
@@ -8112,8 +8299,8 @@ begin
           FileDate := FileDateToDateTime(FileAge(FilePath));
           DaysOld := Trunc(Now - FileDate);
           
-          // Se o arquivo tem mais de 30 dias, deletar
-          if DaysOld > 30 then
+          // Se o arquivo tem mais que LogRetention dias (ConfigServer.ini), deletar
+          if DaysOld > LogRetentionDias then
           begin
             try
               if TFile.Exists(FilePath) then
@@ -8141,9 +8328,9 @@ begin
       if TotalFiles > 0 then
       begin
         if RemovedFiles > 0 then
-          WriteLogFormatted('INFO', '1', '[GERENCIAMENTO DE LOG] Limpeza concluída: ' + IntToStr(RemovedFiles) + ' de ' + IntToStr(TotalFiles) + ' arquivos removidos (mais de 30 dias)')
+          WriteLogFormatted('INFO', '1', '[GERENCIAMENTO DE LOG] Limpeza concluída: ' + IntToStr(RemovedFiles) + ' de ' + IntToStr(TotalFiles) + ' arquivos removidos (mais de ' + IntToStr(LogRetentionDias) + ' dias)')
         else
-          WriteLogFormatted('INFO', '1', '[GERENCIAMENTO DE LOG] Limpeza concluída: Nenhum arquivo removido (todos com menos de 30 dias)');
+          WriteLogFormatted('INFO', '1', '[GERENCIAMENTO DE LOG] Limpeza concluída: Nenhum arquivo removido (todos com menos de ' + IntToStr(LogRetentionDias) + ' dias)');
       end;
     except
       on E: Exception do

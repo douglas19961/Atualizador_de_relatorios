@@ -11,6 +11,7 @@ object FrmLogs: TFrmLogs
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow

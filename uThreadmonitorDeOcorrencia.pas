@@ -116,12 +116,12 @@ begin
   BaseUrl := GetApiUrlWithFallback;
   
   try
-    FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Tentando POST para: ' + BaseUrl + Endpoint);
+    FrmPrincipal.WriteLogFormatted('DEBUG', '106', '[API CLIENTE] Tentando POST para: ' + BaseUrl + Endpoint);
     Result := HttpClient.Post(BaseUrl + Endpoint, RequestBody);
     
     if Assigned(Result) and (Result.StatusCode = 200) then
     begin
-      FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] POST bem-sucedido para: ' + BaseUrl + Endpoint);
+      FrmPrincipal.WriteLogFormatted('DEBUG', '106', '[API CLIENTE] POST bem-sucedido para: ' + BaseUrl + Endpoint);
       Exit;
     end;
   except
@@ -150,12 +150,12 @@ begin
     BaseUrl := 'http://26.169.7.136:4450';
     try
       RequestBody.Position := 0; // Reposiciona o stream
-      FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] Tentando POST novamente com IP fixo: ' + BaseUrl + Endpoint);
+      FrmPrincipal.WriteLogFormatted('DEBUG', '106', '[API CLIENTE] Tentando POST novamente com IP fixo: ' + BaseUrl + Endpoint);
       Result := HttpClient.Post(BaseUrl + Endpoint, RequestBody);
       
       if Assigned(Result) and (Result.StatusCode = 200) then
       begin
-        FrmPrincipal.WriteLogFormatted('INFO', '106', '[API CLIENTE] POST bem-sucedido com IP fixo: ' + BaseUrl + Endpoint);
+        FrmPrincipal.WriteLogFormatted('DEBUG', '106', '[API CLIENTE] POST bem-sucedido com IP fixo: ' + BaseUrl + Endpoint);
       end;
     except
       on E: Exception do

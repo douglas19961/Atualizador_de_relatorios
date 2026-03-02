@@ -1193,3 +1193,14 @@
 [02/03/2026 08:55:03.893 INFO(123)] Hardware enviado com sucesso para empresa 10015
 [02/03/2026 08:55:03.894 INFO(123)] Coleta de hardware finalizada
 [02/03/2026 08:55:03.903 INFO(124)] Iniciando verificação de Contingência NFc-E
+[02/03/2026 08:55:11.281 INFO(124)] Processamento concluído. 17 ocorrências inseridas
+[02/03/2026 08:55:11.281 INFO(125)] Iniciando verificação de Contingência NFE
+[02/03/2026 08:55:11.332 INFO(125)] Nenhuma Contingência NFE encontrada
+[02/03/2026 08:55:11.332 INFO(129)] Iniciando verificação de NFE/NFCE duplicadas
+[02/03/2026 08:55:11.347 INFO(111)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:55:11.349 INFO(101)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:55:11.357 INFO(102)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:59:10.80 INFO(2)] [CONEXAOMODULOS] Tentando conexão CLIENTE em DDNS/host do cliente: 192.168.0.205 DB=dtcsync
+[02/03/2026 08:59:10.166 INFO(3)] [SINCRONIZAÇÃO MÓDULOS] Módulos sincronizados com sucesso no CLIENT.
+[02/03/2026 08:59:10.169 INFO(1502)] Iniciando geração do arquivo JSON
+[02/03/2026 08:59:10.173 INFO(1502)] Período: 2026-02-02 até 2026-03-02

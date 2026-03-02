@@ -983,3 +983,213 @@
 [27/02/2026 18:11:38.744 INFO(111)] Finalizado com 0 ocorrências processadas
 [27/02/2026 18:11:38.745 INFO(101)] Finalizado com 0 ocorrências processadas
 [27/02/2026 18:11:38.753 INFO(102)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:38:41.475 INFO(100)] Iniciando aplicação Dtc_Atualizador_Server
+[02/03/2026 08:38:41.487 INFO(4)] Dtc_Atualizador_Server já não existia.
+[02/03/2026 08:38:41.637 INFO(4)] log antigo do bat ja não existia já não existia.
+[02/03/2026 08:40:37.877 INFO(100)] Iniciando aplicação Dtc_Atualizador_Server
+[02/03/2026 08:40:37.889 INFO(4)] Dtc_Atualizador_Server já não existia.
+[02/03/2026 08:40:38.00 INFO(4)] log antigo do bat ja não existia já não existia.
+[02/03/2026 08:40:41.201 INFO(128)] [NOVO INICIAR MONITORANDO] Iniciando configuração do monitor no startup
+[02/03/2026 08:40:41.201 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server_Silencioso.vbs
+[02/03/2026 08:40:41.209 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo BAT já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server.bat
+[02/03/2026 08:40:41.218 INFO(128)] [NOVO INICIAR MONITORANDO] Todos os arquivos já existem localmente, pulando download do FTP
+[02/03/2026 08:40:41.225 INFO(128)] [NOVO INICIAR MONITORANDO] Pasta Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+[02/03/2026 08:40:41.234 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho Dtc_Atualizador_Server.lnk removido
+[02/03/2026 08:40:41.332 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho do VBS criado no Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Monitor_Dtc_Atualizador_Server_Silencioso.lnk
+[02/03/2026 08:40:41.332 INFO(128)] [NOVO INICIAR MONITORANDO] Configuração concluída com sucesso
+[02/03/2026 08:40:52.813 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[02/03/2026 08:40:52.815 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[02/03/2026 08:40:52.832 INFO(126)] Iniciando verificação e criação da estrutura de integração
+[02/03/2026 08:40:52.853 INFO(126)] Schema integracao já existe, pulando criação
+[02/03/2026 08:40:52.873 INFO(126)] Tabela verificacao_limpar_var_relatorios já existe, pulando criação
+[02/03/2026 08:40:52.880 INFO(127)] Registro padrão garantido na tabela verificacao_limpar_var_relatorios
+[02/03/2026 08:40:52.886 INFO(126)] View public_lancamentos_financeiros_excluidos já existe, pulando criação
+[02/03/2026 08:40:52.895 INFO(126)] View view_legado_lanc_financeiros já existe, pulando criação
+[02/03/2026 08:40:52.903 INFO(126)] View public_lancamentos_produtos_excluidos já existe, pulando criação
+[02/03/2026 08:40:53.01 INFO(126)] Função relatorios.func_saldo_contas_empresas_DTC criada
+[02/03/2026 08:40:53.06 INFO(126)] View lancamentos_excluidos já existe, pulando criação
+[02/03/2026 08:40:53.08 INFO(126)] Verificação e criação da estrutura concluída
+[02/03/2026 08:40:53.15 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[02/03/2026 08:40:53.27 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[02/03/2026 08:40:53.40 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[02/03/2026 08:40:53.42 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[02/03/2026 08:40:53.51 INFO(140)] [TIMER] Arquivo timer.ini atualizado com data/hora: 2026-03-02 08:40:53
+[02/03/2026 08:40:53.52 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[02/03/2026 08:40:53.460 INFO(106)] [API CLIENTE] Resposta recebida. Status: 200
+[02/03/2026 08:40:53.461 INFO(106)] [API CLIENTE] Conteúdo da resposta: {"success":false,"message":"Erro ao atualizar data: Field 'atualizador_ativo' not found","id_empresa":10015,"data_atualizada":""}
+[02/03/2026 08:40:53.461 ERRO(106)] [API CLIENTE] API retornou erro para empresa ID: 10015
+[02/03/2026 08:40:53.462 INFO(106)] [API CLIENTE] Mensagem: Erro ao atualizar data: Field 'atualizador_ativo' not found
+[02/03/2026 08:40:53.472 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[02/03/2026 08:40:54.390 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:54.814 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:55.123 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:55.401 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:55.676 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:56.158 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:56.510 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:56.785 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:57.88 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:40:57.88 INFO(113)] Processamento concluído. 9 ocorrências inseridas com sucesso
+[02/03/2026 08:40:57.89 INFO(114)] Iniciando verificação de replicas dos clientes
+[02/03/2026 08:40:57.98 INFO(114)] Nenhuma réplica com problema encontrada
+[02/03/2026 08:40:57.100 INFO(114)] Iniciando verificação de réplicas - verificação de sincronização
+[02/03/2026 08:40:57.116 INFO(114)] Nenhuma ocorrência de sincronização de réplica encontrada
+[02/03/2026 08:40:57.118 INFO(104)] Iniciando verificação de divergências NFE
+[02/03/2026 08:40:57.134 INFO(104)] Nenhuma divergência detectada - operation_mode é nom_normal
+[02/03/2026 08:40:57.137 INFO(104)] Processamento concluído. 0 ocorrências inseridas
+[02/03/2026 08:40:57.137 INFO(103)] Iniciando verificação de divergências NFE
+[02/03/2026 08:40:57.407 INFO(103)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:40:57.407 INFO(102)] Iniciando validação de CNPJs
+[02/03/2026 08:40:57.672 INFO(101)] Iniciando verificação de erros de produção
+[02/03/2026 08:40:57.678 INFO(101)] Nenhum erro de produção encontrado
+[02/03/2026 08:40:57.681 INFO(110)] Iniciando verificação de divergências de encerrantes
+[02/03/2026 08:40:57.708 INFO(111)] Iniciando verificação de certificados dos clientes
+[02/03/2026 08:41:00.863 INFO(130)] Iniciando coleta unificada de informações de versão
+[02/03/2026 08:41:01.59 INFO(130)] Enviando informações de versão via API para empresa: 10015
+[02/03/2026 08:41:01.452 INFO(130)] Informações de versão enviadas com sucesso para empresa 10015
+[02/03/2026 08:41:01.452 INFO(130)] Coleta unificada de informações de versão finalizada
+[02/03/2026 08:41:01.460 INFO(123)] Iniciando coleta de especificações de hardware
+[02/03/2026 08:41:01.599 INFO(123)] Enviando hardware via API para empresa: 10015
+[02/03/2026 08:41:01.707 INFO(123)] Hardware enviado com sucesso para empresa 10015
+[02/03/2026 08:41:01.707 INFO(123)] Coleta de hardware finalizada
+[02/03/2026 08:41:01.716 INFO(124)] Iniciando verificação de Contingência NFc-E
+[02/03/2026 08:41:07.162 INFO(124)] Processamento concluído. 17 ocorrências inseridas
+[02/03/2026 08:41:07.162 INFO(125)] Iniciando verificação de Contingência NFE
+[02/03/2026 08:41:07.214 INFO(125)] Nenhuma Contingência NFE encontrada
+[02/03/2026 08:41:07.215 INFO(129)] Iniciando verificação de NFE/NFCE duplicadas
+[02/03/2026 08:41:07.232 INFO(111)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:41:07.232 INFO(101)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:41:07.240 INFO(102)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:45:07.832 INFO(2)] [CONEXAOMODULOS] Tentando conexão CLIENTE em DDNS/host do cliente: 192.168.0.205 DB=dtcsync
+[02/03/2026 08:45:07.977 INFO(3)] [SINCRONIZAÇÃO MÓDULOS] Módulos sincronizados com sucesso no CLIENT.
+[02/03/2026 08:45:07.983 INFO(1502)] Iniciando geração do arquivo JSON
+[02/03/2026 08:45:07.991 INFO(1502)] Período: 2026-02-02 até 2026-03-02
+[02/03/2026 08:45:08.80 INFO(1502)] Tabela IntegracaoTXt criada
+[02/03/2026 08:45:08.85 INFO(1502)] Arquivo será salvo em: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\entregas.json
+[02/03/2026 08:45:08.89 INFO(1502)] Arquivo JSON existente carregado
+[02/03/2026 08:45:08.303 INFO(1502)] Nenhum registro encontrado para processar
+[02/03/2026 08:45:37.805 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[02/03/2026 08:45:37.814 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[02/03/2026 08:45:37.839 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[02/03/2026 08:45:37.839 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[02/03/2026 08:45:37.848 INFO(2)] [CONEXAOMODULOS] Tentando conexão CLIENTE em DDNS/host do cliente: 192.168.0.205 DB=dtcsync
+[02/03/2026 08:45:37.856 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[02/03/2026 08:45:37.891 INFO(140)] [TIMER] Arquivo timer.ini atualizado com data/hora: 2026-03-02 08:45:37
+[02/03/2026 08:45:39.334 INFO(106)] [API CLIENTE] Resposta recebida. Status: 200
+[02/03/2026 08:45:39.335 INFO(106)] [API CLIENTE] Conteúdo da resposta: {"success":true,"message":"Data atualizada com sucesso","id_empresa":10015,"id_empresa_help":10015,"atualizador_ativo":true,"data_atualizada":"02\/03\/2026 08:45:39"}
+[02/03/2026 08:45:39.346 INFO(106)] [API CLIENTE] API executada com sucesso para empresa ID: 10015
+[02/03/2026 08:45:39.354 INFO(106)] [API CLIENTE] Mensagem: Data atualizada com sucesso
+[02/03/2026 08:45:39.367 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[02/03/2026 08:45:40.209 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:40.893 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:41.107 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:42.45 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:42.985 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:43.659 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:44.206 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:45.59 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:45.714 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:45:45.715 INFO(113)] Processamento concluído. 9 ocorrências inseridas com sucesso
+[02/03/2026 08:45:45.723 INFO(114)] Iniciando verificação de replicas dos clientes
+[02/03/2026 08:45:45.733 INFO(114)] Nenhuma réplica com problema encontrada
+[02/03/2026 08:45:45.739 INFO(114)] Iniciando verificação de réplicas - verificação de sincronização
+[02/03/2026 08:45:45.750 INFO(114)] Nenhuma ocorrência de sincronização de réplica encontrada
+[02/03/2026 08:45:45.755 INFO(1)] [GERENCIAMENTO DE LOG] Verificando 2 arquivos de log na pasta de backup
+[02/03/2026 08:45:45.763 INFO(1)] [GERENCIAMENTO DE LOG] Limpeza concluída: Nenhum arquivo removido (todos com menos de 30 dias)
+[02/03/2026 08:45:45.755 INFO(104)] Iniciando verificação de divergências NFE
+[02/03/2026 08:45:45.782 INFO(104)] Nenhuma divergência detectada - operation_mode é nom_normal
+[02/03/2026 08:45:45.787 INFO(104)] Processamento concluído. 0 ocorrências inseridas
+[02/03/2026 08:45:45.795 INFO(103)] Iniciando verificação de divergências NFE
+[02/03/2026 08:45:46.724 INFO(103)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:45:46.724 INFO(102)] Iniciando validação de CNPJs
+[02/03/2026 08:45:47.133 INFO(101)] Iniciando verificação de erros de produção
+[02/03/2026 08:45:47.137 INFO(101)] Nenhum erro de produção encontrado
+[02/03/2026 08:45:47.143 INFO(110)] Iniciando verificação de divergências de encerrantes
+[02/03/2026 08:45:47.155 INFO(111)] Iniciando verificação de certificados dos clientes
+[02/03/2026 08:45:50.208 INFO(130)] Iniciando coleta unificada de informações de versão
+[02/03/2026 08:45:50.226 INFO(130)] Enviando informações de versão via API para empresa: 10015
+[02/03/2026 08:45:50.884 INFO(130)] Informações de versão enviadas com sucesso para empresa 10015
+[02/03/2026 08:45:50.885 INFO(130)] Coleta unificada de informações de versão finalizada
+[02/03/2026 08:45:50.894 INFO(123)] Iniciando coleta de especificações de hardware
+[02/03/2026 08:45:50.991 INFO(123)] Enviando hardware via API para empresa: 10015
+[02/03/2026 08:45:51.350 INFO(123)] Hardware enviado com sucesso para empresa 10015
+[02/03/2026 08:45:51.350 INFO(123)] Coleta de hardware finalizada
+[02/03/2026 08:45:51.361 INFO(124)] Iniciando verificação de Contingência NFc-E
+[02/03/2026 08:45:57.201 INFO(124)] Processamento concluído. 17 ocorrências inseridas
+[02/03/2026 08:45:57.202 INFO(125)] Iniciando verificação de Contingência NFE
+[02/03/2026 08:45:57.258 INFO(125)] Nenhuma Contingência NFE encontrada
+[02/03/2026 08:45:57.258 INFO(129)] Iniciando verificação de NFE/NFCE duplicadas
+[02/03/2026 08:45:57.274 INFO(111)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:45:57.275 INFO(101)] Finalizado com 0 ocorrências processadas
+[02/03/2026 08:45:57.282 INFO(102)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:49:37.836 INFO(2)] [CONEXAOMODULOS] Tentando conexão CLIENTE em DDNS/host do cliente: 192.168.0.205 DB=dtcsync
+[02/03/2026 08:49:37.846 INFO(3)] [SINCRONIZAÇÃO MÓDULOS] Módulos sincronizados com sucesso no CLIENT.
+[02/03/2026 08:49:37.855 INFO(1502)] Iniciando geração do arquivo JSON
+[02/03/2026 08:49:37.860 INFO(1502)] Período: 2026-02-02 até 2026-03-02
+[02/03/2026 08:54:40.127 INFO(100)] Iniciando aplicação Dtc_Atualizador_Server
+[02/03/2026 08:54:40.139 INFO(4)] Dtc_Atualizador_Server já não existia.
+[02/03/2026 08:54:40.225 INFO(4)] log antigo do bat ja não existia já não existia.
+[02/03/2026 08:54:40.329 INFO(128)] [NOVO INICIAR MONITORANDO] Iniciando configuração do monitor no startup
+[02/03/2026 08:54:40.330 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo VBS já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server_Silencioso.vbs
+[02/03/2026 08:54:40.340 INFO(128)] [NOVO INICIAR MONITORANDO] Arquivo BAT já existe localmente: D:\BackupAll\Atualizador_de_relatorios\Win32\Release\Monitor_Dtc_Atualizador_Server.bat
+[02/03/2026 08:54:40.348 INFO(128)] [NOVO INICIAR MONITORANDO] Todos os arquivos já existem localmente, pulando download do FTP
+[02/03/2026 08:54:40.358 INFO(128)] [NOVO INICIAR MONITORANDO] Pasta Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+[02/03/2026 08:54:40.367 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho Dtc_Atualizador_Server.lnk removido
+[02/03/2026 08:54:40.471 INFO(128)] [NOVO INICIAR MONITORANDO] Atalho do VBS criado no Startup: C:\Users\Administrador\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Monitor_Dtc_Atualizador_Server_Silencioso.lnk
+[02/03/2026 08:54:40.471 INFO(128)] [NOVO INICIAR MONITORANDO] Configuração concluída com sucesso
+[02/03/2026 08:54:55.62 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[02/03/2026 08:54:55.65 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[02/03/2026 08:54:55.73 INFO(126)] Iniciando verificação e criação da estrutura de integração
+[02/03/2026 08:54:55.84 INFO(126)] Schema integracao já existe, pulando criação
+[02/03/2026 08:54:55.93 INFO(126)] Tabela verificacao_limpar_var_relatorios já existe, pulando criação
+[02/03/2026 08:54:55.99 INFO(127)] Registro padrão garantido na tabela verificacao_limpar_var_relatorios
+[02/03/2026 08:54:55.108 INFO(126)] View public_lancamentos_financeiros_excluidos já existe, pulando criação
+[02/03/2026 08:54:55.117 INFO(126)] View view_legado_lanc_financeiros já existe, pulando criação
+[02/03/2026 08:54:55.126 INFO(126)] View public_lancamentos_produtos_excluidos já existe, pulando criação
+[02/03/2026 08:54:55.149 INFO(126)] Função relatorios.func_saldo_contas_empresas_DTC criada
+[02/03/2026 08:54:55.151 INFO(126)] View lancamentos_excluidos já existe, pulando criação
+[02/03/2026 08:54:55.158 INFO(126)] Verificação e criação da estrutura concluída
+[02/03/2026 08:54:55.167 INFO(140)] [CONFIG] Carregando IP_DB_Cliente da tabela Config_DTC...
+[02/03/2026 08:54:55.180 INFO(140)] [CONFIG] IP_DB_Cliente carregado: 192.168.0.205
+[02/03/2026 08:54:55.193 INFO(120)] [EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!
+[02/03/2026 08:54:55.193 INFO(106)] [API CLIENTE] ID_Client carregado: 10015
+[02/03/2026 08:54:55.202 INFO(140)] [TIMER] Arquivo timer.ini atualizado com data/hora: 2026-03-02 08:54:55
+[02/03/2026 08:54:55.211 INFO(106)] [API CLIENTE] Corpo da requisição: {"id_empresa":10015}
+[02/03/2026 08:54:55.824 INFO(106)] [API CLIENTE] Resposta recebida. Status: 200
+[02/03/2026 08:54:55.824 INFO(106)] [API CLIENTE] Conteúdo da resposta: {"success":false,"message":"Conex\u00E3o com banco de dados n\u00E3o est\u00E1 ativa","id_empresa":10015,"data_atualizada":""}
+[02/03/2026 08:54:55.838 ERRO(106)] [API CLIENTE] API retornou erro para empresa ID: 10015
+[02/03/2026 08:54:55.839 INFO(106)] [API CLIENTE] Mensagem: Conexão com banco de dados não está ativa
+[02/03/2026 08:54:55.849 INFO(113)] Iniciando verificação de documentos fiscais em aberto
+[02/03/2026 08:54:56.200 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:56.383 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:56.688 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:56.918 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:57.562 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:58.24 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:58.766 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:59.227 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:59.400 INFO(113)] [API CLIENTE] Enviado monitor-ocorrencia. Status: 200
+[02/03/2026 08:54:59.400 INFO(113)] Processamento concluído. 9 ocorrências inseridas com sucesso
+[02/03/2026 08:54:59.410 INFO(114)] Iniciando verificação de replicas dos clientes
+[02/03/2026 08:54:59.421 INFO(114)] Nenhuma réplica com problema encontrada
+[02/03/2026 08:54:59.428 INFO(114)] Iniciando verificação de réplicas - verificação de sincronização
+[02/03/2026 08:54:59.440 INFO(114)] Nenhuma ocorrência de sincronização de réplica encontrada
+[02/03/2026 08:54:59.445 INFO(104)] Iniciando verificação de divergências NFE
+[02/03/2026 08:54:59.458 INFO(104)] Nenhuma divergência detectada - operation_mode é nom_normal
+[02/03/2026 08:54:59.462 INFO(104)] Processamento concluído. 0 ocorrências inseridas
+[02/03/2026 08:54:59.472 INFO(103)] Iniciando verificação de divergências NFE
+[02/03/2026 08:54:59.706 INFO(103)] Processamento concluído. 1 ocorrências inseridas
+[02/03/2026 08:54:59.706 INFO(102)] Iniciando validação de CNPJs
+[02/03/2026 08:55:00.207 INFO(101)] Iniciando verificação de erros de produção
+[02/03/2026 08:55:00.211 INFO(101)] Nenhum erro de produção encontrado
+[02/03/2026 08:55:00.218 INFO(110)] Iniciando verificação de divergências de encerrantes
+[02/03/2026 08:55:00.234 INFO(111)] Iniciando verificação de certificados dos clientes
+[02/03/2026 08:55:03.461 INFO(130)] Iniciando coleta unificada de informações de versão
+[02/03/2026 08:55:03.482 INFO(130)] Enviando informações de versão via API para empresa: 10015
+[02/03/2026 08:55:03.634 INFO(130)] Informações de versão enviadas com sucesso para empresa 10015
+[02/03/2026 08:55:03.634 INFO(130)] Coleta unificada de informações de versão finalizada
+[02/03/2026 08:55:03.643 INFO(123)] Iniciando coleta de especificações de hardware
+[02/03/2026 08:55:03.777 INFO(123)] Enviando hardware via API para empresa: 10015
+[02/03/2026 08:55:03.893 INFO(123)] Hardware enviado com sucesso para empresa 10015
+[02/03/2026 08:55:03.894 INFO(123)] Coleta de hardware finalizada
+[02/03/2026 08:55:03.903 INFO(124)] Iniciando verificação de Contingência NFc-E

@@ -1,4 +1,4 @@
-﻿unit UntPrincipal;
+unit UntPrincipal;
 interface
 uses
   Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
@@ -1352,7 +1352,7 @@ begin
     
     // Definir período de 1 mês atrás saté hoje
     DataFim := Now;
-    DataInicio := IncMonth(DataFim, -1); // 1 mês atrás
+    DataInicio := IncMonth(DataFim, -1); // 1 mês atráss
     
     WriteLogFormatted('INFO', '1502', Format('Período: %s até %s',
       [FormatDateTime('yyyy-mm-dd', DataInicio), FormatDateTime('yyyy-mm-dd', DataFim)]));
@@ -1363,14 +1363,34 @@ begin
       QCaminho.Connection := CXClient;
       if not CXClient.Connected then CXClient.Connect;
       try
+        // Verificar schema: se não existir, criar; se já existir, ignorar e logar
+        QCaminho.SQL.Text := 'SELECT EXISTS(SELECT 1 FROM information_schema.schemata WHERE schema_name = ''integracao'')';
+        QCaminho.Open;
+        if QCaminho.Fields[0].AsBoolean then
+        begin
+          QCaminho.Close;
+          WriteLogFormatted('DEBUG', '1502', 'Schema integracao já existe');
+        end
+        else
+        begin
+          QCaminho.Close;
+          WriteLogFormatted('DEBUG', '1502', 'Schema integracao não existe, criando...');
+          QCaminho.SQL.Text := 'CREATE SCHEMA integracao';
+          QCaminho.Execute;
+          WriteLogFormatted('DEBUG', '1502', 'Schema integracao criado');
+        end;
+        // Verificar tabela: se não existir, criar; se já existir, ignorar e logar
         QCaminho.SQL.Text := 'SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = ''integracao'' AND table_name = ''integracoatxt'')';
         QCaminho.Open;
-        if not QCaminho.Fields[0].AsBoolean then
+        if QCaminho.Fields[0].AsBoolean then
+        begin
+          QCaminho.Close;
+          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt já existe');
+        end
+        else
         begin
           QCaminho.Close;
           WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt não existe, criando...');
-          QCaminho.SQL.Text := 'CREATE SCHEMA IF NOT EXISTS integracao';
-          QCaminho.Execute;
           QCaminho.SQL.Text := 'CREATE TABLE integracao.IntegracaoTXt (' +
                               'id SERIAL PRIMARY KEY, ' +
                               'tipo_integracao VARCHAR(50) NOT NULL, ' +
@@ -1379,10 +1399,8 @@ begin
                               'data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ' +
                               'data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP)';
           QCaminho.Execute;
-          WriteLogFormatted('INFO', '1502', 'Tabela IntegracaoTXt criada');
-        end
-        else
-          QCaminho.Close;
+          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt criada');
+        end;
       except
         on E: Exception do
         begin

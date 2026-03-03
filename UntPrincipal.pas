@@ -1,4 +1,4 @@
-unit UntPrincipal;
+﻿unit UntPrincipal;
 interface
 uses
   Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
@@ -1352,62 +1352,16 @@ begin
     
     // Definir período de 1 mês atrás saté hoje
     DataFim := Now;
-    DataInicio := IncMonth(DataFim, -1); // 1 mês atráss
-    
+//    DataInicio := IncMonth(DataFim, -1); // 1 mês atráss
+      DataInicio := DataFim - 7; // 7 dias atrás
     WriteLogFormatted('INFO', '1502', Format('Período: %s até %s',
       [FormatDateTime('yyyy-mm-dd', DataInicio), FormatDateTime('yyyy-mm-dd', DataFim)]));
-    
-    // Garantir schema e tabela integracao.IntegracaoTXt; buscar caminho (tipo VENDASPIT); se vazio, usar raiz do sistema
+
+    // Buscar caminho da tabela integracao.IntegracaoTXt (tipo VENDASPIT)
     QCaminho := TUniQuery.Create(nil);
     try
       QCaminho.Connection := CXClient;
       if not CXClient.Connected then CXClient.Connect;
-      try
-        // Verificar schema: se não existir, criar; se já existir, ignorar e logar
-        QCaminho.SQL.Text := 'SELECT EXISTS(SELECT 1 FROM information_schema.schemata WHERE schema_name = ''integracao'')';
-        QCaminho.Open;
-        if QCaminho.Fields[0].AsBoolean then
-        begin
-          QCaminho.Close;
-          WriteLogFormatted('DEBUG', '1502', 'Schema integracao já existe');
-        end
-        else
-        begin
-          QCaminho.Close;
-          WriteLogFormatted('DEBUG', '1502', 'Schema integracao não existe, criando...');
-          QCaminho.SQL.Text := 'CREATE SCHEMA integracao';
-          QCaminho.Execute;
-          WriteLogFormatted('DEBUG', '1502', 'Schema integracao criado');
-        end;
-        // Verificar tabela: se não existir, criar; se já existir, ignorar e logar
-        QCaminho.SQL.Text := 'SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE table_schema = ''integracao'' AND table_name = ''integracoatxt'')';
-        QCaminho.Open;
-        if QCaminho.Fields[0].AsBoolean then
-        begin
-          QCaminho.Close;
-          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt já existe');
-        end
-        else
-        begin
-          QCaminho.Close;
-          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt não existe, criando...');
-          QCaminho.SQL.Text := 'CREATE TABLE integracao.IntegracaoTXt (' +
-                              'id SERIAL PRIMARY KEY, ' +
-                              'tipo_integracao VARCHAR(50) NOT NULL, ' +
-                              'caminho_arquivo VARCHAR(500) NOT NULL, ' +
-                              'ativo BOOLEAN DEFAULT true, ' +
-                              'data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ' +
-                              'data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP)';
-          QCaminho.Execute;
-          WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt criada');
-        end;
-      except
-        on E: Exception do
-        begin
-          WriteLogFormatted('ERRO', '1502', Format('Erro ao verificar/criar tabela IntegracaoTXt: %s', [E.Message]));
-        end;
-      end;
-      CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
       try
         QCaminho.SQL.Text := 'SELECT caminho_arquivo FROM integracao.IntegracaoTXt WHERE tipo_integracao = ''VENDASPIT'' AND COALESCE(ativo, true) = true LIMIT 1';
         QCaminho.Open;
@@ -1420,17 +1374,64 @@ begin
             CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
         end
         else
-          WriteLogFormatted('DEBUG', '1502', 'Nenhum caminho configurado para VENDASPIT, usando padrão');
+        begin
+          CaminhoArquivo := ExtractFilePath(Application.ExeName) + 'entregas.json';
+          WriteLogFormatted('DEBUG', '1502', 'Nenhum caminho configurado para VENDASPIT, usando padrão: ' + CaminhoArquivo);
+        end;
       except
         on E: Exception do
-          WriteLogFormatted('DEBUG', '1502', 'Usando caminho padrão (raiz do sistema)');
+        begin
+          // Se a tabela não existir, criar e usar caminho padrão
+          WriteLogFormatted('DEBUG', '1502', 'Tabela não existe, criando...');
+          try
+            try
+              QCaminho.SQL.Text := 'CREATE SCHEMA integracao';
+              QCaminho.Execute;
+              WriteLogFormatted('DEBUG', '1502', 'Schema integracao criado');
+            except
+              on ESchema: Exception do
+                if Pos('already exists', LowerCase(ESchema.Message)) > 0 then
+                  WriteLogFormatted('DEBUG', '1502', 'Schema integracao já existe')
+                else
+                  raise;
+            end;
+            try
+              QCaminho.SQL.Text := 'CREATE TABLE integracao.IntegracaoTXt (' +
+                                  'id SERIAL PRIMARY KEY, ' +
+                                  'tipo_integracao VARCHAR(50) NOT NULL, ' +
+                                  'caminho_arquivo VARCHAR(500) NOT NULL, ' +
+                                  'ativo BOOLEAN DEFAULT true, ' +
+                                  'data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ' +
+                                  'data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
+                                  ')';
+              QCaminho.Execute;
+              WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt criada');
+            except
+              on ETable: Exception do
+                if Pos('already exists', LowerCase(ETable.Message)) > 0 then
+                  WriteLogFormatted('DEBUG', '1502', 'Tabela IntegracaoTXt já existe')
+                else
+                  raise;
+            end;
+            QCaminho.SQL.Text := 'INSERT INTO integracao.IntegracaoTXt (tipo_integracao, caminho_arquivo) SELECT ''VENDASPIT'', ''C:\Program Files\Datacom\DtcSync\entregas.json'' WHERE NOT EXISTS (SELECT 1 FROM integracao.IntegracaoTXt WHERE tipo_integracao = ''VENDASPIT'')';
+            QCaminho.Execute;
+            CaminhoArquivo := 'C:\Program Files\Datacom\DtcSync\entregas.json';
+            WriteLogFormatted('INFO', '1502', 'Tabela criada e caminho padrão configurado');
+          except
+            on E2: Exception do
+            begin
+              WriteLogFormatted('ERRO', '1502', Format('Erro ao criar tabela: %s', [E2.Message]));
+              CaminhoArquivo := 'C:\Program Files\Datacom\DtcSync\entregas.json';
+            end;
+          end;
+        end;
       end;
     finally
       QCaminho.Free;
     end;
     WriteLogFormatted('INFO', '1502', Format('Arquivo será salvo em: %s', [CaminhoArquivo]));
-    
-    // Verificar se arquivo existe e carregar conteúdo existente
+
+    // Verificar se arquivo existe e carregar conteúdo existente e
     JSONContent := '';
     if FileExists(CaminhoArquivo) then
     begin
@@ -1462,7 +1463,7 @@ begin
       
       // Query SQL conforme especificado com fsiltro de data
       QConsulta.SQL.Text :=
-        'SELECT lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
+        'SELECT emp.identificacao, lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
         '       lf.valor AS valor_lancamento, lf.numero_documento, lf.data_inclusao, ' +
         '       lp.valor AS valor_produto, lp.quantidade, lp.cod_produto, ' +
         '       COALESCE(TO_CHAR(lf.vendas_pit_data, ''YYYY-MM-DD'') || '' '' || lf.vendas_pit_hora, ''0000-00-00 00:00:00'') AS data_hora_pit, '+
@@ -1478,12 +1479,13 @@ begin
         'INNER JOIN lancamentos_produtos lp ON lp.cod_lanc_financeiro = lf.cod_lanc_financeiro ' +
         'INNER JOIN produtos p ON p.cod_produto = lp.cod_produto ' +
         'INNER JOIN pessoas pe ON pe.cod_pessoa = lf.cod_pessoa ' +
-        'INNER JOIN municipios m ON pe.cidade = m.cod_municipio ' +
+        'INNER JOIN pessoas emp ON emp.cod_pessoa = lf.cod_empresa ' +
+        'LEFT JOIN municipios m ON pe.cidade = m.cod_municipio ' +
         'WHERE lf.vendas_pit_interno IS NOT TRUE and vendas_pit_pdv = true' +
-        '  AND lf.data_inclusao between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
+        '  AND date(lf.data_inclusao) between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
         'ORDER BY lf.cod_lanc_financeiro, lp.cod_produto';
       
-      // Definir parâmetros de data
+      // Definir parâmetros de dasta
       QConsulta.ParamByName('data_inicio').AsDateTime := DataInicio;
       QConsulta.ParamByName('data_fim').AsDateTime := DataFim;
       
@@ -1566,6 +1568,7 @@ begin
             // Criar novo objeto de venda
             JSONVenda := TJSONObject.Create;
             JSONVenda.AddPair('cod_lanc_financeiro', TJSONNumber.Create(CodLancFinanceiroAtual));
+            JSONVenda.AddPair('estabelecimento', TJSONString.Create(QConsulta.FieldByName('identificacao').AsString));
             JSONVenda.AddPair('chave_acesso', TJSONString.Create(QConsulta.FieldByName('chave_acesso').AsString));
             JSONVenda.AddPair('valor', TJSONNumber.Create(QConsulta.FieldByName('valor_lancamento').AsFloat));
             JSONVenda.AddPair('numero_documento', TJSONString.Create(QConsulta.FieldByName('numero_documento').AsString));
@@ -1575,6 +1578,8 @@ begin
             JSONVenda.AddPair('id_forma_de_pagamento', TJSONNumber.Create(QConsulta.FieldByName('id_forma_de_pagamento').AsInteger));
             JSONVenda.AddPair('descricao_forma_de_pagamento', TJSONString.Create((QConsulta.FieldByName('descricao_forma_de_pagamento').AsString)));
             JSONVenda.AddPair('valor_a_receber', TJSONString.Create((QConsulta.FieldByName('valor_a_receber').AsString)));
+
+
             // Cabeçalho com dados da pessoa (cod_pessoa - sempre 1 por venda)
             var JSONPessoa := TJSONObject.Create;
             JSONPessoa.AddPair('cod_pessoa', TJSONNumber.Create(QConsulta.FieldByName('cod_pessoa').AsInteger));

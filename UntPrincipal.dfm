@@ -2,8 +2,8 @@ object FrmPrincipal: TFrmPrincipal
   Left = 0
   Top = 0
   Caption = 'Monitor'
-  ClientHeight = 655
-  ClientWidth = 1259
+  ClientHeight = 654
+  ClientWidth = 1255
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1474,8 +1474,8 @@ object FrmPrincipal: TFrmPrincipal
   object Pnl_fundo: TPanel
     Left = 0
     Top = 0
-    Width = 1259
-    Height = 655
+    Width = 1255
+    Height = 654
     Align = alClient
     BevelOuter = bvNone
     Color = clWhite
@@ -1491,7 +1491,7 @@ object FrmPrincipal: TFrmPrincipal
       Left = 0
       Top = 66
       Width = 153
-      Height = 589
+      Height = 588
       Align = alLeft
       BevelOuter = bvNone
       Color = clWhite
@@ -2330,7 +2330,7 @@ object FrmPrincipal: TFrmPrincipal
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 1259
+      Width = 1255
       Height = 66
       Align = alTop
       Color = clBlue
@@ -2406,7 +2406,7 @@ object FrmPrincipal: TFrmPrincipal
       object Panel4: TPanel
         Left = 34
         Top = 1
-        Width = 1033
+        Width = 1029
         Height = 64
         Align = alClient
         BevelOuter = bvNone
@@ -2435,7 +2435,7 @@ object FrmPrincipal: TFrmPrincipal
           Visible = False
         end
         object Labelvers: TLabel
-          Left = 1030
+          Left = 1026
           Top = 0
           Width = 3
           Height = 64
@@ -2448,7 +2448,7 @@ object FrmPrincipal: TFrmPrincipal
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlBottom
-          ExplicitLeft = 1034
+          ExplicitLeft = 1030
           ExplicitHeight = 15
         end
         object CheckATT: TCheckBox
@@ -2464,7 +2464,7 @@ object FrmPrincipal: TFrmPrincipal
         end
       end
       object Panel5: TPanel
-        Left = 1067
+        Left = 1063
         Top = 1
         Width = 191
         Height = 64
@@ -2536,15 +2536,15 @@ object FrmPrincipal: TFrmPrincipal
     object Panel3: TPanel
       Left = 153
       Top = 66
-      Width = 1106
-      Height = 589
+      Width = 1102
+      Height = 588
       Align = alClient
       TabOrder = 2
       object PageControl: TPageControl
         Left = 1
         Top = 1
-        Width = 1104
-        Height = 587
+        Width = 1100
+        Height = 586
         ActivePage = TS_Modulos
         Align = alClient
         MultiLine = True
@@ -2557,8 +2557,8 @@ object FrmPrincipal: TFrmPrincipal
           object Panel11: TPanel
             Left = 0
             Top = 0
-            Width = 1096
-            Height = 577
+            Width = 1092
+            Height = 576
             Align = alClient
             BevelOuter = bvNone
             Color = clWhite
@@ -2567,8 +2567,8 @@ object FrmPrincipal: TFrmPrincipal
             object PageControlModulos: TPageControl
               Left = 0
               Top = 38
-              Width = 1096
-              Height = 539
+              Width = 1092
+              Height = 538
               ActivePage = TSClient
               Align = alClient
               TabOrder = 0
@@ -2577,10 +2577,10 @@ object FrmPrincipal: TFrmPrincipal
                 Caption = 'TSServer'
                 TabVisible = False
                 object PL_Server_Cliente: TPanel
-                  Left = 562
+                  Left = 558
                   Top = 0
                   Width = 526
-                  Height = 529
+                  Height = 528
                   Align = alRight
                   BevelKind = bkSoft
                   BevelOuter = bvNone
@@ -2720,7 +2720,7 @@ object FrmPrincipal: TFrmPrincipal
                   end
                   object Panel16: TPanel
                     Left = 0
-                    Top = 178
+                    Top = 177
                     Width = 522
                     Height = 347
                     Align = alBottom
@@ -2753,8 +2753,8 @@ object FrmPrincipal: TFrmPrincipal
                 object PL_Server_Site: TPanel
                   Left = 0
                   Top = 0
-                  Width = 534
-                  Height = 529
+                  Width = 530
+                  Height = 528
                   Align = alLeft
                   Anchors = [akLeft, akTop, akRight, akBottom]
                   BevelKind = bkSoft
@@ -2765,7 +2765,7 @@ object FrmPrincipal: TFrmPrincipal
                   object Label12: TLabel
                     Left = 0
                     Top = 0
-                    Width = 530
+                    Width = 526
                     Height = 28
                     Align = alTop
                     Alignment = taCenter
@@ -2896,8 +2896,8 @@ object FrmPrincipal: TFrmPrincipal
                   end
                   object Panel19: TPanel
                     Left = 0
-                    Top = 337
-                    Width = 530
+                    Top = 336
+                    Width = 526
                     Height = 188
                     Align = alBottom
                     BevelOuter = bvNone
@@ -2907,7 +2907,7 @@ object FrmPrincipal: TFrmPrincipal
                     object MemoLogServer: TMemo
                       Left = 0
                       Top = 43
-                      Width = 530
+                      Width = 526
                       Height = 145
                       Align = alBottom
                       BiDiMode = bdLeftToRight
@@ -3014,13 +3014,13 @@ object FrmPrincipal: TFrmPrincipal
                   end
                   object Panel29: TPanel
                     Left = 0
-                    Top = 296
-                    Width = 530
+                    Top = 295
+                    Width = 526
                     Height = 41
                     Align = alBottom
                     TabOrder = 15
                     object SpeedButton2: TSpeedButton
-                      Left = 392
+                      Left = 388
                       Top = 1
                       Width = 137
                       Height = 39
@@ -3301,10 +3301,10 @@ object FrmPrincipal: TFrmPrincipal
                   end
                 end
                 object Panel24: TPanel
-                  Left = 534
+                  Left = 530
                   Top = 0
                   Width = 28
-                  Height = 529
+                  Height = 528
                   Align = alClient
                   BevelOuter = bvNone
                   Color = clWhite
@@ -3319,16 +3319,16 @@ object FrmPrincipal: TFrmPrincipal
                 object Panel28: TPanel
                   Left = 0
                   Top = 0
-                  Width = 1088
-                  Height = 529
+                  Width = 1084
+                  Height = 528
                   Align = alClient
                   Caption = 'Panel28'
                   TabOrder = 0
                   object PL_Client_Cliente: TPanel
-                    Left = 1058
+                    Left = 1054
                     Top = 1
                     Width = 29
-                    Height = 527
+                    Height = 526
                     Align = alRight
                     BevelKind = bkSoft
                     BevelOuter = bvNone
@@ -3469,7 +3469,7 @@ object FrmPrincipal: TFrmPrincipal
                     end
                     object Panel22: TPanel
                       Left = 0
-                      Top = 172
+                      Top = 171
                       Width = 25
                       Height = 351
                       Align = alBottom
@@ -3505,8 +3505,8 @@ object FrmPrincipal: TFrmPrincipal
                   object PL_Client_Site: TPanel
                     Left = 1
                     Top = 1
-                    Width = 1057
-                    Height = 527
+                    Width = 1053
+                    Height = 526
                     Align = alClient
                     BevelKind = bkSoft
                     BevelOuter = bvNone
@@ -3518,7 +3518,7 @@ object FrmPrincipal: TFrmPrincipal
                     object Label25: TLabel
                       Left = 0
                       Top = 0
-                      Width = 1053
+                      Width = 1049
                       Height = 28
                       Align = alTop
                       Alignment = taCenter
@@ -3533,8 +3533,8 @@ object FrmPrincipal: TFrmPrincipal
                     end
                     object Panel21: TPanel
                       Left = 0
-                      Top = 323
-                      Width = 1053
+                      Top = 322
+                      Width = 1049
                       Height = 200
                       Align = alBottom
                       BevelOuter = bvNone
@@ -3544,7 +3544,7 @@ object FrmPrincipal: TFrmPrincipal
                       object MemologClient: TMemo
                         Left = 0
                         Top = 176
-                        Width = 1053
+                        Width = 1049
                         Height = 24
                         Align = alBottom
                         BiDiMode = bdLeftToRight
@@ -3556,7 +3556,7 @@ object FrmPrincipal: TFrmPrincipal
                       object Panel14: TPanel
                         Left = 0
                         Top = 135
-                        Width = 1053
+                        Width = 1049
                         Height = 41
                         Align = alBottom
                         BevelOuter = bvNone
@@ -4236,7 +4236,7 @@ object FrmPrincipal: TFrmPrincipal
             object Panel15: TPanel
               Left = 0
               Top = 0
-              Width = 1096
+              Width = 1092
               Height = 38
               Align = alTop
               BevelOuter = bvNone
@@ -4288,7 +4288,7 @@ object FrmPrincipal: TFrmPrincipal
                 end
               end
               object Panel18: TPanel
-                Left = 847
+                Left = 843
                 Top = 0
                 Width = 249
                 Height = 38
@@ -4468,7 +4468,7 @@ object FrmPrincipal: TFrmPrincipal
               object Panel20: TPanel
                 Left = 421
                 Top = 0
-                Width = 426
+                Width = 422
                 Height = 38
                 Align = alClient
                 BevelOuter = bvNone
@@ -4484,8 +4484,8 @@ object FrmPrincipal: TFrmPrincipal
           object Panel12: TPanel
             Left = 0
             Top = 0
-            Width = 1096
-            Height = 577
+            Width = 1092
+            Height = 576
             Align = alClient
             TabOrder = 0
             object Label2: TLabel
@@ -4506,8 +4506,8 @@ object FrmPrincipal: TFrmPrincipal
           object Panel13: TPanel
             Left = 0
             Top = 0
-            Width = 1096
-            Height = 577
+            Width = 1092
+            Height = 576
             Align = alClient
             Color = clWhite
             ParentBackground = False
@@ -4521,17 +4521,17 @@ object FrmPrincipal: TFrmPrincipal
           object Panel10: TPanel
             Left = 0
             Top = 0
-            Width = 1096
-            Height = 577
+            Width = 1092
+            Height = 576
             Align = alClient
             Color = clWhite
             ParentBackground = False
             TabOrder = 0
             object MemoLog: TMemo
-              Left = 764
+              Left = 760
               Top = 1
               Width = 331
-              Height = 575
+              Height = 574
               Align = alRight
               TabOrder = 0
             end
@@ -4549,14 +4549,14 @@ object FrmPrincipal: TFrmPrincipal
           object Panel23: TPanel
             Left = 0
             Top = 0
-            Width = 1096
-            Height = 577
+            Width = 1092
+            Height = 576
             Align = alClient
             TabOrder = 0
             object Panel25: TPanel
               Left = 1
               Top = 1
-              Width = 1094
+              Width = 1090
               Height = 41
               Align = alTop
               TabOrder = 0
@@ -4591,7 +4591,7 @@ object FrmPrincipal: TFrmPrincipal
               Left = 1
               Top = 42
               Width = 552
-              Height = 534
+              Height = 533
               Align = alLeft
               BevelOuter = bvNone
               TabOrder = 1
@@ -4599,7 +4599,7 @@ object FrmPrincipal: TFrmPrincipal
                 Left = 0
                 Top = 0
                 Width = 552
-                Height = 534
+                Height = 533
                 Align = alClient
                 TabOrder = 0
                 TitleFont.Charset = DEFAULT_CHARSET
@@ -4610,10 +4610,10 @@ object FrmPrincipal: TFrmPrincipal
               end
             end
             object Panel27: TPanel
-              Left = 674
+              Left = 670
               Top = 42
               Width = 421
-              Height = 534
+              Height = 533
               Align = alRight
               BevelOuter = bvNone
               TabOrder = 2
@@ -4621,7 +4621,7 @@ object FrmPrincipal: TFrmPrincipal
                 Left = 0
                 Top = 0
                 Width = 421
-                Height = 534
+                Height = 533
                 Align = alClient
                 TabOrder = 0
                 TitleFont.Charset = DEFAULT_CHARSET

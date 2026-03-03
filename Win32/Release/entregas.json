@@ -2,78 +2,94 @@
   "vendas": 
   [
     {
-      "cod_lanc_financeiro": "862501",
-      "chave_acesso": "41260205876372000108551000000000071854993422",
-      "valor": "40.39",
-      "numero_documento": "7",
-      "data_inclusao": "2026-02-27 13:53:41",
-      "data_entrega": "0000-00-00 00:00:00",
+      "cod_lanc_financeiro": "309198403",
+      "estabelecimento": "12838425000153",
+      "chave_acesso": "41260312838425000153650050014342081515764226",
+      "valor": "6403.5",
+      "numero_documento": "1434208",
+      "data_inclusao": "2026-03-02 09:51:27",
+      "data_entrega": "2026-03-02 10:30:00",
       "prioridade": "2",
+      "id_forma_de_pagamento": "2",
+      "descricao_forma_de_pagamento": "Dinheiro",
+      "valor_a_receber": "6403,5",
+      "pessoa": 
+      {
+        "cod_pessoa": "16947",
+        "nome": "LEVI FARINA",
+        "identificacao": "12838425000153",
+        "endereco": "CIRO MONTEIRO 1535",
+        "numero": "",
+        "uf": "",
+        "cep": "",
+        "telefone_comercial": "",
+        "telefone_residencial": "",
+        "nome_cidade": ""
+      },
+      "produtos": 
+      [
+        {
+          "cod_produto": "22349",
+          "nome": "CERV ORIGINAL MULTIPACK - CX 12 LT",
+          "valor": "6403.5",
+          "quantidade": "150",
+          "cod_barra": "7891991307338"
+        }
+      ]
+    },
+    {
+      "cod_lanc_financeiro": "309204303",
+      "estabelecimento": "12838425000153",
+      "chave_acesso": "41260312838425000153650050014342341768890068",
+      "valor": "829.91",
+      "numero_documento": "1434234",
+      "data_inclusao": "2026-03-02 10:31:05",
+      "data_entrega": "2026-03-02 13:30:00",
+      "prioridade": "3",
       "id_forma_de_pagamento": "2",
       "descricao_forma_de_pagamento": "Dinheiro",
       "valor_a_receber": "0",
       "pessoa": 
       {
-        "cod_pessoa": "407",
-        "nome": "NEWKRAFT",
-        "identificacao": "12056410000133",
-        "endereco": "RUA ORLANDO VASCONCELOS",
-        "numero": "1616",
-        "uf": "PR",
-        "cep": "85805-540",
+        "cod_pessoa": "17075",
+        "nome": "IVANOR LODI, LANCHONETE POR DO SOL",
+        "identificacao": "12838425000153",
+        "endereco": "SIQUEIRA CAMPOS",
+        "numero": "878",
+        "uf": "",
+        "cep": "",
         "telefone_comercial": "",
         "telefone_residencial": "",
-        "nome_cidade": "Cascavel"
+        "nome_cidade": ""
       },
       "produtos": 
       [
         {
-          "cod_produto": "9592",
-          "nome": "ETANOL COMUM",
-          "valor": "40.39",
-          "quantidade": "8.8",
-          "cod_barra": ""
-        }
-      ]
-    },
-    {
-      "cod_lanc_financeiro": "862601",
-      "chave_acesso": "41260205876372000108551000000000081984460014",
-      "valor": "66.58",
-      "numero_documento": "8",
-      "data_inclusao": "2026-02-27 13:57:22",
-      "data_entrega": "2026-02-27 05:14:50",
-      "prioridade": "5",
-      "id_forma_de_pagamento": "3",
-      "descricao_forma_de_pagamento": "Cartão de Debito",
-      "valor_a_receber": "65,45",
-      "pessoa": 
-      {
-        "cod_pessoa": "500",
-        "nome": "PAROQUIA SAO FRANCISCO",
-        "identificacao": "24270108000162",
-        "endereco": "AV GRALHA AZUL",
-        "numero": "808",
-        "uf": "PR",
-        "cep": "85000-000",
-        "telefone_comercial": "",
-        "telefone_residencial": "",
-        "nome_cidade": "Cascavel"
-      },
-      "produtos": 
-      [
-        {
-          "cod_produto": "6715",
-          "nome": "CHEIRINHO DE SUCESSO",
-          "valor": "14.99",
+          "cod_produto": "14905",
+          "nome": "PS CERV SKOL LITRAO - 12UN",
+          "valor": "97.99",
           "quantidade": "1",
-          "cod_barra": "0789433310046"
+          "cod_barra": ""
         },
         {
-          "cod_produto": "9592",
-          "nome": "ETANOL COMUM",
-          "valor": "51.59",
-          "quantidade": "11",
+          "cod_produto": "16774",
+          "nome": "PS CERV SKOL 300ML - 23GRF",
+          "valor": "175.26",
+          "quantidade": "3",
+          "cod_barra": ""
+        },
+        {
+          "cod_produto": "19091",
+          "nome": "PS CERV ORIGINAL 300ML - 23GRF",
+          "valor": "302.68",
+          "quantidade": "4",
+          "cod_barra": ""
+        },
+        {
+          "cod_produto": "20146",
+          "nome": "PS CERV ORIGINAL LITRAO CX 12UN",
+          "valor": "253.98",
+          "quantidade": "2",
           "cod_barra": ""
         }
       ]

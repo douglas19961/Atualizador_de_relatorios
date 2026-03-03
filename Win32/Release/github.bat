@@ -1,0 +1,13 @@
+@echo off
+cd /d "%~dp0"
+echo Fechando aplicacao...
+taskkill /IM Dtc_Atualizador_Server.exe /F 2>nul
+timeout /t 3 /nobreak > nul
+echo Removendo versao antiga...
+del Dtc_Atualizador_Server.exe 2>nul
+echo Renomeando nova versao...
+ren atualizador_de_relatorios_novaversao.exe Dtc_Atualizador_Server.exe
+echo Iniciando aplicacao...
+start "" Dtc_Atualizador_Server.exe
+echo Atualizacao concluida!
+exit

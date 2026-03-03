@@ -391,3 +391,2116 @@
 [03/03/2026 09:22:47.412] INFO(140)] DataHora encontrada: 2026-03-03 09:20:47
 [03/03/2026 09:22:47.426] INFO(140)] Diferenca de tempo: 2.01 minutos
 [03/03/2026 09:22:47.427] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:23:47.410] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:23:47.430] INFO(140)] DataHora encontrada: 2026-03-03 09:20:47
+[03/03/2026 09:23:47.441] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:23:47.443] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:24:47.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:24:47.412] INFO(140)] DataHora encontrada: 2026-03-03 09:20:47
+[03/03/2026 09:24:47.424] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:24:47.426] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:25:47.332] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:25:47.352] INFO(140)] DataHora encontrada: 2026-03-03 09:20:47
+[03/03/2026 09:25:47.365] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:25:47.368] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:26:47.336] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:26:47.355] INFO(140)] DataHora encontrada: 2026-03-03 09:25:47
+[03/03/2026 09:26:47.371] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:26:47.372] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:27:47.293] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:27:47.312] INFO(140)] DataHora encontrada: 2026-03-03 09:25:47
+[03/03/2026 09:27:47.324] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:27:47.326] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:28:47.342] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:28:47.360] INFO(140)] DataHora encontrada: 2026-03-03 09:25:47
+[03/03/2026 09:28:47.378] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:28:47.383] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:29:47.305] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:29:47.324] INFO(140)] DataHora encontrada: 2026-03-03 09:25:47
+[03/03/2026 09:29:47.336] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:29:47.337] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:30:47.404] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:30:47.425] INFO(140)] DataHora encontrada: 2026-03-03 09:25:47
+[03/03/2026 09:30:47.438] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:30:47.441] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:31:47.390] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:31:47.411] INFO(140)] DataHora encontrada: 2026-03-03 09:30:47
+[03/03/2026 09:31:47.428] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:31:47.430] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:32:47.295] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:32:47.314] INFO(140)] DataHora encontrada: 2026-03-03 09:30:47
+[03/03/2026 09:32:47.326] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:32:47.328] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:33:47.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:33:47.402] INFO(140)] DataHora encontrada: 2026-03-03 09:30:47
+[03/03/2026 09:33:47.414] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:33:47.416] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:34:47.358] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:34:47.379] INFO(140)] DataHora encontrada: 2026-03-03 09:30:47
+[03/03/2026 09:34:47.390] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:34:47.391] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:35:47.337] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:35:47.356] INFO(140)] DataHora encontrada: 2026-03-03 09:30:47
+[03/03/2026 09:35:47.368] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:35:47.370] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:36:47.333] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:36:47.353] INFO(140)] DataHora encontrada: 2026-03-03 09:35:47
+[03/03/2026 09:36:47.364] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:36:47.367] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:37:47.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:37:47.325] INFO(140)] DataHora encontrada: 2026-03-03 09:35:47
+[03/03/2026 09:37:47.336] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:37:47.338] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:38:47.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:38:47.394] INFO(140)] DataHora encontrada: 2026-03-03 09:35:47
+[03/03/2026 09:38:47.406] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:38:47.408] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:39:47.301] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:39:47.318] INFO(140)] DataHora encontrada: 2026-03-03 09:35:47
+[03/03/2026 09:39:47.330] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:39:47.331] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:40:47.406] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:40:47.425] INFO(140)] DataHora encontrada: 2026-03-03 09:35:47
+[03/03/2026 09:40:47.437] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:40:47.439] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:41:47.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:41:47.399] INFO(140)] DataHora encontrada: 2026-03-03 09:40:47
+[03/03/2026 09:41:47.410] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:41:47.411] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:42:47.385] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:42:47.403] INFO(140)] DataHora encontrada: 2026-03-03 09:40:47
+[03/03/2026 09:42:47.415] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:42:47.417] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:43:47.333] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:43:47.354] INFO(140)] DataHora encontrada: 2026-03-03 09:40:47
+[03/03/2026 09:43:47.367] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:43:47.369] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:44:47.392] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:44:47.412] INFO(140)] DataHora encontrada: 2026-03-03 09:40:47
+[03/03/2026 09:44:47.433] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:44:47.436] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:45:47.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:45:47.369] INFO(140)] DataHora encontrada: 2026-03-03 09:40:47
+[03/03/2026 09:45:47.382] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:45:47.384] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:46:47.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:46:47.372] INFO(140)] DataHora encontrada: 2026-03-03 09:45:47
+[03/03/2026 09:46:47.390] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:46:47.391] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:47:47.345] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:47:47.363] INFO(140)] DataHora encontrada: 2026-03-03 09:45:47
+[03/03/2026 09:47:47.375] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:47:47.377] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:48:47.392] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:48:47.411] INFO(140)] DataHora encontrada: 2026-03-03 09:45:47
+[03/03/2026 09:48:47.422] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:48:47.426] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:49:47.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:49:47.363] INFO(140)] DataHora encontrada: 2026-03-03 09:45:47
+[03/03/2026 09:49:47.376] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:49:47.378] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:50:47.450] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:50:47.468] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:50:47.480] INFO(140)] Diferenca de tempo: 0.01 minutos
+[03/03/2026 09:50:47.481] INFO(140)] Tempo dentro do limite (0.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:51:47.366] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:51:47.384] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:51:47.397] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:51:47.398] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:52:47.418] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:52:47.436] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:52:47.449] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:52:47.451] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:53:47.387] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:53:47.406] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:53:47.417] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:53:47.419] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:54:47.389] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:54:47.406] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:54:47.418] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:54:47.420] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:55:47.343] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:55:47.363] INFO(140)] DataHora encontrada: 2026-03-03 09:50:47
+[03/03/2026 09:55:47.374] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 09:55:47.376] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:56:47.339] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:56:47.357] INFO(140)] DataHora encontrada: 2026-03-03 09:55:47
+[03/03/2026 09:56:47.369] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 09:56:47.371] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:57:47.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:57:47.383] INFO(140)] DataHora encontrada: 2026-03-03 09:55:47
+[03/03/2026 09:57:47.395] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 09:57:47.396] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:58:47.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:58:47.400] INFO(140)] DataHora encontrada: 2026-03-03 09:55:47
+[03/03/2026 09:58:47.413] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 09:58:47.415] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 09:59:47.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 09:59:47.330] INFO(140)] DataHora encontrada: 2026-03-03 09:55:47
+[03/03/2026 09:59:47.342] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 09:59:47.344] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:00:47.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:00:47.384] INFO(140)] DataHora encontrada: 2026-03-03 09:55:47
+[03/03/2026 10:00:47.395] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:00:47.397] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:01:47.401] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:01:47.421] INFO(140)] DataHora encontrada: 2026-03-03 10:00:47
+[03/03/2026 10:01:47.436] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 10:01:47.438] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:02:47.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:02:47.379] INFO(140)] DataHora encontrada: 2026-03-03 10:00:47
+[03/03/2026 10:02:47.392] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 10:02:47.393] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:03:47.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:03:47.410] INFO(140)] DataHora encontrada: 2026-03-03 10:00:47
+[03/03/2026 10:03:47.421] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 10:03:47.423] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:04:47.308] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:04:47.326] INFO(140)] DataHora encontrada: 2026-03-03 10:00:47
+[03/03/2026 10:04:47.338] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 10:04:47.338] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:05:47.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:05:47.347] INFO(140)] DataHora encontrada: 2026-03-03 10:00:47
+[03/03/2026 10:05:47.359] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:05:47.360] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:06:47.337] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:06:47.356] INFO(140)] DataHora encontrada: 2026-03-03 10:05:47
+[03/03/2026 10:06:47.368] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 10:06:47.368] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:07:47.339] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:07:47.358] INFO(140)] DataHora encontrada: 2026-03-03 10:05:47
+[03/03/2026 10:07:47.369] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 10:07:47.370] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:08:47.328] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:08:47.347] INFO(140)] DataHora encontrada: 2026-03-03 10:05:47
+[03/03/2026 10:08:47.359] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 10:08:47.362] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:09:47.438] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:09:47.457] INFO(140)] DataHora encontrada: 2026-03-03 10:05:47
+[03/03/2026 10:09:47.469] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 10:09:47.470] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:10:47.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:10:47.368] INFO(140)] DataHora encontrada: 2026-03-03 10:05:47
+[03/03/2026 10:10:47.379] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:10:47.381] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:11:47.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:11:47.401] INFO(140)] DataHora encontrada: 2026-03-03 10:10:47
+[03/03/2026 10:11:47.413] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 10:11:47.414] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:12:47.437] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:12:47.457] INFO(140)] DataHora encontrada: 2026-03-03 10:10:47
+[03/03/2026 10:12:47.468] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 10:12:47.469] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:13:47.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:13:47.396] INFO(140)] DataHora encontrada: 2026-03-03 10:10:47
+[03/03/2026 10:13:47.408] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 10:13:47.409] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:14:47.402] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:14:47.421] INFO(140)] DataHora encontrada: 2026-03-03 10:10:47
+[03/03/2026 10:14:47.434] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 10:14:47.436] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:15:47.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:15:47.332] INFO(140)] DataHora encontrada: 2026-03-03 10:10:47
+[03/03/2026 10:15:47.344] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:15:47.346] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:16:47.321] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:16:47.340] INFO(140)] DataHora encontrada: 2026-03-03 10:15:47
+[03/03/2026 10:16:47.351] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 10:16:47.353] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:17:47.372] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:17:47.390] INFO(140)] DataHora encontrada: 2026-03-03 10:15:47
+[03/03/2026 10:17:47.401] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 10:17:47.403] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:18:47.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:18:47.329] INFO(140)] DataHora encontrada: 2026-03-03 10:15:47
+[03/03/2026 10:18:47.342] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 10:18:47.343] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:19:47.404] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:19:47.423] INFO(140)] DataHora encontrada: 2026-03-03 10:15:47
+[03/03/2026 10:19:47.434] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 10:19:47.437] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:20:47.316] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:20:47.335] INFO(140)] DataHora encontrada: 2026-03-03 10:15:47
+[03/03/2026 10:20:47.345] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:20:47.346] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:21:47.355] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:21:47.378] INFO(140)] DataHora encontrada: 2026-03-03 10:20:47
+[03/03/2026 10:21:47.389] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 10:21:47.391] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:22:47.383] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:22:47.403] INFO(140)] DataHora encontrada: 2026-03-03 10:20:47
+[03/03/2026 10:22:47.417] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 10:22:47.420] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:23:47.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:23:47.347] INFO(140)] DataHora encontrada: 2026-03-03 10:20:47
+[03/03/2026 10:23:47.358] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 10:23:47.361] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:24:47.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:24:47.410] INFO(140)] DataHora encontrada: 2026-03-03 10:20:47
+[03/03/2026 10:24:47.421] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 10:24:47.422] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:25:47.397] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:25:47.417] INFO(140)] DataHora encontrada: 2026-03-03 10:20:47
+[03/03/2026 10:25:47.429] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 10:25:47.431] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:26:48.260] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:26:48.280] INFO(140)] DataHora encontrada: 2026-03-03 10:25:47
+[03/03/2026 10:26:48.293] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:26:48.295] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:27:48.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:27:48.414] INFO(140)] DataHora encontrada: 2026-03-03 10:25:47
+[03/03/2026 10:27:48.426] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:27:48.427] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:28:48.404] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:28:48.423] INFO(140)] DataHora encontrada: 2026-03-03 10:25:47
+[03/03/2026 10:28:48.436] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:28:48.437] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:29:48.334] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:29:48.353] INFO(140)] DataHora encontrada: 2026-03-03 10:25:47
+[03/03/2026 10:29:48.364] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:29:48.366] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:30:48.289] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:30:48.309] INFO(140)] DataHora encontrada: 2026-03-03 10:30:47
+[03/03/2026 10:30:48.320] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:30:48.322] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:31:48.342] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:31:48.361] INFO(140)] DataHora encontrada: 2026-03-03 10:30:47
+[03/03/2026 10:31:48.372] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:31:48.374] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:32:48.386] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:32:48.406] INFO(140)] DataHora encontrada: 2026-03-03 10:30:47
+[03/03/2026 10:32:48.417] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:32:48.418] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:33:48.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:33:48.413] INFO(140)] DataHora encontrada: 2026-03-03 10:30:47
+[03/03/2026 10:33:48.424] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:33:48.426] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:34:48.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:34:48.358] INFO(140)] DataHora encontrada: 2026-03-03 10:30:47
+[03/03/2026 10:34:48.369] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:34:48.372] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:35:48.422] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:35:48.445] INFO(140)] DataHora encontrada: 2026-03-03 10:35:47
+[03/03/2026 10:35:48.458] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:35:48.460] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:36:48.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:36:48.378] INFO(140)] DataHora encontrada: 2026-03-03 10:35:47
+[03/03/2026 10:36:48.388] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:36:48.390] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:37:48.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:37:48.357] INFO(140)] DataHora encontrada: 2026-03-03 10:35:47
+[03/03/2026 10:37:48.369] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:37:48.370] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:38:48.395] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:38:48.413] INFO(140)] DataHora encontrada: 2026-03-03 10:35:47
+[03/03/2026 10:38:48.424] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:38:48.426] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:39:48.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:39:48.418] INFO(140)] DataHora encontrada: 2026-03-03 10:35:47
+[03/03/2026 10:39:48.430] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:39:48.432] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:40:48.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:40:48.340] INFO(140)] DataHora encontrada: 2026-03-03 10:40:47
+[03/03/2026 10:40:48.354] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:40:48.357] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:41:48.384] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:41:48.402] INFO(140)] DataHora encontrada: 2026-03-03 10:40:47
+[03/03/2026 10:41:48.415] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:41:48.416] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:42:48.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:42:48.335] INFO(140)] DataHora encontrada: 2026-03-03 10:40:47
+[03/03/2026 10:42:48.347] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:42:48.349] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:43:48.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:43:48.376] INFO(140)] DataHora encontrada: 2026-03-03 10:40:47
+[03/03/2026 10:43:48.388] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:43:48.390] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:44:48.367] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:44:48.385] INFO(140)] DataHora encontrada: 2026-03-03 10:40:47
+[03/03/2026 10:44:48.397] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:44:48.399] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:45:48.402] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:45:48.421] INFO(140)] DataHora encontrada: 2026-03-03 10:45:47
+[03/03/2026 10:45:48.433] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:45:48.435] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:46:48.373] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:46:48.391] INFO(140)] DataHora encontrada: 2026-03-03 10:45:47
+[03/03/2026 10:46:48.403] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:46:48.404] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:47:48.377] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:47:48.396] INFO(140)] DataHora encontrada: 2026-03-03 10:45:47
+[03/03/2026 10:47:48.407] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:47:48.409] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:48:48.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:48:48.331] INFO(140)] DataHora encontrada: 2026-03-03 10:45:47
+[03/03/2026 10:48:48.343] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:48:48.344] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:49:48.320] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:49:48.339] INFO(140)] DataHora encontrada: 2026-03-03 10:45:47
+[03/03/2026 10:49:48.350] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:49:48.352] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:50:48.392] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:50:48.410] INFO(140)] DataHora encontrada: 2026-03-03 10:50:47
+[03/03/2026 10:50:48.422] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:50:48.424] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:51:48.317] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:51:48.335] INFO(140)] DataHora encontrada: 2026-03-03 10:50:47
+[03/03/2026 10:51:48.347] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:51:48.349] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:52:48.364] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:52:48.383] INFO(140)] DataHora encontrada: 2026-03-03 10:50:47
+[03/03/2026 10:52:48.397] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:52:48.399] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:53:48.294] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:53:48.312] INFO(140)] DataHora encontrada: 2026-03-03 10:50:47
+[03/03/2026 10:53:48.324] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:53:48.326] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:54:48.373] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:54:48.402] INFO(140)] DataHora encontrada: 2026-03-03 10:50:47
+[03/03/2026 10:54:48.413] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:54:48.415] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:55:48.362] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:55:48.382] INFO(140)] DataHora encontrada: 2026-03-03 10:55:47
+[03/03/2026 10:55:48.394] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 10:55:48.395] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:56:48.343] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:56:48.361] INFO(140)] DataHora encontrada: 2026-03-03 10:55:47
+[03/03/2026 10:56:48.373] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 10:56:48.375] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:57:48.349] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:57:48.367] INFO(140)] DataHora encontrada: 2026-03-03 10:55:47
+[03/03/2026 10:57:48.378] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 10:57:48.379] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:58:48.295] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:58:48.315] INFO(140)] DataHora encontrada: 2026-03-03 10:55:47
+[03/03/2026 10:58:48.327] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 10:58:48.329] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 10:59:48.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 10:59:48.388] INFO(140)] DataHora encontrada: 2026-03-03 10:55:47
+[03/03/2026 10:59:48.400] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 10:59:48.402] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:00:48.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:00:48.345] INFO(140)] DataHora encontrada: 2026-03-03 11:00:47
+[03/03/2026 11:00:48.358] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:00:48.359] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:01:48.342] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:01:48.361] INFO(140)] DataHora encontrada: 2026-03-03 11:00:47
+[03/03/2026 11:01:48.373] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:01:48.374] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:02:48.389] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:02:48.408] INFO(140)] DataHora encontrada: 2026-03-03 11:00:47
+[03/03/2026 11:02:48.419] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:02:48.420] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:03:48.361] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:03:48.385] INFO(140)] DataHora encontrada: 2026-03-03 11:00:47
+[03/03/2026 11:03:48.398] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:03:48.400] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:04:48.383] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:04:48.407] INFO(140)] DataHora encontrada: 2026-03-03 11:00:47
+[03/03/2026 11:04:48.421] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:04:48.423] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:05:48.410] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:05:48.428] INFO(140)] DataHora encontrada: 2026-03-03 11:05:47
+[03/03/2026 11:05:48.441] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:05:48.442] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:06:48.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:06:48.368] INFO(140)] DataHora encontrada: 2026-03-03 11:05:47
+[03/03/2026 11:06:48.380] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:06:48.382] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:07:48.374] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:07:48.393] INFO(140)] DataHora encontrada: 2026-03-03 11:05:47
+[03/03/2026 11:07:48.404] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:07:48.405] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:08:48.386] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:08:48.405] INFO(140)] DataHora encontrada: 2026-03-03 11:05:47
+[03/03/2026 11:08:48.417] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:08:48.418] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:09:48.368] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:09:48.387] INFO(140)] DataHora encontrada: 2026-03-03 11:05:47
+[03/03/2026 11:09:48.397] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:09:48.398] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:10:48.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:10:48.346] INFO(140)] DataHora encontrada: 2026-03-03 11:10:47
+[03/03/2026 11:10:48.361] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:10:48.364] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:11:48.417] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:11:48.438] INFO(140)] DataHora encontrada: 2026-03-03 11:10:47
+[03/03/2026 11:11:48.450] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:11:48.452] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:12:48.387] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:12:48.406] INFO(140)] DataHora encontrada: 2026-03-03 11:10:47
+[03/03/2026 11:12:48.418] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:12:48.419] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:13:48.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:13:48.368] INFO(140)] DataHora encontrada: 2026-03-03 11:10:47
+[03/03/2026 11:13:48.379] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:13:48.381] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:14:48.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:14:48.332] INFO(140)] DataHora encontrada: 2026-03-03 11:10:47
+[03/03/2026 11:14:48.343] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:14:48.345] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:15:48.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:15:48.337] INFO(140)] DataHora encontrada: 2026-03-03 11:15:47
+[03/03/2026 11:15:48.350] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:15:48.351] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:16:48.324] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:16:48.344] INFO(140)] DataHora encontrada: 2026-03-03 11:15:47
+[03/03/2026 11:16:48.354] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:16:48.356] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:17:48.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:17:48.325] INFO(140)] DataHora encontrada: 2026-03-03 11:15:47
+[03/03/2026 11:17:48.337] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:17:48.338] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:18:48.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:18:48.409] INFO(140)] DataHora encontrada: 2026-03-03 11:15:47
+[03/03/2026 11:18:48.420] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:18:48.422] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:19:48.349] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:19:48.368] INFO(140)] DataHora encontrada: 2026-03-03 11:15:47
+[03/03/2026 11:19:48.379] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:19:48.381] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:20:48.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:20:48.375] INFO(140)] DataHora encontrada: 2026-03-03 11:20:47
+[03/03/2026 11:20:48.386] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:20:48.387] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:21:48.370] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:21:48.388] INFO(140)] DataHora encontrada: 2026-03-03 11:20:47
+[03/03/2026 11:21:48.400] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:21:48.401] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:22:48.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:22:48.337] INFO(140)] DataHora encontrada: 2026-03-03 11:20:47
+[03/03/2026 11:22:48.348] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:22:48.350] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:23:48.330] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:23:48.348] INFO(140)] DataHora encontrada: 2026-03-03 11:20:47
+[03/03/2026 11:23:48.359] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:23:48.361] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:24:48.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:24:48.366] INFO(140)] DataHora encontrada: 2026-03-03 11:20:47
+[03/03/2026 11:24:48.378] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:24:48.380] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:25:48.323] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:25:48.345] INFO(140)] DataHora encontrada: 2026-03-03 11:25:47
+[03/03/2026 11:25:48.361] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:25:48.363] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:26:48.416] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:26:48.436] INFO(140)] DataHora encontrada: 2026-03-03 11:25:47
+[03/03/2026 11:26:48.449] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:26:48.450] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:27:48.369] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:27:48.390] INFO(140)] DataHora encontrada: 2026-03-03 11:25:47
+[03/03/2026 11:27:48.402] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:27:48.404] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:28:48.437] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:28:48.458] INFO(140)] DataHora encontrada: 2026-03-03 11:25:47
+[03/03/2026 11:28:48.471] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:28:48.473] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:29:48.409] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:29:48.430] INFO(140)] DataHora encontrada: 2026-03-03 11:25:47
+[03/03/2026 11:29:48.443] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:29:48.445] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:30:48.407] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:30:48.425] INFO(140)] DataHora encontrada: 2026-03-03 11:30:47
+[03/03/2026 11:30:48.443] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:30:48.444] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:31:48.426] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:31:48.445] INFO(140)] DataHora encontrada: 2026-03-03 11:30:47
+[03/03/2026 11:31:48.458] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:31:48.459] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:32:48.430] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:32:48.449] INFO(140)] DataHora encontrada: 2026-03-03 11:30:47
+[03/03/2026 11:32:48.461] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:32:48.462] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:33:48.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:33:48.396] INFO(140)] DataHora encontrada: 2026-03-03 11:30:47
+[03/03/2026 11:33:48.409] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 11:33:48.411] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:34:48.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:34:48.380] INFO(140)] DataHora encontrada: 2026-03-03 11:30:47
+[03/03/2026 11:34:48.390] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 11:34:48.392] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:35:48.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:35:48.390] INFO(140)] DataHora encontrada: 2026-03-03 11:35:47
+[03/03/2026 11:35:48.402] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 11:35:48.404] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:36:48.425] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:36:48.448] INFO(140)] DataHora encontrada: 2026-03-03 11:35:47
+[03/03/2026 11:36:48.458] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 11:36:48.461] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:37:48.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:37:48.371] INFO(140)] DataHora encontrada: 2026-03-03 11:35:47
+[03/03/2026 11:37:48.388] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 11:38:49.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:38:49.358] INFO(140)] DataHora encontrada: 2026-03-03 11:35:47
+[03/03/2026 11:38:49.370] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 11:38:49.372] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:39:49.398] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:39:49.417] INFO(140)] DataHora encontrada: 2026-03-03 11:35:47
+[03/03/2026 11:39:49.436] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 11:39:49.437] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:40:49.401] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:40:49.426] INFO(140)] DataHora encontrada: 2026-03-03 11:40:47
+[03/03/2026 11:40:49.440] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 11:40:49.442] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:41:49.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:41:49.386] INFO(140)] DataHora encontrada: 2026-03-03 11:40:47
+[03/03/2026 11:41:49.401] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 11:41:49.403] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:42:49.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:42:49.337] INFO(140)] DataHora encontrada: 2026-03-03 11:40:47
+[03/03/2026 11:42:49.349] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 11:42:49.350] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:43:49.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:43:49.344] INFO(140)] DataHora encontrada: 2026-03-03 11:40:47
+[03/03/2026 11:43:49.356] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 11:43:49.357] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:44:49.319] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:44:49.340] INFO(140)] DataHora encontrada: 2026-03-03 11:40:47
+[03/03/2026 11:44:49.351] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 11:44:49.353] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:45:49.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:45:49.398] INFO(140)] DataHora encontrada: 2026-03-03 11:45:47
+[03/03/2026 11:45:49.413] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 11:45:49.414] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:46:49.353] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:46:49.374] INFO(140)] DataHora encontrada: 2026-03-03 11:45:47
+[03/03/2026 11:46:49.385] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 11:46:49.388] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:47:49.453] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:47:49.472] INFO(140)] DataHora encontrada: 2026-03-03 11:45:47
+[03/03/2026 11:47:49.484] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 11:47:49.486] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:48:49.353] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:48:49.372] INFO(140)] DataHora encontrada: 2026-03-03 11:45:47
+[03/03/2026 11:48:49.384] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 11:48:49.385] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:49:49.369] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:49:49.386] INFO(140)] DataHora encontrada: 2026-03-03 11:45:47
+[03/03/2026 11:49:49.398] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 11:49:49.401] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:50:49.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:50:49.363] INFO(140)] DataHora encontrada: 2026-03-03 11:50:47
+[03/03/2026 11:50:49.375] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 11:50:49.377] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:51:49.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:51:49.330] INFO(140)] DataHora encontrada: 2026-03-03 11:50:47
+[03/03/2026 11:51:49.342] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 11:51:49.343] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:52:49.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:52:49.420] INFO(140)] DataHora encontrada: 2026-03-03 11:50:47
+[03/03/2026 11:52:49.431] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 11:52:49.433] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:53:49.364] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:53:49.383] INFO(140)] DataHora encontrada: 2026-03-03 11:50:47
+[03/03/2026 11:53:49.395] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 11:53:49.396] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:54:49.355] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:54:49.376] INFO(140)] DataHora encontrada: 2026-03-03 11:50:47
+[03/03/2026 11:54:49.389] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 11:54:49.391] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:55:49.316] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:55:49.335] INFO(140)] DataHora encontrada: 2026-03-03 11:55:47
+[03/03/2026 11:55:49.348] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 11:55:49.349] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:56:49.347] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:56:49.366] INFO(140)] DataHora encontrada: 2026-03-03 11:55:47
+[03/03/2026 11:56:49.378] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 11:56:49.380] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:57:49.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:57:49.338] INFO(140)] DataHora encontrada: 2026-03-03 11:55:47
+[03/03/2026 11:57:49.350] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 11:57:49.352] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:58:49.389] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:58:49.410] INFO(140)] DataHora encontrada: 2026-03-03 11:55:47
+[03/03/2026 11:58:49.422] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 11:58:49.423] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 11:59:49.363] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 11:59:49.382] INFO(140)] DataHora encontrada: 2026-03-03 11:55:47
+[03/03/2026 11:59:49.393] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 11:59:49.395] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:00:49.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:00:49.367] INFO(140)] DataHora encontrada: 2026-03-03 12:00:47
+[03/03/2026 12:00:49.379] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:00:49.381] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:01:49.394] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:01:49.411] INFO(140)] DataHora encontrada: 2026-03-03 12:00:47
+[03/03/2026 12:01:49.423] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:01:49.425] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:02:49.333] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:02:49.352] INFO(140)] DataHora encontrada: 2026-03-03 12:00:47
+[03/03/2026 12:02:49.363] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:02:49.365] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:03:49.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:03:49.366] INFO(140)] DataHora encontrada: 2026-03-03 12:00:47
+[03/03/2026 12:03:49.378] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:03:49.380] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:04:49.374] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:04:49.392] INFO(140)] DataHora encontrada: 2026-03-03 12:00:47
+[03/03/2026 12:04:49.405] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:04:49.408] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:05:49.375] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:05:49.394] INFO(140)] DataHora encontrada: 2026-03-03 12:05:47
+[03/03/2026 12:05:49.404] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:05:49.407] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:06:49.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:06:49.359] INFO(140)] DataHora encontrada: 2026-03-03 12:05:47
+[03/03/2026 12:06:49.371] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:06:49.372] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:07:49.334] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:07:49.353] INFO(140)] DataHora encontrada: 2026-03-03 12:05:47
+[03/03/2026 12:07:49.365] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:07:49.366] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:08:49.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:08:49.337] INFO(140)] DataHora encontrada: 2026-03-03 12:05:47
+[03/03/2026 12:08:49.348] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:08:49.349] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:09:49.347] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:09:49.366] INFO(140)] DataHora encontrada: 2026-03-03 12:05:47
+[03/03/2026 12:09:49.378] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:09:49.379] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:10:49.393] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:10:49.411] INFO(140)] DataHora encontrada: 2026-03-03 12:10:47
+[03/03/2026 12:10:49.423] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:10:49.425] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:11:49.399] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:11:49.418] INFO(140)] DataHora encontrada: 2026-03-03 12:10:47
+[03/03/2026 12:11:49.429] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:11:49.431] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:12:49.414] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:12:49.433] INFO(140)] DataHora encontrada: 2026-03-03 12:10:47
+[03/03/2026 12:12:49.444] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:12:49.446] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:13:49.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:13:49.331] INFO(140)] DataHora encontrada: 2026-03-03 12:10:47
+[03/03/2026 12:13:49.343] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:13:49.345] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:14:49.325] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:14:49.343] INFO(140)] DataHora encontrada: 2026-03-03 12:10:47
+[03/03/2026 12:14:49.354] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:14:49.356] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:15:49.409] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:15:49.427] INFO(140)] DataHora encontrada: 2026-03-03 12:15:47
+[03/03/2026 12:15:49.439] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:15:49.441] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:16:49.364] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:16:49.382] INFO(140)] DataHora encontrada: 2026-03-03 12:15:47
+[03/03/2026 12:16:49.394] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:16:49.395] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:17:49.328] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:17:49.346] INFO(140)] DataHora encontrada: 2026-03-03 12:15:47
+[03/03/2026 12:17:49.358] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:17:49.359] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:18:49.340] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:18:49.358] INFO(140)] DataHora encontrada: 2026-03-03 12:15:47
+[03/03/2026 12:18:49.370] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:18:49.372] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:19:49.299] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:19:49.317] INFO(140)] DataHora encontrada: 2026-03-03 12:15:47
+[03/03/2026 12:19:49.329] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:19:49.331] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:20:49.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:20:49.418] INFO(140)] DataHora encontrada: 2026-03-03 12:20:47
+[03/03/2026 12:20:49.430] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:20:49.431] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:21:49.345] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:21:49.363] INFO(140)] DataHora encontrada: 2026-03-03 12:20:47
+[03/03/2026 12:21:49.375] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:21:49.377] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:22:49.399] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:22:49.418] INFO(140)] DataHora encontrada: 2026-03-03 12:20:47
+[03/03/2026 12:22:49.430] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:22:49.432] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:23:49.407] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:23:49.428] INFO(140)] DataHora encontrada: 2026-03-03 12:20:47
+[03/03/2026 12:23:49.441] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:23:49.443] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:24:49.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:24:49.356] INFO(140)] DataHora encontrada: 2026-03-03 12:20:47
+[03/03/2026 12:24:49.369] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:24:49.370] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:25:49.411] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:25:49.430] INFO(140)] DataHora encontrada: 2026-03-03 12:25:47
+[03/03/2026 12:25:49.443] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:25:49.444] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:26:49.361] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:26:49.381] INFO(140)] DataHora encontrada: 2026-03-03 12:25:47
+[03/03/2026 12:26:49.393] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:26:49.394] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:27:49.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:27:49.396] INFO(140)] DataHora encontrada: 2026-03-03 12:25:47
+[03/03/2026 12:27:49.407] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:27:49.409] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:28:49.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:28:49.341] INFO(140)] DataHora encontrada: 2026-03-03 12:25:47
+[03/03/2026 12:28:49.352] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:28:49.353] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:29:49.393] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:29:49.411] INFO(140)] DataHora encontrada: 2026-03-03 12:25:47
+[03/03/2026 12:29:49.423] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:29:49.424] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:30:49.319] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:30:49.338] INFO(140)] DataHora encontrada: 2026-03-03 12:30:47
+[03/03/2026 12:30:49.351] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:30:49.352] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:31:49.299] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:31:49.319] INFO(140)] DataHora encontrada: 2026-03-03 12:30:47
+[03/03/2026 12:31:49.332] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:31:49.334] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:32:49.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:32:49.370] INFO(140)] DataHora encontrada: 2026-03-03 12:30:47
+[03/03/2026 12:32:49.384] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:32:49.386] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:33:49.389] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:33:49.409] INFO(140)] DataHora encontrada: 2026-03-03 12:30:47
+[03/03/2026 12:33:49.421] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:33:49.423] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:34:49.316] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:34:49.337] INFO(140)] DataHora encontrada: 2026-03-03 12:30:47
+[03/03/2026 12:34:49.350] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:34:49.352] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:35:49.377] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:35:49.397] INFO(140)] DataHora encontrada: 2026-03-03 12:35:47
+[03/03/2026 12:35:49.409] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:35:49.411] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:36:49.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:36:49.375] INFO(140)] DataHora encontrada: 2026-03-03 12:35:47
+[03/03/2026 12:36:49.387] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:36:49.388] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:37:49.386] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:37:49.405] INFO(140)] DataHora encontrada: 2026-03-03 12:35:47
+[03/03/2026 12:37:49.417] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:37:49.419] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:38:49.366] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:38:49.384] INFO(140)] DataHora encontrada: 2026-03-03 12:35:47
+[03/03/2026 12:38:49.397] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:38:49.398] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:39:49.312] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:39:49.331] INFO(140)] DataHora encontrada: 2026-03-03 12:35:47
+[03/03/2026 12:39:49.344] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:39:49.345] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:40:49.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:40:49.326] INFO(140)] DataHora encontrada: 2026-03-03 12:40:47
+[03/03/2026 12:40:49.338] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:40:49.339] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:41:49.395] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:41:49.413] INFO(140)] DataHora encontrada: 2026-03-03 12:40:47
+[03/03/2026 12:41:49.424] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:41:49.426] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:42:49.337] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:42:49.355] INFO(140)] DataHora encontrada: 2026-03-03 12:40:47
+[03/03/2026 12:42:49.368] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:42:49.369] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:43:49.297] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:43:49.314] INFO(140)] DataHora encontrada: 2026-03-03 12:40:47
+[03/03/2026 12:43:49.327] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:43:49.329] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:44:49.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:44:49.394] INFO(140)] DataHora encontrada: 2026-03-03 12:40:47
+[03/03/2026 12:44:49.406] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:44:49.407] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:45:49.373] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:45:49.394] INFO(140)] DataHora encontrada: 2026-03-03 12:45:47
+[03/03/2026 12:45:49.406] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:45:49.408] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:46:49.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:46:49.384] INFO(140)] DataHora encontrada: 2026-03-03 12:45:47
+[03/03/2026 12:46:49.396] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:46:49.398] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:47:49.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:47:49.390] INFO(140)] DataHora encontrada: 2026-03-03 12:45:47
+[03/03/2026 12:47:49.401] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:47:49.402] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:48:49.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:48:49.416] INFO(140)] DataHora encontrada: 2026-03-03 12:45:47
+[03/03/2026 12:48:49.427] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:48:49.429] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:49:49.367] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:49:49.387] INFO(140)] DataHora encontrada: 2026-03-03 12:45:47
+[03/03/2026 12:49:49.399] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:49:49.401] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:50:49.298] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:50:49.319] INFO(140)] DataHora encontrada: 2026-03-03 12:50:47
+[03/03/2026 12:50:49.330] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:50:49.333] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:51:49.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:51:49.379] INFO(140)] DataHora encontrada: 2026-03-03 12:50:47
+[03/03/2026 12:51:49.390] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:51:49.392] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:52:49.395] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:52:49.414] INFO(140)] DataHora encontrada: 2026-03-03 12:50:47
+[03/03/2026 12:52:49.426] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:52:49.428] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:53:49.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:53:49.346] INFO(140)] DataHora encontrada: 2026-03-03 12:50:47
+[03/03/2026 12:53:49.357] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:53:49.359] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:54:49.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:54:49.348] INFO(140)] DataHora encontrada: 2026-03-03 12:50:47
+[03/03/2026 12:54:49.360] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:54:49.362] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:55:49.368] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:55:49.393] INFO(140)] DataHora encontrada: 2026-03-03 12:55:47
+[03/03/2026 12:55:49.406] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 12:55:49.408] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:56:49.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:56:49.356] INFO(140)] DataHora encontrada: 2026-03-03 12:55:47
+[03/03/2026 12:56:49.368] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 12:56:49.369] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:57:49.352] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:57:49.371] INFO(140)] DataHora encontrada: 2026-03-03 12:55:47
+[03/03/2026 12:57:49.383] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 12:57:49.385] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:58:49.323] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:58:49.342] INFO(140)] DataHora encontrada: 2026-03-03 12:55:47
+[03/03/2026 12:58:49.354] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 12:58:49.355] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 12:59:49.298] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 12:59:49.316] INFO(140)] DataHora encontrada: 2026-03-03 12:55:47
+[03/03/2026 12:59:49.330] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 12:59:49.355] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:00:49.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:00:49.351] INFO(140)] DataHora encontrada: 2026-03-03 13:00:47
+[03/03/2026 13:00:49.363] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:00:49.365] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:01:49.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:01:49.368] INFO(140)] DataHora encontrada: 2026-03-03 13:00:47
+[03/03/2026 13:01:49.380] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:01:49.382] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:02:49.380] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:02:49.399] INFO(140)] DataHora encontrada: 2026-03-03 13:00:47
+[03/03/2026 13:02:49.410] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:02:49.412] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:03:49.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:03:49.379] INFO(140)] DataHora encontrada: 2026-03-03 13:00:47
+[03/03/2026 13:03:49.391] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:03:49.393] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:04:49.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:04:49.416] INFO(140)] DataHora encontrada: 2026-03-03 13:00:47
+[03/03/2026 13:04:49.430] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:04:49.432] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:05:49.426] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:05:49.445] INFO(140)] DataHora encontrada: 2026-03-03 13:05:47
+[03/03/2026 13:05:49.459] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:05:49.461] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:06:49.351] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:06:49.369] INFO(140)] DataHora encontrada: 2026-03-03 13:05:47
+[03/03/2026 13:06:49.381] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:06:49.383] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:07:49.340] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:07:49.358] INFO(140)] DataHora encontrada: 2026-03-03 13:05:47
+[03/03/2026 13:07:49.370] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:07:49.372] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:08:49.351] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:08:49.374] INFO(140)] DataHora encontrada: 2026-03-03 13:05:47
+[03/03/2026 13:08:49.387] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:08:49.388] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:09:49.343] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:09:49.361] INFO(140)] DataHora encontrada: 2026-03-03 13:05:47
+[03/03/2026 13:09:49.374] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:09:49.376] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:10:49.372] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:10:49.397] INFO(140)] DataHora encontrada: 2026-03-03 13:10:47
+[03/03/2026 13:10:49.409] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:10:49.412] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:11:49.441] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:11:49.459] INFO(140)] DataHora encontrada: 2026-03-03 13:10:47
+[03/03/2026 13:11:49.471] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:11:49.473] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:12:49.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:12:49.373] INFO(140)] DataHora encontrada: 2026-03-03 13:10:47
+[03/03/2026 13:12:49.389] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:12:49.391] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:13:49.390] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:13:49.408] INFO(140)] DataHora encontrada: 2026-03-03 13:10:47
+[03/03/2026 13:13:49.420] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:13:49.422] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:14:49.408] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:14:49.428] INFO(140)] DataHora encontrada: 2026-03-03 13:10:47
+[03/03/2026 13:14:49.440] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:14:49.442] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:15:49.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:15:49.374] INFO(140)] DataHora encontrada: 2026-03-03 13:15:47
+[03/03/2026 13:15:49.386] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:15:49.388] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:16:49.362] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:16:49.381] INFO(140)] DataHora encontrada: 2026-03-03 13:15:47
+[03/03/2026 13:16:49.393] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:16:49.395] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:17:49.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:17:49.368] INFO(140)] DataHora encontrada: 2026-03-03 13:15:47
+[03/03/2026 13:17:49.379] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:17:49.381] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:18:49.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:18:49.365] INFO(140)] DataHora encontrada: 2026-03-03 13:15:47
+[03/03/2026 13:18:49.378] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:18:49.380] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:19:49.339] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:19:49.361] INFO(140)] DataHora encontrada: 2026-03-03 13:15:47
+[03/03/2026 13:19:49.372] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:19:49.374] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:20:49.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:20:49.374] INFO(140)] DataHora encontrada: 2026-03-03 13:20:47
+[03/03/2026 13:20:49.385] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:20:49.387] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:21:49.405] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:21:49.425] INFO(140)] DataHora encontrada: 2026-03-03 13:20:47
+[03/03/2026 13:21:49.436] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:21:49.439] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:22:49.424] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:22:49.447] INFO(140)] DataHora encontrada: 2026-03-03 13:20:47
+[03/03/2026 13:22:49.465] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:22:49.467] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:23:49.324] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:23:49.343] INFO(140)] DataHora encontrada: 2026-03-03 13:20:47
+[03/03/2026 13:23:49.354] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:23:49.358] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:24:49.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:24:49.400] INFO(140)] DataHora encontrada: 2026-03-03 13:20:47
+[03/03/2026 13:24:49.412] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:24:49.414] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:25:49.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:25:49.411] INFO(140)] DataHora encontrada: 2026-03-03 13:25:47
+[03/03/2026 13:25:49.426] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:25:49.428] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:26:49.320] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:26:49.340] INFO(140)] DataHora encontrada: 2026-03-03 13:25:47
+[03/03/2026 13:26:49.352] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:26:49.352] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:27:49.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:27:49.344] INFO(140)] DataHora encontrada: 2026-03-03 13:25:47
+[03/03/2026 13:27:49.357] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:27:49.359] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:28:49.333] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:28:49.350] INFO(140)] DataHora encontrada: 2026-03-03 13:25:47
+[03/03/2026 13:28:49.362] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:28:49.364] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:29:49.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:29:49.328] INFO(140)] DataHora encontrada: 2026-03-03 13:25:47
+[03/03/2026 13:29:49.342] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:29:49.344] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:30:49.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:30:49.349] INFO(140)] DataHora encontrada: 2026-03-03 13:30:47
+[03/03/2026 13:30:49.361] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:30:49.364] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:31:49.300] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:31:49.317] INFO(140)] DataHora encontrada: 2026-03-03 13:30:47
+[03/03/2026 13:31:49.329] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:31:49.330] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:32:49.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:32:49.398] INFO(140)] DataHora encontrada: 2026-03-03 13:30:47
+[03/03/2026 13:32:49.410] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:32:49.411] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:33:49.401] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:33:49.420] INFO(140)] DataHora encontrada: 2026-03-03 13:30:47
+[03/03/2026 13:33:49.432] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:33:49.434] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:34:49.332] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:34:49.351] INFO(140)] DataHora encontrada: 2026-03-03 13:30:47
+[03/03/2026 13:34:49.362] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:34:49.364] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:35:49.333] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:35:49.353] INFO(140)] DataHora encontrada: 2026-03-03 13:35:47
+[03/03/2026 13:35:49.368] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:35:49.370] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:36:49.352] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:36:49.370] INFO(140)] DataHora encontrada: 2026-03-03 13:35:47
+[03/03/2026 13:36:49.382] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:36:49.383] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:37:49.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:37:49.397] INFO(140)] DataHora encontrada: 2026-03-03 13:35:47
+[03/03/2026 13:37:49.410] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:37:49.411] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:38:49.309] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:38:49.328] INFO(140)] DataHora encontrada: 2026-03-03 13:35:47
+[03/03/2026 13:38:49.339] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:38:49.341] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:39:49.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:39:49.432] INFO(140)] DataHora encontrada: 2026-03-03 13:35:47
+[03/03/2026 13:39:49.444] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:39:49.447] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:40:49.408] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:40:49.431] INFO(140)] DataHora encontrada: 2026-03-03 13:40:47
+[03/03/2026 13:40:49.446] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:40:49.447] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:41:49.374] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:41:49.397] INFO(140)] DataHora encontrada: 2026-03-03 13:40:47
+[03/03/2026 13:41:49.409] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:41:49.411] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:42:49.406] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:42:49.427] INFO(140)] DataHora encontrada: 2026-03-03 13:40:47
+[03/03/2026 13:42:49.440] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:42:49.441] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:43:49.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:43:49.384] INFO(140)] DataHora encontrada: 2026-03-03 13:40:47
+[03/03/2026 13:43:49.396] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:43:49.397] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:44:49.303] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:44:49.321] INFO(140)] DataHora encontrada: 2026-03-03 13:40:47
+[03/03/2026 13:44:49.332] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:44:49.334] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:45:49.300] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:45:49.319] INFO(140)] DataHora encontrada: 2026-03-03 13:45:47
+[03/03/2026 13:45:49.330] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:45:49.332] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:46:49.312] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:46:49.331] INFO(140)] DataHora encontrada: 2026-03-03 13:45:47
+[03/03/2026 13:46:49.342] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:46:49.344] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:47:49.387] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:47:49.406] INFO(140)] DataHora encontrada: 2026-03-03 13:45:47
+[03/03/2026 13:47:49.419] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:47:49.421] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:48:49.343] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:48:49.361] INFO(140)] DataHora encontrada: 2026-03-03 13:45:47
+[03/03/2026 13:48:49.373] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:48:49.375] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:49:49.352] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:49:49.374] INFO(140)] DataHora encontrada: 2026-03-03 13:45:47
+[03/03/2026 13:49:49.388] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:49:49.390] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:50:49.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:50:49.364] INFO(140)] DataHora encontrada: 2026-03-03 13:50:47
+[03/03/2026 13:50:49.376] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:50:49.377] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:51:49.367] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:51:49.389] INFO(140)] DataHora encontrada: 2026-03-03 13:50:47
+[03/03/2026 13:51:49.401] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:51:49.403] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:52:49.317] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:52:49.337] INFO(140)] DataHora encontrada: 2026-03-03 13:50:47
+[03/03/2026 13:52:49.350] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:52:49.353] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:53:49.328] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:53:49.348] INFO(140)] DataHora encontrada: 2026-03-03 13:50:47
+[03/03/2026 13:53:49.359] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:53:49.362] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:54:49.315] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:54:49.333] INFO(140)] DataHora encontrada: 2026-03-03 13:50:47
+[03/03/2026 13:54:49.345] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:54:49.346] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:55:49.387] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:55:49.406] INFO(140)] DataHora encontrada: 2026-03-03 13:55:47
+[03/03/2026 13:55:49.419] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 13:55:49.421] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:56:49.386] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:56:49.406] INFO(140)] DataHora encontrada: 2026-03-03 13:55:47
+[03/03/2026 13:56:49.418] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 13:56:49.420] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:57:49.347] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:57:49.367] INFO(140)] DataHora encontrada: 2026-03-03 13:55:47
+[03/03/2026 13:57:49.378] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 13:57:49.380] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:58:49.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:58:49.325] INFO(140)] DataHora encontrada: 2026-03-03 13:55:47
+[03/03/2026 13:58:49.338] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 13:58:49.339] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 13:59:49.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 13:59:49.397] INFO(140)] DataHora encontrada: 2026-03-03 13:55:47
+[03/03/2026 13:59:49.408] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 13:59:49.410] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:00:49.406] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:00:49.426] INFO(140)] DataHora encontrada: 2026-03-03 14:00:47
+[03/03/2026 14:00:49.440] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:00:49.442] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:01:49.296] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:01:49.315] INFO(140)] DataHora encontrada: 2026-03-03 14:00:47
+[03/03/2026 14:01:49.328] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:01:49.330] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:02:49.393] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:02:49.411] INFO(140)] DataHora encontrada: 2026-03-03 14:00:47
+[03/03/2026 14:02:49.424] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:02:49.425] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:03:49.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:03:49.325] INFO(140)] DataHora encontrada: 2026-03-03 14:00:47
+[03/03/2026 14:03:49.337] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:03:49.339] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:04:49.369] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:04:49.387] INFO(140)] DataHora encontrada: 2026-03-03 14:00:47
+[03/03/2026 14:04:49.400] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:04:49.401] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:05:49.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:05:49.400] INFO(140)] DataHora encontrada: 2026-03-03 14:05:47
+[03/03/2026 14:05:49.414] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:05:49.416] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:06:49.409] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:06:49.429] INFO(140)] DataHora encontrada: 2026-03-03 14:05:47
+[03/03/2026 14:06:49.440] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:06:49.442] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:07:49.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:07:49.345] INFO(140)] DataHora encontrada: 2026-03-03 14:05:47
+[03/03/2026 14:07:49.356] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:07:49.358] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:08:49.300] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:08:49.319] INFO(140)] DataHora encontrada: 2026-03-03 14:05:47
+[03/03/2026 14:08:49.330] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:08:49.331] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:09:49.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:09:49.368] INFO(140)] DataHora encontrada: 2026-03-03 14:05:47
+[03/03/2026 14:09:49.379] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:09:49.381] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:10:49.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:10:49.331] INFO(140)] DataHora encontrada: 2026-03-03 14:10:47
+[03/03/2026 14:10:49.343] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:10:49.345] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:11:49.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:11:49.414] INFO(140)] DataHora encontrada: 2026-03-03 14:10:47
+[03/03/2026 14:11:49.425] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:11:49.427] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:12:49.334] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:12:49.353] INFO(140)] DataHora encontrada: 2026-03-03 14:10:47
+[03/03/2026 14:12:49.364] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:12:49.365] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:13:49.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:13:49.395] INFO(140)] DataHora encontrada: 2026-03-03 14:10:47
+[03/03/2026 14:13:49.405] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:13:49.408] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:14:49.414] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:14:49.433] INFO(140)] DataHora encontrada: 2026-03-03 14:10:47
+[03/03/2026 14:14:49.445] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:14:49.447] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:15:49.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:15:49.332] INFO(140)] DataHora encontrada: 2026-03-03 14:15:47
+[03/03/2026 14:15:49.343] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:15:49.345] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:16:49.377] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:16:49.395] INFO(140)] DataHora encontrada: 2026-03-03 14:15:47
+[03/03/2026 14:16:49.407] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:16:49.408] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:17:49.351] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:17:49.369] INFO(140)] DataHora encontrada: 2026-03-03 14:15:47
+[03/03/2026 14:17:49.381] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:17:49.383] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:18:49.319] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:18:49.338] INFO(140)] DataHora encontrada: 2026-03-03 14:15:47
+[03/03/2026 14:18:49.349] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:18:49.350] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:19:49.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:19:49.396] INFO(140)] DataHora encontrada: 2026-03-03 14:15:47
+[03/03/2026 14:19:49.408] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:19:49.409] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:20:49.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:20:49.349] INFO(140)] DataHora encontrada: 2026-03-03 14:20:47
+[03/03/2026 14:20:49.361] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:20:49.363] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:21:49.359] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:21:49.378] INFO(140)] DataHora encontrada: 2026-03-03 14:20:47
+[03/03/2026 14:21:49.390] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:21:49.392] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:22:49.383] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:22:49.402] INFO(140)] DataHora encontrada: 2026-03-03 14:20:47
+[03/03/2026 14:22:49.413] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:22:49.414] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:23:49.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:23:49.379] INFO(140)] DataHora encontrada: 2026-03-03 14:20:47
+[03/03/2026 14:23:49.389] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:23:49.391] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:24:49.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:24:49.376] INFO(140)] DataHora encontrada: 2026-03-03 14:20:47
+[03/03/2026 14:24:49.388] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:24:49.390] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:25:49.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:25:49.404] INFO(140)] DataHora encontrada: 2026-03-03 14:25:47
+[03/03/2026 14:25:49.417] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:25:49.419] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:26:49.359] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:26:49.382] INFO(140)] DataHora encontrada: 2026-03-03 14:25:47
+[03/03/2026 14:26:49.394] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:26:49.396] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:27:49.344] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:27:49.363] INFO(140)] DataHora encontrada: 2026-03-03 14:25:47
+[03/03/2026 14:27:49.377] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:27:49.378] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:28:49.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:28:49.387] INFO(140)] DataHora encontrada: 2026-03-03 14:25:47
+[03/03/2026 14:28:49.399] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:28:49.401] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:29:49.343] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:29:49.361] INFO(140)] DataHora encontrada: 2026-03-03 14:25:47
+[03/03/2026 14:29:49.373] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:29:49.375] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:30:49.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:30:49.374] INFO(140)] DataHora encontrada: 2026-03-03 14:30:47
+[03/03/2026 14:30:49.386] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:30:49.388] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:31:49.335] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:31:49.354] INFO(140)] DataHora encontrada: 2026-03-03 14:30:47
+[03/03/2026 14:31:49.366] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:31:49.367] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:32:49.404] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:32:49.423] INFO(140)] DataHora encontrada: 2026-03-03 14:30:47
+[03/03/2026 14:32:49.437] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:32:49.439] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:33:49.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:33:49.365] INFO(140)] DataHora encontrada: 2026-03-03 14:30:47
+[03/03/2026 14:33:49.378] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:33:49.379] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:34:49.364] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:34:49.387] INFO(140)] DataHora encontrada: 2026-03-03 14:30:47
+[03/03/2026 14:34:49.400] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:34:49.401] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:35:49.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:35:49.397] INFO(140)] DataHora encontrada: 2026-03-03 14:35:47
+[03/03/2026 14:35:49.410] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:35:49.412] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:36:49.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:36:49.365] INFO(140)] DataHora encontrada: 2026-03-03 14:35:47
+[03/03/2026 14:36:49.377] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:36:49.378] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:37:49.293] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:37:49.312] INFO(140)] DataHora encontrada: 2026-03-03 14:35:47
+[03/03/2026 14:37:49.323] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:37:49.325] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:38:49.392] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:38:49.412] INFO(140)] DataHora encontrada: 2026-03-03 14:35:47
+[03/03/2026 14:38:49.423] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:38:49.426] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:39:49.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:39:49.411] INFO(140)] DataHora encontrada: 2026-03-03 14:35:47
+[03/03/2026 14:39:49.421] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:39:49.423] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:40:49.393] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:40:49.412] INFO(140)] DataHora encontrada: 2026-03-03 14:40:47
+[03/03/2026 14:40:49.424] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:40:49.425] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:41:49.315] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:41:49.334] INFO(140)] DataHora encontrada: 2026-03-03 14:40:47
+[03/03/2026 14:41:49.346] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:41:49.348] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:42:49.352] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:42:49.371] INFO(140)] DataHora encontrada: 2026-03-03 14:40:47
+[03/03/2026 14:42:49.382] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:42:49.384] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:43:49.368] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:43:49.387] INFO(140)] DataHora encontrada: 2026-03-03 14:40:47
+[03/03/2026 14:43:49.398] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:43:49.400] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:44:49.351] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:44:49.369] INFO(140)] DataHora encontrada: 2026-03-03 14:40:47
+[03/03/2026 14:44:49.380] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:44:49.382] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:45:49.336] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:45:49.356] INFO(140)] DataHora encontrada: 2026-03-03 14:45:47
+[03/03/2026 14:45:49.368] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 14:45:49.369] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:46:49.405] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:46:49.424] INFO(140)] DataHora encontrada: 2026-03-03 14:45:47
+[03/03/2026 14:46:49.436] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 14:46:49.438] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:47:49.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:47:49.351] INFO(140)] DataHora encontrada: 2026-03-03 14:45:47
+[03/03/2026 14:47:49.363] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 14:47:49.364] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:48:49.377] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:48:49.397] INFO(140)] DataHora encontrada: 2026-03-03 14:45:47
+[03/03/2026 14:48:49.409] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 14:48:49.411] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:49:49.407] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:49:49.426] INFO(140)] DataHora encontrada: 2026-03-03 14:45:47
+[03/03/2026 14:49:49.439] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 14:49:49.440] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:50:50.356] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:50:50.379] INFO(140)] DataHora encontrada: 2026-03-03 14:50:47
+[03/03/2026 14:50:50.393] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 14:50:50.395] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:51:50.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:51:50.368] INFO(140)] DataHora encontrada: 2026-03-03 14:50:47
+[03/03/2026 14:51:50.381] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 14:51:50.384] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:52:50.409] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:52:50.429] INFO(140)] DataHora encontrada: 2026-03-03 14:50:47
+[03/03/2026 14:52:50.450] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 14:52:50.453] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:53:50.326] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:53:50.346] INFO(140)] DataHora encontrada: 2026-03-03 14:50:47
+[03/03/2026 14:53:50.358] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 14:53:50.360] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:54:50.367] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:54:50.387] INFO(140)] DataHora encontrada: 2026-03-03 14:50:47
+[03/03/2026 14:54:50.398] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 14:54:50.400] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:55:50.425] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:55:50.457] INFO(140)] DataHora encontrada: 2026-03-03 14:55:47
+[03/03/2026 14:55:50.480] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 14:55:50.483] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:56:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:56:50.408] INFO(140)] DataHora encontrada: 2026-03-03 14:55:47
+[03/03/2026 14:56:50.486] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 14:56:50.510] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:57:50.419] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:57:50.438] INFO(140)] DataHora encontrada: 2026-03-03 14:55:47
+[03/03/2026 14:57:50.448] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 14:57:50.451] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:58:50.372] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:58:50.396] INFO(140)] DataHora encontrada: 2026-03-03 14:55:47
+[03/03/2026 14:58:50.408] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 14:58:50.409] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 14:59:50.358] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 14:59:50.377] INFO(140)] DataHora encontrada: 2026-03-03 14:55:47
+[03/03/2026 14:59:50.388] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 14:59:50.390] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:00:50.418] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:00:50.439] INFO(140)] DataHora encontrada: 2026-03-03 15:00:47
+[03/03/2026 15:00:50.453] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:00:50.455] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:01:50.355] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:01:50.378] INFO(140)] DataHora encontrada: 2026-03-03 15:00:47
+[03/03/2026 15:01:50.390] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:01:50.392] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:02:50.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:02:50.417] INFO(140)] DataHora encontrada: 2026-03-03 15:00:47
+[03/03/2026 15:02:50.430] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:02:50.431] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:03:50.445] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:03:50.467] INFO(140)] DataHora encontrada: 2026-03-03 15:00:47
+[03/03/2026 15:03:50.479] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:03:50.480] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:04:50.390] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:04:50.411] INFO(140)] DataHora encontrada: 2026-03-03 15:00:47
+[03/03/2026 15:04:50.423] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:04:50.425] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:05:50.394] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:05:50.416] INFO(140)] DataHora encontrada: 2026-03-03 15:05:47
+[03/03/2026 15:05:50.428] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:05:50.430] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:06:50.358] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:06:50.378] INFO(140)] DataHora encontrada: 2026-03-03 15:05:47
+[03/03/2026 15:06:50.390] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:06:50.391] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:07:50.336] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:07:50.356] INFO(140)] DataHora encontrada: 2026-03-03 15:05:47
+[03/03/2026 15:07:50.373] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:07:50.375] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:08:50.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:08:50.397] INFO(140)] DataHora encontrada: 2026-03-03 15:05:47
+[03/03/2026 15:08:50.408] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:08:50.410] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:09:50.340] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:09:50.368] INFO(140)] DataHora encontrada: 2026-03-03 15:05:47
+[03/03/2026 15:09:50.380] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:09:50.381] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:10:50.436] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:10:50.457] INFO(140)] DataHora encontrada: 2026-03-03 15:10:47
+[03/03/2026 15:10:50.468] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:10:50.470] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:11:50.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:11:50.373] INFO(140)] DataHora encontrada: 2026-03-03 15:10:47
+[03/03/2026 15:11:50.386] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:11:50.388] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:12:50.612] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:12:50.634] INFO(140)] DataHora encontrada: 2026-03-03 15:10:47
+[03/03/2026 15:12:50.645] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:12:50.647] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:13:50.405] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:13:50.424] INFO(140)] DataHora encontrada: 2026-03-03 15:10:47
+[03/03/2026 15:13:50.441] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:13:50.443] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:14:50.408] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:14:50.425] INFO(140)] DataHora encontrada: 2026-03-03 15:10:47
+[03/03/2026 15:14:50.438] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:14:50.439] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:15:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:15:50.410] INFO(140)] DataHora encontrada: 2026-03-03 15:15:47
+[03/03/2026 15:15:50.427] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:15:50.431] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:16:50.397] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:16:50.419] INFO(140)] DataHora encontrada: 2026-03-03 15:15:47
+[03/03/2026 15:16:50.433] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:16:50.435] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:17:50.320] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:17:50.340] INFO(140)] DataHora encontrada: 2026-03-03 15:15:47
+[03/03/2026 15:17:50.352] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:17:50.354] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:18:50.307] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:18:50.326] INFO(140)] DataHora encontrada: 2026-03-03 15:15:47
+[03/03/2026 15:18:50.338] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:18:50.340] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:19:50.337] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:19:50.357] INFO(140)] DataHora encontrada: 2026-03-03 15:15:47
+[03/03/2026 15:19:50.368] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:19:50.370] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:20:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:20:50.400] INFO(140)] DataHora encontrada: 2026-03-03 15:20:47
+[03/03/2026 15:20:50.411] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:20:50.413] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:21:50.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:21:50.401] INFO(140)] DataHora encontrada: 2026-03-03 15:20:47
+[03/03/2026 15:21:50.414] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:21:50.415] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:22:50.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:22:50.384] INFO(140)] DataHora encontrada: 2026-03-03 15:20:47
+[03/03/2026 15:22:50.396] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:22:50.398] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:23:50.328] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:23:50.351] INFO(140)] DataHora encontrada: 2026-03-03 15:20:47
+[03/03/2026 15:23:50.363] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:23:50.365] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:24:50.411] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:24:50.430] INFO(140)] DataHora encontrada: 2026-03-03 15:20:47
+[03/03/2026 15:24:50.442] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:24:50.443] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:25:50.373] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:25:50.399] INFO(140)] DataHora encontrada: 2026-03-03 15:25:47
+[03/03/2026 15:25:50.411] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:25:50.412] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:26:50.386] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:26:50.409] INFO(140)] DataHora encontrada: 2026-03-03 15:25:47
+[03/03/2026 15:26:50.421] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:26:50.422] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:27:50.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:27:50.438] INFO(140)] DataHora encontrada: 2026-03-03 15:25:47
+[03/03/2026 15:27:50.453] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 15:27:50.455] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:28:50.369] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:28:50.393] INFO(140)] DataHora encontrada: 2026-03-03 15:25:47
+[03/03/2026 15:28:50.408] INFO(140)] Diferenca de tempo: 3.06 minutos
+[03/03/2026 15:28:50.411] INFO(140)] Tempo dentro do limite (3.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:29:50.318] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:29:50.337] INFO(140)] DataHora encontrada: 2026-03-03 15:25:47
+[03/03/2026 15:29:50.350] INFO(140)] Diferenca de tempo: 4.06 minutos
+[03/03/2026 15:29:50.352] INFO(140)] Tempo dentro do limite (4.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:30:50.314] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:30:50.333] INFO(140)] DataHora encontrada: 2026-03-03 15:30:47
+[03/03/2026 15:30:50.346] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 15:30:50.348] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:31:50.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:31:50.365] INFO(140)] DataHora encontrada: 2026-03-03 15:30:47
+[03/03/2026 15:31:50.378] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 15:31:50.379] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:32:50.328] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:32:50.347] INFO(140)] DataHora encontrada: 2026-03-03 15:32:27
+[03/03/2026 15:32:50.359] INFO(140)] Diferenca de tempo: 0.39 minutos
+[03/03/2026 15:32:50.361] INFO(140)] Tempo dentro do limite (0.39 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:33:50.411] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:33:50.433] INFO(140)] DataHora encontrada: 2026-03-03 15:32:27
+[03/03/2026 15:33:50.445] INFO(140)] Diferenca de tempo: 1.39 minutos
+[03/03/2026 15:33:50.446] INFO(140)] Tempo dentro do limite (1.39 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:34:50.354] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:34:50.374] INFO(140)] DataHora encontrada: 2026-03-03 15:32:27
+[03/03/2026 15:34:50.387] INFO(140)] Diferenca de tempo: 2.39 minutos
+[03/03/2026 15:34:50.389] INFO(140)] Tempo dentro do limite (2.39 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:35:50.440] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:35:50.467] INFO(140)] DataHora encontrada: 2026-03-03 15:35:26
+[03/03/2026 15:35:50.480] INFO(140)] Diferenca de tempo: 0.41 minutos
+[03/03/2026 15:35:50.481] INFO(140)] Tempo dentro do limite (0.41 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:36:50.308] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:36:50.326] INFO(140)] DataHora encontrada: 2026-03-03 15:35:26
+[03/03/2026 15:36:50.337] INFO(140)] Diferenca de tempo: 1.41 minutos
+[03/03/2026 15:36:50.339] INFO(140)] Tempo dentro do limite (1.41 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:37:50.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:37:50.341] INFO(140)] DataHora encontrada: 2026-03-03 15:35:26
+[03/03/2026 15:37:50.352] INFO(140)] Diferenca de tempo: 2.41 minutos
+[03/03/2026 15:37:50.354] INFO(140)] Tempo dentro do limite (2.41 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:38:50.345] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:38:50.366] INFO(140)] DataHora encontrada: 2026-03-03 15:38:22
+[03/03/2026 15:38:50.380] INFO(140)] Diferenca de tempo: 0.47 minutos
+[03/03/2026 15:38:50.383] INFO(140)] Tempo dentro do limite (0.47 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:39:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:39:50.411] INFO(140)] DataHora encontrada: 2026-03-03 15:38:22
+[03/03/2026 15:39:50.424] INFO(140)] Diferenca de tempo: 1.47 minutos
+[03/03/2026 15:39:50.426] INFO(140)] Tempo dentro do limite (1.47 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:40:50.362] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:40:50.381] INFO(140)] DataHora encontrada: 2026-03-03 15:40:45
+[03/03/2026 15:40:50.393] INFO(140)] Diferenca de tempo: 0.09 minutos
+[03/03/2026 15:40:50.396] INFO(140)] Tempo dentro do limite (0.09 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:41:50.370] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:41:50.388] INFO(140)] DataHora encontrada: 2026-03-03 15:40:45
+[03/03/2026 15:41:50.400] INFO(140)] Diferenca de tempo: 1.09 minutos
+[03/03/2026 15:41:50.402] INFO(140)] Tempo dentro do limite (1.09 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:42:50.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:42:50.399] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:42:50.412] INFO(140)] Diferenca de tempo: 0.04 minutos
+[03/03/2026 15:42:50.416] INFO(140)] Tempo dentro do limite (0.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:43:50.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:43:50.384] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:43:50.395] INFO(140)] Diferenca de tempo: 1.04 minutos
+[03/03/2026 15:43:50.397] INFO(140)] Tempo dentro do limite (1.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:44:50.406] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:44:50.429] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:44:50.441] INFO(140)] Diferenca de tempo: 2.04 minutos
+[03/03/2026 15:44:50.444] INFO(140)] Tempo dentro do limite (2.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:45:50.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:45:50.440] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:45:50.454] INFO(140)] Diferenca de tempo: 3.04 minutos
+[03/03/2026 15:45:50.456] INFO(140)] Tempo dentro do limite (3.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:46:50.503] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:46:50.525] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:46:50.544] INFO(140)] Diferenca de tempo: 4.04 minutos
+[03/03/2026 15:46:50.548] INFO(140)] Tempo dentro do limite (4.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:47:50.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:47:50.357] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:47:50.369] INFO(140)] Diferenca de tempo: 5.04 minutos
+[03/03/2026 15:47:50.372] INFO(140)] Tempo dentro do limite (5.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:48:50.349] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:48:50.368] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:48:50.379] INFO(140)] Diferenca de tempo: 6.04 minutos
+[03/03/2026 15:48:50.381] INFO(140)] Tempo dentro do limite (6.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:49:50.387] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:49:50.408] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:49:50.419] INFO(140)] Diferenca de tempo: 7.04 minutos
+[03/03/2026 15:49:50.421] INFO(140)] Tempo dentro do limite (7.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:50:50.356] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:50:50.382] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:50:50.396] INFO(140)] Diferenca de tempo: 8.04 minutos
+[03/03/2026 15:50:50.398] INFO(140)] Tempo dentro do limite (8.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:51:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:51:50.400] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:51:50.412] INFO(140)] Diferenca de tempo: 9.04 minutos
+[03/03/2026 15:51:50.413] INFO(140)] Tempo dentro do limite (9.04 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:52:50.374] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:52:50.393] INFO(140)] DataHora encontrada: 2026-03-03 15:42:48
+[03/03/2026 15:52:50.405] INFO(140)] Diferenca de tempo: 10.04 minutos
+[03/03/2026 15:52:50.407] INFO(140)] Tempo superior a 10 minutos. Verificando aplicacao...
+[03/03/2026 15:52:50.412] INFO(140)] Nao encontro a aplicacao
+[03/03/2026 15:52:50.502] INFO(140)] Aplicacao iniciada com sucesso
+[03/03/2026 15:53:50.399] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:53:50.425] INFO(140)] DataHora encontrada: 2026-03-03 15:53:05
+[03/03/2026 15:53:50.437] INFO(140)] Diferenca de tempo: 0.76 minutos
+[03/03/2026 15:53:50.439] INFO(140)] Tempo dentro do limite (0.76 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:54:50.336] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:54:50.355] INFO(140)] DataHora encontrada: 2026-03-03 15:53:05
+[03/03/2026 15:54:50.368] INFO(140)] Diferenca de tempo: 1.76 minutos
+[03/03/2026 15:54:50.369] INFO(140)] Tempo dentro do limite (1.76 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:55:50.325] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:55:50.344] INFO(140)] DataHora encontrada: 2026-03-03 15:53:05
+[03/03/2026 15:55:50.356] INFO(140)] Diferenca de tempo: 2.76 minutos
+[03/03/2026 15:55:50.357] INFO(140)] Tempo dentro do limite (2.76 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:56:50.407] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:56:50.426] INFO(140)] DataHora encontrada: 2026-03-03 15:53:05
+[03/03/2026 15:56:50.439] INFO(140)] Diferenca de tempo: 3.76 minutos
+[03/03/2026 15:56:50.440] INFO(140)] Tempo dentro do limite (3.76 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:57:50.325] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:57:50.344] INFO(140)] DataHora encontrada: 2026-03-03 15:53:05
+[03/03/2026 15:57:50.355] INFO(140)] Diferenca de tempo: 4.76 minutos
+[03/03/2026 15:57:50.357] INFO(140)] Tempo dentro do limite (4.76 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:58:50.398] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:58:50.420] INFO(140)] DataHora encontrada: 2026-03-03 15:57:50
+[03/03/2026 15:58:50.478] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 15:58:50.559] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 15:59:50.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 15:59:50.376] INFO(140)] DataHora encontrada: 2026-03-03 15:57:50
+[03/03/2026 15:59:50.397] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 15:59:50.399] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:00:50.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:00:50.434] INFO(140)] DataHora encontrada: 2026-03-03 15:57:50
+[03/03/2026 16:00:50.446] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:00:50.449] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:01:50.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:01:50.422] INFO(140)] DataHora encontrada: 2026-03-03 15:57:50
+[03/03/2026 16:01:50.438] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:01:50.440] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:02:50.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:02:50.420] INFO(140)] DataHora encontrada: 2026-03-03 15:57:50
+[03/03/2026 16:02:50.432] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:02:50.434] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:03:50.428] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:03:50.448] INFO(140)] DataHora encontrada: 2026-03-03 16:02:50
+[03/03/2026 16:03:50.461] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:03:50.462] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:04:50.298] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:04:50.319] INFO(140)] DataHora encontrada: 2026-03-03 16:02:50
+[03/03/2026 16:04:50.331] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:04:50.333] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:05:50.347] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:05:50.365] INFO(140)] DataHora encontrada: 2026-03-03 16:02:50
+[03/03/2026 16:05:50.377] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:05:50.379] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:06:50.414] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:06:50.434] INFO(140)] DataHora encontrada: 2026-03-03 16:02:50
+[03/03/2026 16:06:50.446] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:06:50.448] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:07:50.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:07:50.357] INFO(140)] DataHora encontrada: 2026-03-03 16:02:50
+[03/03/2026 16:07:50.368] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:07:50.370] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:08:50.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:08:50.340] INFO(140)] DataHora encontrada: 2026-03-03 16:07:51
+[03/03/2026 16:08:50.352] INFO(140)] Diferenca de tempo: 0.99 minutos
+[03/03/2026 16:08:50.354] INFO(140)] Tempo dentro do limite (0.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:09:50.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:09:50.383] INFO(140)] DataHora encontrada: 2026-03-03 16:07:51
+[03/03/2026 16:09:50.396] INFO(140)] Diferenca de tempo: 1.99 minutos
+[03/03/2026 16:09:50.397] INFO(140)] Tempo dentro do limite (1.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:10:50.366] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:10:50.385] INFO(140)] DataHora encontrada: 2026-03-03 16:07:51
+[03/03/2026 16:10:50.395] INFO(140)] Diferenca de tempo: 2.99 minutos
+[03/03/2026 16:10:50.398] INFO(140)] Tempo dentro do limite (2.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:11:50.353] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:11:50.378] INFO(140)] DataHora encontrada: 2026-03-03 16:07:51
+[03/03/2026 16:11:50.390] INFO(140)] Diferenca de tempo: 3.99 minutos
+[03/03/2026 16:11:50.391] INFO(140)] Tempo dentro do limite (3.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:12:50.413] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:12:50.440] INFO(140)] DataHora encontrada: 2026-03-03 16:07:51
+[03/03/2026 16:12:50.453] INFO(140)] Diferenca de tempo: 4.99 minutos
+[03/03/2026 16:12:50.454] INFO(140)] Tempo dentro do limite (4.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:13:50.389] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:13:50.408] INFO(140)] DataHora encontrada: 2026-03-03 16:12:50
+[03/03/2026 16:13:50.420] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:13:50.421] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:14:50.394] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:14:50.413] INFO(140)] DataHora encontrada: 2026-03-03 16:12:50
+[03/03/2026 16:14:50.430] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:14:50.431] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:15:50.380] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:15:50.400] INFO(140)] DataHora encontrada: 2026-03-03 16:12:50
+[03/03/2026 16:15:50.413] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:15:50.415] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:16:50.388] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:16:50.407] INFO(140)] DataHora encontrada: 2026-03-03 16:12:50
+[03/03/2026 16:16:50.423] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:16:50.424] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:17:50.374] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:17:50.398] INFO(140)] DataHora encontrada: 2026-03-03 16:12:50
+[03/03/2026 16:17:50.410] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:17:50.412] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:18:50.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:18:50.398] INFO(140)] DataHora encontrada: 2026-03-03 16:17:50
+[03/03/2026 16:18:50.410] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:18:50.412] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:19:50.359] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:19:50.379] INFO(140)] DataHora encontrada: 2026-03-03 16:17:50
+[03/03/2026 16:19:50.392] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:19:50.394] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:20:50.308] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:20:50.330] INFO(140)] DataHora encontrada: 2026-03-03 16:17:50
+[03/03/2026 16:20:50.340] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:20:50.344] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:21:50.295] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:21:50.314] INFO(140)] DataHora encontrada: 2026-03-03 16:17:50
+[03/03/2026 16:21:50.327] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:21:50.329] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:22:50.410] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:22:50.431] INFO(140)] DataHora encontrada: 2026-03-03 16:17:50
+[03/03/2026 16:22:50.446] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:22:50.448] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:23:50.352] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:23:50.378] INFO(140)] DataHora encontrada: 2026-03-03 16:22:51
+[03/03/2026 16:23:50.392] INFO(140)] Diferenca de tempo: 0.99 minutos
+[03/03/2026 16:23:50.399] INFO(140)] Tempo dentro do limite (0.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:24:50.320] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:24:50.339] INFO(140)] DataHora encontrada: 2026-03-03 16:22:51
+[03/03/2026 16:24:50.350] INFO(140)] Diferenca de tempo: 1.99 minutos
+[03/03/2026 16:24:50.353] INFO(140)] Tempo dentro do limite (1.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:25:50.439] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:25:50.462] INFO(140)] DataHora encontrada: 2026-03-03 16:22:51
+[03/03/2026 16:25:50.474] INFO(140)] Diferenca de tempo: 2.99 minutos
+[03/03/2026 16:25:50.476] INFO(140)] Tempo dentro do limite (2.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:26:50.355] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:26:50.374] INFO(140)] DataHora encontrada: 2026-03-03 16:22:51
+[03/03/2026 16:26:50.387] INFO(140)] Diferenca de tempo: 3.99 minutos
+[03/03/2026 16:26:50.389] INFO(140)] Tempo dentro do limite (3.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:27:50.392] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:27:50.411] INFO(140)] DataHora encontrada: 2026-03-03 16:22:51
+[03/03/2026 16:27:50.422] INFO(140)] Diferenca de tempo: 4.99 minutos
+[03/03/2026 16:27:50.424] INFO(140)] Tempo dentro do limite (4.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:28:50.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:28:50.352] INFO(140)] DataHora encontrada: 2026-03-03 16:27:50
+[03/03/2026 16:28:50.364] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:28:50.365] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:29:50.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:29:50.348] INFO(140)] DataHora encontrada: 2026-03-03 16:27:50
+[03/03/2026 16:29:50.360] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:29:50.362] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:30:50.363] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:30:50.381] INFO(140)] DataHora encontrada: 2026-03-03 16:27:50
+[03/03/2026 16:30:50.392] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:30:50.395] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:31:50.314] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:31:50.333] INFO(140)] DataHora encontrada: 2026-03-03 16:27:50
+[03/03/2026 16:31:50.345] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:31:50.346] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:32:50.385] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:32:50.404] INFO(140)] DataHora encontrada: 2026-03-03 16:27:50
+[03/03/2026 16:32:50.416] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:32:50.417] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:33:50.345] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:33:50.362] INFO(140)] DataHora encontrada: 2026-03-03 16:32:50
+[03/03/2026 16:33:50.374] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:33:50.376] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:34:50.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:34:50.349] INFO(140)] DataHora encontrada: 2026-03-03 16:32:50
+[03/03/2026 16:34:50.360] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:34:50.362] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:35:50.407] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:35:50.426] INFO(140)] DataHora encontrada: 2026-03-03 16:32:50
+[03/03/2026 16:35:50.439] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:35:50.441] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:36:50.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:36:50.401] INFO(140)] DataHora encontrada: 2026-03-03 16:32:50
+[03/03/2026 16:36:50.412] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:36:50.414] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:37:50.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:37:50.397] INFO(140)] DataHora encontrada: 2026-03-03 16:32:50
+[03/03/2026 16:37:50.408] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:37:50.410] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:38:50.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:38:50.397] INFO(140)] DataHora encontrada: 2026-03-03 16:37:51
+[03/03/2026 16:38:50.409] INFO(140)] Diferenca de tempo: 0.99 minutos
+[03/03/2026 16:38:50.411] INFO(140)] Tempo dentro do limite (0.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:39:50.394] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:39:50.412] INFO(140)] DataHora encontrada: 2026-03-03 16:37:51
+[03/03/2026 16:39:50.425] INFO(140)] Diferenca de tempo: 1.99 minutos
+[03/03/2026 16:39:50.427] INFO(140)] Tempo dentro do limite (1.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:40:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:40:50.410] INFO(140)] DataHora encontrada: 2026-03-03 16:37:51
+[03/03/2026 16:40:50.422] INFO(140)] Diferenca de tempo: 2.99 minutos
+[03/03/2026 16:40:50.423] INFO(140)] Tempo dentro do limite (2.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:41:50.383] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:41:50.402] INFO(140)] DataHora encontrada: 2026-03-03 16:37:51
+[03/03/2026 16:41:50.417] INFO(140)] Diferenca de tempo: 3.99 minutos
+[03/03/2026 16:41:50.418] INFO(140)] Tempo dentro do limite (3.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:42:50.388] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:42:50.407] INFO(140)] DataHora encontrada: 2026-03-03 16:37:51
+[03/03/2026 16:42:50.419] INFO(140)] Diferenca de tempo: 4.99 minutos
+[03/03/2026 16:42:50.420] INFO(140)] Tempo dentro do limite (4.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:43:50.368] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:43:50.387] INFO(140)] DataHora encontrada: 2026-03-03 16:42:50
+[03/03/2026 16:43:50.398] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:43:50.399] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:44:50.358] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:44:50.378] INFO(140)] DataHora encontrada: 2026-03-03 16:42:50
+[03/03/2026 16:44:50.389] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:44:50.391] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:45:50.306] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:45:50.325] INFO(140)] DataHora encontrada: 2026-03-03 16:42:50
+[03/03/2026 16:45:50.336] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:45:50.337] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:46:50.327] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:46:50.347] INFO(140)] DataHora encontrada: 2026-03-03 16:42:50
+[03/03/2026 16:46:50.359] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:46:50.361] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:47:50.409] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:47:50.428] INFO(140)] DataHora encontrada: 2026-03-03 16:42:50
+[03/03/2026 16:47:50.440] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:47:50.442] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:48:50.338] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:48:50.364] INFO(140)] DataHora encontrada: 2026-03-03 16:47:50
+[03/03/2026 16:48:50.376] INFO(140)] Diferenca de tempo: 1.01 minutos
+[03/03/2026 16:48:50.377] INFO(140)] Tempo dentro do limite (1.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:49:50.335] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:49:50.356] INFO(140)] DataHora encontrada: 2026-03-03 16:47:50
+[03/03/2026 16:49:50.369] INFO(140)] Diferenca de tempo: 2.01 minutos
+[03/03/2026 16:49:50.371] INFO(140)] Tempo dentro do limite (2.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:50:50.379] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:50:50.402] INFO(140)] DataHora encontrada: 2026-03-03 16:47:50
+[03/03/2026 16:50:50.415] INFO(140)] Diferenca de tempo: 3.01 minutos
+[03/03/2026 16:50:50.416] INFO(140)] Tempo dentro do limite (3.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:51:50.342] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:51:50.361] INFO(140)] DataHora encontrada: 2026-03-03 16:47:50
+[03/03/2026 16:51:50.372] INFO(140)] Diferenca de tempo: 4.01 minutos
+[03/03/2026 16:51:50.374] INFO(140)] Tempo dentro do limite (4.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:52:50.459] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:52:50.479] INFO(140)] DataHora encontrada: 2026-03-03 16:47:50
+[03/03/2026 16:52:50.492] INFO(140)] Diferenca de tempo: 5.01 minutos
+[03/03/2026 16:52:50.494] INFO(140)] Tempo dentro do limite (5.01 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:53:50.408] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:53:50.435] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:53:50.448] INFO(140)] Diferenca de tempo: 0.99 minutos
+[03/03/2026 16:53:50.451] INFO(140)] Tempo dentro do limite (0.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:54:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:54:50.410] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:54:50.424] INFO(140)] Diferenca de tempo: 1.99 minutos
+[03/03/2026 16:54:50.426] INFO(140)] Tempo dentro do limite (1.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:55:50.311] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:55:50.329] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:55:50.343] INFO(140)] Diferenca de tempo: 2.99 minutos
+[03/03/2026 16:55:50.344] INFO(140)] Tempo dentro do limite (2.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:56:50.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:56:50.377] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:56:50.389] INFO(140)] Diferenca de tempo: 3.99 minutos
+[03/03/2026 16:56:50.390] INFO(140)] Tempo dentro do limite (3.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:57:50.378] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:57:50.399] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:57:50.411] INFO(140)] Diferenca de tempo: 4.99 minutos
+[03/03/2026 16:57:50.412] INFO(140)] Tempo dentro do limite (4.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:58:50.322] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:58:50.341] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:58:50.355] INFO(140)] Diferenca de tempo: 5.99 minutos
+[03/03/2026 16:58:50.356] INFO(140)] Tempo dentro do limite (5.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 16:59:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 16:59:50.411] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 16:59:50.423] INFO(140)] Diferenca de tempo: 6.99 minutos
+[03/03/2026 16:59:50.430] INFO(140)] Tempo dentro do limite (6.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:00:50.419] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:00:50.440] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 17:00:50.452] INFO(140)] Diferenca de tempo: 7.99 minutos
+[03/03/2026 17:00:50.454] INFO(140)] Tempo dentro do limite (7.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:01:50.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:01:50.390] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 17:01:50.403] INFO(140)] Diferenca de tempo: 8.99 minutos
+[03/03/2026 17:01:50.404] INFO(140)] Tempo dentro do limite (8.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:02:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:02:50.404] INFO(140)] DataHora encontrada: 2026-03-03 16:52:51
+[03/03/2026 17:02:50.417] INFO(140)] Diferenca de tempo: 9.99 minutos
+[03/03/2026 17:02:50.419] INFO(140)] Tempo dentro do limite (9.99 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:03:50.336] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:03:50.356] INFO(140)] DataHora encontrada: 2026-03-03 17:02:58
+[03/03/2026 17:03:50.367] INFO(140)] Diferenca de tempo: 0.87 minutos
+[03/03/2026 17:03:50.369] INFO(140)] Tempo dentro do limite (0.87 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:04:50.360] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:04:50.378] INFO(140)] DataHora encontrada: 2026-03-03 17:02:58
+[03/03/2026 17:04:50.390] INFO(140)] Diferenca de tempo: 1.87 minutos
+[03/03/2026 17:04:50.392] INFO(140)] Tempo dentro do limite (1.87 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:05:50.351] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:05:50.373] INFO(140)] DataHora encontrada: 2026-03-03 17:02:58
+[03/03/2026 17:05:50.391] INFO(140)] Diferenca de tempo: 2.87 minutos
+[03/03/2026 17:05:50.393] INFO(140)] Tempo dentro do limite (2.87 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:06:50.428] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:06:50.449] INFO(140)] DataHora encontrada: 2026-03-03 17:06:47
+[03/03/2026 17:06:50.463] INFO(140)] Diferenca de tempo: 0.06 minutos
+[03/03/2026 17:06:50.465] INFO(140)] Tempo dentro do limite (0.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:07:50.420] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:07:50.442] INFO(140)] DataHora encontrada: 2026-03-03 17:06:47
+[03/03/2026 17:07:50.454] INFO(140)] Diferenca de tempo: 1.06 minutos
+[03/03/2026 17:07:50.456] INFO(140)] Tempo dentro do limite (1.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:08:50.385] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:08:50.409] INFO(140)] DataHora encontrada: 2026-03-03 17:06:47
+[03/03/2026 17:08:50.428] INFO(140)] Diferenca de tempo: 2.06 minutos
+[03/03/2026 17:08:50.430] INFO(140)] Tempo dentro do limite (2.06 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:09:50.363] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:09:50.384] INFO(140)] DataHora encontrada: 2026-03-03 17:09:04
+[03/03/2026 17:09:50.396] INFO(140)] Diferenca de tempo: 0.77 minutos
+[03/03/2026 17:09:50.398] INFO(140)] Tempo dentro do limite (0.77 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:10:50.365] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:10:50.384] INFO(140)] DataHora encontrada: 2026-03-03 17:09:04
+[03/03/2026 17:10:50.396] INFO(140)] Diferenca de tempo: 1.77 minutos
+[03/03/2026 17:10:50.398] INFO(140)] Tempo dentro do limite (1.77 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:11:50.350] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:11:50.368] INFO(140)] DataHora encontrada: 2026-03-03 17:09:04
+[03/03/2026 17:11:50.381] INFO(140)] Diferenca de tempo: 2.77 minutos
+[03/03/2026 17:11:50.383] INFO(140)] Tempo dentro do limite (2.77 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:12:50.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:12:50.349] INFO(140)] DataHora encontrada: 2026-03-03 17:09:04
+[03/03/2026 17:12:50.361] INFO(140)] Diferenca de tempo: 3.77 minutos
+[03/03/2026 17:12:50.363] INFO(140)] Tempo dentro do limite (3.77 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:13:50.361] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:13:50.381] INFO(140)] DataHora encontrada: 2026-03-03 17:13:49
+[03/03/2026 17:13:50.392] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 17:13:50.394] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:14:50.396] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:14:50.415] INFO(140)] DataHora encontrada: 2026-03-03 17:13:49
+[03/03/2026 17:14:50.426] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 17:14:50.428] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:15:50.424] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:15:50.446] INFO(140)] DataHora encontrada: 2026-03-03 17:13:49
+[03/03/2026 17:15:50.459] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 17:15:50.461] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:16:50.394] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:16:50.412] INFO(140)] DataHora encontrada: 2026-03-03 17:13:49
+[03/03/2026 17:16:50.423] INFO(140)] Diferenca de tempo: 3.02 minutos
+[03/03/2026 17:16:50.426] INFO(140)] Tempo dentro do limite (3.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:17:50.431] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:17:50.452] INFO(140)] DataHora encontrada: 2026-03-03 17:13:49
+[03/03/2026 17:17:50.465] INFO(140)] Diferenca de tempo: 4.02 minutos
+[03/03/2026 17:17:50.467] INFO(140)] Tempo dentro do limite (4.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:18:50.367] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:18:50.388] INFO(140)] DataHora encontrada: 2026-03-03 17:18:49
+[03/03/2026 17:18:50.400] INFO(140)] Diferenca de tempo: 0.02 minutos
+[03/03/2026 17:18:50.402] INFO(140)] Tempo dentro do limite (0.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:19:50.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:19:50.368] INFO(140)] DataHora encontrada: 2026-03-03 17:18:49
+[03/03/2026 17:19:50.381] INFO(140)] Diferenca de tempo: 1.02 minutos
+[03/03/2026 17:19:50.383] INFO(140)] Tempo dentro do limite (1.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:20:50.403] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:20:50.423] INFO(140)] DataHora encontrada: 2026-03-03 17:18:49
+[03/03/2026 17:20:50.436] INFO(140)] Diferenca de tempo: 2.02 minutos
+[03/03/2026 17:20:50.438] INFO(140)] Tempo dentro do limite (2.02 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:21:50.332] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:21:50.353] INFO(140)] DataHora encontrada: 2026-03-03 17:20:56
+[03/03/2026 17:21:50.365] INFO(140)] Diferenca de tempo: 0.91 minutos
+[03/03/2026 17:21:50.367] INFO(140)] Tempo dentro do limite (0.91 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:22:50.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:22:50.331] INFO(140)] DataHora encontrada: 2026-03-03 17:20:56
+[03/03/2026 17:22:50.343] INFO(140)] Diferenca de tempo: 1.91 minutos
+[03/03/2026 17:22:50.344] INFO(140)] Tempo dentro do limite (1.91 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:23:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:23:50.399] INFO(140)] DataHora encontrada: 2026-03-03 17:20:56
+[03/03/2026 17:23:50.411] INFO(140)] Diferenca de tempo: 2.91 minutos
+[03/03/2026 17:23:50.413] INFO(140)] Tempo dentro do limite (2.91 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:24:50.345] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:24:50.364] INFO(140)] DataHora encontrada: 2026-03-03 17:20:56
+[03/03/2026 17:24:50.375] INFO(140)] Diferenca de tempo: 3.91 minutos
+[03/03/2026 17:24:50.377] INFO(140)] Tempo dentro do limite (3.91 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:25:50.364] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:25:50.384] INFO(140)] DataHora encontrada: 2026-03-03 17:25:41
+[03/03/2026 17:25:50.396] INFO(140)] Diferenca de tempo: 0.16 minutos
+[03/03/2026 17:25:50.398] INFO(140)] Tempo dentro do limite (0.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:26:50.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:26:50.347] INFO(140)] DataHora encontrada: 2026-03-03 17:25:41
+[03/03/2026 17:26:50.360] INFO(140)] Diferenca de tempo: 1.16 minutos
+[03/03/2026 17:26:50.361] INFO(140)] Tempo dentro do limite (1.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:27:50.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:27:50.395] INFO(140)] DataHora encontrada: 2026-03-03 17:25:41
+[03/03/2026 17:27:50.407] INFO(140)] Diferenca de tempo: 2.16 minutos
+[03/03/2026 17:27:50.409] INFO(140)] Tempo dentro do limite (2.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:28:50.381] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:28:50.400] INFO(140)] DataHora encontrada: 2026-03-03 17:25:41
+[03/03/2026 17:28:50.412] INFO(140)] Diferenca de tempo: 3.16 minutos
+[03/03/2026 17:28:50.413] INFO(140)] Tempo dentro do limite (3.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:29:50.341] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:29:50.362] INFO(140)] DataHora encontrada: 2026-03-03 17:25:41
+[03/03/2026 17:29:50.375] INFO(140)] Diferenca de tempo: 4.16 minutos
+[03/03/2026 17:29:50.377] INFO(140)] Tempo dentro do limite (4.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:30:50.399] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:30:50.419] INFO(140)] DataHora encontrada: 2026-03-03 17:30:41
+[03/03/2026 17:30:50.432] INFO(140)] Diferenca de tempo: 0.16 minutos
+[03/03/2026 17:30:50.434] INFO(140)] Tempo dentro do limite (0.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:31:50.347] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:31:50.366] INFO(140)] DataHora encontrada: 2026-03-03 17:30:41
+[03/03/2026 17:31:50.378] INFO(140)] Diferenca de tempo: 1.16 minutos
+[03/03/2026 17:31:50.380] INFO(140)] Tempo dentro do limite (1.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:32:50.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:32:50.389] INFO(140)] DataHora encontrada: 2026-03-03 17:30:41
+[03/03/2026 17:32:50.402] INFO(140)] Diferenca de tempo: 2.16 minutos
+[03/03/2026 17:32:50.403] INFO(140)] Tempo dentro do limite (2.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:33:50.317] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:33:50.337] INFO(140)] DataHora encontrada: 2026-03-03 17:30:41
+[03/03/2026 17:33:50.349] INFO(140)] Diferenca de tempo: 3.16 minutos
+[03/03/2026 17:33:50.351] INFO(140)] Tempo dentro do limite (3.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:34:50.402] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:34:50.420] INFO(140)] DataHora encontrada: 2026-03-03 17:30:41
+[03/03/2026 17:34:50.432] INFO(140)] Diferenca de tempo: 4.16 minutos
+[03/03/2026 17:34:50.434] INFO(140)] Tempo dentro do limite (4.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:35:50.362] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:35:50.381] INFO(140)] DataHora encontrada: 2026-03-03 17:35:41
+[03/03/2026 17:35:50.394] INFO(140)] Diferenca de tempo: 0.16 minutos
+[03/03/2026 17:35:50.396] INFO(140)] Tempo dentro do limite (0.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:36:50.359] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:36:50.379] INFO(140)] DataHora encontrada: 2026-03-03 17:35:41
+[03/03/2026 17:36:50.390] INFO(140)] Diferenca de tempo: 1.16 minutos
+[03/03/2026 17:36:50.392] INFO(140)] Tempo dentro do limite (1.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:37:50.316] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:37:50.334] INFO(140)] DataHora encontrada: 2026-03-03 17:35:41
+[03/03/2026 17:37:50.346] INFO(140)] Diferenca de tempo: 2.16 minutos
+[03/03/2026 17:37:50.348] INFO(140)] Tempo dentro do limite (2.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:38:50.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:38:50.368] INFO(140)] DataHora encontrada: 2026-03-03 17:35:41
+[03/03/2026 17:38:50.380] INFO(140)] Diferenca de tempo: 3.16 minutos
+[03/03/2026 17:38:50.382] INFO(140)] Tempo dentro do limite (3.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:39:50.368] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:39:50.387] INFO(140)] DataHora encontrada: 2026-03-03 17:35:41
+[03/03/2026 17:39:50.400] INFO(140)] Diferenca de tempo: 4.16 minutos
+[03/03/2026 17:39:50.401] INFO(140)] Tempo dentro do limite (4.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:40:50.375] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:40:50.395] INFO(140)] DataHora encontrada: 2026-03-03 17:40:41
+[03/03/2026 17:40:50.407] INFO(140)] Diferenca de tempo: 0.16 minutos
+[03/03/2026 17:40:50.409] INFO(140)] Tempo dentro do limite (0.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:41:50.395] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:41:50.413] INFO(140)] DataHora encontrada: 2026-03-03 17:40:41
+[03/03/2026 17:41:50.426] INFO(140)] Diferenca de tempo: 1.16 minutos
+[03/03/2026 17:41:50.428] INFO(140)] Tempo dentro do limite (1.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:42:50.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:42:50.395] INFO(140)] DataHora encontrada: 2026-03-03 17:40:41
+[03/03/2026 17:42:50.407] INFO(140)] Diferenca de tempo: 2.16 minutos
+[03/03/2026 17:42:50.409] INFO(140)] Tempo dentro do limite (2.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:43:50.395] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:43:50.413] INFO(140)] DataHora encontrada: 2026-03-03 17:40:41
+[03/03/2026 17:43:50.425] INFO(140)] Diferenca de tempo: 3.16 minutos
+[03/03/2026 17:43:50.427] INFO(140)] Tempo dentro do limite (3.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:44:50.313] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:44:50.332] INFO(140)] DataHora encontrada: 2026-03-03 17:40:41
+[03/03/2026 17:44:50.343] INFO(140)] Diferenca de tempo: 4.16 minutos
+[03/03/2026 17:44:50.346] INFO(140)] Tempo dentro do limite (4.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:45:50.334] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:45:50.356] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:45:50.369] INFO(140)] Diferenca de tempo: 0.16 minutos
+[03/03/2026 17:45:50.371] INFO(140)] Tempo dentro do limite (0.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:46:50.371] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:46:50.391] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:46:50.404] INFO(140)] Diferenca de tempo: 1.16 minutos
+[03/03/2026 17:46:50.405] INFO(140)] Tempo dentro do limite (1.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:47:50.315] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:47:50.335] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:47:50.347] INFO(140)] Diferenca de tempo: 2.16 minutos
+[03/03/2026 17:47:50.349] INFO(140)] Tempo dentro do limite (2.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:48:50.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:48:50.432] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:48:50.444] INFO(140)] Diferenca de tempo: 3.16 minutos
+[03/03/2026 17:48:50.446] INFO(140)] Tempo dentro do limite (3.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:49:50.331] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:49:50.350] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:49:50.362] INFO(140)] Diferenca de tempo: 4.16 minutos
+[03/03/2026 17:49:50.363] INFO(140)] Tempo dentro do limite (4.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:50:50.382] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:50:50.402] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:50:50.413] INFO(140)] Diferenca de tempo: 5.16 minutos
+[03/03/2026 17:50:50.415] INFO(140)] Tempo dentro do limite (5.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:51:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:51:50.413] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:51:50.425] INFO(140)] Diferenca de tempo: 6.16 minutos
+[03/03/2026 17:51:50.428] INFO(140)] Tempo dentro do limite (6.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:52:50.375] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:52:50.402] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:52:50.416] INFO(140)] Diferenca de tempo: 7.16 minutos
+[03/03/2026 17:52:50.418] INFO(140)] Tempo dentro do limite (7.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:53:50.384] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:53:50.405] INFO(140)] DataHora encontrada: 2026-03-03 17:45:41
+[03/03/2026 17:53:50.418] INFO(140)] Diferenca de tempo: 8.16 minutos
+[03/03/2026 17:53:50.420] INFO(140)] Tempo dentro do limite (8.16 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:54:50.373] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:54:50.392] INFO(140)] DataHora encontrada: 2026-03-03 17:53:58
+[03/03/2026 17:54:50.408] INFO(140)] Diferenca de tempo: 0.87 minutos
+[03/03/2026 17:54:50.410] INFO(140)] Tempo dentro do limite (0.87 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:55:50.411] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:55:50.431] INFO(140)] DataHora encontrada: 2026-03-03 17:55:13
+[03/03/2026 17:55:50.444] INFO(140)] Diferenca de tempo: 0.62 minutos
+[03/03/2026 17:55:50.445] INFO(140)] Tempo dentro do limite (0.62 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:56:50.357] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:56:50.376] INFO(140)] DataHora encontrada: 2026-03-03 17:55:13
+[03/03/2026 17:56:50.387] INFO(140)] Diferenca de tempo: 1.62 minutos
+[03/03/2026 17:56:50.389] INFO(140)] Tempo dentro do limite (1.62 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:57:50.391] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:57:50.411] INFO(140)] DataHora encontrada: 2026-03-03 17:55:13
+[03/03/2026 17:57:50.426] INFO(140)] Diferenca de tempo: 2.62 minutos
+[03/03/2026 17:57:50.427] INFO(140)] Tempo dentro do limite (2.62 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:58:50.393] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:58:50.414] INFO(140)] DataHora encontrada: 2026-03-03 17:55:13
+[03/03/2026 17:58:50.425] INFO(140)] Diferenca de tempo: 3.62 minutos
+[03/03/2026 17:58:50.427] INFO(140)] Tempo dentro do limite (3.62 minutos). Nenhuma acao necessaria.
+[03/03/2026 17:59:50.400] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 17:59:50.420] INFO(140)] DataHora encontrada: 2026-03-03 17:55:13
+[03/03/2026 17:59:50.433] INFO(140)] Diferenca de tempo: 4.62 minutos
+[03/03/2026 17:59:50.435] INFO(140)] Tempo dentro do limite (4.62 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:00:50.369] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:00:50.389] INFO(140)] DataHora encontrada: 2026-03-03 17:59:58
+[03/03/2026 18:00:50.405] INFO(140)] Diferenca de tempo: 0.87 minutos
+[03/03/2026 18:00:50.408] INFO(140)] Tempo dentro do limite (0.87 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:01:50.412] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:01:50.432] INFO(140)] DataHora encontrada: 2026-03-03 18:01:46
+[03/03/2026 18:01:50.446] INFO(140)] Diferenca de tempo: 0.07 minutos
+[03/03/2026 18:01:50.448] INFO(140)] Tempo dentro do limite (0.07 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:02:50.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:02:50.396] INFO(140)] DataHora encontrada: 2026-03-03 18:01:46
+[03/03/2026 18:02:50.409] INFO(140)] Diferenca de tempo: 1.07 minutos
+[03/03/2026 18:02:50.410] INFO(140)] Tempo dentro do limite (1.07 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:03:50.376] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:03:50.395] INFO(140)] DataHora encontrada: 2026-03-03 18:01:46
+[03/03/2026 18:03:50.410] INFO(140)] Diferenca de tempo: 2.07 minutos
+[03/03/2026 18:03:50.412] INFO(140)] Tempo dentro do limite (2.07 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:04:50.346] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:04:50.369] INFO(140)] DataHora encontrada: 2026-03-03 18:04:35
+[03/03/2026 18:04:50.380] INFO(140)] Diferenca de tempo: 0.26 minutos
+[03/03/2026 18:04:50.382] INFO(140)] Tempo dentro do limite (0.26 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:05:50.440] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:05:50.461] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:05:50.473] INFO(140)] Diferenca de tempo: 0.89 minutos
+[03/03/2026 18:05:50.475] INFO(140)] Tempo dentro do limite (0.89 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:06:50.348] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:06:50.367] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:06:50.379] INFO(140)] Diferenca de tempo: 1.89 minutos
+[03/03/2026 18:06:50.381] INFO(140)] Tempo dentro do limite (1.89 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:07:50.320] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:07:50.338] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:07:50.351] INFO(140)] Diferenca de tempo: 2.89 minutos
+[03/03/2026 18:07:50.353] INFO(140)] Tempo dentro do limite (2.89 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:08:50.452] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:08:50.470] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:08:50.483] INFO(140)] Diferenca de tempo: 3.89 minutos
+[03/03/2026 18:08:50.485] INFO(140)] Tempo dentro do limite (3.89 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:09:50.388] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:09:50.405] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:09:50.418] INFO(140)] Diferenca de tempo: 4.89 minutos
+[03/03/2026 18:09:50.420] INFO(140)] Tempo dentro do limite (4.89 minutos). Nenhuma acao necessaria.
+[03/03/2026 18:10:50.329] INFO(140)] Verificando arquivo timer.ini
+[03/03/2026 18:10:50.349] INFO(140)] DataHora encontrada: 2026-03-03 18:04:57
+[03/03/2026 18:10:50.361] INFO(140)] Diferenca de tempo: 5.89 minutos
+[03/03/2026 18:10:50.363] INFO(140)] Tempo dentro do limite (5.89 minutos). Nenhuma acao necessaria.

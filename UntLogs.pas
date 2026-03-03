@@ -983,7 +983,8 @@ begin
     Result := 'INTEGRAÇÃO FISTAROL'
     else if Codigo = '1502' then
     Result := 'INTEGRAÇÃO ENTREGA(PEGORARO)'
-
+  else if Codigo = '30000' then
+    Result := 'GITHUB'
 
   else
     Result := 'TIPO DESCONHECIDO (' + Codigo + ')';
@@ -1188,5 +1189,4 @@ begin
 end;
 
 end.
-
 

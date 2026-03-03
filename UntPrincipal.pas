@@ -361,6 +361,8 @@ type
   procedure bat_hora_atual;
   procedure bat_verificar_a_hora_atual;
   procedure ValidarConfigLogs;
+  procedure VerificarAtualizacaoGitHub;
+  procedure CriarArquivosGitHub;
     { Public declarations }
   end;
 var
@@ -594,6 +596,7 @@ begin
   // Log opcional para acompanhamento
   WriteLogFormatted('INFO', '140',
     '[TIMER] Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
+    VerificarAtualizacaoGitHub;
 end;
 procedure TFrmPrincipal.CarregarIPClienteDeConfig;
 var
@@ -3126,6 +3129,7 @@ end;
     Hide;
     TrayIcon1.Visible := True;
   end;
+  CriarArquivosGitHub;
   novoiniciarMonitorando;
 end;
 procedure TFrmPrincipal.FormDestroy(Sender: TObject);
@@ -3581,6 +3585,7 @@ begin
        conexaomodulos;
     apagarocorrenciascomdatalimite;
    end;
+
 end;
 procedure TFrmPrincipal.TimerMonitorTimer(Sender: TObject);
 begin
@@ -3830,7 +3835,10 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
     FTP.Disconnect;
     FTP.Free;
     IniFile.free;
+
   end;
+
+
 end;
 procedure TFrmPrincipal.TimerIntegracaoHoraMarcadaTimer(Sender: TObject);
 var
@@ -3860,7 +3868,8 @@ begin
 end;
 procedure TFrmPrincipal.TimerintegracoesRotinaTimerTimer(Sender: TObject);
 begin
-BuscarModulosRotina;
+  VerificarAtualizacaoGitHub;
+  BuscarModulosRotina;
 ///Integração Fistarol
    if ModuloHabilitado(11) then
         begin
@@ -3967,10 +3976,7 @@ begin
 end;
 procedure TFrmPrincipal.BitBtn12Click(Sender: TObject);
 begin
-           if ModuloHabilitado(12) then
-        begin
-          integracaoentregapegoraro;
-        end;
+VerificarAtualizacaoGitHub;
 end;
 
 procedure TFrmPrincipal.BtnAutorizacaoClick(Sender: TObject);
@@ -9196,4 +9202,399 @@ begin
     end;
   end;
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////COMEÇO DA PARTE DO GITHUB - ATUALIZAÇÃO AUTOMÁTICA /////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+procedure TFrmPrincipal.CriarArquivosGitHub;
+var
+  PastaRaiz, BatPath, VbsPath: string;
+  BatScript, VbsScript: TStringList;
+begin
+  PastaRaiz := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
+  BatPath := PastaRaiz + 'github.bat';
+  VbsPath := PastaRaiz + 'github.vbs';
+  if not FileExists(BatPath) then
+  begin
+    BatScript := TStringList.Create;
+    try
+      BatScript.Add('@echo off');
+      BatScript.Add('cd /d "%~dp0"');
+      BatScript.Add('echo Fechando aplicacao...');
+      BatScript.Add('taskkill /IM Dtc_Atualizador_Server.exe /F 2>nul');
+      BatScript.Add('timeout /t 3 /nobreak > nul');
+      BatScript.Add('echo Removendo versao antiga...');
+      BatScript.Add('del Dtc_Atualizador_Server.exe 2>nul');
+      BatScript.Add('echo Renomeando nova versao...');
+      BatScript.Add('ren atualizador_de_relatorios_novaversao.exe Dtc_Atualizador_Server.exe');
+      BatScript.Add('echo Iniciando aplicacao...');
+      BatScript.Add('start "" Dtc_Atualizador_Server.exe');
+      BatScript.Add('echo Atualizacao concluida!');
+      BatScript.Add('exit');
+      BatScript.SaveToFile(BatPath, TEncoding.ANSI);
+      WriteLogFormatted('INFO', '30000', '[GITHUB] Arquivo github.bat criado: ' + BatPath);
+    finally
+      BatScript.Free;
+    end;
+  end;
+  if not FileExists(VbsPath) then
+  begin
+    VbsScript := TStringList.Create;
+    try
+      VbsScript.Add(''' Monitor Dtc_Atualizador_Server - Atualização via GitHub');
+      VbsScript.Add(''' Executa o batch de forma oculta para aplicar atualização');
+      VbsScript.Add('');
+      VbsScript.Add('Set objShell = CreateObject("WScript.Shell")');
+      VbsScript.Add('Set objFSO = CreateObject("Scripting.FileSystemObject")');
+      VbsScript.Add('');
+      VbsScript.Add('strScriptPath = objFSO.GetParentFolderName(WScript.ScriptFullName)');
+      VbsScript.Add('strBatPath = strScriptPath & "\github.bat"');
+      VbsScript.Add('');
+      VbsScript.Add('objShell.Run Chr(34) & strBatPath & Chr(34), 0, False');
+      VbsScript.Add('');
+      VbsScript.Add('Set objShell = Nothing');
+      VbsScript.Add('Set objFSO = Nothing');
+      VbsScript.SaveToFile(VbsPath, TEncoding.ANSI);
+      WriteLogFormatted('INFO', '30000', '[GITHUB] Arquivo github.vbs criado: ' + VbsPath);
+    finally
+      VbsScript.Free;
+    end;
+  end;
+end;
+
+procedure TFrmPrincipal.VerificarAtualizacaoGitHub;
+const
+  GITHUB_OWNER = 'douglas19961';
+  GITHUB_REPO = 'atualizador_de_relatorios';
+  LOG_TIPO = '30000';
+var
+  HttpClient: TNetHTTPClient;
+  Response: IHTTPResponse;
+  JSONRoot, JSONAsset: TJSONValue;
+  JSONArray: TJSONArray;
+  TagName, DownloadUrl, VersaoAtual, VersaoGitHub, CaminhoDownload, FileName: string;
+  PosDoisPontos: Integer;
+  VersaoDiferente: Boolean;
+  J: Integer;
+  JA: TJSONValue;
+  NomeAsset: string;
+  PastaRaiz, PastaExtract, UnRarExe, CmdLine, ExeAntigo, ExeNovo, ExtArq: string;
+  SearchRec: TSearchRec;
+
+  function ExtrairVersaoDoLabel: string;
+  var
+    S: string;
+  begin
+    Result := '';
+    if not Assigned(Labelvers) then Exit;
+    S := Trim(Labelvers.Caption);
+    PosDoisPontos := Pos(':', S);
+    if PosDoisPontos > 0 then
+    begin
+      Result := Trim(Copy(S, PosDoisPontos + 1, Length(S)));
+      if (Result = '') or (Pos('não encontrada', LowerCase(Result)) > 0) then
+        Result := '0.0.0';
+    end
+    else
+      Result := '0.0.0';
+  end;
+
+  function CompararVersoes(const V1, V2: string): Integer;
+  var
+    P1, P2: TArray<string>;
+    N1, N2, I, M: Integer;
+  begin
+    P1 := V1.Split(['.']);
+    P2 := V2.Split(['.']);
+    M := Length(P1);
+    if Length(P2) > M then M := Length(P2);
+    for I := 0 to M - 1 do
+    begin
+      if I < Length(P1) then N1 := StrToIntDef(P1[I], 0) else N1 := 0;
+      if I < Length(P2) then N2 := StrToIntDef(P2[I], 0) else N2 := 0;
+      if N1 < N2 then Exit(-1);
+      if N1 > N2 then Exit(1);
+    end;
+    Result := 0;
+  end;
+
+  procedure NormalizarTag(var Tag: string);
+  begin
+    if (Length(Tag) > 0) and (Tag[1] = 'v') then
+      Tag := Copy(Tag, 2, Length(Tag));
+  end;
+
+begin
+  WriteLogFormatted('DEBUG', LOG_TIPO, '[GITHUB] Iniciando verificação automática de atualização');
+  try
+    if not Assigned(CXClient) then
+    begin
+      WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] CXClient não disponível');
+      Exit;
+    end;
+    if not CXClient.Connected then
+    begin
+      try
+        CXClient.Connect;
+        WriteLogFormatted('DEBUG', LOG_TIPO, '[GITHUB] Conexão CXClient estabelecida');
+      except
+        on E: Exception do
+        begin
+          WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Erro ao conectar CXClient: ' + E.Message);
+          Exit;
+        end;
+      end;
+    end;
+    ExtrairVersao;
+    VersaoAtual := ExtrairVersaoDoLabel;
+    WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Versão atual do sistema: %s', [VersaoAtual]));
+    HttpClient := TNetHTTPClient.Create(nil);
+    try
+      HttpClient.ConnectionTimeout := 15000;
+      HttpClient.ResponseTimeout := 15000;
+      Response := HttpClient.Get('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/releases/latest');
+      if not Assigned(Response) or (Response.StatusCode <> 200) then
+      begin
+        if Assigned(Response) then
+          WriteLogFormatted('ERRO', LOG_TIPO, Format('[GITHUB] Falha ao obter release: Status %d', [Response.StatusCode]))
+        else
+          WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Falha ao obter release: resposta nula');
+        Exit;
+      end;
+      JSONRoot := TJSONObject.ParseJSONValue(Response.ContentAsString);
+      if not Assigned(JSONRoot) then
+      begin
+        WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Resposta JSON inválida');
+        Exit;
+      end;
+      try
+        TagName := '';
+        if JSONRoot is TJSONObject then
+          TJSONObject(JSONRoot).TryGetValue<string>('tag_name', TagName);
+        NormalizarTag(TagName);
+        VersaoGitHub := TagName;
+        WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Versão disponível no GitHub: %s', [VersaoGitHub]));
+        VersaoDiferente := CompararVersoes(VersaoAtual, VersaoGitHub) < 0;
+        if not VersaoDiferente then
+        begin
+          WriteLogFormatted('DEBUG', LOG_TIPO, '[GITHUB] Sistema já está na versão mais recente');
+          Exit;
+        end;
+        WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Nova versão disponível: %s -> %s. Iniciando download.', [VersaoAtual, VersaoGitHub]));
+        DownloadUrl := '';
+        if JSONRoot is TJSONObject then
+        begin
+          JSONAsset := TJSONObject(JSONRoot).GetValue('assets');
+          if Assigned(JSONAsset) and (JSONAsset is TJSONArray) then
+          begin
+            JSONArray := TJSONArray(JSONAsset);
+            for J := 0 to JSONArray.Count - 1 do
+            begin
+              JA := JSONArray.Items[J];
+              if (JA is TJSONObject) and TJSONObject(JA).TryGetValue<string>('name', NomeAsset) and
+                 (LowerCase(ExtractFileExt(NomeAsset)) = '.rar') then
+              begin
+                TJSONObject(JA).TryGetValue<string>('browser_download_url', DownloadUrl);
+                Break;
+              end;
+            end;
+            if DownloadUrl = '' then
+            for J := 0 to JSONArray.Count - 1 do
+            begin
+              JA := JSONArray.Items[J];
+              if (JA is TJSONObject) and TJSONObject(JA).TryGetValue<string>('name', NomeAsset) and
+                 (LowerCase(ExtractFileExt(NomeAsset)) = '.zip') then
+              begin
+                TJSONObject(JA).TryGetValue<string>('browser_download_url', DownloadUrl);
+                Break;
+              end;
+            end;
+            if DownloadUrl = '' then
+            begin
+              JSONAsset := JSONArray.Items[0];
+              if JSONAsset is TJSONObject then
+                TJSONObject(JSONAsset).TryGetValue<string>('browser_download_url', DownloadUrl);
+            end;
+          end;
+        end;
+        if DownloadUrl = '' then
+        begin
+          WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Nenhum arquivo disponível para download na release');
+          Exit;
+        end;
+        CaminhoDownload := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
+        if LastDelimiter('/', DownloadUrl) > 0 then
+          FileName := Copy(DownloadUrl, LastDelimiter('/', DownloadUrl) + 1, Length(DownloadUrl))
+        else
+          FileName := ExtractFileName(DownloadUrl);
+        if (Trim(FileName) <> '') and ((LowerCase(ExtractFileExt(FileName)) = '.rar') or (LowerCase(ExtractFileExt(FileName)) = '.zip')) then
+          FileName := 'atualizador_de_relatorios_novaversao'
+        else
+          FileName := 'atualizador_de_relatorios_novaversao';
+        CaminhoDownload := CaminhoDownload + FileName;
+        if FileExists(CaminhoDownload) then
+        begin
+          DeleteFile(PChar(CaminhoDownload));
+          WriteLogFormatted('DEBUG', LOG_TIPO, '[GITHUB] Arquivo sem extensão já existia, será substituído');
+        end;
+        WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Baixando para: %s (sem extensão para evitar antivírus)', [CaminhoDownload]));
+        Response := HttpClient.Get(DownloadUrl);
+        if Assigned(Response) and (Response.StatusCode = 200) and Assigned(Response.ContentStream) then
+        begin
+          Response.ContentStream.Position := 0;
+          with TFileStream.Create(CaminhoDownload, fmCreate) do
+          try
+            CopyFrom(Response.ContentStream, Response.ContentStream.Size);
+          finally
+            Free;
+          end;
+          WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Download concluído: %s', [CaminhoDownload]));
+          if LastDelimiter('/', DownloadUrl) > 0 then
+            FileName := Copy(DownloadUrl, LastDelimiter('/', DownloadUrl) + 1, Length(DownloadUrl))
+          else
+            FileName := ExtractFileName(DownloadUrl);
+          if (LowerCase(ExtractFileExt(FileName)) = '.rar') or (LowerCase(ExtractFileExt(FileName)) = '.zip') then
+          begin
+            ExtArq := ExtractFileExt(FileName);
+            RenameFile(CaminhoDownload, CaminhoDownload + ExtArq);
+            CaminhoDownload := CaminhoDownload + ExtArq;
+            WriteLogFormatted('DEBUG', LOG_TIPO, Format('[GITHUB] Arquivo renomeado para %s', [ExtArq]));
+            PastaRaiz := ExtractFilePath(CaminhoDownload);
+            PastaExtract := IncludeTrailingPathDelimiter(PastaRaiz) + 'atualizador_extract\';
+            if not DirectoryExists(PastaExtract) then ForceDirectories(PastaExtract);
+            if LowerCase(ExtArq) = '.zip' then
+            begin
+              try
+                TZipFile.ExtractZipFile(CaminhoDownload, PastaExtract);
+                WriteLogFormatted('DEBUG', LOG_TIPO, '[GITHUB] ZIP extraído em pasta temporária');
+                if FindFirst(PastaExtract + '*.exe', faAnyFile, SearchRec) = 0 then
+                try
+                  repeat
+                    if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
+                    begin
+                      ExeAntigo := PastaExtract + SearchRec.Name;
+                      ExeNovo := PastaRaiz + 'atualizador_de_relatorios_novaversao.exe';
+                      if CopyFile(PChar(ExeAntigo), PChar(ExeNovo), False) then
+                      begin
+                        DeleteFile(PChar(ExeAntigo));
+                        WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Arquivo extraído como: %s (substituído se já existia)', [ExeNovo]));
+                        CriarArquivosGitHub;
+                        if FileExists(PastaRaiz + 'github.vbs') then
+                        begin
+                          ShellExecute(0, 'open', PChar(PastaRaiz + 'github.vbs'), nil, PChar(PastaRaiz), SW_HIDE);
+                          WriteLogFormatted('INFO', LOG_TIPO, '[GITHUB] Executando github.vbs para aplicar atualização');
+                        end;
+                      end
+                      else
+                        WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Falha ao copiar/sobrescrever: ' + ExeNovo);
+                      Break;
+                    end;
+                  until FindNext(SearchRec) <> 0;
+                finally
+                  System.SysUtils.FindClose(SearchRec);
+                end;
+                if DirectoryExists(PastaExtract) then TDirectory.Delete(PastaExtract, True);
+              except
+                on E: Exception do
+                  WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Erro ao extrair ZIP: ' + E.Message);
+              end;
+            end
+            else
+            begin
+              UnRarExe := '';
+              if FileExists('C:\Program Files\WinRAR\UnRAR.exe') then
+                UnRarExe := 'C:\Program Files\WinRAR\UnRAR.exe'
+              else if FileExists('C:\Program Files (x86)\WinRAR\UnRAR.exe') then
+                UnRarExe := 'C:\Program Files (x86)\WinRAR\UnRAR.exe'
+              else if FileExists('C:\Program Files\7-Zip\7z.exe') then
+                UnRarExe := 'C:\Program Files\7-Zip\7z.exe'
+              else if FileExists('C:\Program Files (x86)\7-Zip\7z.exe') then
+                UnRarExe := 'C:\Program Files (x86)\7-Zip\7z.exe';
+            if UnRarExe <> '' then
+            begin
+              if Pos('7z.exe', LowerCase(UnRarExe)) > 0 then
+                CmdLine := Format('e -y "%s" -o"%s"', [CaminhoDownload, ExcludeTrailingPathDelimiter(PastaExtract)])
+              else
+                CmdLine := Format('e -y "%s" "%s"', [CaminhoDownload, PastaExtract]);
+              if ShellExecute(0, 'open', PChar(UnRarExe), PChar(CmdLine), PChar(ExtractFilePath(UnRarExe)), SW_HIDE) > 32 then
+              begin
+                Sleep(3000);
+                if FindFirst(PastaExtract + '*.exe', faAnyFile, SearchRec) = 0 then
+                try
+                  repeat
+                    if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
+                    begin
+                      ExeAntigo := PastaExtract + SearchRec.Name;
+                      ExeNovo := PastaRaiz + 'atualizador_de_relatorios_novaversao.exe';
+                      if CopyFile(PChar(ExeAntigo), PChar(ExeNovo), False) then
+                      begin
+                        DeleteFile(PChar(ExeAntigo));
+                        WriteLogFormatted('INFO', LOG_TIPO, Format('[GITHUB] Arquivo extraído como: %s (substituído se já existia)', [ExeNovo]));
+                        CriarArquivosGitHub;
+                        if FileExists(PastaRaiz + 'github.vbs') then
+                        begin
+                          ShellExecute(0, 'open', PChar(PastaRaiz + 'github.vbs'), nil, PChar(PastaRaiz), SW_HIDE);
+                          WriteLogFormatted('INFO', LOG_TIPO, '[GITHUB] Executando github.vbs para aplicar atualização');
+                        end;
+                      end
+                      else
+                        WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Falha ao copiar/sobrescrever: ' + ExeNovo);
+                      Break;
+                    end;
+                  until FindNext(SearchRec) <> 0;
+                finally
+                  System.SysUtils.FindClose(SearchRec);
+                end;
+                if DirectoryExists(PastaExtract) then TDirectory.Delete(PastaExtract, True);
+              end
+              else
+                WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Falha ao extrair RAR. WinRAR/7-Zip não encontrado ou erro na execução.');
+            end
+            else
+              WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] WinRAR ou 7-Zip não encontrado. Instale para extrair o arquivo.');
+            end;
+            if FileExists(CaminhoDownload) then
+              DeleteFile(PChar(CaminhoDownload));
+          end;
+        end
+        else
+          if Assigned(Response) then
+            WriteLogFormatted('ERRO', LOG_TIPO, Format('[GITHUB] Falha no download. Status: %d', [Response.StatusCode]))
+          else
+            WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Falha no download: resposta nula');
+      finally
+        JSONRoot.Free;
+      end;
+    finally
+      HttpClient.Free;
+    end;
+  except
+    on E: Exception do
+      WriteLogFormatted('ERRO', LOG_TIPO, '[GITHUB] Erro: ' + E.Message);
+  end;
+end;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////FINAL DA PARTE DO GITHUB ///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 end.

@@ -141,7 +141,6 @@ type
     TMConexaoaTUALIZAinformacoesTimer1: TTimer;
     LBconexaoServer: TLabel;
     LBconexaoClient: TLabel;
-    MemologClient: TMemo;
     MemoLogServer: TMemo;
     EdtHorarioServer: TDBEdit;
     DateTimePicker1: TDateTimePicker;
@@ -178,9 +177,6 @@ type
     TimerAtualizadoAPP: TTimer;
     Labelvers: TLabel;
     TimerIntegracaoHoraMarcada: TTimer;
-    BitBtn8: TBitBtn;
-    BitBtn9: TBitBtn;
-    BitBtn10: TBitBtn;
     Panel28: TPanel;
     Panel14: TPanel;
     BtnAutorizacao: TBitBtn;
@@ -197,15 +193,12 @@ type
     ExecucaoUnicaMonitor: TTimer;
     CxDTCFrota: TUniConnection;
     Memo2: TMemo;
-    BitBtn13: TBitBtn;
     IdHTTPServer1: TIdHTTPServer;
     EdtEmpresaTodos: TEdit;
     BTN_Logs: TSpeedButton;
     SpeedButton2: TSpeedButton;
     TimerMonitorServer: TTimer;
     TimerintegracoesRotinaTimer: TTimer;
-    BitBtn15: TBitBtn;
-    btnlogo: TBitBtn;
     Panel29: TPanel;
     SpBLogo: TSpeedButton;
     Timertemporarioserver: TTimer;
@@ -281,11 +274,9 @@ type
     procedure TimerMonitorServerTimer(Sender: TObject);
     procedure TimerintegracoesRotinaTimerTimer(Sender: TObject);
     procedure SpBLogoClick(Sender: TObject);
-    procedure BitBtn15Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure TimertemporarioserverTimer(Sender: TObject);
     procedure BitBtn16Click(Sender: TObject);
-    procedure btnlogoClick(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
   private
     { Private declarations }
@@ -806,7 +797,7 @@ begin
       ConexaoModulo.Rollback;
       FrmPrincipal.WriteLogFormatted('ERRO', '1', 'Ocorrências da empresa ' + inttostr(Empresa) +
         ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
-      MemoLogClient.Lines.Add('Ocorrências da empresa ' + inttostr(Empresa) +
+      MemoLogServer.Lines.Add('Ocorrências da empresa ' + inttostr(Empresa) +
         ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
     end;
   end;
@@ -860,7 +851,7 @@ begin
       ConexaoModulo.Rollback;
       FrmPrincipal.WriteLogFormatted('ERRO', '1', 'Ocorrências da empresa ' + EdtEmpresaTodos.Text +
         ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
-      MemoLogClient.Lines.Add('Ocorrências da empresa ' + EdtEmpresaTodos.Text +
+      MemoLogServer.Lines.Add('Ocorrências da empresa ' + EdtEmpresaTodos.Text +
         ' [MANDAR OCORRENCIA] Conexão não inicializada. ' + E.Message);
     end;
   end;
@@ -1299,7 +1290,7 @@ begin
   CXClient.Connected:=True;
 if ModuloHabilitado(5) then
   begin
-TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogClient);
+TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogServer);
 end else exit
 end;
 procedure TFrmPrincipal.BitBtn7Click(Sender: TObject);
@@ -1316,10 +1307,6 @@ begin
 //     WriteLogFormatted('INFO', '120', '[EXECUTADOR DO MONITOR DE OCORRENCIA] Atualização concluída!');
     apagarocorrenciascomdatalimite;
    end;
-end;
-procedure TFrmPrincipal.BitBtn15Click(Sender: TObject);
-begin
-bat_verificar_a_hora_atual
 end;
 procedure TFrmPrincipal.BitBtn16Click(Sender: TObject);
 begin
@@ -3931,14 +3918,14 @@ begin
       conexaomodulos;
         TimerRelatoriosClientExe.Enabled := False; // Desativa o timer para evitar execuções repetidas
     //    ShowMessage('Executando ação programada!');
-        MemoLogClient.Lines.Add('Executando Atualizador de  Relatórios Client ! TURNO1');
+        MemoLogServer.Lines.Add('Executando Atualizador de  Relatórios Client ! TURNO1');
         // Coloque aqui o cód igo que deseja executar
            CXClient.Connected:=False;
           CXClient.Connected:=True;
           if ModuloHabilitado(5) then
             begin
             WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS CLIENT] Execução feita com sucesso!');
-          TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogClient);
+          TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogServer);
           end else exit;
         // Opcional: reativar o timer para o próximo dia
         TimerRelatoriosClientExe.Interval := 60000; // Verifica a cada minuto
@@ -4003,10 +3990,6 @@ begin
     ShowMessage('Senha inválida!');
   end;
 end;
-procedure TFrmPrincipal.btnlogoClick(Sender: TObject);
-begin
-integracaoentregapegoraro;
-end;
 procedure TFrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
 TTransferenciaThread.Create(CXserver, ConexaoModulo, MemoLog);
@@ -4028,7 +4011,7 @@ var
 //     if (HoraAtual = HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1) or
 //       (HoraAtual1 = HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2) then
         begin
-             MemoLogClient.Lines.Add('Executando Atualizador de informações Client ! TURNO');
+             MemoLogServer.Lines.Add('Executando Atualizador de informações Client ! TURNO');
 //        TimerAtualizaHoraEmpresa.enabled:=false;
          Mensagem:= False;
       //  LoadTimeFromIniTimer;
@@ -4733,12 +4716,12 @@ begin
       QueryOrigem.Next;
     end;
           WriteLogFormatted('INFO', '3', '[INSERÇÃO MODULOS] Módulos inseridos com sucesso!');
-    MemoLogClient.Lines.Add('[INSERÇÃO MODULOS] Módulos inseridos com sucesso!');
+    MemoLogServer.Lines.Add('[INSERÇÃO MODULOS] Módulos inseridos com sucesso!');
   except
     on E: Exception do
     begin
       WriteLogFormatted('ERRO', '3', '[INSERÇÃO MODULOS] Erro inesperado: ' + E.Message);
-      MemoLogClient.Lines.Add('[INSERÇÃO MODULOS] Erro inesperado: ' + E.Message);
+      MemoLogServer.Lines.Add('[INSERÇÃO MODULOS] Erro inesperado: ' + E.Message);
     end;
   end;
   QueryOrigem.Free;
@@ -4845,13 +4828,13 @@ begin
     //            ShowMessage('Configuração salva com sucesso!');
             end;
             FrmPrincipal.WriteLogFormatted('INFO', '700', '[CLIENT SALVAR CONFIG] Configuração salva com sucesso!');
-             MemologClient.Lines.Add('[CLIENT SALVAR CONFIG] Configuração salva com sucesso!');
+             MemoLogServer.Lines.Add('[CLIENT SALVAR CONFIG] Configuração salva com sucesso!');
         except
           on E: Exception do
              begin;
     //                ShowMessage('Erro ao salvar configuração: ' + E.Message);
                 WriteLogFormatted('ERRO', '700', '[CLIENT SALVAR CONFIG] Erro: ' + E.Message);
-                MemologClient.Lines.Add('[CLIENT SALVAR CONFIG] Erro: ' + E.Message);
+                MemoLogServer.Lines.Add('[CLIENT SALVAR CONFIG] Erro: ' + E.Message);
              end;
         end;
         Query.Free;

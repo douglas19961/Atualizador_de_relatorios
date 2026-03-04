@@ -313,7 +313,7 @@ begin
       FrmPrincipal.ConexaoModulo.Rollback;
       FrmPrincipal.WriteLogFormatted('ERRO', '1', 'Ocorrencias da empresa ' + inttostr(Empresa) +
         ' [MANDAR OCORRENCIA] Conexao nao inicializada. ' + E.Message);
-      FrmPrincipal.MemoLogClient.Lines.Add('Ocorrencias da empresa ' + inttostr(Empresa) +
+      FrmPrincipal.MemoLogServer.Lines.Add('Ocorrencias da empresa ' + inttostr(Empresa) +
         ' [MANDAR OCORRENCIA] Conexao nao inicializada. ' + E.Message);
     end;
   end;

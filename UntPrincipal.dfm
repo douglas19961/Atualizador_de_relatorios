@@ -2317,15 +2317,6 @@ object FrmPrincipal: TFrmPrincipal
         Text = '0'
         Visible = False
       end
-      object BitBtn10: TBitBtn
-        Left = 32
-        Top = 400
-        Width = 75
-        Height = 25
-        Caption = 'BitBtn10'
-        TabOrder = 1
-        Visible = False
-      end
     end
     object Panel1: TPanel
       Left = 0
@@ -2569,7 +2560,7 @@ object FrmPrincipal: TFrmPrincipal
               Top = 38
               Width = 1084
               Height = 536
-              ActivePage = TSClient
+              ActivePage = TSServer
               Align = alClient
               TabOrder = 0
               Visible = False
@@ -3541,26 +3532,15 @@ object FrmPrincipal: TFrmPrincipal
                       Color = clWhite
                       ParentBackground = False
                       TabOrder = 0
-                      object MemologClient: TMemo
-                        Left = 0
-                        Top = 176
-                        Width = 1041
-                        Height = 24
-                        Align = alBottom
-                        BiDiMode = bdLeftToRight
-                        ParentBiDiMode = False
-                        ScrollBars = ssVertical
-                        TabOrder = 0
-                        Visible = False
-                      end
                       object Panel14: TPanel
                         Left = 0
-                        Top = 135
+                        Top = 159
                         Width = 1041
                         Height = 41
                         Align = alBottom
                         BevelOuter = bvNone
-                        TabOrder = 1
+                        TabOrder = 0
+                        ExplicitTop = 135
                         object BTN_Logs: TSpeedButton
                           Left = 160
                           Top = 0
@@ -3756,26 +3736,6 @@ object FrmPrincipal: TFrmPrincipal
                           OnClick = BitBtn12Click
                         end
                       end
-                      object BitBtn15: TBitBtn
-                        Left = 56
-                        Top = 96
-                        Width = 75
-                        Height = 25
-                        Caption = 'BitBtn15'
-                        TabOrder = 2
-                        Visible = False
-                        OnClick = BitBtn15Click
-                      end
-                      object btnlogo: TBitBtn
-                        Left = 172
-                        Top = 88
-                        Width = 75
-                        Height = 25
-                        Caption = 'aa'
-                        TabOrder = 3
-                        Visible = False
-                        OnClick = btnlogoClick
-                      end
                     end
                     object BitBtn4: TBitBtn
                       Left = 218
@@ -3866,32 +3826,13 @@ object FrmPrincipal: TFrmPrincipal
                       Visible = False
                       OnClick = BitBtn6Click
                     end
-                    object BitBtn8: TBitBtn
-                      Left = 333
-                      Top = 268
-                      Width = 75
-                      Height = 25
-                      Caption = 'BitBtn8'
-                      TabOrder = 3
-                      Visible = False
-                      WordWrap = True
-                    end
-                    object BitBtn9: TBitBtn
-                      Left = 616
-                      Top = 346
-                      Width = 75
-                      Height = 25
-                      Caption = 'BitBtn9'
-                      TabOrder = 4
-                      Visible = False
-                    end
                     object BitBtn11: TBitBtn
                       Left = 664
                       Top = 239
                       Width = 75
                       Height = 25
                       Caption = 'BitBtn11'
-                      TabOrder = 5
+                      TabOrder = 3
                       Visible = False
                       OnClick = BitBtn11Click
                     end
@@ -3909,7 +3850,7 @@ object FrmPrincipal: TFrmPrincipal
                       HeaderFont.Name = 'SimSun'
                       HeaderFont.Style = [fsBold]
                       ParentBiDiMode = False
-                      TabOrder = 6
+                      TabOrder = 4
                       object Label20: TLabel
                         Left = 18
                         Top = 80
@@ -4060,7 +4001,7 @@ object FrmPrincipal: TFrmPrincipal
                       HeaderFont.Name = 'SimSun'
                       HeaderFont.Style = [fsBold]
                       ParentBiDiMode = False
-                      TabOrder = 7
+                      TabOrder = 5
                       Visible = False
                       object Label18: TLabel
                         Left = 3
@@ -4203,22 +4144,13 @@ object FrmPrincipal: TFrmPrincipal
                       end
                     end
                     object Memo2: TMemo
-                      Left = 248
+                      Left = 461
                       Top = 232
-                      Width = 325
+                      Width = 112
                       Height = 217
                       BiDiMode = bdLeftToRight
                       ParentBiDiMode = False
-                      TabOrder = 8
-                      Visible = False
-                    end
-                    object BitBtn13: TBitBtn
-                      Left = 34
-                      Top = 400
-                      Width = 159
-                      Height = 25
-                      Caption = 'BitBtn13'
-                      TabOrder = 9
+                      TabOrder = 6
                       Visible = False
                     end
                     object EdtEmpresaTodos: TEdit
@@ -4226,7 +4158,7 @@ object FrmPrincipal: TFrmPrincipal
                       Top = 272
                       Width = 121
                       Height = 25
-                      TabOrder = 10
+                      TabOrder = 7
                       Visible = False
                     end
                   end

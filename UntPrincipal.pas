@@ -303,6 +303,8 @@ type
    function conexaoCliente: Boolean;
    function conexaoServerRotina: Boolean;
    function conexaoClientRotina: Boolean;
+
+
   public
   procedure WriteLogFormatted(const Status: string; const Tipo: string; const Mensagem: string);
   procedure ListarConexoes(Memo: TMemo);
@@ -371,6 +373,7 @@ uses
    uThreadmonitorDeOcorrencia,uThreadmonitorDeOcorrenciaserver;
 {$R *.dfm}
  const
+
   HORARIO_EXECUCAO_RELATORIOS_TURNO_3 = '12:50';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_1 = '23:59';
   HORARIO_EXECUCAO_RELATORIOS_TURNO_2 = '12:00';
@@ -381,7 +384,7 @@ uses
   API_PASSWORD = '98a1c316501a55a7372f6f854a345b64';
   API_SERVER_URL_CLIENTE = 'http://dtcmonitor.ddns.com.br:4450'; // URL do servidor API para cliente
   API_SERVER_URL_SERVER = 'http://127.0.0.1:4450'; // URL do servidor API para servidor
-  
+
  function EhModoServer(ComboBox: TComboBox): Boolean;
 begin
   Result := ComboBox.ItemIndex = 0;
@@ -398,7 +401,7 @@ begin
     try
       Query.Connection := ConexaoModulo;
       Query.SQL.Text :=
-        'SELECT v.versao, ce.id_empresa_help, ce.atualizado, ce.id_versao, v.atualizado_em ' +
+        'SELECT v.versao, ce.id_empresa_help, ce.atualizado, ce.id_versao, v.atualizado_em, ce.atualizar_relatorios ' +
         'FROM cadastro_empresas ce ' +
         'INNER JOIN versionamento v ON ce.id_versao = v.id ' +
         'WHERE ce.id_empresa_help = :id_empresa_help';
@@ -421,8 +424,10 @@ begin
         ResultJSON.AddPair('versao', TJSONString.Create(Query.FieldByName('versao').AsString));
         ResultJSON.AddPair('id_empresa_help', TJSONNumber.Create(Query.FieldByName('id_empresa_help').AsInteger));
         ResultJSON.AddPair('atualizado', TJSONBool.Create(Query.FieldByName('atualizado').AsBoolean));
+        ResultJSON.AddPair('atualizar_relatorios', TJSONBool.Create(Query.FieldByName('atualizar_relatorios').AsBoolean));
         ResultJSON.AddPair('id_versao', TJSONNumber.Create(Query.FieldByName('id_versao').AsInteger));
         ResultJSON.AddPair('atualizado_em', TJSONString.Create(DateTimeToStr(Query.FieldByName('atualizado_em').AsDateTime)));
+
       end;
     finally
       Query.Free;
@@ -3599,7 +3604,7 @@ var
   Response: IHTTPResponse;
   JSONResponse: TJSONObject;
   VersaoAPI: string;
-  SuccessAPI, AtualizadoAPI: Boolean;
+  SuccessAPI, AtualizadoAPI, atualizarrelatoriosAPI: Boolean;
   IdEmpresaStr: string;
   QUpdate: TUniQuery;
 begin
@@ -3646,6 +3651,7 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
           begin
             JSONResponse.TryGetValue<Boolean>('success', SuccessAPI);
             JSONResponse.TryGetValue<Boolean>('atualizado', AtualizadoAPI);
+            JSONResponse.TryGetValue<Boolean>('atualizar_relatorios', atualizarrelatoriosAPI);
             JSONResponse.TryGetValue<string>('versao', VersaoAPI);
           end;
         finally
@@ -3661,7 +3667,12 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
       WriteLogFormatted('ERRO', '106', '[API CLIENTE] Falha ao consultar versao-empresa: ' + E.Message);
     end;
   end;
-  
+  if atualizarrelatoriosAPI then
+  begin
+
+          TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogServer);
+           WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS CLIENT] Execução MANUAL feita com sucesso!');
+  end;
   // Se API não aprovar (success true e atualizado true), não faz nada
   if not (SuccessAPI and AtualizadoAPI and (VersaoAPI <> '')) then
   begin
@@ -3855,9 +3866,12 @@ begin
 end;
 procedure TFrmPrincipal.TimerintegracoesRotinaTimerTimer(Sender: TObject);
 begin
+  if EhModocliente(ComboBox1) then
+  begin
   VerificarAtualizacaoGitHub;
+  end;
   BuscarModulosRotina;
-///Integração Fistarol
+
    if ModuloHabilitado(11) then
         begin
           integracao_ararajuba;
@@ -7598,7 +7612,7 @@ begin
         RequestJSON.TryGetValue<Integer>('id_prioridade', IdPrioridadeLocal);
         // Estabelecer conexão
         conexaomodulos;
-        
+
         // Validar conexão
         if not Assigned(ConexaoModulo) or not ConexaoModulo.Connected then
         begin

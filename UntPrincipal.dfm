@@ -2422,7 +2422,7 @@ object FrmPrincipal: TFrmPrincipal
           Top = -1
           Width = 237
           Height = 28
-          Caption = 'Versao_monitor1.0.12.txt'
+          Caption = 'Versao_monitor1.0.13.txt'
           Visible = False
         end
         object Labelvers: TLabel
@@ -2560,7 +2560,7 @@ object FrmPrincipal: TFrmPrincipal
               Top = 38
               Width = 1084
               Height = 536
-              ActivePage = TSServer
+              ActivePage = TSClient
               Align = alClient
               TabOrder = 0
               Visible = False
@@ -6154,7 +6154,7 @@ object FrmPrincipal: TFrmPrincipal
     Top = 237
   end
   object TimerAtualizadoAPP: TTimer
-    Interval = 900000
+    Interval = 420000
     OnTimer = TimerAtualizadoAPPTimer
     Left = 129
     Top = 281

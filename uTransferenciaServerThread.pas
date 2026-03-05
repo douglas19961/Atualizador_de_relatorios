@@ -1,4 +1,4 @@
-unit uTransferenciaServerThread;
+﻿unit uTransferenciaServerThread;
 
 interface
 
@@ -378,7 +378,7 @@ begin
       FrmPrincipal.WriteLogFormatted('DEBUG', '122', 'Transação confirmada com sucesso');
 
       // Log de conclus�o
-      Log('Transfer�ncia conclu�da com sucesso!');
+      Log('Transferencia concluida com sucesso!');
       Log('Total de registros transferidos: ' + IntToStr(RecordCount));
 
     except

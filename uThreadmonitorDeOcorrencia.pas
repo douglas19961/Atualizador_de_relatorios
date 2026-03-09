@@ -1096,10 +1096,10 @@ begin                                           //[VALIDAÇÃO CNPJ]
             end;
             
             try
-  Response := PostApiWithFallback(HttpClient, '/api/monitor-ocorrencia', RequestBody);
+             Response := PostApiWithFallback(HttpClient, '/api/monitor-ocorrencia', RequestBody);
               if Assigned(Response) and (Response.StatusCode = 200) then
               begin
-          Inc(RegistrosProcessados);
+                Inc(RegistrosProcessados);
                 FrmPrincipal.WriteLogFormatted('DEBUG', '102', Format('Ocorrência CNPJ enviada - Prioridade: %d', [Prior]));
               end
               else
@@ -1128,7 +1128,7 @@ begin                                           //[VALIDAÇÃO CNPJ]
   finally
     QSelect.Free;
     HttpClient.Free;
-InserirerroProducao;
+    InserirerroProducao;
   end;                                                  //[VALIDAÇÃO CNPJ]
   FrmPrincipal.WriteLogFormatted('INFO', '102', Format('Processamento concluído. %d ocorrências inseridas', [RegistrosProcessados]));
   end;

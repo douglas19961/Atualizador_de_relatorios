@@ -591,7 +591,7 @@ begin
   end;
   // Log opcional para acompanhamento
   WriteLogFormatted('INFO', '140',
-    '[TIMER] Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
+    'Arquivo timer.ini atualizado com data/hora: ' + DataHoraStr);
     VerificarAtualizacaoGitHub;
 end;
 procedure TFrmPrincipal.CarregarIPClienteDeConfig;
@@ -3669,9 +3669,30 @@ LogDir := ExtractFilePath(Application.ExeName) + 'logs\';
   end;
   if atualizarrelatoriosAPI then
   begin
-
+      if ModuloHabilitado(5) then
+      begin
           TTransferenciaServerThread.Create(ConexaoModulo, CXClient, MemoLogServer);
            WriteLogFormatted('INFO', '1', '[EXECUTADOR DE RELATÓRIOS CLIENT] Execução MANUAL feita com sucesso!');
+               if Assigned(ConexaoModulo) then
+          begin
+            QUpdate := TUniQuery.Create(nil);
+            try
+              QUpdate.Connection := ConexaoModulo;
+              if not ConexaoModulo.Connected then
+                ConexaoModulo.Connect;
+              QUpdate.SQL.Text := 'UPDATE cadastro_empresas SET atualizar_relatorios = false WHERE id_empresa_help = :id';
+              QUpdate.ParamByName('id').AsInteger := StrToIntDef(IdEmpresaStr, 0);
+              QUpdate.ExecSQL;
+              WriteLogFormatted('INFO', '106', '[DATABASE] Campo atualizar_relatorios=false aplicado para empresa ' + IdEmpresaStr);
+            finally
+              QUpdate.Free;
+            end;
+          end
+          else
+          begin
+            WriteLogFormatted('ERRO', '106', '[DATABASE] ConexaoModulo não atribuída para atualizar_relatorios flag atualizado=false');
+          end;
+      end;
   end;
   // Se API não aprovar (success true e atualizado true), não faz nada
   if not (SuccessAPI and AtualizadoAPI and (VersaoAPI <> '')) then
@@ -4025,7 +4046,7 @@ var
 //     if (HoraAtual = HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_1) or
 //       (HoraAtual1 = HORARIO_EXECUCAO_ATUALIZANDO_INFORMACOES_TURNO_2) then
         begin
-             MemoLogServer.Lines.Add('Executando Atualizador de informações Client ! TURNO');
+
 //        TimerAtualizaHoraEmpresa.enabled:=false;
          Mensagem:= False;
       //  LoadTimeFromIniTimer;
@@ -7715,7 +7736,7 @@ begin
           QExec.SQL.Text :=
             'DELETE FROM monitor_ocorrencias '
             + 'WHERE id_empresa_help = :id_empresa_help AND id_modulo_ocorrencia = :id_modulo_ocorrencia '
-            + 'and id_chamado = 0 AND (data_ocorrencia::timestamp + hora::time) <= (CURRENT_TIMESTAMP - INTERVAL ''6 minutes'')';
+            + 'and id_chamado = 0 AND (data_ocorrencia::timestamp + hora::time) < (CURRENT_TIMESTAMP - INTERVAL ''6 minutes'')';
           QExec.ParamByName('id_empresa_help').AsInteger := IdEmpresaHelpLocal;
           QExec.ParamByName('id_modulo_ocorrencia').AsInteger := IdModuloOcorrenciaLocal;
           QExec.ExecSQL;

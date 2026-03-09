@@ -2,8 +2,8 @@ object FrmLogs: TFrmLogs
   Left = 0
   Top = 0
   Caption = 'Visualizador de Logs'
-  ClientHeight = 354
-  ClientWidth = 1164
+  ClientHeight = 355
+  ClientWidth = 1168
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,11 +19,12 @@ object FrmLogs: TFrmLogs
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 1164
+    Width = 1168
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 1164
     object lblDiretorio: TLabel
       Left = 8
       Top = 12
@@ -50,10 +51,11 @@ object FrmLogs: TFrmLogs
     Left = 0
     Top = 41
     Width = 257
-    Height = 313
+    Height = 314
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitHeight = 313
     object lblArquivosLog: TLabel
       Left = 8
       Top = 8
@@ -142,11 +144,13 @@ object FrmLogs: TFrmLogs
   object pnlRight: TPanel
     Left = 257
     Top = 41
-    Width = 907
-    Height = 313
+    Width = 911
+    Height = 314
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 907
+    ExplicitHeight = 313
     object pgcLogs: TPageControl
       Left = 0
       Top = 0
@@ -166,7 +170,7 @@ object FrmLogs: TFrmLogs
         object lblMensagemSelecionada: TLabel
           Left = 0
           Top = 209
-          Width = 196
+          Width = 903
           Height = 15
           Align = alBottom
           Caption = 'Mensagem do registro selecionado:'
@@ -176,6 +180,7 @@ object FrmLogs: TFrmLogs
           Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
           ParentFont = False
+          ExplicitWidth = 196
         end
         object pnlControles: TPanel
           Left = 0

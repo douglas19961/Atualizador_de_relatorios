@@ -3733,6 +3733,7 @@ object FrmPrincipal: TFrmPrincipal
                           Height = 25
                           Caption = 'BitBtn12'
                           TabOrder = 1
+                          Visible = False
                           OnClick = BitBtn12Click
                         end
                       end

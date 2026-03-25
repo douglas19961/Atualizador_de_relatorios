@@ -1,4 +1,4 @@
-﻿unit UntPrincipal;
+unit UntPrincipal;
 interface
 uses
   Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
@@ -306,6 +306,7 @@ type
 
 
   public
+    { Public declarations }
   procedure WriteLogFormatted(const Status: string; const Tipo: string; const Mensagem: string);
   procedure ListarConexoes(Memo: TMemo);
   procedure InserirOcorrencia(idModulo: Integer; ocorrencia: string; prioridade: integer);
@@ -356,7 +357,7 @@ type
   procedure ValidarConfigLogs;
   procedure VerificarAtualizacaoGitHub;
   procedure CriarArquivosGitHub;
-    { Public declarations }
+  function BuscarModulosUsuariosDB(const IdModulo: Integer): TJSONObject;
   end;
 var
   IdSMTP: TIdSMTP;
@@ -443,6 +444,85 @@ begin
   
   Result := ResultJSON;
 end;
+
+function TFrmPrincipal.BuscarModulosUsuariosDB(const IdModulo: Integer): TJSONObject;
+var
+  Query: TUniQuery;
+  DataArray: TJSONArray;
+  Item: TJSONObject;
+begin
+  WriteLogFormatted('INFO', '108', '[BUSCAR MODULOS USUARIOS DB] id_modulo=' + IntToStr(IdModulo));
+  Result := TJSONObject.Create;
+  DataArray := TJSONArray.Create;
+  try
+    if not Assigned(ConexaoModulo) or not ConexaoModulo.Connected then
+    begin
+      Result.AddPair('success', TJSONBool.Create(False));
+      Result.AddPair('message', TJSONString.Create('Conexão com banco de dados não está ativa'));
+      Result.AddPair('data', DataArray);
+      Result.AddPair('total', TJSONNumber.Create(0));
+      Result.AddPair('id_modulo', TJSONNumber.Create(IdModulo));
+      Exit;
+    end;
+
+    Query := TUniQuery.Create(nil);
+    try
+      Query.Connection := ConexaoModulo;
+      Query.SQL.Text :=
+        'SELECT id_modulo, nome_modulo, descricao, usuario_db, senha_db, porta, nome_banco ' +
+        'FROM public.fn_buscar_modulos_usuarios_db(:p_id_modulo)';
+      Query.ParamByName('p_id_modulo').AsInteger := IdModulo;
+      Query.Open;
+      while not Query.Eof do
+      begin
+        Item := TJSONObject.Create;
+        Item.AddPair('id_modulo', TJSONNumber.Create(Query.FieldByName('id_modulo').AsInteger));
+        Item.AddPair('nome_modulo', TJSONString.Create(Query.FieldByName('nome_modulo').AsString));
+        Item.AddPair('descricao', TJSONString.Create(Query.FieldByName('descricao').AsString));
+        if Query.FieldByName('usuario_db').IsNull then
+          Item.AddPair('usuario_db', TJSONNull.Create)
+        else
+          Item.AddPair('usuario_db', TJSONString.Create(Query.FieldByName('usuario_db').AsString));
+        if Query.FieldByName('senha_db').IsNull then
+          Item.AddPair('senha_db', TJSONNull.Create)
+        else
+          Item.AddPair('senha_db', TJSONString.Create(Query.FieldByName('senha_db').AsString));
+        if Query.FieldByName('porta').IsNull then
+          Item.AddPair('porta', TJSONNull.Create)
+        else
+          Item.AddPair('porta', TJSONNumber.Create(Query.FieldByName('porta').AsInteger));
+        if Query.FieldByName('nome_banco').IsNull then
+          Item.AddPair('nome_banco', TJSONNull.Create)
+        else
+          Item.AddPair('nome_banco', TJSONString.Create(Query.FieldByName('nome_banco').AsString));
+        DataArray.AddElement(Item);
+        Query.Next;
+      end;
+    finally
+      Query.Free;
+    end;
+
+    Result.AddPair('success', TJSONBool.Create(True));
+    Result.AddPair('message', TJSONString.Create('Consulta realizada com sucesso'));
+    Result.AddPair('data', DataArray);
+    Result.AddPair('total', TJSONNumber.Create(DataArray.Count));
+    Result.AddPair('id_modulo', TJSONNumber.Create(IdModulo));
+  except
+    on E: Exception do
+    begin
+      WriteLogFormatted('ERRO', '108', '[BUSCAR MODULOS USUARIOS DB] ' + E.Message);
+      DataArray.Free;
+      Result.Free;
+      Result := TJSONObject.Create;
+      Result.AddPair('success', TJSONBool.Create(False));
+      Result.AddPair('message', TJSONString.Create('Erro: ' + E.Message));
+      Result.AddPair('data', TJSONArray.Create);
+      Result.AddPair('total', TJSONNumber.Create(0));
+      Result.AddPair('id_modulo', TJSONNumber.Create(IdModulo));
+    end;
+  end;
+end;
+
 function EhModoCliente(ComboBox: TComboBox): Boolean;
 begin
   Result := ComboBox.ItemIndex = 1;
@@ -7446,6 +7526,7 @@ var
   RequestBody: string;
   RequestJSON: TJSONObject;
   IdEmpresa: Integer;
+  IdModuloQuery: Integer;
 begin
   WriteLogFormatted('INFO', '1', '[HTTP SERVER] Requisição recebida: ' + ARequestInfo.URI + ' - Método: ' + ARequestInfo.Command);
   try
@@ -8075,6 +8156,32 @@ begin
       if not Assigned(ConfigJSON) then
         raise Exception.Create('ConsultarVersaoEmpresa retornou nil');
       
+      JSONString := ConfigJSON.ToJSON;
+      AResponseInfo.ContentType := 'application/json; charset=utf-8';
+      AResponseInfo.ContentText := JSONString;
+      AResponseInfo.ResponseNo := 200;
+      Exit;
+    end;
+
+    // GET /api/modulos?id_modulo=0 (todos) ou id_modulo=N (um módulo) — fn_buscar_modulos_usuarios_db
+    if (ARequestInfo.Command = 'GET') and
+       ((URI = '/api/modulos') or URI.StartsWith('/api/modulos?')) then
+    begin
+      var IdModuloParam := ARequestInfo.Params.Values['id_modulo'];
+      if IdModuloParam = '' then
+        IdModuloParam := '0';
+      if not TryStrToInt(IdModuloParam, IdModuloQuery) then
+      begin
+        WriteLogFormatted('ERRO', '1', '[HTTP SERVER] Parâmetro id_modulo inválido');
+        AResponseInfo.ContentType := 'application/json; charset=utf-8';
+        AResponseInfo.ContentText := '{"success":false,"message":"Parâmetro id_modulo inválido"}';
+        AResponseInfo.ResponseNo := 400;
+        Exit;
+      end;
+      WriteLogFormatted('INFO', '1', '[HTTP SERVER] GET /api/modulos id_modulo=' + IntToStr(IdModuloQuery));
+      ConfigJSON := BuscarModulosUsuariosDB(IdModuloQuery);
+      if not Assigned(ConfigJSON) then
+        raise Exception.Create('BuscarModulosUsuariosDB retornou nil');
       JSONString := ConfigJSON.ToJSON;
       AResponseInfo.ContentType := 'application/json; charset=utf-8';
       AResponseInfo.ContentText := JSONString;

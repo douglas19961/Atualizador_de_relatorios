@@ -1,4 +1,4 @@
-unit UntPrincipal;
+﻿unit UntPrincipal;
 interface
 uses
   Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
@@ -1538,26 +1538,27 @@ begin
       
       // Query SQL conforme especificado com fsiltro de data
       QConsulta.SQL.Text :=
-        'SELECT emp.identificacao, lf.cod_lanc_financeiro, lf.chave_acesso, lf.cod_pessoa, ' +
+        'SELECT emp.identificacao, lf.cod_lanc_financeiro, lf.chave_acesso, case when lf.cod_LANCAMENTO_PADRAO = 977 then lf.resp_credito else lf.cod_pessoa end as cod_pessoa, ' +
         '       lf.valor AS valor_lancamento, lf.numero_documento, lf.data_inclusao, ' +
-        '       lp.valor AS valor_produto, lp.quantidade, lp.cod_produto, ' +
+        '       case when lf.cod_LANCAMENTO_PADRAO = 977 then lf.valor else lp.valor end as valor_produto, (COALESCE(lp.quantidade, 1)) AS quantidade, case when lf.cod_LANCAMENTO_PADRAO = 825 then 99999999 else lp.cod_produto end as cod_produto, ' +
         '       COALESCE(TO_CHAR(lf.vendas_pit_data, ''YYYY-MM-DD'') || '' '' || lf.vendas_pit_hora, ''0000-00-00 00:00:00'') AS data_hora_pit, '+
         '       LEFT(COALESCE(lf.vendas_pit_prioridade, ''0''), 1) AS prioridade, ' +
         '       LEFT(COALESCE(lf.vendas_pit_forma_pgto, ''0''), 1) AS id_forma_de_pagamento, '+
         '       SUBSTRING(COALESCE(lf.vendas_pit_forma_pgto, ''1'') FROM 5) AS descricao_forma_de_pagamento, '+
         '       COALESCE(lf.vendas_pit_valor_areceber, 0 ) as valor_a_receber, '+
-        '       p.nome AS nome_produto, p.cod_barra, ' +
+        '       case when lf.cod_LANCAMENTO_PADRAO = 977 then ''Credito de vendas bebidas'' else p.nome end as nome_produto, p.cod_barra, ' +
         '       pe.nome AS nome_pessoa, pe.identificacao, pe.endereco, ' +
         '       pe.numero, pe.uf, pe.cep, pe.telefone_comercial, pe.telefone_residencial, ' +
         '       m.nome AS nome_cidade ' +
         'FROM lancamentos_financeiros lf ' +
-        'INNER JOIN lancamentos_produtos lp ON lp.cod_lanc_financeiro = lf.cod_lanc_financeiro ' +
-        'INNER JOIN produtos p ON p.cod_produto = lp.cod_produto ' +
-        'INNER JOIN pessoas pe ON pe.cod_pessoa = lf.cod_pessoa ' +
+        'LEFT JOIN lancamentos_produtos lp ON lp.cod_lanc_financeiro = lf.cod_lanc_financeiro ' +
+        'LEFT JOIN produtos p ON p.cod_produto = lp.cod_produto ' +
+        'INNER JOIN pessoas pe  ON pe.cod_pessoa = CASE  WHEN lf.cod_LANCAMENTO_PADRAO = 977 THEN lf.resp_credito ELSE lf.cod_pessoa END ' +
         'INNER JOIN pessoas emp ON emp.cod_pessoa = lf.cod_empresa ' +
         'LEFT JOIN municipios m ON pe.cidade = m.cod_municipio ' +
         'WHERE lf.vendas_pit_interno IS NOT TRUE and vendas_pit_pdv = true' +
-        '  AND date(lf.data_inclusao) between :data_inicio and :data_fim  and lf.situacao = 2 and lp.cancelado = false and lp.tipo_lancamento = ''V'' ' + //lf.situacao = 2 and lp.cancelado = false and
+        ' AND nome_LANCAMENTO_PADRAO ilike (''%Venda%'')  '+
+        '  AND date(lf.data_inclusao) between :data_inicio and :data_fim  and lf.situacao = 2  ' + //lf.situacao = 2 and lp.cancelado = false and
         'ORDER BY lf.cod_lanc_financeiro, lp.cod_produto';
       
       // Definir parâmetros de dasta

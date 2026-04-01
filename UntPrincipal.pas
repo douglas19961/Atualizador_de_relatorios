@@ -1,4 +1,4 @@
-﻿unit UntPrincipal;
+unit UntPrincipal;
 interface
 uses
   Winapi.Messages, System.SysUtils,MidasLib, System.Variants, System.Classes, Vcl.Graphics,System.IOUtils,
@@ -469,7 +469,7 @@ begin
     try
       Query.Connection := ConexaoModulo;
       Query.SQL.Text :=
-        'SELECT id_modulo, nome_modulo, descricao, usuario_db, senha_db, porta, nome_banco ' +
+        'SELECT id_modulo, nome_modulo, descricao, usuario_db, senha_db, porta, nome_banco, atualizar_senha ' +
         'FROM public.fn_buscar_modulos_usuarios_db(:p_id_modulo)';
       Query.ParamByName('p_id_modulo').AsInteger := IdModulo;
       Query.Open;
@@ -495,6 +495,10 @@ begin
           Item.AddPair('nome_banco', TJSONNull.Create)
         else
           Item.AddPair('nome_banco', TJSONString.Create(Query.FieldByName('nome_banco').AsString));
+        if Query.FieldByName('atualizar_senha').IsNull then
+          Item.AddPair('atualizar_senha', TJSONNull.Create)
+        else
+          Item.AddPair('atualizar_senha', TJSONBool.Create(Query.FieldByName('atualizar_senha').AsBoolean));
         DataArray.AddElement(Item);
         Query.Next;
       end;
